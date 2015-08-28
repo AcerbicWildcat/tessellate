@@ -1,0 +1,148 @@
+<!doctype=HTML>
+<html>
+
+<br/><br/>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+
+$(document).ready(function(){
+    
+
+  var chunker = function(imgEl) {
+
+      //imgEl: the image that gets passed in to the function.
+      
+      var blockSize = 5; // only visit every 5 pixels
+      // var canv = document.getElementById("example");
+      var canvas = document.getElementById("main");
+      // var canvas2 = document.getElementById("main2");
+      // var canvas3 = document.getElementById("main3");
+      var canvas4 = document.getElementById("main4");
+      // var canvCon = canv.getContext && canv.getContext('2d');
+      var context = canvas.getContext && canvas.getContext('2d'); //look into what these do.
+      // var context2 = canvas2.getContext && canvas2.getContext('2d');
+      // var context3 = canvas3.getContext && canvas3.getContext('2d');
+      var context4 = canvas4.getContext && canvas4.getContext('2d');
+      var data, width, height;
+      var interval;
+      var length;
+      var segments = {}; //an object that will hold all the chunks and average rgb value for each chunk in the future.
+      var count = 0;
+          
+      height = canvas.height = canvas4.height = imgEl.height;
+      width = canvas.width = canvas4.width = imgEl.width;
+      
+      // height = canvas.height = canv.height = canvas2.height = canvas3.height = canvas4.height = imgEl.height;
+      // width = canvas.width = canv.width = canvas2.width = canvas3.width = canvas4.width =imgEl.width;
+
+      interval = Math.floor(width/20);
+
+      var chunk;
+
+      context.drawImage(imgEl, 0, 0); //draws an image to the canvas.
+
+
+      var averager = function(data){
+        // http://tutorials.jenkov.com/html5-canvas/pixels.html
+
+        // var pixelIndex = 0;
+        // var red   = imageData.data[pixelIndex    ];  // red   color
+        // var green = imageData.data[pixelIndex + 1];  // green color
+        // var blue  = imageData.data[pixelIndex + 2];  // blue  color
+        // var alpha = imageData.data[pixelIndex + 3];
+
+        //later, experiment with having this sample--not iterate over every pixel.
+
+        var r=0, g=0, b=0, a=0;
+        for (var i = 0; i < data.length-12; i+=12){
+          r+=data[i];
+          g+=data[i+1];
+          b+=data[i+2];
+          a+=data[i+3];
+        };
+        var total = Math.floor(data.length/12);
+        r = Math.floor(r/total);
+        g = Math.floor(g/total);
+        b = Math.floor(b/total);
+        a = Math.floor(a/total);
+        return (r + ", " + g + ", " + b + ", " + a);
+      }
+
+      // for (var i = 0; i < imgEl.height; i+=20){
+      //   for (var j = 0; j < imgEl.width; j+=20){
+      //     chunk = context.getImageData(j, i, 20, 20);  //format: x offset, y offset, width, height
+      //     // console.log(averager(chunk.data));
+      //     canvCon.putImageData(chunk, j, i); //use put instead of draw for the pure image data.
+      //     canvCon.strokeRect(j, i, 20, 20);
+      //   }
+      // }
+
+      // for (var i = 0; i < imgEl.height; i+=20){
+      //   for (var j = 0; j < imgEl.width; j+=20){
+      //     chunk = context.getImageData(j, i, 20, 20);  //format: x offset, y offset, width, height
+      //     // console.log(averager(chunk.data));
+      //     context2.fillStyle = "rgba("+averager(chunk.data)+")";
+      //     context2.fillRect(j, i, 20, 20);
+      //     // context2.putImageData(chunk, j, i); //use put instead of draw for the pure image data.
+      //   }
+      // }
+
+      // for (var i = 0; i < imgEl.height; i+=10){
+      //   for (var j = 0; j < imgEl.width; j+=10){
+      //     chunk = context.getImageData(j, i, 10, 10);  //format: x offset, y offset, width, height
+      //     // console.log(averager(chunk.data));
+      //     context3.fillStyle = "rgba("+averager(chunk.data)+")";
+      //     context3.fillRect(j, i, 10, 10);
+      //     // context2.putImageData(chunk, j, i); //use put instead of draw for the pure image data.
+      //   }
+      // }
+
+      for (var i = 0; i < imgEl.height; i+=5){
+        for (var j = 0; j < imgEl.width; j+=5){
+          chunk = context.getImageData(j, i, 5, 5);  //format: x offset, y offset, width, height
+          // console.log(averager(chunk.data));
+          context4.fillStyle = "rgba("+averager(chunk.data)+")";
+          context4.fillRect(j, i, 5, 5);
+          // context2.putImageData(chunk, j, i); //use put instead of draw for the pure image data.
+        }
+      }
+      
+  };
+
+  chunker(document.getElementById('i'));
+
+});
+
+</script>
+
+<body>
+
+  <h2>main: canvas has source image drawn straight to it.</h2>
+  <canvas id="main">
+  </canvas>
+  </br>
+
+<!--   <h2>has 20x20 chunks of the original image drawn to the canvas to create a whole. Grid added to illustrate.</h2>
+  <canvas id="example">
+  </canvas>
+  </br> -->
+
+<!--   <h2>main 2: canvas has boxes drawn to it using average RGB values of pixels from 20x20 chunks.</h2>
+  <canvas id="main2">
+  </canvas>
+
+  <h2>same thing, higher resolution</h2>
+  <canvas id="main3">
+  </canvas>
+  </br> -->
+
+  <h2>same thing, higher resolution again:</h2>
+  <canvas id="main4">
+  </canvas>
+  </br>
+
+  <h2>source image</h2>
+  <img id="i" src="summit-snowy-mountain-fog-moon-behind-clouds-38695501.jpg">
+</body>
+</html>
