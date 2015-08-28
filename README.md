@@ -1,6 +1,28 @@
 # tessellate
 
-A real-time photo mosaic app for events
+A real-time photo mosaic app that event attendees can contribute to. The mosaic is generated and refined dynamically as event attendees add more photos for the app to work with.
+
+## Features
+
+Create custom event tag (MVP)
+Upload via Instagram (MVP)
+Join an event (MVP)
+Upload from Facebook
+Upload from Twitter
+Native upload from phone (MVP)
+Select target mosaic (MVP)
+Generate random mosaic
+modally display clicked image (MVP)
+Minimum resolution & reshuffle on resize (MVP)
+Generate multiple mosaics
+High-res print generation
+Display attendees (MVP)
+Comment on pictures / feed adjacent to mosaic
+Post-processing on complete mosaic
+  -grayscale
+  -filters
+  -dreamify???
+
 
 ## Team
 
