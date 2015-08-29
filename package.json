@@ -1,0 +1,22 @@
+{
+  "name": "tessellate",
+  "version": "1.0.0",
+  "description": "[![Stories in Ready](https://badge.waffle.io/AcerbicWildcat/tessellate.png?label=ready&title=Ready)](https://waffle.io/AcerbicWildcat/tessellate) # tessellate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RHays91/tessellate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RHays91/tessellate/issues"
+  },
+  "homepage": "https://github.com/RHays91/tessellate#readme",
+  "dependencies": {
+    "jsdoc": "^3.3.2"
+  }
+}
