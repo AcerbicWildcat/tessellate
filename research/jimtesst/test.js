@@ -182,4 +182,14 @@ function addToMainCanvas (img, rgb) {
   // console.log(placeHolder);
   // console.log(img);
   canvas.drawImage(img, placeHolder.coords[0], placeHolder.coords[1], 10, 10);
+
+  var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
+  svgimg.setAttributeNS(null,'height','10');
+  svgimg.setAttributeNS(null,'width','10');
+  svgimg.setAttributeNS('http://www.w3.org/1999/xlink','href', img.src);
+  svgimg.setAttributeNS(null,'x',placeHolder.coords[0]);
+  svgimg.setAttributeNS(null,'y',placeHolder.coords[1]);
+  svgimg.setAttributeNS(null, 'visibility', 'visible');
+  document.getElementById('mainSVG').appendChild(svgimg);
+
 }
