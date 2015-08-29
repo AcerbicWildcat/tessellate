@@ -190,6 +190,6 @@ function addToMainCanvas (img, rgb) {
   svgimg.setAttributeNS(null,'x',placeHolder.coords[0]);
   svgimg.setAttributeNS(null,'y',placeHolder.coords[1]);
   svgimg.setAttributeNS(null, 'visibility', 'visible');
-  document.getElementById('mainSVG').appendChild(svgimg);
+  document.getElementsByClassName('svg-pan-zoom_viewport')[0].appendChild(svgimg);
 
 }
