@@ -38,6 +38,7 @@ Post-processing on complete mosaic
 3. [Development](#development)
     a. [Installing Dependencies](#installing-dependencies)
     b. [Tasks](#tasks)
+    c. [Docs Generator](#docs-generator)
 4. [Team](#team)
 5. [Contributing](#contributing)
 
@@ -66,6 +67,12 @@ bower install
 ```
 
 ### Roadmap
+
+### Docs Generator
+
+JSDoc is used to generate the API documentation. This particular service was selected primarily for its source code-parsing ability. Unlike most of its competitors, JSDoc understands JavaScript in addition to comment blocks. As a result, documentation only comes into existence for a given method when it is commented properly AND actually built out in JavaScript.
+
+Out of the box, JSDoc requires some customization to make it look nice; Docstrap is used to provide a high level of polish for the final documentation.
 
 
 ## Contributing
