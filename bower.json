@@ -1,0 +1,24 @@
+{
+  "name": "tessellate",
+  "version": "0.0.0",
+  "homepage": "https://github.com/macklevine/tessellate",
+  "authors": [
+    "macklevine <mackplevine@gmail.com>"
+  ],
+  "description": "A real-time photo mosaic app that event attendees can contribute to.",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "magnific-popup": "~1.0.0",
+    "jquery": "~2.1.4"
+  }
+}
