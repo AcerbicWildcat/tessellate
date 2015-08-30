@@ -6,7 +6,7 @@ var canvas = document.getElementById('picture')
 var context = canvas.getContext('2d');
 
 var img = new Image();
-img.src = "./mountain.jpg"
+img.src = "./hackreactor.jpg"
 img.onload = function(){
   context.drawImage(img, 0, 0);
   chunker(img)
@@ -182,4 +182,20 @@ function addToMainCanvas (img, rgb) {
   // console.log(placeHolder);
   // console.log(img);
   canvas.drawImage(img, placeHolder.coords[0], placeHolder.coords[1], 10, 10);
+
+  var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
+  svgImg.setAttributeNS(null,'height','10');
+  svgImg.setAttributeNS(null,'width','10');
+  svgImg.setAttributeNS('http://www.w3.org/1999/xlink','href', img.src);
+  svgImg.setAttributeNS(null,'x',placeHolder.coords[0]);
+  svgImg.setAttributeNS(null,'y',placeHolder.coords[1]);
+  svgImg.setAttributeNS(null, 'visibility', 'visible');
+
+  var svgLink = document.createElementNS('http://www.w3.org/2000/svg', 'a');
+  svgLink.setAttributeNS('http://www.w3.org/1999/xlink','href', img.src);
+  svgLink.appendChild(svgImg);
+
+  //now, create a link; set inner html as svgImg
+  document.getElementsByClassName('svg-pan-zoom_viewport')[0].appendChild(svgLink);
+
 }

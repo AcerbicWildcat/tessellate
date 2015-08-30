@@ -4,13 +4,28 @@
     <title>Pixelate Image</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
     <link href='./style.css' rel='stylesheet' type='text/css'>
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
   </head>
   <body>
-    <canvas id="picture" height="200" width="400"></canvas>
-    <h1>Get Average Color of Image</h1>
-    <p>Client-side JavaScript application to get the average color of an image. Drag and drop the files below.
+    <svg id="mainSVG" height="250" width="850">
+      <image x="0" y="0" width="850" height="250" xlink:href="hackreactor.jpg" />
+    </svg>
+    <canvas id="picture" height="250" width="850"></canvas>
+    <h1>Drop an image to begin creating a mosaic.</h1>
     <div id='target'>Drop Images here</div>
     <div id='images'></div>
+    <script src="http://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
+    <script>
+      window.onload = function() {
+        window.zoomView = svgPanZoom('#mainSVG', {
+          zoomEnabled: false,
+          controlIconsEnabled: true,
+          fit: true,
+          center: true,
+        });
+      };
+    </script>
     <script src='./test.js'></script>
   </body>
 </html>
