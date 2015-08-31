@@ -66,7 +66,7 @@ class Main extends Component {
       this.props.navigator.push({
                 title: 'Event Title', //refactor to contain event title
                 component: TabView,
-                passProps: {eventCode: 'Weeding'} //refactor to contain eventcode
+                passProps: {eventCode: this.state.eventCode} //refactor to contain eventcode
                 
        }); 
     }

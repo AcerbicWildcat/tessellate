@@ -22,7 +22,8 @@ class TabView extends Component {
   constructor(props){
     super(props);
     this.state = {
-     	selectedTab: 'camera'
+     	selectedTab: 'camera',
+      eventCode: props.eventCode
     }
   }
 
