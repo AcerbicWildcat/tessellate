@@ -74,5 +74,6 @@ module.exports = function(grunt) {
   grunt.registerTask("document", ["jsdoc"]);
   grunt.registerTask("build", []);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch" ]);
+  grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
 
 };
