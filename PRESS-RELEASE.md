@@ -1,5 +1,4 @@
 # Tessellate #
- 
 ## Realtime Photo-Mosaic Generator ##
 Tessellate provides a fun, interactive way for event planners to engage guests and create amazing, lasting memorabilia.
 
