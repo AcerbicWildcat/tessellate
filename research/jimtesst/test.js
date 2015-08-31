@@ -65,11 +65,16 @@ function getAverageColor(imgOrData, what) {
 
 /*
 * Chunker takes one parameter: imgEl, which accepts an image element.
+<<<<<<< HEAD
 * it iterates over the image, breaking it into chunks, gets the average
 * RGB value for each chunk, and saves it to a global _storage variable.
 * @param {object} imgEl - the image to be chunked.
  */
 }
+=======
+* it iterates over the image, breaking it into 
+ */
+>>>>>>> did some cleanup of code; canvas logic occus client-side but user cannot see canvas--just the SVG.
 
 var chunker = function(imgEl) {
 
@@ -133,7 +138,11 @@ function addImage(file) {
 }
 
 
+<<<<<<< HEAD
 var addToSVG = function(img, rgb) {
+=======
+function addToSVG (img, rgb) {
+>>>>>>> did some cleanup of code; canvas logic occus client-side but user cannot see canvas--just the SVG.
 
   var minimum;
   var placeHolder;
@@ -152,7 +161,10 @@ var addToSVG = function(img, rgb) {
   }
   
   placeHolder.minValue = minimum;
+<<<<<<< HEAD
   placeHolder.original = false;
+=======
+>>>>>>> did some cleanup of code; canvas logic occus client-side but user cannot see canvas--just the SVG.
 
   var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
   svgImg.setAttributeNS(null,'height','10');
