@@ -1,3 +1,6 @@
+//temporarily set node env to test
+process.env.NODE_ENV = 'test';
+
 var assert = require('assert');
 var request = require('supertest');
 
@@ -29,6 +32,11 @@ describe('app', function() {
 
 describe('images', function () {
 
-  it('should have an image po')
+  it('should have an image POST method', function () {
+
+  });
 
 });
+
+//set environment back to development
+process.env.NODE_ENV = 'development';
