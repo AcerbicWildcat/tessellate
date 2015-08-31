@@ -17,6 +17,10 @@ var {
 
 //This is the application's main component and the starting point of our app
 var Tessellate = React.createClass({
+  /**
+   * [Tesselate Render]
+   * @return {[NavigatorIOS]} [Renders instance of Naviagation Controller  with initial Route being a Main Component]
+   */
   render: function() {
     //initialize an instance of NavigatorIOS component and set Main as its initial route
     return (

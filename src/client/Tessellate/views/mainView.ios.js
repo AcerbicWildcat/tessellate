@@ -37,7 +37,9 @@ class Main extends Component {
           Tessalate
         </Text>
         
-        <TextInput style={styles.textInput} placeholder="#"/>
+        <TextInput style={styles.textInput} 
+        onChangeText={(text) => this.setState({eventCode:text})}
+        placeholder="#"/>
         
         <Text style={styles.subHeader}>
           Create or Join Event
@@ -56,10 +58,11 @@ class Main extends Component {
     );
   }
 
-  showEventDetails(eventCode){
+  showEventDetails(){
     // if event exists - pass event code on to next page
     //eventCode = 5; // temp event code
-    if (eventCode){
+    console.log(this.state.eventCode)
+    if (this.state.eventCode){
       this.props.navigator.push({
                 title: 'Event Title', //refactor to contain event title
                 component: TabView,
