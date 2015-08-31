@@ -11,6 +11,11 @@ module.exports = function(grunt) {
         tasks: "test"
       }
     },
+    nodemon: {
+      dev: {
+        script: 'src/server/server.js'
+      }
+    },
     jasmine: {
       src: "src/client/js/*.js",
       options: {
@@ -43,15 +48,19 @@ module.exports = function(grunt) {
       }
     }
   });
+
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.loadNpmTasks("grunt-mocha-cli");
   grunt.loadNpmTasks("grunt-shell");
 
-
-  grunt.registerTask("test", ["jshint","shell", "mochacli", "jasmine"]);
+  grunt.registerTask("test", ["jshint", "shell", "mochacli", "jasmine", "nodemon"]);
   grunt.registerTask("default", ["test"]);
+
+  grunt.registerTask("server", ["watch", "mochacli", "nodemon"]);
+
 };
 
 
