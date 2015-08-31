@@ -1,4 +1,14 @@
-var _storage = {}
+var _storage = {};
+
+/*
+* rgb: {r: integer, g: integer, b: integer}
+  coords: [x, y],
+  original: true/false,
+  minumum: ingeger,
+*/
+
+
+
 var index = 0;
 
 var canvas = document.createElement('canvas');
@@ -55,8 +65,11 @@ function getAverageColor(imgOrData, what) {
 
 /*
 * Chunker takes one parameter: imgEl, which accepts an image element.
-* it iterates over the image, breaking it into 
+* it iterates over the image, breaking it into chunks, gets the average
+* RGB value for each chunk, and saves it to a global _storage variable.
+* @param {object} imgEl - the image to be chunked.
  */
+}
 
 var chunker = function(imgEl) {
 
@@ -120,7 +133,7 @@ function addImage(file) {
 }
 
 
-function addToSVG (img, rgb) {
+var addToSVG = function(img, rgb) {
 
   var minimum;
   var placeHolder;
@@ -139,6 +152,7 @@ function addToSVG (img, rgb) {
   }
   
   placeHolder.minValue = minimum;
+  placeHolder.original = false;
 
   var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
   svgImg.setAttributeNS(null,'height','10');
