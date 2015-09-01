@@ -7,8 +7,13 @@ module.exports = function(grunt) {
     watch: {
       javascript: {
         files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js"],
-        tasks: "test"
+        tasks: ['jshint', 'concat']
+      },
+      sass: {
+        files: 'src/client/sass/{,*/}*.{scss,sass}',
+        tasks: ['sass:dist'],
       }
+
     },
     /**
      * nodemon server runner
@@ -47,8 +52,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         "Gruntfile.js",
-        "src/**/*.js",
-        "spec/**/*.js"
+        "src/client/js/*.js"
       ]
     },
     /**
@@ -62,7 +66,34 @@ module.exports = function(grunt) {
           destination: 'doc'
         }
       }
+    },
+    /**
+     * Task for concatenating javascript files into a .min file
+     */
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: ['src/client/**/*.js'],
+        dest: 'src/server/public/js/app.min.js',
+      },
+    },
+    /**
+     * Task for concatenating scss files into css
+     */
+    sass: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'src/client/sass/',
+          src: ['**/*.scss'],
+            dest: 'src/server/public/css/',
+            ext: '.css'
+        }]
+      }
     }
+
   });
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-nodemon");
@@ -71,10 +102,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-mocha-cli");
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks("grunt-jsdoc");
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
   grunt.registerTask("build", []);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
+
+  grunt.registerTask("front", ['sass', 'watch']);
 };
