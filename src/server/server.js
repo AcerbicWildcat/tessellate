@@ -5,10 +5,6 @@ var app = express();
 //use correct config file for development, production
 app.config = require(__dirname + '/config/' + (process.env.NODE_ENV || 'development') + '/config');
 
-//cloudinary api
-app.cloudinary = require('cloudinary');
-app.cloudinary.config(require(__dirname + '/config/cloudinary'));
-
 // configure our server with all the middleware and and routing
 require('./config/middleware.js')(app, express);
 

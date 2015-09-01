@@ -1,3 +1,6 @@
+//temporarily set node env to test
+process.env.NODE_ENV = 'test';
+
 var assert = require('assert');
 var request = require('supertest');
 
@@ -15,12 +18,8 @@ describe('app', function() {
       assert(app.config.port !== undefined);
     });
 
-  });
-
-  describe('cloudinary', function () {
-
-    it('should have a cloudinary attribute', function () {
-      assert(app.cloudinary !== undefined);
+    it('should have a db (database) attribute', function () {
+      assert(app.config.db !== undefined);
     });
 
   });
@@ -29,6 +28,35 @@ describe('app', function() {
 
 describe('images', function () {
 
-  it('should have an image po')
+  it('should have an /image GET route', function () {
+
+    describe('GET /image', function() {
+
+      it('should return 200 response', function(done){
+        request(app)
+          .get('/images')
+          .expect(200, done);
+      });
+
+    });
+
+  });
+
+  it('should have an /image POST route', function () {
+
+    describe('POST /user', function() {
+
+      // it('should return 200 response', function(done){
+      //   request(app)
+      //     .post('/images')
+      //     .expect(200, done);
+      // });
+
+    });
+
+  });
 
 });
+
+//set environment back to development
+process.env.NODE_ENV = 'development';
