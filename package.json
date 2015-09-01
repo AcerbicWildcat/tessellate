@@ -2,15 +2,16 @@
   "name": "tessellate",
   "version": "1.0.0",
   "description": "[![Stories in Ready](https://badge.waffle.io/AcerbicWildcat/tessellate.png?label=ready&title=Ready)](https://waffle.io/AcerbicWildcat/tessellate) # tessellate",
-  "main": "index.js",
+  "main": "src/server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha specs",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RHays91/tessellate.git"
   },
-  "author": "",
+  "author": "Mack Levine, Jonathan Schapiro, Robby Hayes, Jimmy, Mark Robson",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RHays91/tessellate/issues"
@@ -20,9 +21,11 @@
     "body-parser": "^1.13.3",
     "cookie-parser": "^1.3.5",
     "express": "^4.13.3",
-    "express-session": "^1.11.3"
+    "express-session": "^1.11.3",
+    "cloudinary": "^1.2.4"
   },
   "devDependencies": {
+    "expect": "^1.9.0",
     "expect.js": "^0.3.1",
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.1",
@@ -32,9 +35,12 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-jsdoc": "^0.6.8",
     "grunt-mocha-cli": "^1.14.0",
+    "grunt-nodemon": "^0.4.0",
     "grunt-shell": "^1.1.2",
     "jsdoc": "^3.3.2",
+    "mocha": "^2.3.0",
     "morgan": "^1.6.1",
-    "phantom": "^0.7.2"
+    "phantom": "^0.7.2",
+    "supertest": "^1.1.0"
   }
 }
