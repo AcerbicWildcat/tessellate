@@ -2,6 +2,10 @@ var express = require('express');
 var morgan = require('morgan');
 var app = express();
 
+//set view engine
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
 //use correct config file for development, production
 app.config = require(__dirname + '/config/' + (process.env.NODE_ENV || 'development') + '/config');
 

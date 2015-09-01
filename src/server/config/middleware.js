@@ -15,7 +15,7 @@ module.exports = function (app, express) {
   app.use(bodyParser.json());
 
   // files in /client/public/ will be served as static assets
-  app.use(express.static(__dirname + '/../../client/public'));
+  app.use(express.static(__dirname + '/../public'));
 
   //route paths
   app.use('/images', imageRouter);
