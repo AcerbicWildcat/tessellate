@@ -65,10 +65,10 @@ function getAverageColor(imgOrData, what) {
 
 /*
 * Chunker takes one parameter: imgEl, which accepts an image element.
-<<<<<<< HEAD
 * it iterates over the image, breaking it into chunks, gets the average
 * RGB value for each chunk, and saves it to a global _storage variable.
 * @param {object} imgEl - the image to be chunked.
+* it iterates over the image, breaking it into 
  */
 
 var chunker = function(imgEl) {
@@ -133,6 +133,8 @@ function addImage(file) {
 }
 
 var addToSVG = function(img, rgb) {
+
+function addToSVG (img, rgb) {
 
   var minimum;
   var placeHolder;
