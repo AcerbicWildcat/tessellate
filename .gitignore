@@ -1,3 +1,4 @@
 node_modules
 bower-components
 src/server/config/cloudinary.js
+src/server/public
