@@ -21,7 +21,7 @@ module.exports = function (app, express) {
   app.use(passport.initialize());
   app.use(passport.session());
   // files in /client/public/ will be served as static assets
-  app.use(express.static(__dirname + '/../../client/public'));
+  app.use(express.static(__dirname + '/../public'));
 
   //route paths
   app.use('/event', eventRouter);
