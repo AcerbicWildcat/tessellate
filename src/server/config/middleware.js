@@ -9,6 +9,7 @@ module.exports = function (app, express) {
 
   //router declarations
   var imageRouter = express.Router();
+  var eventRouter  = express.Router();
 
   app.use(morgan('dev'));
   app.use(cookieParser()); // read cookies (for future auth)
@@ -23,15 +24,16 @@ module.exports = function (app, express) {
   app.use(express.static(__dirname + '/../../client/public'));
 
   //route paths
-  app.use('/images', imageRouter);
-  //attach routes to router
-  require('../modules/cloudinary/cloudinary.routes')(imageRouter);
+  app.use('/event', eventRouter);
+  app.use('/event/:eventId/images', imageRouter);
 
-  // use error handling methods from helpers
+  //use error handling methods from helpers
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
 
-  // FUTURE: injects routers into route files here
+  //attach routes to routers
+  require('../modules/cloudinary/cloudinary.routes')(imageRouter);
+  require('../modules/user/eventRoutes')(eventRouter);
   require('./auth-routes')(app, passport);
 
 };

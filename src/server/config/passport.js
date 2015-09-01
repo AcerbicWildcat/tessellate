@@ -14,19 +14,19 @@ module.exports = function(passport) {
   });
 
   // FACEBOOK PASSPORT STRATEGY
-  passport.use(new FacebookStrategy(fbAuth),
+  passport.use(new FacebookStrategy(fbAuth,
 
     // Passport verification function
     function (accessToken, refreshToken, profile, done) {
 
       // async verification
       process.nextTick(function(){
-
+        
         // This is where we will associate user with a user
         // account in our future DB -->
         // check to see if they exist yet, create new user as
         // long as they don't (for now just returning fb user)
         return done(null, user);
       });
-    });
+    }));
 };

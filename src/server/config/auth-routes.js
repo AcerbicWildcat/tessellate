@@ -1,13 +1,21 @@
 module.exports = function (app, passport) {
+
   // Landing Page Route
-  app.get('/', isLoggedIn, function (req, res){
-    res.render('/../../client/html/enter.html'); //render site where user can create, join, or modify (if they have an existing event)
+  app.get('/', function (req, res){
+    if (isLoggedIn(req, res)){
+      res.redirect('/event');
+    } else {
+      res.render('pages/home/index');
+    }
   });
 
-  app.get('/login', function (req, res){
-    res.render('/../../client/html/login.html');
+  app.get('/event', isLoggedIn, function (req, res){
+    res.render('pages/event');
   });
 
+  app.get('/event/:eventId', isLoggedIn, function (req, res){
+    res.render('pages/event/mosaic');
+  });
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   /* FACEBOOK AUTH ROUTES */
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -19,17 +27,18 @@ module.exports = function (app, passport) {
 
   // On user interaction with facebook login, redirected back to here
   app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {failureRedirect: '/login'}),
-    function (req, res){
-      res.redirect('/');
-    });
+    passport.authenticate('facebook', {
+      successRedirect: '/event',
+      failureRedirect: '/'
+    }),
+  });
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
   // Logout of our app
   app.get('/logout', function (req, res){
     req.logout();
-    res.redirect('/login');
+    res.redirect('/');
   });
 
   /**
@@ -43,7 +52,7 @@ module.exports = function (app, passport) {
     if (req.isAuthenticated()){
       return next();
     } else {
-      res.redirect('/login');
+      res.redirect('/');
     }
   };
 };
