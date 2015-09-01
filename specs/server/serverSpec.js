@@ -18,12 +18,8 @@ describe('app', function() {
       assert(app.config.port !== undefined);
     });
 
-  });
-
-  describe('cloudinary', function () {
-
-    it('should have a cloudinary attribute', function () {
-      assert(app.cloudinary !== undefined);
+    it('should have a db (database) attribute', function () {
+      assert(app.config.db !== undefined);
     });
 
   });
@@ -32,7 +28,31 @@ describe('app', function() {
 
 describe('images', function () {
 
-  it('should have an image POST method', function () {
+  it('should have an /image GET route', function () {
+
+    describe('GET /image', function() {
+
+      it('should return 200 response', function(done){
+        request(app)
+          .get('/images')
+          .expect(200, done);
+      });
+
+    });
+
+  });
+
+  it('should have an /image POST route', function () {
+
+    describe('POST /user', function() {
+
+      // it('should return 200 response', function(done){
+      //   request(app)
+      //     .post('/images')
+      //     .expect(200, done);
+      // });
+
+    });
 
   });
 

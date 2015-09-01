@@ -6,8 +6,8 @@ var morgan        = require('morgan'),
 
 module.exports = function (app, express) {
 
-  // FUTURE: router declarations will go here
-
+  //router declarations
+  var imageRouter = express.Router();
 
   app.use(morgan('dev'));
   app.use(cookieParser()); // read cookies (for future auth)
@@ -17,12 +17,13 @@ module.exports = function (app, express) {
   // files in /client/public/ will be served as static assets
   app.use(express.static(__dirname + '/../../client/public'));
 
-  // FUTURE: setup use routes here
+  //route paths
+  app.use('/images', imageRouter);
+  //attach routes to router
+  require('../modules/cloudinary/cloudinary.routes')(imageRouter);
 
   // use error handling methods from helpers
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
-
-  // FUTURE: injects routers into route files here
 
 };
