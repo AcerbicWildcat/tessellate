@@ -38,6 +38,7 @@ class MosaicView extends Component {
   }
 
   render() {
+    //good option - https://github.com/Flipboard/react-canvas
     return (
 
       <View style={styles.container}>

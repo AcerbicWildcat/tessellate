@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
 	},
 	description: {
     fontSize: 30,
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#FFFFFF'
   },
 
@@ -38,6 +38,7 @@ class NewEventView extends Component {
   }
 
   render() {
+    //consider - https://github.com/stephy/CalendarPicker
     return (
 
       <View style={styles.container}>

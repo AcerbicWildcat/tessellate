@@ -52,7 +52,6 @@ class Main extends Component {
                                     >
           <Text style={styles.buttonText}>Search</Text>
         </TouchableHighlight>
-        
       </View>
       
     );

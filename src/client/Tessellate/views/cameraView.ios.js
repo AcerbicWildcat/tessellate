@@ -38,6 +38,7 @@ class CameraView extends Component {
   }
 
   render() {
+    //camera - https://github.com/lwansbrough/react-native-camera
     return (
 
       <View style={styles.container}>
