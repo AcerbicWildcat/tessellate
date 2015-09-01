@@ -70,7 +70,6 @@ var styles = StyleSheet.create({
         backgroundColor: 'grey',
         borderRadius: 8,
 
-       
     },
    buttonText: {
         fontSize: 12,
