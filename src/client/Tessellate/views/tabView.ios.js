@@ -73,7 +73,7 @@ var styles = StyleSheet.create({
   },
   tabBarItem : {
     fontSize: 12,
-    color: 'black',
+    color: '#000',
   }
 
 });
