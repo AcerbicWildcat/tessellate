@@ -30,8 +30,8 @@ module.exports = function (app, passport) {
     passport.authenticate('facebook', {
       successRedirect: '/event',
       failureRedirect: '/'
-    }),
-  });
+    })
+  );
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

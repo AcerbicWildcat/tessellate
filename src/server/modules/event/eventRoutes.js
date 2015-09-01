@@ -1,8 +1,8 @@
-var userController = require(__dirname + '/userController');
+var eventController = require(__dirname + '/eventController');
 
 module.exports = function (app) {
 
   // Decisions user can make from event page
-  app.post('/', userController.handleCode);
+  app.post('/', eventController.handleCode);
 
 };

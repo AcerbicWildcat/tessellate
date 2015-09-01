@@ -33,7 +33,7 @@ module.exports = function (app, express) {
 
   //attach routes to routers
   require('../modules/cloudinary/cloudinary.routes')(imageRouter);
-  require('../modules/user/eventRoutes')(eventRouter);
+  require('../modules/event/eventRoutes')(eventRouter);
   require('./auth-routes')(app, passport);
 
 };
