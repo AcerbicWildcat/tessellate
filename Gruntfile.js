@@ -11,6 +11,15 @@ module.exports = function(grunt) {
       }
     },
     /**
+     * nodemon server runner
+     * @type {Object}
+     */
+    nodemon: {
+      dev: {
+        script: 'src/server/server.js'
+      }
+    },
+    /**
      * jasmine spec runner task for client side testing
      * @type {Object}
      */
@@ -56,15 +65,16 @@ module.exports = function(grunt) {
     }
   });
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.loadNpmTasks("grunt-mocha-cli");
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks("grunt-jsdoc");
 
-
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
   grunt.registerTask("build", []);
+  grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
 };
