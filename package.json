@@ -26,6 +26,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "firebase": "^2.2.9",
+    "react": "^0.13.3",
     "react-native": "^0.10.1",
     "react-native-camera": "^0.3.3",
     "react-native-cli": "^0.1.4",
