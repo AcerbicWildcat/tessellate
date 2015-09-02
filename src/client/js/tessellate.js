@@ -22,7 +22,7 @@ console.log(canvas);
 //use node get-pixels package.
 
 var img = new Image();
-img.src = "./hackreactor.jpg";
+img.src = "../assets/hackreactor.jpg";
 img.onload = function(){
   context.drawImage(img, 0, 0);
   chunker(img);
