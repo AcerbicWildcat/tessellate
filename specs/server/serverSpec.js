@@ -34,7 +34,7 @@ describe('images', function () {
 
       it('should return 200 response', function(done){
         request(app)
-          .get('/images')
+          .get('/event/25/images')
           .expect(200, done);
       });
 
