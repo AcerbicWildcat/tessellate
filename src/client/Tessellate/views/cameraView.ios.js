@@ -8,7 +8,7 @@ var {
 
 } = React;
 var Camera = require('react-native-camera');
-var Mosaic = require('./mosaicView.ios')
+var ReviewPhoto = require('./reviewPhotoView.ios')
 
 var CameraView = React.createClass({
   getInitialState() {
@@ -49,7 +49,7 @@ var CameraView = React.createClass({
       console.log(err, data);
       self.props.mainNavigator.push({
         title: 'SOS',
-        component:Mosaic
+        component:ReviewPhoto
       })
       
     });
