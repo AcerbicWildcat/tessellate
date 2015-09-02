@@ -92,7 +92,30 @@ module.exports = function(grunt) {
             ext: '.css'
         }]
       }
-    }
+    },
+    copy: {
+      main: {
+        files: [{ 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/bower_components/bootstrap/fonts/**'],
+          dest: 'src/server/public/fonts'
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/bootstrap/dist/css/**'],
+          dest: 'src/server/public/css/'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/bower_components/bootstrap/dist/js/**'],
+          dest: 'src/server/public/js'
+        }],
+      },
+    },
 
   });
   grunt.loadNpmTasks("grunt-contrib-watch");
@@ -104,6 +127,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jsdoc");
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
@@ -111,5 +135,7 @@ module.exports = function(grunt) {
   grunt.registerTask("build", []);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
 
-  grunt.registerTask("front", ['sass', 'watch']);
+  grunt.registerTask("front", ['sass', 'copy', 'watch']);
+
 };
+
