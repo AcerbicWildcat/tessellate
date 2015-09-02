@@ -6,7 +6,7 @@ module.exports = function(grunt) {
      */
     watch: {
       javascript: {
-        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js"],
+        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
         tasks: ['jshint', 'concat']
       },
       sass: {
@@ -75,8 +75,12 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['src/client/**/*.js'],
-        dest: 'src/server/public/js/app.min.js',
+        src: [
+        'src/client/bower_components/jquery/dist/jquery.js', 
+        'src/client/bower_components/bootstrap/dist/js/bootstrap.js', 
+        'src/client/bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+        'src/client/js/tessellate.js'],
+        dest: 'src/server/public/js/app.min.js'
       },
     },
     /**
@@ -111,8 +115,20 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true, 
           filter: 'isFile',
-          src: ['src/client/bower_components/bootstrap/dist/js/**'],
-          dest: 'src/server/public/js'
+          src: ['src/client/*.html'],
+          dest: 'src/server/public/'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/css/**'],
+          dest: 'src/server/public/css'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/assets/**'],
+          dest: 'src/server/public/assets'
         }],
       },
     },
