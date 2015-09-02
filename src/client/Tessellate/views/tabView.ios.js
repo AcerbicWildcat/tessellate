@@ -34,7 +34,7 @@ class TabView extends Component {
   
 
   render() {
-    console.log('NAVIGATOR: ' + this.state.mainNavigator)
+    
     return (
     	<TabBarIOS selectedTab={this.state.selectedTab}>
     		<TabBarIOS.Item

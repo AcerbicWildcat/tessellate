@@ -9,21 +9,23 @@ var {
   Text,
   Component,
   TextInput,
+  Image,
   
 } = React;
 
 var styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'black',
+	   flex:1,
+     position:'absolute',
+    
 	},
-	description: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: '#FFFFFF'
+  photo: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'grey',
   },
+	
 
 });
 
@@ -33,21 +35,23 @@ class ReviewPhotoView extends Component {
   constructor(props){
     super(props);
     this.state = {
-     
+     photo:'.img'
     }
   }
 
   render() {
-    //good option - https://github.com/Flipboard/react-canvas
+    
+    console.log('PHOTO TO Display: ' + this.props.photo)
     return (
 
-      <View style={styles.container}>
-
-        <Text style={styles.description}>
-          Review Photo View
-        </Text>
+      
         
-      </View>
+        
+        <Image style={styles.photo}
+        source={{uri: this.props.photo}}>
+        </Image>
+       
+      
       
     );
   }
