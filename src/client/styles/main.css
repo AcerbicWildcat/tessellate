@@ -1,0 +1,96 @@
+* { 
+    box-sizing: border-box; 
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    /*font-size: 80;*/
+}
+
+/*section { 
+    width: 80%; 
+    display: table; 
+    padding: 1em 0 0; 
+    margin-left: auto;
+    margin-right: auto;
+}*/
+
+#thing { 
+    display: table-cell; 
+    width: 100%; 
+    margin-left: 100px;
+}
+
+input { 
+    text-align: center;
+    padding: 1em 2em; 
+    border-radius: 5px;
+}
+
+button { 
+    color: black; 
+    padding: 1em 2em; 
+    white-space: nowrap; 
+    border-radius: 5px;
+    margin: 0 0 0 1em; 
+}
+
+.text-vertical-center {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.text-vertical-center h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 4.5em;
+    font-weight: 700;
+}
+
+/* Custom Button Styles */
+
+.btn-dark {
+    border-radius: 0;
+    color: #fff;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.btn-dark:hover,
+.btn-dark:focus,
+.btn-dark:active {
+    color: #fff;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.btn-light {
+    border-radius: 0;
+    color: #333;
+    background-color: rgb(255,255,255);
+}
+
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:active {
+    color: #333;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.header {
+    display: table;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url(./img/wedding.jpg) no-repeat center center scroll;
+    background-color: grey;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
