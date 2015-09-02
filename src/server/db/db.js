@@ -34,6 +34,28 @@ var Map = mongoose.model("Map", mapSchema);
 // exports.Event = Event;
 // exports.Map = Map;
 
+//saveEvent will recieve a req.body like the one described below:
+
+      // var data = {
+      //       name: "mack",
+      //       tag: "#mackevent",
+      //       path: "../fivebyfive.png"
+      //     };
+      // var newEvent = function(){
+      //   $.ajax({
+      //     type: "POST",
+      //     url: '/newevent',
+      //     data: JSON.stringify(data),
+      //     success: function(data){
+      //       console.log("success! sent" + data);
+      //     },
+      //     contentType: 'application/json',
+      //     error: function(data){
+      //       console.log("failed to send message");
+      //     }
+      //   });
+      // }
+
 
 var saveEvent = function(req, res){
   var newEvent = new Event({
