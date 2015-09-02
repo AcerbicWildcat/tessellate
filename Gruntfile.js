@@ -92,7 +92,30 @@ module.exports = function(grunt) {
             ext: '.css'
         }]
       }
-    }
+    },
+    copy: {
+      main: {
+        files: [{ 
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/css/**'],
+          dest: 'src/server/public/css/'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/fonts/**'],
+          dest: 'src/server/public/fonts'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/lib/**'],
+          dest: 'src/server/public/lib'
+        }],
+      },
+    },
 
   });
   grunt.loadNpmTasks("grunt-contrib-watch");
@@ -104,6 +127,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jsdoc");
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
@@ -111,5 +135,5 @@ module.exports = function(grunt) {
   grunt.registerTask("build", []);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
 
-  grunt.registerTask("front", ['sass', 'watch']);
+  grunt.registerTask("front", ['sass', 'copy', 'watch']);
 };
