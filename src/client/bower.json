@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "magnific-popup": "~1.0.0",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "bootsrap" : ~"3.3.5"
   }
 }
