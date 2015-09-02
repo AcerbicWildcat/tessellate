@@ -4,7 +4,7 @@
   "description": "[![Stories in Ready](https://badge.waffle.io/AcerbicWildcat/tessellate.png?label=ready&title=Ready)](https://waffle.io/AcerbicWildcat/tessellate) # tessellate",
   "main": "src/server/server.js",
   "scripts": {
-    "test": "mocha specs",
+    "test": "mocha specs/**/*Spec.js",
     "start": "node server.js"
   },
   "repository": {
