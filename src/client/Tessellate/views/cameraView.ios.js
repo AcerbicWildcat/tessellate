@@ -4,9 +4,11 @@ var {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+
 } = React;
 var Camera = require('react-native-camera');
+var Mosaic = require('./mosaicView.ios')
 
 var CameraView = React.createClass({
   getInitialState() {
@@ -41,8 +43,15 @@ var CameraView = React.createClass({
 
   //take picture
   _takePicture() {
+    var self = this;
     this.refs.cam.capture(function(err, data) {
+
       console.log(err, data);
+      self.props.mainNavigator.push({
+        title: 'SOS',
+        component:Mosaic
+      })
+      
     });
   }
 

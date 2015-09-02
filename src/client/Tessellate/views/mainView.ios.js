@@ -62,12 +62,15 @@ class Main extends Component {
     //eventCode = 5; // temp event code
     console.log(this.state.eventCode)
     if (this.state.eventCode){
+      var self = this;
       this.props.navigator.push({
                 title: 'Event Title', //refactor to contain event title
                 component: TabView,
-                passProps: {eventCode: this.state.eventCode} //refactor to contain eventcode
+                passProps: {eventCode: this.state.eventCode,
+                mainNavigator: self.props.navigator} //refactor to contain eventcode
                 
        }); 
+      console.log('trying to do this ish')
     }
      else {
       //An Event Code DNE so prompt the user to create an event or try again
