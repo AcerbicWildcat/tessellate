@@ -58,5 +58,34 @@ describe('images', function () {
 
 });
 
+describe('event', function() {
+
+  it('should have an /event POST route', function () {
+
+    describe('POST /event', function () {
+
+      it('should return 200 response', function(done){
+        request(app)
+          .post('/event')
+          .expect(200, done);
+      });
+
+      xit('should check to see if the event exists in the DB', function(done){
+        request(app)
+          .post('/event')
+          //code to see if DB has been queried
+      });
+
+      xit('should save a new event to the DB with creator', function(done){
+        request(app)
+          .post('/event', {eventId: 'testEvent'})
+          //user we get back from database should not be undefined
+      })
+
+    });
+  });
+
+});
+
 //set environment back to development
 process.env.NODE_ENV = 'development';
