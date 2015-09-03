@@ -14,17 +14,28 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-	container: {
-	   flex:1,
-     position:'absolute',
-    
-	},
   photo: {
     flex:1,
+    flexDirection:'row',
     justifyContent: 'center',
     alignItems: 'center',
+    flexWrap:'wrap',
     backgroundColor: 'grey',
   },
+  save: {
+    alignSelf:'flex-end',
+    backgroundColor:'grey',
+    width:150,
+    height:50,
+    marginRight:20,
+    
+  },
+  discard: {
+    alignSelf:'flex-end',
+    backgroundColor:'white',
+    width:150,
+    height:50,
+  }
 	
 
 });
@@ -39,16 +50,28 @@ class ReviewPhotoView extends Component {
     }
   }
 
+  _savePictureToDB(){
+    //make POST request to API
+    //push to MOSAIC view
+  }
+
+  _discardPhoto(nav){
+    //pop to previous view
+    nav.pop();
+  }
+
   render() {
-    
-    console.log('PHOTO TO Display: ' + this.props.photo)
+    console.log('Navigator is legit: ' + this.props.mainNavigator)
     return (
 
-      
-        
-        
         <Image style={styles.photo}
         source={{uri: this.props.photo}}>
+        <Text style={styles.save} onPress={this._savePictureToDB(this.props.mainNavigator)}>
+          Save
+        </Text>
+        <Text style={styles.discard} onPress={() => this.props.mainNavigator.pop()}>
+          Re-Take
+        </Text>
         </Image>
        
       
