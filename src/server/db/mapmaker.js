@@ -8,53 +8,96 @@ var User = db.User,
 
 var chunkSize = 10; //ultimately, we want 10.
 
-//the first argument for getPixels should also be a file path contained on req.body.path.
+/**
+ * Saves a map provided an event and a given path to the event's image. Invokes a callback at the end; the provided callback should invoke res.send() or res.end().
+ * @param  {[type]}
+ * @param  {[type]}
+ * @param  {Function}
+ * @return {[type]}
+ */
+var saveEventAndMap = function(fileName, eventName, callback){
+  var pixels = pixelGetter(fileName);
+  var _storage = chunker(pixels);
+  mapMaker(_storage, pixels, eventName, callback);
+};
 
-var pixelGetter = function(path, event, res){
-  //eventually, replace path with req.body.path.
-  getPixels(path, function(err, pixels){
+
+/**
+ * invokes getPixels on an image existing at a provided path. Returns an ndArray.
+ * @param  {[String]}
+ * @return {[ndArray]}
+ */
+var pixelGetter = function(fileName){
+  //eventually, replace fileName with req.body.fileName.
+  getPixels(fileName, function(err, pixels){
     if (err){
       console.log(err);
       return;
     };
-    chunker(pixels, function(_storage){
-      // res.send(_storage);
-      var theMap = new Map({
-        data: _storage,
-        height: pixels.shape[1],
-        width: pixels.shape[0]
-      }).save(function(err, map){
-        console.log(event + "should be the saved event");
-        event.map = map._id;
-        map._parentEvent = event._id;
-        event.save()
-          .then(function(){
-            return map.save();
-          })
-          .then(function(){
-            res.end();
-          });
-      });
-    });
+    return pixels;
+    
   });
 };
 
-var chunker = function(pixels, callback){
+/**
+ * Saves a map; associates a map with a given event and an event with the saved map.
+ * @param  {[Object]}
+ * @param  {[ndArray]}
+ * @param  {[Object]}
+ * @param  {Function}
+ * @return {[type]}
+ */
+var mapMaker = function(_storage, pixels, eventName, callback){
+  //find a user using req.body.username
+  //then, create an event, using user._id as the 
+
+  new Map({
+    data: _storage,
+    height: pixels.shape[1],
+    width: pixels.shape[0]
+  }).save(function(err, map){
+    console.log(event + "should be the saved event");
+    event.map = map._id;
+    map._parentEvent = event._id;
+    event.save()
+      .then(function(){
+        return map.save();
+      })
+      .then(function(){
+        callback();
+      });
+  });
+};
+
+/**
+ * Invokes chunkMaker and getAverageColor to construct a chunk as a given key of our storage object.
+ * @param  {[ndArray]}
+ * @return {[Object]}
+ */
+var chunker = function(pixels){
   var _storage = {};
   var index = 0;
+  var chunk;
   for (var i = 0; i < pixels.shape[1]; /*height*/ i+=chunkSize){
     for (var j = 0; j < pixels.shape[0]; /*width*/ j+=chunkSize){
-      var chunk = chunkMaker(j, i, pixels); /*format: x, y, data*/
+      chunk = chunkMaker(j, i, pixels); /*format: x, y, data*/
       _storage[index++] = {
         coords: [j, i], 
         rgb: getAverageColor(chunk),
         original: true
-      }
+      };
     }
   }
-  callback(_storage);
-}
+  return _storage;
+};
 
+/**
+ * calculates what pixels exist for a given chunk existing at a given set of coordinates (x, y)
+ * @param  {[Integer]}
+ * @param  {[Integer]}
+ * @param  {[ndArray]}
+ * @return {[Object]}
+ */
 var chunkMaker = function(x, y, pixels){
   var chunk = []; //construct a flat array of pixels scanning left to right, top to bottom.
   //pixels.get(x, y, z)
@@ -68,7 +111,11 @@ var chunkMaker = function(x, y, pixels){
   return chunk;
 };
 
-
+/**
+ * Calculates the average RGB value for pixels in a given chunk.
+ * @param  {[Object]}
+ * @return {[Object]}
+ */
 var getAverageColor = function(chunk) {
   var r = 0;
   var g = 0;
@@ -87,7 +134,7 @@ var getAverageColor = function(chunk) {
   return { r: r, g: g, b: b };
 };
 
-exports.pixelGetter = pixelGetter;
+exports.saveMap = saveMap;
 
 // var returnRGB = function(data){
 //   return {
