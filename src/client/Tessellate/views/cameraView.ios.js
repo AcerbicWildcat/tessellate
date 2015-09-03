@@ -33,7 +33,10 @@ var CameraView = React.createClass({
     );
   },
 
-  //switch camera view
+  /**
+   * [_switchCamera Toggle Camera Angle]
+   * @return {[null]} [no return value]
+   */
   _switchCamera() {
     var state = this.state;
     state.cameraType = state.cameraType === Camera.constants.Type.back
@@ -41,7 +44,10 @@ var CameraView = React.createClass({
     this.setState(state);
   },
 
-  //take picture
+  /**
+   * [_takePicture Captures Image and routes user to ReviewPhotoView]
+   * @return {[null]} [none]
+   */
   _takePicture() {
     var self = this;
     this.refs.cam.capture(function(err, data) {

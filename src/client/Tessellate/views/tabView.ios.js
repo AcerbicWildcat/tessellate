@@ -17,8 +17,6 @@ var {
 } = React;
 
 
-
-
 //Tab Bar Instance contains a Camera Tab and a Mosaic Tab
 //You can toggle between the two
 class TabView extends Component {
@@ -30,13 +28,16 @@ class TabView extends Component {
       mainNavigator: props.mainNavigator,
     }
   }
-
+  /**
+   * [setSelectedTabCallBack allows for user to be taken to Mosaic Tab after a picture has been saved]
+   * @param {[string]} tab [Selected Tab]
+   */
   setSelectedTabCallBack(tab){
     this.setState({selectedTab:tab})
   }
 
   render() {
-    console.log('selected tab at tabView leve: ' + this.state.selectedTab)
+  
     return (
     	<TabBarIOS selectedTab={this.state.selectedTab}>
     		<TabBarIOS.Item

@@ -50,6 +50,12 @@ class ReviewPhotoView extends Component {
     }
   }
 
+  /**
+   * [_savePictureToDB onSave photo is POST'ed to the DB]
+   * @param  {[object]} nav [main navigation component]
+   * @param  {[string]} tab [selected tab to pop to]
+   * @return {[null]}     [none]
+   */
   _savePictureToDB(nav,tab){
     //make POST request to API
     //pop off nav stack but set selected tab bar item to be mosaic
@@ -58,9 +64,7 @@ class ReviewPhotoView extends Component {
     nav.pop();
   }
 
-  _discardPhoto(nav){
-    //pop to previous view
-  }
+
 
   render() {
     console.log('selectedTab at reviewPhoto level ' + this.props.selectedTab)
