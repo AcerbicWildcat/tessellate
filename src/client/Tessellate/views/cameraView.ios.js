@@ -46,13 +46,15 @@ var CameraView = React.createClass({
     var self = this;
     this.refs.cam.capture(function(err, data) {
       var photoURL = data.toString();
-      self.props.mainNavigator.push({
-        title: 'SOS',
-        component:ReviewPhoto,
-        passProps: {photo:photoURL,
-        mainNavigator: self.props.mainNavigator }
-      })
-      
+      if (photoURL){
+        self.props.mainNavigator.push({
+          title: 'SOS',
+          component:ReviewPhoto,
+          passProps: {photo:photoURL,
+          mainNavigator: self.props.mainNavigator,
+          selectedTab:self.props.selectedTab }
+        })
+      }
     });
   }
 

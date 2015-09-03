@@ -25,16 +25,18 @@ class TabView extends Component {
   constructor(props){
     super(props);
     this.state = {
-     	selectedTab: 'camera',
+     	selectedTab: 'mosaic',
       eventCode: props.eventCode,
       mainNavigator: props.mainNavigator,
     }
   }
 
-  
+  setSelectedTabCallBack(tab){
+    this.setState({selectedTab:tab})
+  }
 
   render() {
-    
+    console.log('selected tab at tabView leve: ' + this.state.selectedTab)
     return (
     	<TabBarIOS selectedTab={this.state.selectedTab}>
     		<TabBarIOS.Item
@@ -46,7 +48,7 @@ class TabView extends Component {
                             selectedTab: 'camera'
                         });
                     }}>
-             <Camera mainNavigator={this.state.mainNavigator}/>
+             <Camera mainNavigator={this.state.mainNavigator} selectedTab={this.setSelectedTabCallBack.bind(this)}/>
               
             </TabBarIOS.Item>
             <TabBarIOS.Item
