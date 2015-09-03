@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     watch: {
       javascript: {
         files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
-        tasks: ['jshint', 'concat']
+        tasks: ['jshint', 'concat', 'copy']
       },
       sass: {
         files: 'src/client/sass/{,*/}*.{scss,sass}',
@@ -169,7 +169,7 @@ module.exports = function(grunt) {
   grunt.registerTask("build", []);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
 
-  grunt.registerTask("front", ['sass', 'copy', 'watch']);
+  grunt.registerTask("front", ['sass', 'concat', 'copy', 'watch']);
 
 };
 
