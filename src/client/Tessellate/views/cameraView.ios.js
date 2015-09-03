@@ -4,9 +4,11 @@ var {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+
 } = React;
 var Camera = require('react-native-camera');
+var ReviewPhoto = require('./reviewPhotoView.ios')
 
 var CameraView = React.createClass({
   getInitialState() {
@@ -41,8 +43,17 @@ var CameraView = React.createClass({
 
   //take picture
   _takePicture() {
+    var self = this;
     this.refs.cam.capture(function(err, data) {
+
       console.log(err, data);
+      var photoURL = data.toString();
+      self.props.mainNavigator.push({
+        title: 'SOS',
+        component:ReviewPhoto,
+        passProps: {photo:photoURL }
+      })
+      
     });
   }
 
