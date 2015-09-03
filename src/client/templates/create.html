@@ -6,9 +6,6 @@
     <br>
       <input type="date" class=" btn btn-lg" datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-  <!--   <br>
-      <input type="date" class=" btn btn-lg" datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button> -->
 <!-- uploading image part containted here -->
     <br>
     <div class="container">
@@ -16,7 +13,7 @@
     <br>
       <div flow-init>
         <div class="thumbnail" ng-hide="$flow.files.length">
-          <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" height="50px" width="50px"/>
+          <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" height="100px" width="100px" margin="0px"/>
         </div>
         <div class="thumbnail" ng-show="$flow.files.length">
           <img flow-img="$flow.files[0]" height="100px" width="100px"/>

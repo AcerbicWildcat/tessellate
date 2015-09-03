@@ -9,6 +9,10 @@ module.exports = function(grunt) {
         files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
         tasks: ['jshint', 'concat']
       },
+      html: {
+        files: ["src/client/**/*.html", "src/server/*.html"],
+        tasks: ['front']
+      },
       sass: {
         files: 'src/client/sass/{,*/}*.{scss,sass}',
         tasks: ['sass:dist'],
