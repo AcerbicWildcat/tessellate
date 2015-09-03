@@ -28,8 +28,10 @@ describe("Tessellate database", function() {
     });
   });
 
-  xit("Should be able to save a user to the database", function(done){
-
+  xit("Should analyze an image and save a coordinate map to the database", function(done){
+    request({
+      
+    })
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
