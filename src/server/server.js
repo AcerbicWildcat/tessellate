@@ -8,8 +8,8 @@ var port = process.env.PORT || 8080;
 var app = express();
 
 //set view engine
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+// app.set('view engine', 'ejs');
+// app.set('views', __dirname + '/views');
 
 //use correct config file for development, production
 app.config = require(__dirname + '/config/' + (process.env.NODE_ENV || 'development') + '/config');

@@ -26,7 +26,7 @@ module.exports = function(passport) {
         // account in our future DB -->
         // check to see if they exist yet, create new user as
         // long as they don't (for now just returning fb user)
-        return done(null, user);
+        return done(null, profile);
       });
     }));
 };

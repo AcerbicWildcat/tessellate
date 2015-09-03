@@ -1,14 +1,6 @@
 module.exports = function (app, passport) {
-
-  // Landing Page Route
-  app.get('/', function (req, res){
-    if (isLoggedIn(req, res)){
-      res.redirect('/event');
-    } else {
-      res.render('pages/home/index');
-    }
-  });
-
+  // These are protected resources --> will not be accessible if user
+  // is not logged in with facebook
   app.get('/event', isLoggedIn, function (req, res){
     res.render('pages/event');
   });
@@ -20,7 +12,11 @@ module.exports = function (app, passport) {
   /* FACEBOOK AUTH ROUTES */
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   app.get('/auth/facebook',
-    passport.authenticate('facebook'),
+    passport.authenticate('facebook', {
+      scope: ['email', 'user_friends'], 
+      display: 'touch', 
+      response_type: 'token'
+    }),
     function (req, res){
       // Request redirected to facebook so this function does not get called
     });
@@ -28,7 +24,7 @@ module.exports = function (app, passport) {
   // On user interaction with facebook login, redirected back to here
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: '/event',
+      successRedirect: '/', //redirect to landing page for now --> will be account/event page once it exists
       failureRedirect: '/'
     })
   );
