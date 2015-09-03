@@ -1,0 +1,12 @@
+<header id="top" class="header">
+  <div class="text-vertical-center">
+    <h1>Join Which Event?</h1>
+    <br>
+    <div name="eventForm">
+      <input class="btn btn-lg" type="text" required ng-model="eventTag" ng-keydown="go($event)"/>
+      <!-- <button class="btn btn-dark btn-lg" ng-click="go($event)">Create...</button> -->
+    </div>
+    <a href="#/create">Create New Event</a>
+    <h2 ng-show="testing">Please enter an event tag</h2>
+  </div>
+</header>
