@@ -57,7 +57,7 @@ var mapEventMaker = function(username _storage, pixels, eventName, callback){
       tag: '#' + eventName,
       path: fileName
     }).save(function(err, event){
-      user.push(event); //is this right?
+      user.events.push(event); //is this right?
       new Map({
         _parentEvent: event._id,
         data: _storage,
