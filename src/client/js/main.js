@@ -45,7 +45,6 @@ tess.controller("tessellCtrl", function ($scope, $location){
       $scope.testing = true;
     }
     else if(event.keyCode === 13){
-    // console.log($scope.eventTag);
       $scope.eventTag = "";
       $scope.testing = false;
       $location.path('/mosaic');
