@@ -1,5 +1,6 @@
 var fbAuth            = require('./auth'),
-    FacebookStrategy  = require('passport-facebook').Strategy;
+    FacebookStrategy  = require('passport-facebook').Strategy,
+    User              = require('../modules/user/userModel');
 
 module.exports = function(passport) {
 
@@ -22,11 +23,33 @@ module.exports = function(passport) {
       // async verification
       process.nextTick(function(){
         
-        // This is where we will associate user with a user
-        // account in our future DB -->
-        // check to see if they exist yet, create new user as
-        // long as they don't (for now just returning fb user)
-        return done(null, profile);
+        User.findOne({'facebookId': profile.id}, function(err, user){
+          
+          if (err) {
+            return done(err);
+          }
+          // if user is found, log them in
+          if (user) {
+            return done(null, user);
+          } 
+          // else create a new user in our DB
+          else {
+            var newUser = new User();
+
+            newUser.facebookId    = profile.id;
+            newUser.name          = profile.displayName;
+            newUser.email         = profile.emails[0].value;
+            newUser.profPhoto     = profile.photos[0].value;
+            newUser.facebookToken = accessToken;
+
+            newUser.save(function(err){
+              if (err){
+                return done(err);
+              }
+              return done(null, newUser);
+            })
+          }
+        })
       });
     }));
 };
