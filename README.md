@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/AcerbicWildcat/tessellate.png?label=ready&title=Ready)](https://waffle.io/AcerbicWildcat/tessellate)
+[![Stories in Ready](https://badge.waffle.io/AcerbicWildcat/tessellate.png?label=ready&title=Ready)](https://waffle.io/AcerbicWildcat/tessellate) [![Build Status](https://travis-ci.org/AcerbicWildcat/tessellate.svg)](https://travis-ci.org/AcerbicWildcat/tessellate)
 # tessellate
 
 A real-time photo mosaic app that event attendees can contribute to. The mosaic is generated and refined dynamically as event attendees add more photos for the app to work with.
