@@ -11,8 +11,11 @@ var {
   Component,
   TextInput,
   TabBarIOS,
+  NavigatorIOS,
+  Navigator,
   
 } = React;
+
 
 
 
@@ -23,11 +26,15 @@ class TabView extends Component {
     super(props);
     this.state = {
      	selectedTab: 'camera',
-      eventCode: props.eventCode
+      eventCode: props.eventCode,
+      mainNavigator: props.mainNavigator,
     }
   }
 
+  
+
   render() {
+    
     return (
     	<TabBarIOS selectedTab={this.state.selectedTab}>
     		<TabBarIOS.Item
@@ -39,7 +46,8 @@ class TabView extends Component {
                             selectedTab: 'camera'
                         });
                     }}>
-                    <Camera/>
+             <Camera mainNavigator={this.state.mainNavigator}/>
+              
             </TabBarIOS.Item>
             <TabBarIOS.Item
                     selected={this.state.selectedTab === 'mosaic'}
