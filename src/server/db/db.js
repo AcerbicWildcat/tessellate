@@ -37,7 +37,6 @@ exports.Map = Map;
 //saveEvent will recieve a req.body like the one described below:
 
 // var data = {
-//       name: "mack",
 //       tag: "#mackevent",
 //       path: "../fivebyfive.png",
 //       username: "mack"
