@@ -7,7 +7,7 @@ describe("Tessellate database", function() {
   var dbConnection;
 
   beforeEach(function(done) {
-    mongoose.connect('mongodb://localhost/tessellate');
+    mongoose.connect('mongodb://localhost/3000');
   });
 
   afterEach(function() {
