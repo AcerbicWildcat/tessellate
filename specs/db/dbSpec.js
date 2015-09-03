@@ -10,10 +10,13 @@ var expect = require('expect.js');
 describe("Tessellate database", function() {
 
   beforeEach(function(done) {
+
     mongoose.connect('mongodb://localhost/3000');
+
     mongoose.connection.once('open', function(){
       done(); //guarantees that the connection is open before tests proceed.
-    })
+    });
+
   });
 
   afterEach(function(done) {
@@ -25,7 +28,7 @@ describe("Tessellate database", function() {
     });
   });
 
-  xit("Should be able to save a user to the database", function(done){
+  xit("Should analyze an image and save a coordinate map to the database", function(done){
 
   });
 

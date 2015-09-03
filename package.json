@@ -54,6 +54,8 @@
     "mocha": "^2.3.0",
     "morgan": "^1.6.1",
     "phantom": "^0.7.2",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "react-native-cli": "^0.1.4",
+    "request": "^2.61.0"
   }
 }
