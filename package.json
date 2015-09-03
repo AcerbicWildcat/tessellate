@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/AcerbicWildcat/tessellate#readme",
   "dependencies": {
+    "angular": "^1.4.5",
+    "angular-route": "^1.4.5",
     "body-parser": "^1.13.3",
     "busboy": "^0.2.10",
     "cloudinary": "^1.2.4",
