@@ -51,23 +51,29 @@ var mapEventMaker = function(username _storage, pixels, eventName, callback){
     //TODO:
     //find a user using req.body.username
     //then, create an event, using user._id as the foreign key.
-  new Event({
-    tag: '#' + eventName,
-    path: fileName
-  }).save(function(err, event){
-    new Map({
-      _parentEvent: event._id,
-      data: _storage,
-      height: pixels.shape[1],
-      width: pixels.shape[0]
-    })
-    .save(function(err, map){
-      console.log(event + "should be the saved event");
-      event.map = map._id;
-      event.save()
-        .then(function(){
-          callback();
-        });
+  User.findOne({username: username}, function(err, user){
+    new Event({
+      _parentUser: user._id,
+      tag: '#' + eventName,
+      path: fileName
+    }).save(function(err, event){
+      user.push(event); //is this right?
+      new Map({
+        _parentEvent: event._id,
+        data: _storage,
+        height: pixels.shape[1],
+        width: pixels.shape[0]
+      })
+      .save(function(err, map){
+        console.log(event + "should be the saved event");
+        event.map = map._id;
+        event.save()
+          .then(function(){
+            return user.save()
+          }).then(function(){
+            callback();
+          });
+      });
     });
   });
 };
