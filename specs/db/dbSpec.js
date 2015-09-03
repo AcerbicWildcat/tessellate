@@ -7,7 +7,7 @@ describe("Tessellate database", function() {
   var dbConnection;
 
   beforeEach(function(done) {
-    mongoose.connect('mongodb://localhost/3000');
+    mongoose.connect('mongodb://localhost/tessellate');
   });
 
   afterEach(function() {
@@ -16,7 +16,7 @@ describe("Tessellate database", function() {
     mongoose.connection.close();
   });
 
-  it("Should analyze an image and save a coordinate map to the database", function(done){
+  xit("Should analyze an image and save a coordinate map to the database", function(done){
     request({
       
     })
