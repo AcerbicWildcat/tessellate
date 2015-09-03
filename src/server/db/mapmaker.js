@@ -137,7 +137,7 @@ var getAverageColor = function(chunk) {
   return { r: r, g: g, b: b };
 };
 
-exports.saveMap = saveMap;
+exports.saveEventAndMap = saveEventAndMap;
 
 // var returnRGB = function(data){
 //   return {
