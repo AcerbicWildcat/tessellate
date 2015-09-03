@@ -47,25 +47,28 @@ var pixelGetter = function(fileName){
  * @param  {Function}
  * @return {[type]}
  */
-var mapMaker = function(_storage, pixels, eventName, callback){
-  //find a user using req.body.username
-  //then, create an event, using user._id as the 
-
-  new Map({
-    data: _storage,
-    height: pixels.shape[1],
-    width: pixels.shape[0]
-  }).save(function(err, map){
-    console.log(event + "should be the saved event");
-    event.map = map._id;
-    map._parentEvent = event._id;
-    event.save()
-      .then(function(){
-        return map.save();
-      })
-      .then(function(){
-        callback();
-      });
+var mapEventMaker = function(_storage, pixels, eventName, callback){
+  new Event({
+    //TODO:
+    //find a user using req.body.username
+    //then, create an event, using user._id as the foreign key
+    tag: '#' + eventName,
+    path: fileName
+  }).save(function(err, event){
+    new Map({
+      _parentEvent: event._id,
+      data: _storage,
+      height: pixels.shape[1],
+      width: pixels.shape[0]
+    })
+    .save(function(err, map){
+      console.log(event + "should be the saved event");
+      event.map = map._id;
+      event.save()
+        .then(function(){
+          callback();
+        });
+    });
   });
 };
 
