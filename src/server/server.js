@@ -1,15 +1,18 @@
 var express  = require('express'),
     morgan   = require('morgan'),
+    mongoose = require('mongoose'),
     passport = require('passport');
 
 // set the port
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8000;
 
 var app = express();
 
-//set view engine
-// app.set('view engine', 'ejs');
-// app.set('views', __dirname + '/views');
+// connect to our database
+// mongoose.connect('mongodb://localhost/tessellate');
+// mongoose.connection.once('connected', function() {
+//   console.log('Connected to database!');
+// });
 
 //use correct config file for development, production
 app.config = require(__dirname + '/config/' + (process.env.NODE_ENV || 'development') + '/config');
