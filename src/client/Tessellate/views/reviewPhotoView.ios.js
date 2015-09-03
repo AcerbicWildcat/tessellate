@@ -53,13 +53,32 @@ class ReviewPhotoView extends Component {
   /**
    * [_savePictureToDB onSave photo is POST'ed to the DB]
    * @param  {[object]} nav [main navigation component]
-   * @param  {[string]} tab [selected tab to pop to]
+   * @param  {[function]} tab [selected tab callback]
    * @return {[null]}     [none]
    */
   _savePictureToDB(nav,tab){
     //make POST request to API
     //pop off nav stack but set selected tab bar item to be mosaic
-    console.log('tab on save' + tab);
+    /*var postObject = {  
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Origin': '',
+        'Host': 'api.producthunt.com'
+      },
+      body: JSON.stringify({
+        //tbd
+      })
+    /*
+    fetch('API_ENDPOINT', OBJECT)  
+      .then(function(res) {
+        return res.json();
+       })
+      .then(function(resJson) {
+        return resJson;
+       })
+    */
     tab('mosaic')
     nav.pop();
   }
@@ -67,7 +86,7 @@ class ReviewPhotoView extends Component {
 
 
   render() {
-    console.log('selectedTab at reviewPhoto level ' + this.props.selectedTab)
+    
     return (
 
         <Image style={styles.photo}
