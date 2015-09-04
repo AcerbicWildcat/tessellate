@@ -6,6 +6,7 @@
 
 var React = require('react-native');
 var Main = require('./views/mainView.ios.js')
+var Login = require('./views/loginView.ios')
 
 //Desctructre the React Object
 var {
@@ -19,37 +20,37 @@ var {
 var Tessellate = React.createClass({
    getInitialState() {
     return {
-      loggedIn: true
+      loggedIn: false,
+      navBarHidden:false,
     }
   },
   renderLoggedIn: function(){
     return (
      <NavigatorIOS
         style={styles.container}
+        ref="nav"
+        navigationBarHidden={this.state.navBarHidden}
         initialRoute={{
           title: 'Tessellate', //replace with our icon
-          component: Main
+          component: Login,
+          passProps:{refs:this}
         }}/>
     );
   },
-
+ 
   render: function() {
     //initialize an instance of NavigatorIOS component and set Main as its initial route
-    console.log('Login State: ' + this.state.loggedIn)
-    if (this.state.loggedIn){
       return this.renderLoggedIn();
-    } else {
-      //return log in page
-    }
-    
   }
+
 });
 
 //styles object
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+   
+  },
 });
 
 AppRegistry.registerComponent('Tessellate', () => Tessellate);
