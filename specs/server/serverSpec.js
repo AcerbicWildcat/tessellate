@@ -28,7 +28,7 @@ describe('app', function() {
 
 describe('images', function () {
 
-  it('should have an /image GET route', function () {
+  xit('should have an /image GET route', function () {
 
     describe('GET /image', function() {
 
@@ -60,7 +60,7 @@ describe('images', function () {
 
 describe('event', function() {
 
-  it('should have an /event POST route', function () {
+  xit('should have an /event POST route', function () {
 
     describe('POST /event', function () {
 
