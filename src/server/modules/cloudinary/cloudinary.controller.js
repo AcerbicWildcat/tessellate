@@ -5,7 +5,7 @@ var util = require('util');
 var Busboy = require('busboy');
 var cloudinary = require('cloudinary');
 
-cloudinary.config(require(__dirname + '/../../config/cloudinary'));
+cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
 
 module.exports = {
   
