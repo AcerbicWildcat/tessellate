@@ -1,6 +1,6 @@
 var config = require('../config/config');
 var mongoose = require('mongoose');
-var mapMaker = require('mapmaker.js');
+var mapMaker = require('./mapmaker.js');
 
 mongoose.connect(config.db.host);
 
@@ -15,7 +15,7 @@ var userSchema = mongoose.Schema({
 var eventSchema = mongoose.Schema({
   _parentUser: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   username: String,
-  tag: String,
+  eventCode: String,
   path: String, //path to the main mosaic image.
   map: {type: mongoose.Schema.Types.ObjectId, ref: "Map"}
 });
@@ -35,36 +35,4 @@ var Map = mongoose.model("Map", mapSchema);
 exports.User = User;
 exports.Event = Event;
 exports.Map = Map;
-
-//saveEvent will recieve a req.body like the one described below:
-
-// var data = {
-//       tag: "#mackevent",
-//       path: "../fivebyfive.png",
-//       username: "mack"
-//     };
-
-
-var saveEvent = function(req, res){
-  var newEvent = new Event({
-    /* 
-    _parentUser: User.findOne({username: req.body.username})
-      .exec(function(err, user){
-        return user._id;
-      });
-    */
-    username: req.body.username,
-    tag: req.body.tag,
-    path: req.body.path,
-  })
-  .save()
-  .then(function(event){
-    //ultimately, push the event to its user's array of event ids, and save the user.
-    mapMaker.pixelGetter(event.path, event, res)
-  });
-}
-
-exports.saveEvent = saveEvent;
-
-
 

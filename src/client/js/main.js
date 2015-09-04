@@ -1,6 +1,11 @@
+/**
+ * tess is the main angular module.
+ * @type {angular module}
+ */
 var tess = angular.module("tessell", [
   "ngRoute",
-  "flow"
+  "ngFileUpload"
+  // "flow"
 ])
   .config(function($routeProvider){
     $routeProvider
@@ -9,47 +14,37 @@ var tess = angular.module("tessell", [
         controller: 'tessellCtrl'
       })
       .when('/create', {
-        templateUrl: '..//create.html',
-        controller: 'DatepickerDemoCtrl'
+        templateUrl: '../create.html',
+        controller: 'tessellCtrl'
       })
       .when('/mosaic', {
         templateUrl: '../mosaic.html', 
         controller: 'tessellCtrl'
       });
-  })
-  .config(['flowFactoryProvider', function (flowFactoryProvider) {
-    flowFactoryProvider.defaults = {
-      // target: 'upload.php',
-      permanentErrors: [404, 500, 501],
-      maxChunkRetries: 1,
-      chunkRetryInterval: 5000,
-      simultaneousUploads: 4,
-      singleFile: true
-    };
-    flowFactoryProvider.on('fileAdded', function (event) {
-      console.log('fileAdded', arguments);
-    });
-    // Can be used with different implementations of Flow.js
-    // flowFactoryProvider.factory = fustyFlowFactory;
-}]);
+  });
 
-tess.controller("tessellCtrl", function ($scope, $location){
+tess.controller("tessellCtrl", function ($scope, $location, Upload){
   $scope.testing = false;
   $scope.eventTag = "";
+
+  $scope.createEvent = function(){
+    Upload.upload({
+      url: '/create',
+      file: $scope.event.file
+    });
+  };
+
   $scope.go = function (event){
     if($scope.eventTag === "" && event.keyCode === 13){
       $scope.testing = true;
     }
     else if(event.keyCode === 13){
-      // console.log($scope.eventTag);
       $scope.eventTag = "";
       $scope.testing = false;
+      $location.path('/mosaic');
     }
-    // $location.path( path );
   };
-});
 
-tess.controller('DatepickerDemoCtrl', function ($scope) {
   $scope.today = function() {
     $scope.dt = new Date();
   };
@@ -78,8 +73,8 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
     startingDay: 1
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[0];
+  // $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  // $scope.format = $scope.formats[0];
 
   $scope.status = {
     opened: false
@@ -117,20 +112,3 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
     return '';
   };
 });
-
-var app = angular.module('app', ['flow'])
-.config(['flowFactoryProvider', function (flowFactoryProvider) {
-  flowFactoryProvider.defaults = {
-    // target: 'upload.php',
-    permanentErrors: [404, 500, 501],
-    maxChunkRetries: 1,
-    chunkRetryInterval: 5000,
-    simultaneousUploads: 4,
-    singleFile: true
-  };
-  flowFactoryProvider.on('catchAll', function (event) {
-    console.log('catchAll', arguments);
-  });
-  // Can be used with different implementations of Flow.js
-  // flowFactoryProvider.factory = fustyFlowFactory;
-}]);

@@ -3,6 +3,7 @@ require('dotenv').config({silent: true});
 
 var express  = require('express'),
     morgan   = require('morgan'),
+    mongoose = require('mongoose'),
     passport = require('passport');
 
 var app = express();
