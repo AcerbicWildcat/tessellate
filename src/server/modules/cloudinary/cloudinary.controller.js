@@ -28,8 +28,10 @@ module.exports = {
       res.writeHead(200, { 'Connection': 'close' });
       res.end("That's all folks!");
     });
-    return req.pipe(busboy);
+    // return req.pipe(busboy);
+    req.pipe(busboy);
 
   }
 
 };
+
