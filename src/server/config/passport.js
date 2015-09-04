@@ -1,17 +1,17 @@
 var fbAuth            = require('./auth'),
     FacebookStrategy  = require('passport-facebook').Strategy,
-    User              = require('../modules/user/userModel');
+    User              = require('../db/db').User;
 
 module.exports = function(passport) {
-
-  // For now, since we don't have DB of users -->
-  // serialize whole user FB profile to support persistent sessions
+  // serialize userId to store during session setup
   passport.serializeUser(function (user, done) {
-    done(null, user); // will just be user.id in future once DB up
+    done(null, user.id);
   });
-  // deserialize whole user FB profile
-  passport.deserializeUser(function (obj, done) {
-    done(null, obj); // will be replaced with finding user.id in our DB later
+  // find user by id when deserializing
+  passport.deserializeUser(function (user, done) {
+    User.findOne({'facebookId': user.id}, function (err, user) {
+      done(err, user);
+    });    
   });
 
   // FACEBOOK PASSPORT STRATEGY

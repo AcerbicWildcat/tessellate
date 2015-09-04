@@ -2,7 +2,7 @@ var tess = angular.module("tessell", [
   "ngRoute",
   "flow"
 ])
-  .config(function($routeProvider){
+  .config(function($routeProvider, $httpProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../main.html',
@@ -17,6 +17,7 @@ var tess = angular.module("tessell", [
         controller: 'tessellCtrl'
       });
   })
+
   .config(['flowFactoryProvider', function (flowFactoryProvider) {
     flowFactoryProvider.defaults = {
       // target: 'upload.php',
