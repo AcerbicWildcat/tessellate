@@ -52,6 +52,12 @@ class Main extends Component {
   }
 
   showEventDetails(){
+    //fetch event data
+    
+
+    //persist eventcode to use in subsequent api calls
+    
+
     // if event exists - pass event code on to next page
     if (this.state.eventCode){
       var self = this;
