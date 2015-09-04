@@ -29,7 +29,7 @@ tess.controller("tessellCtrl", function ($scope, $location, Upload){
 
   $scope.createEvent = function(){
     Upload.upload({
-      url: '/create',
+      url: '/event',
       file: $scope.event.file
     });
   };
