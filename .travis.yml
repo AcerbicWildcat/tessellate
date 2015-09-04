@@ -1,3 +1,8 @@
 language: node_js
 node_js:
-   - "0.10"
+- '0.10'
+deploy:
+  provider: heroku
+  api_key:
+    secure: rBLMaRJAUPQH8wLcnUczd52ujNgnN7BoExg2RJAbJim+mXz0KiWqpNnOo2J/vY4WH3DELXWMp4mHQd1l0ULR11E1gpRICmjqwMgXvlHkKpxzPlGXXIs+4GhuyeSej0NtdjCpyQVJJBz0QxHH3bYnPgDwIV+g3x/cDrFl6gbGzrULh//ATZH5SQXEBZi5bvFRR8t6OSn4Iks2B6Fl7tgpx2Kf+kold18w9J7PhtMwFsS4muMIqlKUEpADi3HcbAdGwrz7gIG+YwRo3KCnZfxPBEQyZlDy3wzJZB8zVtnlDwwB3vJ/TsVtgqoKHe7T2e0S5zodfOmo5wUyJ25FYeCMkuv5diQOkspNOi3vQyhEsIs3pA/LOTw4RXRggCg65RxXQLwDHlW/aXSJ13L6l14VAS5sfonRas+Kf5/mId10ciBOGUkybjLoE2MRmay2DL8CoxFe/5ShZGUoS3W0nAjA0bZyti6J9ltHNmhYQGN5NZbNzrlZ2QHTaTUWVfus2hTKa07CZWfp9cY3HswK9ThDve6HvHhUKGyPq9rtAsACD2q2+MWX2XZpEzazA7cG9l53yDMDyojGlhPp6z7uYNQE62qh4KdPGJm8z2e+vbfpUEdRckqJ0Z9tscgUtrhmgUFszW+URgi3lCTDDbTVMJzGzTJxpArisJXbRCSLo6yL9qc=
+  app: tessellate-penguin
