@@ -4,7 +4,8 @@
  */
 var tess = angular.module("tessell", [
   "ngRoute",
-  "flow"
+  "ngFileUpload"
+  // "flow"
 ])
   .config(function($routeProvider){
     $routeProvider
@@ -14,32 +15,25 @@ var tess = angular.module("tessell", [
       })
       .when('/create', {
         templateUrl: '../create.html',
-        controller: 'DatepickerDemoCtrl'
+        controller: 'tessellCtrl'
       })
       .when('/mosaic', {
         templateUrl: '../mosaic.html', 
         controller: 'tessellCtrl'
       });
   });
-//   .config(['flowFactoryProvider', function (flowFactoryProvider) {
-//     flowFactoryProvider.defaults = {
-//       // target: 'upload.php',
-//       permanentErrors: [404, 500, 501],
-//       maxChunkRetries: 1,
-//       chunkRetryInterval: 5000,
-//       simultaneousUploads: 4,
-//       singleFile: true
-//     };
-//     flowFactoryProvider.on('fileAdded', function (event) {
-//       console.log('fileAdded', arguments);
-//     });
-//     // Can be used with different implementations of Flow.js
-//     // flowFactoryProvider.factory = fustyFlowFactory;
-// }]);
 
-tess.controller("tessellCtrl", function ($scope, $location){
+tess.controller("tessellCtrl", function ($scope, $location, Upload){
   $scope.testing = false;
   $scope.eventTag = "";
+
+  $scope.createEvent = function(){
+    Upload.upload({
+      url: '/create',
+      file: $scope.event.file
+    });
+  };
+
   $scope.go = function (event){
     if($scope.eventTag === "" && event.keyCode === 13){
       $scope.testing = true;
@@ -49,11 +43,8 @@ tess.controller("tessellCtrl", function ($scope, $location){
       $scope.testing = false;
       $location.path('/mosaic');
     }
-    // $location.path( '#/mosaic' );
   };
-});
 
-tess.controller('DatepickerDemoCtrl', function ($scope) {
   $scope.today = function() {
     $scope.dt = new Date();
   };
@@ -121,20 +112,3 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
     return '';
   };
 });
-
-// var app = angular.module('app', ['flow'])
-// .config(['flowFactoryProvider', function (flowFactoryProvider) {
-//   flowFactoryProvider.defaults = {
-//     // target: 'upload.php',
-//     permanentErrors: [404, 500, 501],
-//     maxChunkRetries: 1,
-//     chunkRetryInterval: 5000,
-//     simultaneousUploads: 4,
-//     singleFile: true
-//   };
-//   flowFactoryProvider.on('catchAll', function (event) {
-//     console.log('catchAll', arguments);
-//   });
-//   // Can be used with different implementations of Flow.js
-//   // flowFactoryProvider.factory = fustyFlowFactory;
-// }]);

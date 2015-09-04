@@ -1,36 +1,31 @@
 <header id="top" class="header">
-  <div ng-controller="DatepickerDemoCtrl" class="text-vertical-center">
-    <div name="eventForm">
-      <input class="btn btn-lg" type="text" placeholder="Event Tag"/>
+<!--     <p>
+      This is the most minimal example of Dropzone. The upload in this example
+      doesn't work, because there is no actual server to handle the file upload.
+    </p>
+
+     <form action="/upload-target" class="dropzone"></form> -->
+
+    </div>
+  <div ng-controller="tessellCtrl" class="text-vertical-center">
+    <form>
+    <div>
+      <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="event.eventCode"/>
     </div>
     <br>
+    <div>
       <input type="date" class=" btn btn-lg" datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        <!-- <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button> -->
 <!-- uploading image part containted here -->
-    <br>
-    <div class="container">
-      <!-- <hr class="soften"/> -->
-    <br>
-      <div flow-init>
-        <div class="thumbnail" ng-hide="$flow.files.length">
-          <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" height="100px" width="100px" margin="0px"/>
-        </div>
-        <div class="thumbnail" ng-show="$flow.files.length">
-          <img flow-img="$flow.files[0]" height="100px" width="100px"/>
-        </div>
-        <div>
-          <div href="" class="btn btn-lg" ng-hide="$flow.files.length" flow-btn flow-attrs="{accept:'image/*'}">Select image</div>
-          <div href="" class="btn btn-lg" ng-show="$flow.files.length" flow-btn flow-attrs="{accept:'image/*'}">Change</div>
-          <div href="" class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">Remove</div>
-        </div>
-        <p>
-          Only PNG,GIF,JPG files allowed.
-        </p>
-      </div>
     </div>
-
-    <a href="#/" class="btn btn-dark btn-lg">Go Back</a>
-    <a href="#/mosaic" class="btn btn-dark btn-lg" ng-click="console.log($flow.files)">Party</a>
-
+    <br>
+    <div>
+      <input class="btn btn-lg" type="file" ng-model="event.file">
+    </div>
+    <div>
+      <input type="submit" value="PARTY" class="btn btn-lg" ng-click="createEvent()">
+    </div>
+  </form>
   </div>
+
 </header>

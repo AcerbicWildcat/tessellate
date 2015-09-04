@@ -13,14 +13,6 @@ module.exports = function(grunt) {
         files: ["src/client/**/*.html", "src/server/*.html"],
         tasks: ['front']
       },
-      html: {
-        files: ["src/client/**/*.html", "src/server/*.html"],
-        tasks: ['front']
-      },
-      html: {
-        files: ["src/client/**/*.html", "src/server/*.html"],
-        tasks: ['front']
-      },
       sass: {
         files: 'src/client/sass/{,*/}*.{scss,sass}',
         tasks: ['sass:dist'],
@@ -90,14 +82,12 @@ module.exports = function(grunt) {
         src: [
         'node_modules/angular/angular.js',
         'node_modules/angular-route/angular-route.js',
-        // 'src/client/bower_components/flow/dist/flow.js',
+        'src/client/bower_components/ng-file-upload/ng-file-upload-all.min.js',
+        // 'src/client/bower_components/dropzone/dist/dropzone.min.js',
         'src/client/bower_components/jquery/dist/jquery.js', 
         'src/client/bower_components/bootstrap/dist/js/bootstrap.js', 
-        // 'src/client/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'src/client/bower_components/magnific-popup/dist/jquery.magnific-popup.js',
         'src/client/js/tessellate.js'],
-        // 'src/client/js/main.js',
-        // 'src/client/js/upload.js'],
         dest: 'src/server/public/js/app.min.js'
       },
     },
@@ -129,6 +119,12 @@ module.exports = function(grunt) {
           filter: 'isFile',
           src: ['src/client/bower_components/bootstrap/dist/css/**'],
           dest: 'src/server/public/css/'
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/dropzone/dist/*.css'],
+          dest: 'src/server/public/css/'
         }, { 
           expand: true,
           flatten: true, 
@@ -153,13 +149,19 @@ module.exports = function(grunt) {
           filter: 'isFile',
           src: ['src/client/js/main.js'],
           dest: 'src/server/public/js'
-        }, { 
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/dropzone/dist/min/dropzone.min.js'],
+          dest: 'src/server/public/js'
+        }/*, { 
           expand: true,
           flatten: true, 
           filter: 'isFile',
           src: ['src/client/bower_components/ng-flow/dist/ng-flow-standalone.min.js'],
           dest: 'src/server/public/js'
-        }],
+        }*/],
       },
     },
 
