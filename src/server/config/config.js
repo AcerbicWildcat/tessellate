@@ -1,5 +1,5 @@
 module.exports = {
-  port : process.env.PORT,
+  port : process.env.PORT || 8000,
   cloudinary : {
     cloud_name : process.env.CLOUDINARY_CLOUD_NAME, 
      api_key: process.env.CLOUDINARY_API_KEY,
