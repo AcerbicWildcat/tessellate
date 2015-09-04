@@ -10,15 +10,16 @@ var chunkSize = 10; //ultimately, we want 10.
 
 /**
  * Saves a map provided an event and a given path to the event's image. Invokes a callback at the end; the provided callback should invoke res.send() or res.end().
- * @param  {[type]}
- * @param  {[type]}
+ * @param {String}
+ * @param  {String}
+ * @param  {String}
  * @param  {Function}
  * @return {[type]}
  */
-var saveEventAndMap = function(fileName, eventName, callback){
+var saveEventAndMap = function(username, fileName, eventName, callback){
   var pixels = pixelGetter(fileName);
   var _storage = chunker(pixels);
-  mapMaker(_storage, pixels, eventName, callback);
+  mapEventMaker(username, _storage, pixels, eventName, callback);
 };
 
 
@@ -28,7 +29,6 @@ var saveEventAndMap = function(fileName, eventName, callback){
  * @return {[ndArray]}
  */
 var pixelGetter = function(fileName){
-  //eventually, replace fileName with req.body.fileName.
   getPixels(fileName, function(err, pixels){
     if (err){
       console.log(err);
@@ -47,27 +47,33 @@ var pixelGetter = function(fileName){
  * @param  {Function}
  * @return {[type]}
  */
-var mapEventMaker = function(_storage, pixels, eventName, callback){
-  new Event({
+var mapEventMaker = function(username _storage, pixels, eventName, callback){
     //TODO:
     //find a user using req.body.username
-    //then, create an event, using user._id as the foreign key
-    tag: '#' + eventName,
-    path: fileName
-  }).save(function(err, event){
-    new Map({
-      _parentEvent: event._id,
-      data: _storage,
-      height: pixels.shape[1],
-      width: pixels.shape[0]
-    })
-    .save(function(err, map){
-      console.log(event + "should be the saved event");
-      event.map = map._id;
-      event.save()
-        .then(function(){
-          callback();
-        });
+    //then, create an event, using user._id as the foreign key.
+  User.findOne({username: username}, function(err, user){
+    new Event({
+      _parentUser: user._id,
+      tag: '#' + eventName,
+      path: fileName
+    }).save(function(err, event){
+      user.events.push(event); //is this right?
+      new Map({
+        _parentEvent: event._id,
+        data: _storage,
+        height: pixels.shape[1],
+        width: pixels.shape[0]
+      })
+      .save(function(err, map){
+        console.log(event + "should be the saved event");
+        event.map = map._id;
+        event.save()
+          .then(function(){
+            return user.save()
+          }).then(function(){
+            callback();
+          });
+      });
     });
   });
 };
