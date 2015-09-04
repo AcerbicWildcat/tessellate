@@ -1,18 +1,14 @@
+//Get the environment variables. If on production, fail silently
+require('dotenv').config({silent: true});
+
 var express  = require('express'),
     morgan   = require('morgan'),
     passport = require('passport');
 
-// set the port
-var port = process.env.PORT || 8080;
-
 var app = express();
 
-//set view engine
-// app.set('view engine', 'ejs');
-// app.set('views', __dirname + '/views');
-
-//use correct config file for development, production
-app.config = require(__dirname + '/config/' + (process.env.NODE_ENV || 'development') + '/config');
+//set config from .env file, environment variables for production
+app.config = require(__dirname + '/config/config');
 
 // configure our server with all the middleware and and routing
 require('./config/middleware.js')(app, express);

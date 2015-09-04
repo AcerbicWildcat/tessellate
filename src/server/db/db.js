@@ -1,6 +1,8 @@
+var config = require('../config/config');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/3000');
 var mapMaker = require('mapmaker.js');
+
+mongoose.connect(config.db.host);
 
 //users have many events, events have one master mosaic image, images
 //have one map
