@@ -17,7 +17,7 @@ module.exports = function (app, express) {
   app.use(bodyParser.json());
 
   // set up sessions and initialize passport
-  app.use(session({secret: 'tIndEr4KatzsNdDucks'}));
+  app.use(session({secret: app.config.sessionSecret }));
   app.use(passport.initialize());
   app.use(passport.session());
   // files in /client/public/ will be served as static assets
