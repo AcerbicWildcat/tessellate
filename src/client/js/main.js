@@ -152,4 +152,3 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
        });
      };
    });
-
