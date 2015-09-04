@@ -19,7 +19,7 @@ var {
 var Tessellate = React.createClass({
    getInitialState() {
     return {
-      loggedIn: true
+      loggedIn: false
     }
   },
   renderLoggedIn: function(){
@@ -32,24 +32,20 @@ var Tessellate = React.createClass({
         }}/>
     );
   },
-
+ 
   render: function() {
     //initialize an instance of NavigatorIOS component and set Main as its initial route
-    console.log('Login State: ' + this.state.loggedIn)
-    if (this.state.loggedIn){
       return this.renderLoggedIn();
-    } else {
-      //return log in page
-    }
-    
   }
+
 });
 
 //styles object
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+   
+  },
 });
 
 AppRegistry.registerComponent('Tessellate', () => Tessellate);

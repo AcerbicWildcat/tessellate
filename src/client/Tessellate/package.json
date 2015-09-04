@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "react-native": "^0.10.1",
-    "react-native-camera": "^0.3.3"
+    "react-native-camera": "^0.3.3",
+    "react-native-svg": "^0.2.1"
   }
 }
