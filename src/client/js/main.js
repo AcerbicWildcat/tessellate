@@ -30,27 +30,18 @@ var tess = angular.module("tessell", [
       });
     // may not actually need this interceptor in addition to the resolves above
     // $httpProvider.interceptors.push('ResInterceptor');
-  })
-
-  .config(['flowFactoryProvider', function (flowFactoryProvider) {
-    flowFactoryProvider.defaults = {
-      // target: 'upload.php',
-      permanentErrors: [404, 500, 501],
-      maxChunkRetries: 1,
-      chunkRetryInterval: 5000,
-      simultaneousUploads: 4,
-      singleFile: true
-    };
-    flowFactoryProvider.on('fileAdded', function (event) {
-      console.log('fileAdded', arguments);
-    });
-    // Can be used with different implementations of Flow.js
-    // flowFactoryProvider.factory = fustyFlowFactory;
-}]);
+  });
 
 tess.controller("tessellCtrl", function ($scope, $location){
   $scope.testing = false;
   $scope.eventTag = "";
+
+  $scope.createEvent = function(){
+    Upload.upload({
+      url: '/event',
+      file: $scope.event.file
+    });
+  };
   $scope.go = function (event){
     if($scope.eventTag === "" && event.keyCode === 13){
       $scope.testing = true;
@@ -89,9 +80,14 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
   };
 
   tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
+    // $scope.eventExisits = true;
     $scope.eventTag = "";
     $scope.checkForExistingEvent = function(){
       eventFactory.checkForExistingEvent($scope.eventTag);
+      // eventFactory.setEventTag($scope.eventTag);
+      // $scope.eventTag = "";
+      // $scope.eventExisits = false;
+      // $location.path('/dashboard');
     };
     $scope.dropzoneConfig = {
       'options': {
@@ -103,10 +99,14 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
       'eventHandlers': {
         'sending': function (file, xhr, formData) {
           // console.log(formData, file, xhr);
-          formData.append("eventTag", $scope.eventTag);
+          // formData["eventTag"] = "tacocat";
+          // console.log(formData.append);
         },
         'success': function (file, response) {
           console.log('done with sending photo');
+        },
+        'addedfile': function (e){
+          // console.log('here with ', e);
         }
       }
     };
@@ -114,15 +114,16 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
 
   tess.factory('eventFactory', ["$http", function ($http){
     var eventFactory = {};
+    // eventFactory.setEventTag = function(eventTag){
+    //   eventFactory.eventTag = eventTag;
+    // }
     eventFactory.checkForExistingEvent = function(eventTag){
-      $http.post('/event/join', {eventCode: eventTag})
-        .then(function(response){
-          console.log(response);
-        })
       console.log('handling the event checking for', eventTag);
+      // eventFactory.eventTag = eventTag;
     };
     return eventFactory;
   }]);
+
 
 
   /**
@@ -138,18 +139,19 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
    */
 
    tess.directive('dropzone', function () {
-     return function (scope, element, attrs) {
-       var config, dropzone;
+    return function (scope, element, attrs) {
+      var config, dropzone;
 
-       config = scope[attrs.dropzone];
+      config = scope[attrs.dropzone];
 
-       // create a Dropzone for the element with the given options
-       dropzone = new Dropzone(element[0], config.options);
+      // create a Dropzone for the element with the given options
+      dropzone = new Dropzone(element[0], config.options);
 
-       // bind the given event handlers
-       angular.forEach(config.eventHandlers, function (handler, event) {
-         dropzone.on(event, handler);
-       });
-     };
+      // bind the given event handlers
+      angular.forEach(config.eventHandlers, function (handler, event) {
+        dropzone.on(event, handler);
+      });
+   return '';
+    };
    });
 
