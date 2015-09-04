@@ -43,16 +43,29 @@ class LoginView extends Component {
     }
   }
 
-  login() {
-      //GET Request
-      
-      this.setState({loggedIn:true})
+  isAuthorized(loginState){
+    console.log('LOGIN STATE:  ' + loginState)
+    if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
         component:Main,
-        passProps:{}
+        passProps:{currentUser:'Jonathan Schapiro',
+
+        }
       })
-      this.props.refs.setState({navBarHidden:true})
+      this.props.refs.setState({navBarHidden:true}) 
+    }
+  }
+
+  login() {
+      //GET Request
+      var self = this;
+
+      //SETTING THE STATE IS ASYNC!!!!! - write a damn blog post!
+      this.setState({loggedIn:true},function(){
+        self.isAuthorized(this.state.loggedIn);
+      })
+      
   }
 
   render() {
