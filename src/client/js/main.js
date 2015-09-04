@@ -30,7 +30,54 @@ var tess = angular.module("tessell", [
       });
     // may not actually need this interceptor in addition to the resolves above
     // $httpProvider.interceptors.push('ResInterceptor');
-  })
+  });
+
+tess.controller("tessellCtrl", function ($scope, $location){
+  $scope.testing = false;
+  $scope.eventTag = "";
+
+  $scope.createEvent = function(){
+    Upload.upload({
+      url: '/event',
+      file: $scope.event.file
+    });
+  };
+  $scope.go = function (event){
+    if($scope.eventTag === "" && event.keyCode === 13){
+      $scope.testing = true;
+    }
+    else if(event.keyCode === 13){
+      // console.log($scope.eventTag);
+      $scope.eventTag = "";
+      $scope.testing = false;
+    }
+    // $location.path( path );
+  };
+});
+
+tess.controller('DatepickerDemoCtrl', function ($scope) {
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+  $scope.today();
+
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+
+  // Disable weekend selection
+  $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $scope.status.opened = true;
+  };
 
   .config(['flowFactoryProvider', function (flowFactoryProvider) {
     flowFactoryProvider.defaults = {
