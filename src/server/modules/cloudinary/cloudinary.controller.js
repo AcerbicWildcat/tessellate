@@ -14,7 +14,7 @@ module.exports = {
   },
 
   postImages : function (req, res, next) {
-    cloudinary.uploader.upload(req.files.path, function(result) { 
+    cloudinary.uploader.upload(req.file.path, function(result) { 
       next(result); 
     });
 
