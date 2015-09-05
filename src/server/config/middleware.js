@@ -11,6 +11,9 @@ module.exports = function (app, express) {
   var imageRouter = express.Router();
   var eventRouter  = express.Router();
 
+  // files in /client/public/ will be served as static assets
+  app.use(express.static(__dirname + '/../public/'));
+
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
 
@@ -23,13 +26,11 @@ module.exports = function (app, express) {
   app.use(session({secret: app.config.sessionSecret }));
   app.use(passport.initialize());
   app.use(passport.session());
-  // files in /client/public/ will be served as static assets
-  app.use(express.static(__dirname + '/../public/'));
 
   //landing page served from public
   app.get('/', function(req,res){
     helpers.sendResponse(res);
-    res.render('../public/index.html');
+    res.render('index');
   });
 
   //route paths
