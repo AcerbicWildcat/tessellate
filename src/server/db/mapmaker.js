@@ -16,10 +16,10 @@ var chunkSize = 10; //ultimately, we want 10.
  * @param  {Function}
  * @return {[type]}
  */
-var saveEventAndMap = function(username, fileName, eventCode, callback){
-  var pixels = pixelGetter(fileName); //change argument to (path where images will live) + fileName
+var saveEventAndMap = function(username, filePath, eventCode, callback){
+  var pixels = pixelGetter(filePath); //change argument to (path where images will live) + filePath
   var _storage = chunker(pixels);
-  mapEventMaker(username, _storage, pixels, eventCode, callback);
+  mapEventMaker(username, filePath, _storage, pixels, eventCode, callback);
 };
 
 
@@ -28,8 +28,8 @@ var saveEventAndMap = function(username, fileName, eventCode, callback){
  * @param  {[String]}
  * @return {[ndArray]}
  */
-var pixelGetter = function(fileName){
-  getPixels(fileName, function(err, pixels){
+var pixelGetter = function(filePath){
+  getPixels(filePath, function(err, pixels){
     if (err){
       console.log(err);
       return;
@@ -47,7 +47,7 @@ var pixelGetter = function(fileName){
  * @param  {Function}
  * @return {[type]}
  */
-var mapEventMaker = function(username, _storage, pixels, eventCode, callback){
+var mapEventMaker = function(username, filePath, _storage, pixels, eventCode, callback){
     //TODO:
     //find a user using req.body.username
     //then, create an event, using user._id as the foreign key.
@@ -55,7 +55,7 @@ var mapEventMaker = function(username, _storage, pixels, eventCode, callback){
     new Event({
       _parentUser: user._id,
       eventCode: eventCode,
-      path: fileName
+      path: filePath
     }).save(function(err, event){
       user.events.push(event); //is this right?
       new Map({
