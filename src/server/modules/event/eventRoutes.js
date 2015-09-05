@@ -9,11 +9,9 @@ var storage = multer.diskStorage({
 
 
 var upload = multer({storage: storage});
-
 module.exports = function (app) {
 
   // Decisions user can make from event page
   app.post('/join', eventController.findEvent);
   app.post('/create', upload.single("file"), eventController.createEvent);
-
 };
