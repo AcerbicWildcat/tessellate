@@ -51,13 +51,6 @@ var tess = angular.module("tessell", [
 tess.controller("tessellCtrl", function ($scope, $location){
   $scope.testing = false;
   $scope.eventTag = "";
-
-  $scope.createEvent = function(){
-    Upload.upload({
-      url: '/event',
-      file: $scope.event.file
-    });
-  };
   $scope.go = function (event){
     if($scope.eventTag === "" && event.keyCode === 13){
       $scope.testing = true;
