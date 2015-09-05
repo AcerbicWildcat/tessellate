@@ -53,38 +53,61 @@ class Main extends Component {
 
   showEventDetails(){
     //fetch event data
-    
-
+    var validEvent = false;
+    var postObject = {
+      method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Origin': '',
+          'Host': '127.0.0.1:8000/'
+        },
+        body: JSON.stringify({
+          'event':this.state.eventCode
+        })
+    };
+    console.log('trying to POST')
+    fetch('/event/join',postObject)  
+      .then(function(res) {
+        return res.json();
+       })
+      .then(function(resJson) {
+        validEvent = true;
+        // if event exists - pass event code on to next page
+        if (this.state.eventCode && validEvent){
+          var self = this;
+          this.props.navigator.push({
+                    title: this.state.eventCode, //refactor to contain event title
+                    component: TabView,
+                    passProps: {eventCode: this.state.eventCode,
+                    mainNavigator: self.props.navigator} //refactor to contain eventcode
+                    
+           }); 
+         
+        }
+         else {
+          //An Event Code DNE so prompt the user to create an event or try again
+          AlertIOS.alert(
+            'This Event Does Not Exist!',
+            'Create One?',
+            [
+              {text: 'Yes', onPress: () => this.props.navigator.push({
+                    title: 'New Event View',
+                    component: NewEventView,     
+              })       
+           },
+              {text: 'Try Again', onPress: () => console.log('No Pressed!')}
+            ]
+          );
+        }
+        return resJson;
+      })
+      .catch((error) => {
+        console.warn(error);
+        console.log(error)
+        console.dir(error)
+      });
     //persist eventcode to use in subsequent api calls
-    
-
-    // if event exists - pass event code on to next page
-    if (this.state.eventCode){
-      var self = this;
-      this.props.navigator.push({
-                title: 'Event Title', //refactor to contain event title
-                component: TabView,
-                passProps: {eventCode: this.state.eventCode,
-                mainNavigator: self.props.navigator} //refactor to contain eventcode
-                
-       }); 
-     
-    }
-     else {
-      //An Event Code DNE so prompt the user to create an event or try again
-      AlertIOS.alert(
-        'This Event Does Not Exist!',
-        'Create One?',
-        [
-          {text: 'Yes', onPress: () => this.props.navigator.push({
-                title: 'New Event View',
-                component: NewEventView,     
-          })       
-       },
-          {text: 'Try Again', onPress: () => console.log('No Pressed!')}
-        ]
-      );
-    }
   
   }
 }

@@ -50,7 +50,7 @@ class TabView extends Component {
                     selectedTab: 'camera'
                 });
             }}>
-        <Camera mainNavigator={this.state.mainNavigator} selectedTab={this.setSelectedTabCallBack.bind(this)}/>      
+        <Camera mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack.bind(this)}/>      
         </TabBarIOS.Item>
         <TabBarIOS.Item
             
@@ -61,7 +61,7 @@ class TabView extends Component {
                     selectedTab: 'mosaic'
                 });
           }}>
-          <Mosaic/>
+          <Mosaic eventCode={this.state.eventCode}/>
         </TabBarIOS.Item>
       </TabBarIOS>
       
