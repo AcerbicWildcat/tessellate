@@ -31,9 +31,29 @@ var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
 var Map = mongoose.model("Map", mapSchema);
 
+mongoose.connection.on("open", function(){
 new User({
   username: "mack"
-}).save();
+}).save(function(err, mack){
+
+    new User({
+      username: "jon"
+    }).save(function(err, user){
+      console.log(user);
+      new Event({
+        _parentUser: user._id,
+        username: user.username,
+        eventCode: "partytime",
+        path: "http://res.cloudinary.com/tesselate/image/upload/v1441481287/dgqwfqdeckpdyoantea6.jpg",
+      }).save(function(err, event){
+        console.log("event saved!!!");
+        console.log(event);
+        user.events.push(event);
+        user.save();
+      });
+    });
+  });
+});
 
 console.log(User + " should be a user model");
 
