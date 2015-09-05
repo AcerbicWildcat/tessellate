@@ -48,7 +48,8 @@ module.exports = function (app, passport) {
     if (req.isAuthenticated()){
       return next();
     } else {
-      res.redirect('/');
+      res.send(401);
+      // res.redirect('/');
     }
   };
 };

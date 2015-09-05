@@ -5,7 +5,7 @@
 var tess = angular.module("tessell", [
   "ngRoute"
 ])
-  .config(function($routeProvider){
+  .config(function($routeProvider, $httpProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../main.html',
@@ -19,7 +19,63 @@ var tess = angular.module("tessell", [
         templateUrl: '../mosaic.html', 
         controller: 'tessellCtrl'
       });
-  });
+  })
+
+  .config(['flowFactoryProvider', function (flowFactoryProvider) {
+    flowFactoryProvider.defaults = {
+      // target: 'upload.php',
+      permanentErrors: [404, 500, 501],
+      maxChunkRetries: 1,
+      chunkRetryInterval: 5000,
+      simultaneousUploads: 4,
+      singleFile: true
+    };
+    flowFactoryProvider.on('fileAdded', function (event) {
+      console.log('fileAdded', arguments);
+    });
+    // Can be used with different implementations of Flow.js
+    // flowFactoryProvider.factory = fustyFlowFactory;
+}]);
+
+tess.controller("tessellCtrl", function ($scope, $location){
+  $scope.testing = false;
+  $scope.eventTag = "";
+  $scope.go = function (event){
+    if($scope.eventTag === "" && event.keyCode === 13){
+      $scope.testing = true;
+    }
+    else if(event.keyCode === 13){
+      // console.log($scope.eventTag);
+      $scope.eventTag = "";
+      $scope.testing = false;
+    }
+    // $location.path( path );
+  };
+});
+
+tess.controller('DatepickerDemoCtrl', function ($scope) {
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+  $scope.today();
+
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+
+  // Disable weekend selection
+  $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $scope.status.opened = true;
+  };
 
   tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
     $scope.eventTag = "";

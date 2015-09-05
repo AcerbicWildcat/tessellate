@@ -39,6 +39,10 @@ module.exports = {
           });
         });
       }
+<<<<<<< HEAD
     });
+=======
+    })
+>>>>>>> Continuing db integration and auth
   }
 };
