@@ -20,11 +20,7 @@ module.exports = {
   },
 
   createEvent: function (req, res){
-    // console.log(req);
-    console.log(req.file);
-    console.log(req.file.path);
-    var eventCode = req.body.eventCode;
-    console.log(eventCode + " is our event code");
+  var eventCode = req.body.eventCode;
     dB.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         console.log(err);
