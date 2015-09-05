@@ -1,5 +1,7 @@
 var morgan            = require('morgan'),
     bodyParser        = require('body-parser'),
+    // multer            = require('multer'),
+    // upload            = multer(),
     cookieParser      = require('cookie-parser'),
     session           = require('express-session'),
     helpers           = require('./helpers'),
@@ -30,6 +32,10 @@ module.exports = function (app, express) {
   //route paths
   app.use('/event', eventRouter);
   app.use('/event/:eventId/images', imageRouter);
+  // app.post('/event/create', upload.single("file"), function(req, res){
+  //   console.log(req.file);
+  //   console.log(req.body);
+  // });
 
   //use error handling methods from helpers
   app.use(helpers.errorLogger);

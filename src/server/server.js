@@ -4,10 +4,13 @@ require('dotenv').config({silent: true});
 var express  = require('express'),
     morgan   = require('morgan'),
     mongoose = require('mongoose'),
-    passport = require('passport');
+    bodyParser = require('body-parser'),
+    passport = require('passport'),
+    db = require('./db/db.js');
 
 var app = express();
-
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 //set config from .env file, environment variables for production
 app.config = require(__dirname + '/config/config');
 

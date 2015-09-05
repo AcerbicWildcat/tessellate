@@ -1,4 +1,25 @@
-<header id="top" class="header">
+<!-- <header id="top" class="header"> -->
+
+
+  <div class="text-vertical-center">
+      <h1>Tessellate</h1>
+      <h3>Real Time Photo Mosaic Creation</h3>
+      <br>
+      <form>
+        <div>
+          <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="eventTag"/>
+          <input type="submit" value="Join Event" class="btn btn-lg" ng-click="checkForExistingEvent()">
+        </div>
+      </form>
+      <div>
+        <button dropzone="dropzoneConfig">
+          Drag and drop files here or click to upload   
+        </button>
+      </div>
+  </div>
+
+
+<!-- </header> -->
 <!--     <p>
       This is the most minimal example of Dropzone. The upload in this example
       doesn't work, because there is no actual server to handle the file upload.
@@ -6,18 +27,18 @@
 
      <form action="/upload-target" class="dropzone"></form> -->
 
-    </div>
-  <div ng-controller="tessellCtrl" class="text-vertical-center">
+    <!-- </div> -->
+<!--   <div ng-controller="tessellCtrl" class="text-vertical-center">
     <form>
     <div>
       <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="event.eventCode"/>
     </div>
     <br>
     <div>
-      <input type="date" class=" btn btn-lg" datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+      <input type="date" class=" btn btn-lg" datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" /> -->
         <!-- <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button> -->
 <!-- uploading image part containted here -->
-    </div>
+<!--     </div>
     <br>
     <div>
       <input class="btn btn-lg" type="file" ng-model="event.file">
@@ -26,6 +47,4 @@
       <input type="submit" value="PARTY" class="btn btn-lg" ng-click="createEvent()">
     </div>
   </form>
-  </div>
-
-</header>
+  </div> -->
