@@ -18,8 +18,8 @@ module.exports = function (app, express) {
 
   // set up sessions and initialize passport
   app.use(session({secret: 'tIndEr4KatzsNdDucks'}));
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.initialize());
+  // app.use(passport.session());
   // files in /client/public/ will be served as static assets
   app.use(express.static(__dirname + '/../public/'));
 
@@ -30,7 +30,7 @@ module.exports = function (app, express) {
   });
 
   //route paths
-  app.use('/event', eventRouter);
+  app.use('/event/:eventId', eventRouter);
   app.use('/event/:eventId/images', imageRouter);
 
   //use error handling methods from helpers
@@ -40,6 +40,6 @@ module.exports = function (app, express) {
   //attach routes to routers
   require('../modules/cloudinary/cloudinary.routes')(imageRouter);
   require('../modules/event/eventRoutes')(eventRouter);
-  require('../modules/auth/auth-routes')(app, passport);
+  // require('../modules/auth/auth-routes')(app, passport);
 
 };
