@@ -21,7 +21,7 @@ var Tessellate = React.createClass({
    getInitialState() {
     return {
       loggedIn: false,
-      navBarHidden:false,
+      navBarHidden:true,
     }
   },
   renderLoggedIn: function(){
