@@ -9,9 +9,6 @@ var storage = multer.diskStorage({
 
 
 var upload = multer({storage: storage});
-/*var multer = require('multer');
-
-var upload = multer();*/
 module.exports = function (app) {
 
   // Decisions user can make from event page

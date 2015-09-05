@@ -20,7 +20,7 @@ module.exports = {
   },
 
   createEvent: function (req, res){
-  var eventCode = req.body.eventCode;
+    var eventCode = req.body.eventCode;
     dB.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         console.log(err);

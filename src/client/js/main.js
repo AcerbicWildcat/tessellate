@@ -32,85 +32,7 @@ var tess = angular.module("tessell", [
     // $httpProvider.interceptors.push('ResInterceptor');
   });
 
-<<<<<<< HEAD
 tess.controller("tessellCtrl", function ($scope, $location){
-=======
-  tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
-    // $scope.eventExisits = true;
-    $scope.eventTag = "";
-    $scope.checkForExistingEvent = function(){
-      eventFactory.checkForExistingEvent($scope.eventTag);
-      // eventFactory.setEventTag($scope.eventTag);
-      // $scope.eventTag = "";
-      // $scope.eventExisits = false;
-      // $location.path('/dashboard');
-    };
-    $scope.dropzoneConfig = {
-      'options': {
-        'url': '/event/create', 
-        'method': 'POST',
-        'maxFiles': 1,
-        'clickable': true
-      },
-      'eventHandlers': {
-        'sending': function (file, xhr, formData) {
-          // console.log(formData, file, xhr);
-          // formData["eventTag"] = "tacocat";
-          // console.log(formData.append);
-        },
-        'success': function (file, response) {
-          console.log('done with sending photo');
-        },
-        'addedfile': function (e){
-          // console.log('here with ', e);
-        }
-      }
-    };
-  }]);
-
-  tess.factory('eventFactory', ["$http", function ($http){
-    var eventFactory = {};
-    // eventFactory.setEventTag = function(eventTag){
-    //   eventFactory.eventTag = eventTag;
-    // }
-    eventFactory.checkForExistingEvent = function(eventTag){
-      console.log('handling the event checking for', eventTag);
-      // eventFactory.eventTag = eventTag;
-    };
-    return eventFactory;
-  }]);
-
-
-  /**
-   * An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
-   * 
-   * Usage:
-   * 
-   * <div ng-app="app" ng-controller="SomeCtrl">
-   *   <button dropzone="dropzoneConfig">
-   *     Drag and drop files here or click to upload
-   *   </button>
-   * </div>
-   */
-
-   tess.directive('dropzone', function () {
-     return function (scope, element, attrs) {
-       var config, dropzone;
-
-       config = scope[attrs.dropzone];
-
-       // create a Dropzone for the element with the given options
-       dropzone = new Dropzone(element[0], config.options);
-
-       // bind the given event handlers
-       angular.forEach(config.eventHandlers, function (handler, event) {
-         dropzone.on(event, handler);
-       });
-     };
-   });
-
-/*tess.controller("tessellCtrl", function ($scope, $location, Upload){
->>>>>>> file uploading template
   $scope.testing = false;
   $scope.eventTag = "";
 
@@ -233,9 +155,3 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
     };
    });
 
-<<<<<<< HEAD
-=======
-    return '';
-  };
-});*/
->>>>>>> file uploading template
