@@ -36,12 +36,8 @@ module.exports = {
           console.log(result.url + " is the result we got back!");
           mapmaker.saveEventAndMap("mack", result.url, eventCode, function(){
             console.log("everything's done");
-          })
-          // var saveEventAndMap = function(username, fileName, eventCode, callback
+          });
         });
-        // postImages to cloudinary
-        // with url we get back --> call
-        // mack's function
       }
     });
   }

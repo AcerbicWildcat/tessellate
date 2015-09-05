@@ -4,7 +4,9 @@ var db = require('./db.js');
 var User = db.User,
     Event = db.Event,
     Map = db.Map;
-
+//TODO: fix these refs.
+//
+console.log(db.User + " should be a user constructor");
 
 var chunkSize = 10; //ultimately, we want 10.
 
@@ -17,9 +19,16 @@ var chunkSize = 10; //ultimately, we want 10.
  * @return {[type]}
  */
 var saveEventAndMap = function(username, filePath, eventCode, callback){
-  var pixels = pixelGetter(filePath); //change argument to (path where images will live) + filePath
-  var _storage = chunker(pixels);
-  mapEventMaker(username, filePath, _storage, pixels, eventCode, callback);
+  // var pixels = pixelGetter(filePath); //change argument to (path where images will live) + filePath
+  getPixels(filePath, function(err, pixels){
+    if (err){
+      console.log(err);
+      return;
+    };
+    console.log(pixels + "are our pixels");
+    var _storage = chunker(pixels);
+    mapEventMaker(username, filePath, _storage, pixels, eventCode, callback);
+  });
 };
 
 
@@ -28,16 +37,16 @@ var saveEventAndMap = function(username, filePath, eventCode, callback){
  * @param  {[String]}
  * @return {[ndArray]}
  */
-var pixelGetter = function(filePath){
-  getPixels(filePath, function(err, pixels){
-    if (err){
-      console.log(err);
-      return;
-    };
-    return pixels;
+// var pixelGetter = function(filePath){
+//   getPixels(filePath, function(err, pixels){
+//     if (err){
+//       console.log(err);
+//       return;
+//     };
+//     return pixels;
     
-  });
-};
+//   });
+// };
 
 /**
  * Saves a map; associates a map with a given event and an event with the saved map.

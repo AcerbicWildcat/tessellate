@@ -5,7 +5,8 @@ var express  = require('express'),
     morgan   = require('morgan'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    passport = require('passport');
+    passport = require('passport'),
+    db = require('./db/db.js');
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
