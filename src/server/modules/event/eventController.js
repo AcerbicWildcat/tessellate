@@ -20,25 +20,24 @@ module.exports = {
   },
 
   createEvent: function (req, res){
-    console.log(req);
-    console.log(req.files);
-/*    for (var key in req){
-      console.log(key);
-    }*/
-  /*  var eventCode = req.body.eventCode;
-    dB.Event.findOne({eventCode: eventCode}, function(err, event){
-      if (err){
-        console.log(err);
-      }
-      if (event){
-        sendResp(res, {event: false});
-      } else {
-        cloudinary.postImages(req, res);
-        // postImages to cloudinary
-        // with url we get back --> call
-        // mack's function
-      }
-    })
-*/
+    // console.log(req);
+    console.log(req.file);
+    console.log(req.file.path);
+    var eventCode = req.body.eventTag;
+    console.log(eventCode + " is our event code");
+    // dB.Event.findOne({eventCode: eventCode}, function(err, event){
+    //   if (err){
+    //     console.log(err);
+    //   }
+    //   if (event){
+    //     sendResp(res, {event: false});
+    //   } else {
+    //     cloudinary.postImages(req, res);
+    //     // postImages to cloudinary
+    //     // with url we get back --> call
+    //     // mack's function
+    //   }
+    // });
+
   }
 };
