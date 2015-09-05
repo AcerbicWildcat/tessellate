@@ -193,7 +193,7 @@ module.exports = function(grunt) {
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
-  grunt.registerTask("build", ['bower:install', 'sass', 'concat', 'copy']);
+  grunt.registerTask("build", ['bower:install', 'concat', 'copy']);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
   grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'copy', 'watch']);
 
