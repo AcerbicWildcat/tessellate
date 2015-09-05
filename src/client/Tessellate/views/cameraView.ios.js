@@ -14,11 +14,13 @@ var ReviewPhoto = require('./reviewPhotoView.ios')
 var CameraView = React.createClass({
   getInitialState() {
     return {
-      cameraType: Camera.constants.Type.back
+      cameraType: Camera.constants.Type.back,
+      eventCode: this.props.eventCode
     }
   },
 
   render() {
+    
     return (
       <Camera
         ref="cam"
@@ -64,6 +66,7 @@ var CameraView = React.createClass({
           component:ReviewPhoto,
           passProps: {photo:photoURL,
           mainNavigator: self.props.mainNavigator,
+          eventCode: self.state.eventCode,
           selectedTab:self.props.selectedTab }
         })
       }
