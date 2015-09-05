@@ -11,6 +11,9 @@ module.exports = function (app, express) {
   var imageRouter = express.Router();
   var eventRouter  = express.Router();
 
+  app.engine('html', require('ejs').renderFile);
+  app.set('view engine', 'html');
+
   app.use(morgan('dev'));
   app.use(cookieParser()); // read cookies (for future auth)
   app.use(bodyParser.urlencoded({extended: true}));
