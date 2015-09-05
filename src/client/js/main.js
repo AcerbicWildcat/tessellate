@@ -3,9 +3,12 @@
  * @type {angular module}
  */
 var tess = angular.module("tessell", [
-  "ngRoute"
+  "ngRoute",
+  "flow",
+  'authServices'
 ])
-  .config(function($routeProvider, $httpProvider){
+  // uncomment code below to add auth checks on protected resources
+  .config(function ($routeProvider, $httpProvider, ResInterceptor, AuthCheck){
     $routeProvider
       .when('/', {
         templateUrl: '../main.html',
@@ -13,12 +16,20 @@ var tess = angular.module("tessell", [
       })
       .when('/create', {
         templateUrl: '../create.html',
-        controller: 'tessellCtrl'
+        controller: 'tessellCtrl',
+        // resolve: {
+        //   loggedin: 'AuthCheck.checkLoggedIn'
+        // }
       })
       .when('/mosaic', {
         templateUrl: '../mosaic.html', 
-        controller: 'tessellCtrl'
+        controller: 'tessellCtrl',
+        // resolve: {
+        //   loggedin: 'AuthCheck.checkLoggedIn'
+        // }
       });
+    // may not actually need this interceptor in addition to the resolves above
+    // $httpProvider.interceptors.push('ResInterceptor');
   })
 
   .config(['flowFactoryProvider', function (flowFactoryProvider) {
