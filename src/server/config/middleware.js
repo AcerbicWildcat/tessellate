@@ -30,7 +30,7 @@ module.exports = function (app, express) {
   app.use(passport.session());
 
   //route paths
-  app.use('/event', eventRouter);
+  app.use('/event/:eventId', eventRouter);
   app.use('/event/:eventId/images', imageRouter);
   // app.post('/event/create', upload.single("file"), function(req, res){
   //   console.log(req.file);
@@ -44,6 +44,6 @@ module.exports = function (app, express) {
   //attach routes to routers
   require('../modules/cloudinary/cloudinary.routes')(imageRouter);
   require('../modules/event/eventRoutes')(eventRouter);
-  require('../modules/auth/auth-routes')(app, passport);
+  // require('../modules/auth/auth-routes')(app, passport);
 
 };
