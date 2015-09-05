@@ -9,12 +9,17 @@
         <div>
           <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="eventTag"/>
           <input type="submit" value="Join Event" class="btn btn-lg" ng-click="checkForExistingEvent()">
+          <!-- <input dropzone="dropzoneConfig"> -->
         </div>
+        <div class="btn btn-lg" dropzone="dropzoneConfig">CLICK HERE</div>
       </form>
-      <div>
-        <button dropzone="dropzoneConfig">
+      <!--   <button dropzone="dropzoneConfig">
           Drag and drop files here or click to upload   
-        </button>
+        </button> -->
+  <!--     <form enctype="multipart/form-data" ng-dropzone dropzone="dropzoneConfig">
+        <input name="file" type="file" multiple />
+      </form> -->
+      <div>
       </div>
   </div>
 
