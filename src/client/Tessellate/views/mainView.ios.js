@@ -13,6 +13,7 @@ var {
   Component,
   TextInput,
   AlertIOS,
+  Image,
   
 } = React;
  
@@ -32,14 +33,13 @@ class Main extends Component {
     return (
      <View style={styles.container}>
 
-         <Text style={styles.description}>
-             Tessalate
-         </Text>
+       
+         <Image resizeMode='contain' style={styles.header} source={require('image!tHeaderDark')}/>
 
          <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
 
              <Text style={styles.subHeader}>
-                 Create or Join Event
+                 Enter an Event Code to Join Your Event
              </Text>
 
 
@@ -111,7 +111,7 @@ var styles = StyleSheet.create({
     margin:20
   },
   subHeader: {
-    fontSize:12,
+    fontSize:14,
     color: '#FFFFFF',
 
   },
@@ -128,6 +128,10 @@ var styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center'
     },
+    header: {
+      width:350,
+      height:60,
+    }
   
 });
 
