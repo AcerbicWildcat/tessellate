@@ -2,6 +2,7 @@
   "name": "tessellate",
   "version": "0.0.0",
   "homepage": "https://github.com/macklevine/tessellate",
+  "directory": "src/client/bower_components",
   "authors": [
     "macklevine <mackplevine@gmail.com>"
   ],

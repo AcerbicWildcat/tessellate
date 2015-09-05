@@ -7,6 +7,7 @@
     "test": "mocha specs/**/*Spec.js",
     "start": "node src/server/server.js"
   },
+  "postinstall": "bower install && grunt build",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AcerbicWildcat/tessellate.git"
@@ -46,6 +47,7 @@
     "expect": "^1.9.0",
     "expect.js": "^0.3.1",
     "grunt": "^0.4.5",
+    "grunt-bower-task": "^0.4.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "^0.8.1",
     "grunt-contrib-jasmine": "^0.9.1",
