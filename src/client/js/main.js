@@ -103,34 +103,18 @@ tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function
    */
 
    tess.directive('dropzone', function () {
-     return function (scope, element, attrs) {
-       var config, dropzone;
+    return function (scope, element, attrs) {
+      var config, dropzone;
 
-       config = scope[attrs.dropzone];
+      config = scope[attrs.dropzone];
 
-       // create a Dropzone for the element with the given options
-       dropzone = new Dropzone(element[0], config.options);
+      // create a Dropzone for the element with the given options
+      dropzone = new Dropzone(element[0], config.options);
 
-       // bind the given event handlers
-       angular.forEach(config.eventHandlers, function (handler, event) {
-         dropzone.on(event, handler);
-       });
-     };
+      // bind the given event handlers
+      angular.forEach(config.eventHandlers, function (handler, event) {
+        dropzone.on(event, handler);
+      });
+   return '';
+    };
    });
-
-tess.directive('dropzone', function () {
- return function (scope, element, attrs) {
-   var config, dropzone;
-
-   config = scope[attrs.dropzone];
-
-   // create a Dropzone for the element with the given options
-   dropzone = new Dropzone(element[0], config.options);
-
-   // bind the given event handlers
-   angular.forEach(config.eventHandlers, function (handler, event) {
-     dropzone.on(event, handler);
-   });
-return '';
- };
-});
