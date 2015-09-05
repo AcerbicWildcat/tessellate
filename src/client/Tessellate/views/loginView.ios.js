@@ -10,6 +10,7 @@ var {
   Text,
   Component,
   TextInput,
+  Image,
   
 } = React;
 
@@ -18,17 +19,27 @@ var styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'black',
+		backgroundColor: 'transparent',
 	},
 	description: {
-    fontSize: 30,
-    textAlign: 'left',
-    color: '#FFFFFF'
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#D9926A'
   },
   loginButton: {
-    width:150,
-    height:50,
-    backgroundColor:'grey'
+    //container for touchable highlight
+  },
+  fbLogo: {
+    width:300,
+    height:55,
+    borderRadius:25,
+    
+  },
+  logo: {
+    width:400,
+    height:400,
+    
+    
   }
 
 });
@@ -44,7 +55,7 @@ class LoginView extends Component {
   }
 
   isAuthorized(loginState){
-    console.log('LOGIN STATE:  ' + loginState)
+    
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
@@ -73,10 +84,9 @@ class LoginView extends Component {
     return (
 
       <View style={styles.container}>
+        <Image resizeMode='contain' source={require('image!mainLogo')} style={styles.logo}/>
         <TouchableHighlight style={styles.loginButton} onPress={this.login.bind(this)}>
-          <Text style={styles.description}>
-            Login View
-          </Text>
+          <Image source={require('image!fb_login')} style={styles.fbLogo}/>
         </TouchableHighlight>
       </View>
       

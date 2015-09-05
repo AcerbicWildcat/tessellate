@@ -20,7 +20,11 @@ module.exports = {
   },
 
   createEvent: function (req, res){
+    // console.log(req);
+    console.log(req.file);
+    console.log(req.file.path);
     var eventCode = req.body.eventCode;
+    console.log(eventCode + " is our event code");
     dB.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         console.log(err);
@@ -28,12 +32,13 @@ module.exports = {
       if (event){
         sendResp(res, {event: false});
       } else {
-        cloudinary.postImages(req, res);
-        // postImages to cloudinary
-        // with url we get back --> call
-        // mack's function
+        cloudinary.postImages(req, res, function(result){
+          console.log(result.url + " is the result we got back!");
+          mapmaker.saveEventAndMap("mack", result.url, eventCode, function(){
+            console.log("everything's done");
+          });
+        });
       }
-    })
-
+    });
   }
 };

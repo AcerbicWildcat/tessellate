@@ -5,6 +5,7 @@ var {
   Text,
   View,
   TouchableHighlight,
+  Image,
 
 } = React;
 var Camera = require('react-native-camera');
@@ -26,7 +27,7 @@ var CameraView = React.createClass({
       >
         <TouchableHighlight style={styles.button}
         onPress={this._takePicture}>
-          <Text style={styles.buttonText}>Take Picture</Text>
+          <Image resizeMode='contain' style={styles.takePic} source={require('image!takePictureIcon')}/>
         </TouchableHighlight>
 
       </Camera>
@@ -51,7 +52,12 @@ var CameraView = React.createClass({
   _takePicture() {
     var self = this;
     this.refs.cam.capture(function(err, data) {
-      var photoURL = data.toString();
+      if (data){
+        var photoURL = data.toString();
+      } else {
+        //alert- something went wrong,please retake that picture
+      }
+      
       if (photoURL){
         self.props.mainNavigator.push({
           title: 'SOS',
@@ -81,11 +87,11 @@ var styles = StyleSheet.create({
   },
   button: {
         position:'absolute',
-        bottom:50,
-        left:100,
+        bottom:120,
+        left:150,
         height: 36,
         width:160,
-        backgroundColor: 'grey',
+        backgroundColor: 'transparent',
         borderRadius: 8,
 
     },
@@ -94,6 +100,10 @@ var styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center'
     },
+    takePic: {
+      width:100,
+      height:100,
+    }
 
 });
 

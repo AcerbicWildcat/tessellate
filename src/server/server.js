@@ -1,21 +1,18 @@
+//Get the environment variables. If on production, fail silently
+require('dotenv').config({silent: true});
+
 var express  = require('express'),
     morgan   = require('morgan'),
     mongoose = require('mongoose'),
-    passport = require('passport');
-
-// set the port
-var port = process.env.PORT || 8000;
+    bodyParser = require('body-parser'),
+    passport = require('passport'),
+    db = require('./db/db.js');
 
 var app = express();
-
-// connect to our database
-// mongoose.connect('mongodb://localhost/tessellate');
-// mongoose.connection.once('connected', function() {
-//   console.log('Connected to database!');
-// });
-
-//use correct config file for development, production
-app.config = require(__dirname + '/config/' + (process.env.NODE_ENV || 'development') + '/config');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+//set config from .env file, environment variables for production
+app.config = require(__dirname + '/config/config');
 
 // configure our server with all the middleware and and routing
 require('./config/middleware.js')(app, express);

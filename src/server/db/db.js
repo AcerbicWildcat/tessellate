@@ -1,6 +1,8 @@
+var config = require('../config/config');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/3000');
-var mapMaker = require('./mapmaker.js');
+// var mapMaker = require('./mapmaker.js');
+
+mongoose.connect(config.db.host);
 
 //users have many events, events have one master mosaic image, images
 //have one map
@@ -25,10 +27,15 @@ var mapSchema = mongoose.Schema({
   width: Number
 });
 
-
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
 var Map = mongoose.model("Map", mapSchema);
+
+new User({
+  username: "mack"
+}).save();
+
+console.log(User + " should be a user model");
 
 exports.User = User;
 exports.Event = Event;

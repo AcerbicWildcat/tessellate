@@ -1,5 +1,16 @@
 module.exports = function(grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    /**
+     * Run 'grunt bower:install'
+     */
+    bower: {
+      install: {
+        options: {
+          targetDir: './src/client/bower_components'
+        }
+      }
+    },
     /**
      * watch javascript files in src/ and specs/ for changes. Run grunt tast "test" on changes.
      * @type {Object}
@@ -166,6 +177,7 @@ module.exports = function(grunt) {
     },
 
   });
+
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-contrib-jshint");
@@ -176,14 +188,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-bower-task');
 
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
-  grunt.registerTask("build", []);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
+  grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'copy', 'watch']);
 
-  grunt.registerTask("front", ['sass', 'concat', 'copy', 'watch']);
+  grunt.registerTask("build", ['bower:install', 'concat', 'copy']);
 
 };
-

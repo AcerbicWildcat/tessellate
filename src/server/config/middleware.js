@@ -1,5 +1,7 @@
 var morgan            = require('morgan'),
     bodyParser        = require('body-parser'),
+    // multer            = require('multer'),
+    // upload            = multer(),
     cookieParser      = require('cookie-parser'),
     session           = require('express-session'),
     helpers           = require('./helpers'),
@@ -11,27 +13,29 @@ module.exports = function (app, express) {
   var imageRouter = express.Router();
   var eventRouter  = express.Router();
 
+  // files in /client/public/ will be served as static assets
+  app.use(express.static(__dirname + '/../public/'));
+
+  // app.engine('html', require('ejs').renderFile);
+  // app.set('view engine', 'html');
+
   app.use(morgan('dev'));
   app.use(cookieParser()); // read cookies (for future auth)
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
 
   // set up sessions and initialize passport
-  app.use(session({secret: 'tIndEr4KatzsNdDucks'}));
+  app.use(session({secret: app.config.sessionSecret }));
   app.use(passport.initialize());
   app.use(passport.session());
-  // files in /client/public/ will be served as static assets
-  app.use(express.static(__dirname + '/../public/'));
-
-  //landing page served from public
-  app.get('/', function(req,res){
-    helpers.sendResponse(res);
-    res.render('../public/index.html');
-  });
 
   //route paths
   app.use('/event', eventRouter);
   app.use('/event/:eventId/images', imageRouter);
+  // app.post('/event/create', upload.single("file"), function(req, res){
+  //   console.log(req.file);
+  //   console.log(req.body);
+  // });
 
   //use error handling methods from helpers
   app.use(helpers.errorLogger);
