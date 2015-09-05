@@ -4,7 +4,11 @@ module.exports = function(grunt) {
      * Run 'grunt bower:install'
      */
     bower: {
-      install: { }
+      install: {
+        options: {
+          targetDir: './src/client/bower_components'
+        }
+      }
     },
     /**
      * watch javascript files in src/ and specs/ for changes. Run grunt tast "test" on changes.
