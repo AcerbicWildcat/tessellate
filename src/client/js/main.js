@@ -41,7 +41,7 @@ var tess = angular.module("tessell", [
       'eventHandlers': {
         'sending': function (file, xhr, formData) {
           // console.log(formData, file, xhr);
-          formData.append("eventTag", "tacocat");
+          formData.append("eventTag", $scope.eventTag);
         },
         'success': function (file, response) {
           console.log('done with sending photo');

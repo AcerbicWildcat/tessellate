@@ -21,6 +21,7 @@ module.exports = {
 
   createEvent: function (req, res){
     console.log(req);
+    console.log(req.files);
 /*    for (var key in req){
       console.log(key);
     }*/
