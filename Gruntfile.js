@@ -196,6 +196,6 @@ module.exports = function(grunt) {
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
   grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'copy', 'watch']);
 
-  grunt.registerTask("build", ['bower:install', 'concat', 'copy', 'mochacli']);
+  grunt.registerTask("build", ['bower:install', 'concat', 'copy']);
 
 };
