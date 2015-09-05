@@ -20,7 +20,11 @@ module.exports = {
   },
 
   createEvent: function (req, res){
-    var eventCode = req.body.eventCode;
+    console.log(req);
+/*    for (var key in req){
+      console.log(key);
+    }*/
+  /*  var eventCode = req.body.eventCode;
     dB.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         console.log(err);
@@ -34,6 +38,6 @@ module.exports = {
         // mack's function
       }
     })
-
+*/
   }
 };
