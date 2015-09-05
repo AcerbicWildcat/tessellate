@@ -5,9 +5,9 @@
   "main": "src/server/server.js",
   "scripts": {
     "test": "mocha specs/**/*Spec.js",
-    "start": "node src/server/server.js"
+    "start": "node src/server/server.js",
+    "postinstall": "grunt build"
   },
-  "postinstall": "grunt build",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AcerbicWildcat/tessellate.git"
@@ -29,7 +29,6 @@
     "ejs": "^2.3.3",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
-    "firebase": "^2.2.9",
     "get-pixels": "^3.2.2",
     "grunt": "0.4.5",
     "grunt-bower-task": "^0.4.0",
@@ -63,7 +62,6 @@
     "jsdoc": "^3.3.2",
     "mocha": "^2.3.0",
     "phantom": "^0.7.2",
-    "supertest": "^1.1.0",
-    "react-native-cli": "^0.1.4"
+    "supertest": "^1.1.0"
   }
 }

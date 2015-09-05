@@ -14,8 +14,8 @@ module.exports = function (app, express) {
   // files in /client/public/ will be served as static assets
   app.use(express.static(__dirname + '/../public/'));
 
-  app.engine('html', require('ejs').renderFile);
-  app.set('view engine', 'html');
+  // app.engine('html', require('ejs').renderFile);
+  // app.set('view engine', 'html');
 
   app.use(morgan('dev'));
   app.use(cookieParser()); // read cookies (for future auth)
@@ -26,12 +26,6 @@ module.exports = function (app, express) {
   app.use(session({secret: app.config.sessionSecret }));
   app.use(passport.initialize());
   app.use(passport.session());
-
-  //landing page served from public
-  app.get('/', function(req,res){
-    helpers.sendResponse(res);
-    res.render('index');
-  });
 
   //route paths
   app.use('/event', eventRouter);
