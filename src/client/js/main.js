@@ -68,10 +68,14 @@ tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function
       'eventHandlers': {
         'sending': function (file, xhr, formData) {
           // console.log(formData, file, xhr);
-          formData.append("eventTag", "tacocat");
+          // formData["eventTag"] = "tacocat";
+          // console.log(formData.append);
         },
         'success': function (file, response) {
           console.log('done with sending photo');
+        },
+        'addedfile': function (e){
+          // console.log('here with ', e);
         }
       }
     };
