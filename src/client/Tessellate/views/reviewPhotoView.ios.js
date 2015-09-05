@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
   },
   discard: {
     alignSelf:'flex-end',
-    backgroundColor:'white',
+    backgroundColor:'grey',
     width:150,
     height:50,
   }
@@ -57,6 +57,8 @@ class ReviewPhotoView extends Component {
    * @return {[null]}     [none]
    */
   _savePictureToDB(nav,tab){
+    //start progress HUD
+
     //make POST request to API
     //pop off nav stack but set selected tab bar item to be mosaic
     /*var postObject = {  
@@ -79,6 +81,8 @@ class ReviewPhotoView extends Component {
         return resJson;
        })
     */
+   
+    //END PROGRESS HUD
     tab('mosaic')
     nav.pop();
   }
@@ -91,14 +95,18 @@ class ReviewPhotoView extends Component {
 
         <Image style={styles.photo}
         source={{uri: this.props.photo}}>
-        <Text style={styles.save} onPress={() => 
-          this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
-        }>
-          Save
-        </Text>
-        <Text style={styles.discard} onPress={() => this.props.mainNavigator.pop()}>
-          Re-Take
-        </Text>
+          <TouchableHighlight style={styles.save} onPress={() => 
+              this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
+            } >
+           <Image resizeMode='contain' style={styles.save} source={require('image!saveImage')}/>
+          </TouchableHighlight>
+
+        <TouchableHighlight style={styles.discard} onPress={() => this.props.mainNavigator.pop()}>
+          <Image resizeMode='contain' style={styles.discard} source={require('image!rejectImage')}/>
+        </TouchableHighlight>
+        
+
+
         </Image>
        
       
@@ -109,4 +117,11 @@ class ReviewPhotoView extends Component {
   
 }
 
+/*
+   <Text style={styles.save} onPress={() => 
+              this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
+            }>
+            Save
+            </Text>
+*/
 module.exports = ReviewPhotoView;

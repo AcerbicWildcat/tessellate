@@ -52,7 +52,12 @@ var CameraView = React.createClass({
   _takePicture() {
     var self = this;
     this.refs.cam.capture(function(err, data) {
-      var photoURL = data.toString();
+      if (data){
+        var photoURL = data.toString();
+      } else {
+        //alert- something went wrong,please retake that picture
+      }
+      
       if (photoURL){
         self.props.mainNavigator.push({
           title: 'SOS',
