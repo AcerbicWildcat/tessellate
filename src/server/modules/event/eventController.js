@@ -12,9 +12,9 @@ module.exports = {
         console.log(err);
       }
       if (event){
-        sendResp(res, {event: event});
+        sendResp(res, {event: event}, 200);
       } else {
-        sendResp(res, {event: false});
+        sendResp(res, {event: false}, 404);
       }
     });
   },
@@ -39,6 +39,6 @@ module.exports = {
           });
         });
       }
-    });
+    })
   }
 };

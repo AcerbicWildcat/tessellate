@@ -14,7 +14,7 @@ module.exports = {
       'Content-Type': 'text/html'
     };
     statusCode = statusCode || 200;
-    res.writeHead(statusCode, headers);
+    // res.writeHead(statusCode, headers);
     res.json(data);
     res.status(statusCode).end();
   },

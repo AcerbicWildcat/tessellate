@@ -8,6 +8,18 @@ module.exports = function (app, passport) {
   app.get('/event/:eventId', isLoggedIn, function (req, res){
     res.render('pages/event/mosaic');
   });
+
+  // Route to test if user is logged in or not
+  app.get('/loggedin', function (req, res){
+    res.send(req.isAuthenticated() ? req.user : 0);
+  });
+
+  // Logout of our app
+  app.get('/logout', function (req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   /* FACEBOOK AUTH ROUTES */
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -31,11 +43,6 @@ module.exports = function (app, passport) {
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-  // Logout of our app
-  app.get('/logout', function (req, res){
-    req.logout();
-    res.redirect('/');
-  });
 
   /**
    * Intermediary to ensure user is logged in.
@@ -48,7 +55,8 @@ module.exports = function (app, passport) {
     if (req.isAuthenticated()){
       return next();
     } else {
-      res.redirect('/');
+      res.send(401);
+      // res.redirect('/');
     }
   };
 };
