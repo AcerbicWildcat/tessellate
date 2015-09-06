@@ -30,9 +30,9 @@ var styles = StyleSheet.create({
     //container for touchable highlight
   },
   fbLogo: {
-    width:300,
-    height:55,
-    borderRadius:25,
+    width:350,
+    height:45,
+    borderRadius:35,
     
   },
   logo: {
