@@ -15,4 +15,5 @@ module.exports = function (app) {
   // Decisions user can make from event page
   app.post('/join', eventController.findEvent);
   app.post('/create', upload.single("file"), eventController.createEvent);
+
 };

@@ -46,10 +46,7 @@
     "grunt-shell": "^1.1.2",
     "mongodb": "^2.0.42",
     "mongoose": "^4.1.5",
-<<<<<<< HEAD
     "morgan": "^1.6.1",
-=======
->>>>>>> file uploading template
     "multer": "^1.0.3",
     "ng-file-upload": "^7.0.17",
     "passport": "^0.3.0",
