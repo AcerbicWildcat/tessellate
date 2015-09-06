@@ -13,7 +13,6 @@ module.exports = function(grunt) {
     },
     /**
      * watch javascript files in src/ and specs/ for changes. Run grunt tast "test" on changes.
-     * @type {Object}
      */
     watch: {
       javascript: {
@@ -32,7 +31,6 @@ module.exports = function(grunt) {
     },
     /**
      * nodemon server runner
-     * @type {Object}
      */
     nodemon: {
       dev: {
@@ -41,7 +39,6 @@ module.exports = function(grunt) {
     },
     /**
      * jasmine spec runner task for client side testing
-     * @type {Object}
      */
     jasmine: {
       src: "src/client/js/*.js",
@@ -51,7 +48,6 @@ module.exports = function(grunt) {
     },
     /**
      * mochacli tool for server side testing
-     * @type {Object}
      */
     mochacli: {
       options: {
@@ -62,7 +58,6 @@ module.exports = function(grunt) {
     },
     /**
      * javascript syntax checking task
-     * @type {Object}
      */
     jshint: {
       all: [
@@ -72,11 +67,10 @@ module.exports = function(grunt) {
     },
     /**
      * task for documentation generation using jsdoc. Will create documentation for Gruntfile, src/ and specs/
-     * @type {Object}
      */
     jsdoc: {
       dist: {
-        src: ["Gruntfile.js", "src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js"],
+        src: ["Gruntfile.js", "src/server/modules/**/*.js", "specs/**/*Spec.js"],
         options: {
           destination: 'doc'
         }
@@ -116,6 +110,9 @@ module.exports = function(grunt) {
         }]
       }
     },
+    /**
+     * Task to copy folders and files from client to server public folder
+     */    
     copy: {
       main: {
         files: [{ 
@@ -190,6 +187,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bower-task');
 
+  /**
+   * Test: this is the same as default. Just runs jshint, mochacli, jasmine
+   */
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
