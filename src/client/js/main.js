@@ -3,6 +3,7 @@
  * @type {angular module}
  */
 var tess = angular.module("tessell", [
+<<<<<<< HEAD
   "ngRoute",
   "flow",
   'authServices'
@@ -28,6 +29,7 @@ var tess = angular.module("tessell", [
         //   loggedin: 'AuthCheck.checkLoggedIn'
         // }
       });
+<<<<<<< HEAD
     // may not actually need this interceptor in addition to the resolves above
     // $httpProvider.interceptors.push('ResInterceptor');
   })
@@ -51,6 +53,10 @@ var tess = angular.module("tessell", [
 <<<<<<< HEAD
 tess.controller("tessellCtrl", function ($scope, $location){
 =======
+=======
+  });
+
+>>>>>>> 062d7636635b4689888d5dff19bea4cd6dea8217
   tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
     // $scope.eventExisits = true;
     $scope.eventTag = "";
@@ -71,6 +77,7 @@ tess.controller("tessellCtrl", function ($scope, $location){
       'eventHandlers': {
         'sending': function (file, xhr, formData) {
           // console.log(formData, file, xhr);
+<<<<<<< HEAD
           // formData["eventTag"] = "tacocat";
           // console.log(formData.append);
         },
@@ -79,6 +86,12 @@ tess.controller("tessellCtrl", function ($scope, $location){
         },
         'addedfile': function (e){
           // console.log('here with ', e);
+=======
+          formData.append("eventTag", "tacocat");
+        },
+        'success': function (file, response) {
+          console.log('done with sending photo');
+>>>>>>> 062d7636635b4689888d5dff19bea4cd6dea8217
         }
       }
     };
@@ -126,9 +139,22 @@ tess.controller("tessellCtrl", function ($scope, $location){
    });
 
 /*tess.controller("tessellCtrl", function ($scope, $location, Upload){
+<<<<<<< HEAD
 >>>>>>> file uploading template
   $scope.testing = false;
   $scope.eventTag = "";
+=======
+  $scope.testing = false;
+  $scope.eventTag = "";
+
+  $scope.createEvent = function(){
+    Upload.upload({
+      url: '/event',
+      file: $scope.event.file
+    });
+  };
+
+>>>>>>> 062d7636635b4689888d5dff19bea4cd6dea8217
   $scope.go = function (event){
     if($scope.eventTag === "" && event.keyCode === 13){
       $scope.testing = true;
@@ -236,4 +262,7 @@ tess.controller('DatepickerDemoCtrl', function ($scope) {
     return '';
   };
 });*/
+<<<<<<< HEAD
 >>>>>>> file uploading template
+=======
+>>>>>>> 062d7636635b4689888d5dff19bea4cd6dea8217
