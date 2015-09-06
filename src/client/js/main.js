@@ -28,25 +28,7 @@ var tess = angular.module("tessell", [
         //   loggedin: 'AuthCheck.checkLoggedIn'
         // }
       });
-    // may not actually need this interceptor in addition to the resolves above
-    // $httpProvider.interceptors.push('ResInterceptor');
-  })
-
-  .config(['flowFactoryProvider', function (flowFactoryProvider) {
-    flowFactoryProvider.defaults = {
-      // target: 'upload.php',
-      permanentErrors: [404, 500, 501],
-      maxChunkRetries: 1,
-      chunkRetryInterval: 5000,
-      simultaneousUploads: 4,
-      singleFile: true
-    };
-    flowFactoryProvider.on('fileAdded', function (event) {
-      console.log('fileAdded', arguments);
     });
-    // Can be used with different implementations of Flow.js
-    // flowFactoryProvider.factory = fustyFlowFactory;
-}]);
 
 tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
     // $scope.eventExisits = true;
@@ -67,15 +49,15 @@ tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function
       },
       'eventHandlers': {
         'sending': function (file, xhr, formData) {
-          // console.log(formData, file, xhr);
-          // formData["eventTag"] = "tacocat";
-          // console.log(formData.append);
         },
         'success': function (file, response) {
           console.log('done with sending photo');
         },
         'addedfile': function (e){
-          // console.log('here with ', e);
+          formData.append("eventTag", "tacocat");
+        },
+        'success': function (file, response) {
+          console.log('done with sending photo');
         }
       }
     };
