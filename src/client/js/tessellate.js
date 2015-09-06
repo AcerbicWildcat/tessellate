@@ -139,7 +139,7 @@ function addToSVG (img, rgb, ignoreKeys) {
 
   // { "_id" : ObjectId("55e65ccc3b1c5de4381f9f68"), "data" : { "0" : { "original" : true, "rgb" : { "b" : 216, "g" : 216, "r" : 216 }, "coords" : [ 0, 0 ] }, "1" : { "original" : true, "rgb" : { "b" : 253, "g" : 253, "r" : 253 }, "coords" : [ 1, 0 ] }, "2" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 2, 0 ] }, "3" : { "original" : true, "rgb" : { "b" : 62, "g" : 140, "r" : 62 }, "coords" : [ 3, 0 ] }, "4" : { "original" : true, "rgb" : { "b" : 62, "g" : 138, "r" : 62 }, "coords" : [ 4, 0 ] }, "5" : { "original" : true, "rgb" : { "b" : 79, "g" : 79, "r" : 79 }, "coords" : [ 0, 1 ] }, "6" : { "original" : true, "rgb" : { "b" : 88, "g" : 88, "r" : 88 }, "coords" : [ 1, 1 ] }, "7" : { "original" : true, "rgb" : { "b" : 178, "g" : 178, "r" : 178 }, "coords" : [ 2, 1 ] }, "8" : { "original" : true, "rgb" : { "b" : 98, "g" : 165, "r" : 98 }, "coords" : [ 3, 1 ] }, "9" : { "original" : true, "rgb" : { "b" : 196, "g" : 226, "r" : 196 }, "coords" : [ 4, 1 ] }, "10" : { "original" : true, "rgb" : { "b" : 162, "g" : 162, "r" : 162 }, "coords" : [ 0, 2 ] }, "11" : { "original" : true, "rgb" : { "b" : 183, "g" : 183, "r" : 183 }, "coords" : [ 1, 2 ] }, "12" : { "original" : true, "rgb" : { "b" : 220, "g" : 220, "r" : 220 }, "coords" : [ 2, 2 ] }, "13" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 3, 2 ] }, "14" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 4, 2 ] }, "15" : { "original" : true, "rgb" : { "b" : 154, "g" : 77, "r" : 91 }, "coords" : [ 0, 3 ] }, "16" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 1, 3 ] }, "17" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 2, 3 ] }, "18" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 3, 3 ] }, "19" : { "original" : true, "rgb" : { "b" : 192, "g" : 192, "r" : 255 }, "coords" : [ 4, 3 ] }, "20" : { "original" : true, "rgb" : { "b" : 139, "g" : 62, "r" : 67 }, "coords" : [ 0, 4 ] }, "21" : { "original" : true, "rgb" : { "b" : 221, "g" : 194, "r" : 197 }, "coords" : [ 1, 4 ] }, "22" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 2, 4 ] }, "23" : { "original" : true, "rgb" : { "b" : 200, "g" : 200, "r" : 255 }, "coords" : [ 3, 4 ] }, "24" : { "original" : true, "rgb" : { "b" : 1, "g" : 1, "r" : 255 }, "coords" : [ 4, 4 ] } }, "height" : 5, "width" : 5, "__v" : 0, "_parentEvent" : ObjectId("55e65cca3b1c5de4381f9f67") }
 
-  var minimum;
+  var minimums = [];
   var whatChunk;
 
   //_storage will ultimately be replaced with map.data
@@ -147,44 +147,65 @@ function addToSVG (img, rgb, ignoreKeys) {
   for(var key in _storage){
 
     //check to see if key is in ignoreKeys before executing the block below.
-    if (!(key in ignoreKeys)){
-      var mainRGB = _storage[key].rgb;
-      var RGBDistance = Math.sqrt(Math.pow(mainRGB.r - rgb.r, 2) + Math.pow(mainRGB.g - rgb.g, 2) + Math.pow(mainRGB.b - rgb.b, 2));
-      //the difference between the average RGB value of the small image and the average RGB value of the large image.
-      if(minimum === undefined){
-        minimum = RGBDistance;
-        whatChunk = _storage[key];
-      }
-      if(RGBDistance < minimum && _storage[key].minValue === undefined){
-        minimum = RGBDistance;
-        whatChunk = _storage[key];
-      }
-    }
+    var mainRGB = _storage[key].rgb;
+    var RGBDistance = Math.sqrt(Math.pow(mainRGB.r - rgb.r, 2) + Math.pow(mainRGB.g - rgb.g, 2) + Math.pow(mainRGB.b - rgb.b, 2));
+    //the difference between the average RGB value of the small image and the average RGB value of the large image.
+    
+    if (whatChunk === undefined){
+      whatChunk = _storage[key];
+    };
+
+    minimums.push({
+      key: key,
+      min: RGBDistance
+    });
   }
-  
 
-  if (whatChunk.original === true){
-    whatChunk.minValue = minimum;
-    whatChunk.original = false;
-  } 
-  // else if (whatChunk.original === false){
-  //   if (whatChunk.minValue < minimum){
+  //sort minimums here
 
-  //   }
-    //if whatChunk.minValue < minimum
-      //find another spot for the image; make sure it can't land in this spot again.
-    //if whatChunk.minValue > minimum
-      //what
+  minimums.sort(function(a, b){
+    return a.min > b.min;
+  });
 
-    //logic to handle collisions goes here.
+  for (var j = 0; j < minimums.length; j++){
+    if (_storage[minimums[j].key].original = true){
+      _storage[minimums[j].key].original = false;
+      _storage[minimums[j].key].minValue = minimums[j]
+      _storage[minimums[j].key].imgPath = img.src;
+      whatChunk = _storage[minimums[j].key];
+      //TODO: make a post request to save the map back to the database.
+      break; //get out of the loop.
+    } else if (_storage[minimums[j].key].minValue < minimums[j].min){
+      //if it collides with something that has a lesser or equal minValue,
+      //keep going.
+      continue;
+    } else if (_storage[minimums[j].key].minValue > minimums[j].min){
+      //if it collides with something that has a greater minValue,
+      //kick that image out
+      //TODO: make a post request to save the map back to the database.
+    }
+  };
+
+  //TODO: if one image replaces another one, make sure to delete that SVG element
+  //before rendering the new one in!
+
+  //iterate through minimums.
     //TODO: give the schema for the map object properties: minValue and imgPath
     //TODO: on page load for the SVG view, iterate through the entire object
     //and call renderImage for each image found.
   // }
-  renderImage(whatChunk.coords[0], whatChunk.coords[1]);
+  renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk);
 }
 
-var renderImage = function(xCoord, yCoord){
+
+/**
+ * function renders an SVG element to the DOM. Takes an x coordinate and a y coordinate to position the element correctly, and an ID to help the delete function know what to remove from the DOM.
+ * @param  {Integer}
+ * @param  {Integer}
+ * @param  {String}
+ * @return {[type]}
+ */
+var renderImage = function(xCoord, yCoord, ID){
   var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
   svgImg.setAttributeNS(null,'height','10');
   svgImg.setAttributeNS(null,'width','10');
@@ -195,7 +216,18 @@ var renderImage = function(xCoord, yCoord){
 
   var svgLink = document.createElementNS('http://www.w3.org/2000/svg', 'a');
   svgLink.setAttributeNS('http://www.w3.org/1999/xlink','href', img.src);
+  svgLink.setAttributeNS(null,'id','image'+ID);
   svgLink.appendChild(svgImg);
 
   document.getElementsByClassName('svg-pan-zoom_viewport')[0].appendChild(svgLink);
+};
+
+/**
+ * Deletes an image from the DOM provided an ID parameter.
+ * @param  {String}
+ * @return {[type]}
+ */
+var deleteImage = function(ID){
+  var removeLink = document.getElementById('image' + ID);
+  document.getElementsByClassName('svg-pan-zoom_viewport')[0].removeChild(removeLink);
 };
