@@ -158,7 +158,7 @@ module.exports = function(grunt) {
           expand: true, 
           flatten: true,
           filter: 'isFile',
-          src: ['src/client/js/main.js'],
+          src: ['src/client/js/main.js', 'src/client/js/authServices.js'],
           dest: 'src/server/public/js'
         }, {
           expand: true, 
