@@ -1,31 +1,66 @@
-//mongo must be running and the server must be running for these
-//tests to pass. How do I guarantee this?
-
-
 var mongoose = require('mongoose');
-var request = require("request"); // Might want to swap out with supertest
+var request = require("supertest");
 var expect = require('expect.js');
-// var db = require('./db.js')
+//get the environment variables
+require('../../node_modules/dotenv').config({silent: true});
+var config = require('../../src/server/config/config');
+var userSchema = require('../../src/server/db/collections/User');
+var eventSchema = require('../../src/server/db/collections/Event');
+var mapSchema = require('../../src/server/db/collections/Map');
 
+var User = mongoose.model("User", userSchema);
+var Event = mongoose.model("Event", eventSchema);
+var Map = mongoose.model("Map", mapSchema);
+
+/**
+ * Test script for tessellate database
+ */
 describe("Tessellate database", function() {
 
-  beforeEach(function(done) {
+  /**
+   * It should create an event
+   */
+  it('should create a new user and event', function (done) {
 
-    mongoose.connect('mongodb://localhost/3000');
-
-    mongoose.connection.once('open', function(){
-      done(); //guarantees that the connection is open before tests proceed.
-    });
-
-  });
-
-  afterEach(function(done) {
-    //wipe all the collections out of the database here.
-    mongoose.connection.db.dropDatabase(function(err){
-      mongoose.connection.close(function(){
+    new User({
+      username: "smashingpenguin"
+    }).save(function(err, user){
+      expect(user).to.be.ok();
+      new Event({
+        _parentUser: user._id,
+        username: user.username,
+        eventCode: "partytime",
+        path: "http://res.cloudinary.com/tesselate/image/upload/v1441481287/dgqwfqdeckpdyoantea6.jpg",
+      }).save(function(err, event){
+        expect(event).to.be.ok();
         done();
       });
     });
+
+  });
+
+  /**
+   * It should delete a user
+   */
+  it('should delete a new user', function (done) {
+    User.remove({
+      username: "smashingpenguin"
+    }).then(function(err) {
+      expect(err).to.be.ok();
+      done();
+    });
+  });
+
+  /**
+   * It should delete a user
+   */
+  it('should delete an event', function (done) {
+    Event.remove({
+      username: "smashingpenguin"
+    }).then(function(err) {
+      expect(err).to.be.ok();
+      done();
+    });
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
@@ -33,23 +68,23 @@ describe("Tessellate database", function() {
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
-    request({ method: "POST",
-              uri: "http://localhost:3000/", //need to add whatever route we use...
-              json: {
-                name: "mack",
-                tag: "#mackevent",
-                path: "hackreactor.jpg",
-                username: "mack"
-              }
-    }, function(){
-      mongoose.connection.db.collection("maps", function(err, collection){
+    request({ 
+      method: "POST",
+      uri: "http://localhost:3000/", //need to add whatever route we use...
+      json: {
+        name: "mack",
+        tag: "#mackevent",
+        path: "hackreactor.jpg",
+        username: "mack"
+      }
+    }, function() {
 
         collection.find({height: 250}).toArray(function(err, results){
           expect(results[0].width).to.equal(850); //check height and width...
           done();
         });
-        //now do something to verify that the map showed up in there.
-      });
+
     });
   });
+
 });
