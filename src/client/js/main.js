@@ -90,7 +90,7 @@ var tess = angular.module("tessell", [
   };*/
 
 tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
-  $scope.eventTag = "";
+  // $scope.eventTag = "";
   $scope.checkForExistingEvent = function(){
     eventFactory.checkForExistingEvent($scope.eventTag);
   };
