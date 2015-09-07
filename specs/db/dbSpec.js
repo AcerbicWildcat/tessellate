@@ -17,26 +17,50 @@ var Map = mongoose.model("Map", mapSchema);
  */
 describe("Tessellate database", function() {
 
-  it('should create a new user', function (done) {
+  /**
+   * It should create an event
+   */
+  it('should create a new user and event', function (done) {
 
     new User({
-      username: "mack"
-    }).save(function(err, mack) {
-      expect(mack).to.be.ok();
-      done();
+      username: "smashingpenguin"
+    }).save(function(err, user){
+      expect(user).to.be.ok();
+      new Event({
+        _parentUser: user._id,
+        username: user.username,
+        eventCode: "partytime",
+        path: "http://res.cloudinary.com/tesselate/image/upload/v1441481287/dgqwfqdeckpdyoantea6.jpg",
+      }).save(function(err, event){
+        expect(event).to.be.ok();
+        done();
+      });
     });
 
   });
 
+  /**
+   * It should delete a user
+   */
   it('should delete a new user', function (done) {
-
     User.remove({
-      username: "mack"
+      username: "smashingpenguin"
     }).then(function(err) {
       expect(err).to.be.ok();
       done();
     });
+  });
 
+  /**
+   * It should delete a user
+   */
+  it('should delete an event', function (done) {
+    Event.remove({
+      username: "smashingpenguin"
+    }).then(function(err) {
+      expect(err).to.be.ok();
+      done();
+    });
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
