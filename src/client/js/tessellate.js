@@ -153,7 +153,7 @@ function addToSVG (img, rgb, ignoreKeys) {
     
     if (whatChunk === undefined){
       whatChunk = _storage[key];
-    };
+    }
 
     minimums.push({
       key: key,
@@ -168,9 +168,9 @@ function addToSVG (img, rgb, ignoreKeys) {
   });
 
   for (var j = 0; j < minimums.length; j++){
-    if (_storage[minimums[j].key].original = true){
+    if (_storage[minimums[j].key].original === true){
       _storage[minimums[j].key].original = false;
-      _storage[minimums[j].key].minValue = minimums[j]
+      _storage[minimums[j].key].minValue = minimums[j];
       _storage[minimums[j].key].imgPath = img.src;
       whatChunk = _storage[minimums[j].key];
       //TODO: make a post request to save the map back to the database.
@@ -184,7 +184,7 @@ function addToSVG (img, rgb, ignoreKeys) {
       //kick that image out
       //TODO: make a post request to save the map back to the database.
     }
-  };
+  }
 
   //TODO: if one image replaces another one, make sure to delete that SVG element
   //before rendering the new one in!
