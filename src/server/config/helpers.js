@@ -15,7 +15,10 @@ module.exports = {
     };
     statusCode = statusCode || 200;
 
+
     // res.writeHead(statusCode, headers);
+
+
     res.json(data);
     res.status(statusCode).end();
   },

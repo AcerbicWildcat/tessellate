@@ -70,6 +70,7 @@ var Main =  React.createClass({
   showEventDetails(){
     //fetch event data
     var self = this;
+
     var validEvent = false;
     var postObject = {
       method: 'POST',
@@ -112,7 +113,9 @@ var Main =  React.createClass({
         }
          else {
           //An Event Code DNE so prompt the user to create an event or try again
+
           self.dismissProgressHUD();
+
           AlertIOS.alert(
             'This Event Does Not Exist!',
             'Create One?',
@@ -120,11 +123,12 @@ var Main =  React.createClass({
               {text: 'Try Again', onPress: () => console.log('No Pressed!')}
             ]
           );
-          
+
         }
         return resJson;
       })
       .catch((error) => {
+
          self.dismissProgressHUD();
          AlertIOS.alert(
             'Whoa! Something went wrong with the network.',
