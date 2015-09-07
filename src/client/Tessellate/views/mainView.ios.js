@@ -71,7 +71,7 @@ var Main =  React.createClass({
     //fetch event data
     var self = this;
 
-    var validEvent = false;
+    var validEvent = true;
     var postObject = {
       method: 'POST',
         headers: {
@@ -86,9 +86,28 @@ var Main =  React.createClass({
     };
     
     //Begin Request
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    self.props.navigator.push({
+                    title: self.state.eventCode, //refactor to contain event title
+                    component: TabView,
+                    passProps: {eventCode: self.state.eventCode,
+                    mainNavigator: self.props.navigator} //refactor to contain eventcode
+                    
+           }); 
+    //
+    //
+    //
+    //
+    //
     
     self.showProgressHUD();
-    fetch('http://localhost:8000/event/join',postObject)  
+    /*fetch('http://localhost:8000/event/join',postObject)  
       .then(function(res) {
        
         console.log('res: ' + res)
@@ -128,7 +147,7 @@ var Main =  React.createClass({
         return resJson;
       })
       .catch((error) => {
-
+        console.log(error)
          self.dismissProgressHUD();
          AlertIOS.alert(
             'Whoa! Something went wrong with the network.',
@@ -138,7 +157,7 @@ var Main =  React.createClass({
             ]
           );
         
-      });
+      });*/
     //persist eventcode to use in subsequent api calls
   
   },

@@ -9,12 +9,18 @@
   "dependencies": {
     "react-native": "^0.10.1",
     "react-native-camera": "^0.3.3",
-    "react-native-svg": "^0.2.1"
+    "react-native-svg": "^0.2.1",
+    "react-native-svg-elements": "0.0.10",
+    "react-timer-mixin": "^0.13.2"
   },
   "devDependencies": {
     "babel-core": "5.4.7",
     "jest-cli": "0.4.5",
     "react": "0.13.1"
+  },
+  "jshintConfig": {
+    "esnext": true,
+    "node": true
   },
   "jest": {
     "scriptPreprocessor": "jest-support/preprocessor.js",
