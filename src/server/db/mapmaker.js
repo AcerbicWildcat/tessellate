@@ -80,7 +80,11 @@ var mapEventMaker = function(username, filePath, _storage, pixels, eventCode, ca
           .then(function(){
             return user.save()
           }).then(function(){
-            callback();
+            var returnObj = {
+              event: event,
+              map: map
+            };
+            callback(returnObj);
           });
       });
     });
