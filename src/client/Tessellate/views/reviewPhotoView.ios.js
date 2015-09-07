@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
     width:150,
     height:50,
     marginRight:20,
+    borderRadius:25,
     
   },
   discard: {
@@ -35,6 +36,8 @@ var styles = StyleSheet.create({
     backgroundColor:'grey',
     width:150,
     height:50,
+    marginLeft:20,
+    borderRadius:25,
   }
 	
 
@@ -46,7 +49,8 @@ class ReviewPhotoView extends Component {
   constructor(props){
     super(props);
     this.state = {
-     photo:'.img'
+     photo:'.img',
+     eventCode:this.props.eventCode,
     }
   }
 
@@ -90,7 +94,7 @@ class ReviewPhotoView extends Component {
 
 
   render() {
-    
+    console.log('EVENT CODE: ' + this.state.eventCode)
     return (
 
         <Image style={styles.photo}
