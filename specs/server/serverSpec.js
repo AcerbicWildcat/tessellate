@@ -3,7 +3,6 @@ var request = require('supertest');
 
 var app = require('../../src/server/server.js');
 
-
 /**
  * app tests
  */
@@ -35,6 +34,21 @@ describe('app', function() {
  *  - /event/:id DELETE
  */
 describe('event', function() {
+
+  /**
+   * It should have an /event endpoint
+   */
+  xdescribe('HEAD /event', function(){
+    it('should return a 200', function(done){
+      request(app)
+        .head('/event')
+        .expect(200)
+        .end(function(err, res){
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
 
   xit('should have an /event POST route', function () {
 

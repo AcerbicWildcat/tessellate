@@ -68,26 +68,23 @@ describe("Tessellate database", function() {
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
-    request({ method: "POST",
-              uri: "http://localhost:3000/", //need to add whatever route we use...
-              json: {
-                name: "mack",
-                tag: "#mackevent",
-                path: "hackreactor.jpg",
-                username: "mack"
-              }
-    }, function(){
-      mongoose.connection.db.collection("maps", function(err, collection){
+    request({ 
+      method: "POST",
+      uri: "http://localhost:3000/", //need to add whatever route we use...
+      json: {
+        name: "mack",
+        tag: "#mackevent",
+        path: "hackreactor.jpg",
+        username: "mack"
+      }
+    }, function() {
 
         collection.find({height: 250}).toArray(function(err, results){
           expect(results[0].width).to.equal(850); //check height and width...
           done();
         });
-        //now do something to verify that the map showed up in there.
-      });
+
     });
   });
-
-
 
 });
