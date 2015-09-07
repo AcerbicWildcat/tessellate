@@ -89,7 +89,7 @@ var tess = angular.module("tessell", [
     $scope.status.opened = true;
   };*/
 
-tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function ($scope, eventFactory, $location){
+tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", "$window", function ($scope, eventFactory, $location, $window){
   // $scope.eventTag = "";
   $scope.checkForExistingEvent = function(){
     eventFactory.checkForExistingEvent($scope.eventTag);
@@ -107,7 +107,12 @@ tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function
         formData.append("eventCode", $scope.eventTag);
       },
       'success': function (file, response) {
+        // console.log(response);
         console.log('done with sending photo');
+        // $location.url('/mosaic');
+        $scope.thingy = eventFactory.thingy(response);
+        console.log($scope.thingy);
+        $window.location.href = '/#/mosaic';
       }
     }
   };
@@ -115,6 +120,11 @@ tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location",  function
 
 tess.factory('eventFactory', ["$http", function ($http){
 var eventFactory = {};
+eventFactory.thingy = function(response){
+  // console.log(response);
+  console.log('in factory');
+  return response;
+};
 eventFactory.checkForExistingEvent = function(eventTag){
   $http.post('/event/join', {eventCode: eventTag})
     .then(function(response){
