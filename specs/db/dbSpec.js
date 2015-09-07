@@ -1,31 +1,42 @@
-//mongo must be running and the server must be running for these
-//tests to pass. How do I guarantee this?
-
-
 var mongoose = require('mongoose');
-var request = require("request"); // Might want to swap out with supertest
+var request = require("supertest");
 var expect = require('expect.js');
-// var db = require('./db.js')
+//get the environment variables
+require('../../node_modules/dotenv').config({silent: true});
+var config = require('../../src/server/config/config');
+var userSchema = require('../../src/server/db/collections/User');
+var eventSchema = require('../../src/server/db/collections/Event');
+var mapSchema = require('../../src/server/db/collections/Map');
 
+var User = mongoose.model("User", userSchema);
+var Event = mongoose.model("Event", eventSchema);
+var Map = mongoose.model("Map", mapSchema);
+
+/**
+ * Test script for tessellate database
+ */
 describe("Tessellate database", function() {
 
-  beforeEach(function(done) {
+  it('should create a new user', function (done) {
 
-    mongoose.connect('mongodb://localhost/3000');
-
-    mongoose.connection.once('open', function(){
-      done(); //guarantees that the connection is open before tests proceed.
+    new User({
+      username: "mack"
+    }).save(function(err, mack) {
+      expect(mack).to.be.ok();
+      done();
     });
 
   });
 
-  afterEach(function(done) {
-    //wipe all the collections out of the database here.
-    mongoose.connection.db.dropDatabase(function(err){
-      mongoose.connection.close(function(){
-        done();
-      });
+  it('should delete a new user', function (done) {
+
+    User.remove({
+      username: "mack"
+    }).then(function(err) {
+      expect(err).to.be.ok();
+      done();
     });
+
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
@@ -52,4 +63,7 @@ describe("Tessellate database", function() {
       });
     });
   });
+
+
+
 });

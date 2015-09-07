@@ -1,11 +1,12 @@
-//temporarily set node env to test
-process.env.NODE_ENV = 'test';
-
 var assert = require('assert');
 var request = require('supertest');
 
 var app = require('../../src/server/server.js');
 
+
+/**
+ * app tests
+ */
 describe('app', function() {
   
   it('should have a config attribute', function () {
@@ -26,7 +27,49 @@ describe('app', function() {
 
 });
 
-describe('images', function () {
+/**
+ * Event  paths
+ * Paths should be:
+ *  - /event/ POST
+ *  - /event/:id GET
+ *  - /event/:id DELETE
+ */
+describe('event', function() {
+
+  xit('should have an /event POST route', function () {
+
+    describe('POST /event', function () {
+
+      xit('should return 200 response', function(done){
+        request(app)
+          .post('/event')
+          .expect(200, done);
+      });
+
+      xit('should check to see if the event exists in the DB', function(done){
+        request(app)
+          .post('/event')
+          //code to see if DB has been queried
+      });
+
+      xit('should save a new event to the DB with creator', function(done){
+        request(app)
+          .post('/event', {eventId: 'testEvent'})
+          //user we get back from database should not be undefined
+      })
+
+    });
+  });
+
+/**
+ * Event image paths
+ * Paths should be:
+ *  - /event/images/ POST
+ *  - /event/images/ GET
+ *  - /event/images/:id GET
+ *  - /event/images/:id DELETE
+ */
+describe('event images', function () {
 
   xit('should have an /image GET route', function () {
 
@@ -58,34 +101,4 @@ describe('images', function () {
 
 });
 
-describe('event', function() {
-
-  xit('should have an /event POST route', function () {
-
-    describe('POST /event', function () {
-
-      xit('should return 200 response', function(done){
-        request(app)
-          .post('/event')
-          .expect(200, done);
-      });
-
-      xit('should check to see if the event exists in the DB', function(done){
-        request(app)
-          .post('/event')
-          //code to see if DB has been queried
-      });
-
-      xit('should save a new event to the DB with creator', function(done){
-        request(app)
-          .post('/event', {eventId: 'testEvent'})
-          //user we get back from database should not be undefined
-      })
-
-    });
-  });
-
 });
-
-//set environment back to development
-process.env.NODE_ENV = 'development';
