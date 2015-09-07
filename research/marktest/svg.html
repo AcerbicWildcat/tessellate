@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG</title>
+  <style>
+
+    .logo-small {
+      width: 30px;
+    }
+
+    .logo-large {
+      width: 160px;
+    }
+
+    #logo rect:nth-child(1), #logo rect:nth-child(2), #logo rect:nth-child(3), #logo rect:nth-child(4), #logo rect:nth-child(6), #logo rect:nth-child(10), #logo rect:nth-child(14), #logo rect:nth-child(18)  {
+      fill: black;
+    }
+
+    #logo rect:nth-child(8), #logo rect:nth-child(9) {
+      fill: silver;
+    }
+
+    #logo rect:nth-child(20) {
+      fill: grey;
+    }
+
+    /* t e s s e l l a t e*/
+    @keyframes tesselate {
+      0%, 80% { 
+        fill: black; /* t */ 
+      }
+      10%, 40%, 100% { 
+        fill: grey; /* e */ 
+      }
+      20%, 30% { 
+        fill: white; /* s */ 
+      }
+      50%, 60% { 
+        fill: silver; /* l */ 
+      }
+      70%, 90% { 
+        fill: grey; /* a */ 
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  
+  <h1>Logo added as embedded image - small</h1>
+  <!-- svg in an image - large  -->
+  <h1><img class="logo-small" src="logo.svg" alt="Tessellate logo" aria="hidden">Tessellate</h1>
+  
+  <h1>Image - large</h1>
+  <!-- svg in an image - small  -->
+  <img class="logo-large" src="logo.svg" alt="Tessellate logo" aria="hidden">
+
+  <h1>Embedded svg - colours added with css</h1>
+  <!-- embedded svg - colours added with css - only inline!  -->
+  <svg id="logo" width="161" height="210" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="0" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+  </svg>
+
+  <h1>Embedded svg - colours added with javascript</h1>
+  <!-- embedded svg - colours added with javascript  -->
+  <svg id="logo-js" width="161" height="210" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="0" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="0" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="80" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+  </svg>
+
+  <script>
+
+  /**
+   * javascript logo generation
+   */
+    var logo = document.querySelector("#logo-js");
+
+    var letters = {
+      t: {
+        black: [0, 1, 2, 3, 5, 9, 13, 17],
+        silver: [7, 8],
+        grey: [19]
+      },
+      e: {
+        black: [0, 1, 2, 3, 5, 9, 13, 17],
+        silver: [7, 8],
+        grey: [19]
+      },
+      s: {
+        black: [0, 1, 2, 3, 5, 9, 13, 17],
+        silver: [7, 8],
+        grey: [19]
+      }
+    }
+
+    for (var i in letters) {
+      console.log("Gimme a ", i);
+      for (var colour in letters[i]) {
+        for (var j = 0; j < letters[i][colour].length; j++) {
+          logo.children[letters[i][colour][j]].style.fill = colour;
+        }
+      }
+    }
+
+  </script>
+
+</body>
+</html>
