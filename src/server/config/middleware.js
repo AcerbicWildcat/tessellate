@@ -32,8 +32,8 @@ module.exports = function (app, express) {
   app.use(passport.session());
 
   //route paths
-  app.use('/event/:eventId', eventRouter);
-  app.use('/event/:eventId/images', imageRouter);
+  app.use('/event/', eventRouter);
+  app.use('/event/images', imageRouter);
 
   //use error handling methods from helpers
   app.use(helpers.errorLogger);
