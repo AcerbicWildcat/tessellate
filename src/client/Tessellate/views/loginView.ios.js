@@ -27,7 +27,6 @@ var styles = StyleSheet.create({
     backgroundColor:'#125989',
     marginTop:20,
     borderRadius:10,
-    textAlign:'center',
     justifyContent: 'center',
     alignItems: 'center',
     
@@ -67,18 +66,50 @@ class LoginView extends Component {
   }
 
   login() {
-      //GET Request
-      var self = this;
-
+  //GET Request auth/facebook
+  console.log('logging in with facebook')
+  var getObject = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Origin': '',
+      'Host': 'localhost:8081/'
+    }
+  };
+  var self = this;
+  fetch('http://localhost:8000/user/facebook', getObject)
+    .then(function(res) {
+      console.log('facebook');
+      console.dir(res);
+      return {};
+    })
+    .then(function(resJson) {
       //SETTING THE STATE IS ASYNC!!!!! - write a damn blog post!
-      this.setState({loggedIn:true},function(){
+      self.setState({
+        loggedIn: true
+      }, function() {
         self.isAuthorized(this.state.loggedIn);
       })
-      
-  }
+      return resJson;
+    })
+    .catch((error) => {
+      console.log(error)
+
+      AlertIOS.alert(
+        'Whoa! Something went wrong with the network.',
+        error.message, [{
+          text: 'Try Again',
+          onPress: () => console.log('No Pressed!')
+        }]
+      );
+
+    });
+
+
+}
 
   render() {
-    //consider - https://github.com/stephy/CalendarPicker
     return (
 
       <View style={styles.container}>
