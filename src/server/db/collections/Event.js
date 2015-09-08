@@ -5,7 +5,8 @@ var Event = mongoose.Schema({
   username: String,
   eventCode: String,
   path: String, //path to the main mosaic image.
-  map: {type: mongoose.Schema.Types.ObjectId, ref: "Map"}
+  map: {type: mongoose.Schema.Types.ObjectId, ref: "Map"},
+  guestImages: [{type: mongoose.Schema.Types.ObjectId, ref: "GuestImage"}]
 });
 
 module.exports = Event;
