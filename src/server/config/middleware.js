@@ -7,7 +7,6 @@ var morgan            = require('morgan'),
     helpers           = require('./helpers'),
     multer            = require('multer'),
     passport          = require('passport');
-var upload = multer();
 
 module.exports = function (app, express) {
 
