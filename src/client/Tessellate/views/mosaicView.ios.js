@@ -21,9 +21,10 @@ var {
   View,
 } = React;
  
-var {Svg, Path} = require('react-native-svg-elements');
+var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
 var TimerMixin = require('react-timer-mixin');
- 
+ console.log('helllllppppp')
+ console.log('Path: ' + Path)
 var MosaicView = React.createClass({
   mixins: [TimerMixin],
  
@@ -32,7 +33,7 @@ var MosaicView = React.createClass({
   },
  
   componentDidMount() {
-    this.setInterval(this.updateTime, 16);
+    //this.setInterval(this.updateTime, 16);
   },
  
   updateTime() {
@@ -41,11 +42,11 @@ var MosaicView = React.createClass({
  
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, backgroundColor: 'black', justifyContent: 'center', alignItems: 'center'}}>
         <Svg width={500} height={500} style={{width: 320, height: 350}}
              forceUpdate={this.state.t.toString()}>
           <Path fill="none" stroke="#00D8FF" strokeWidth="3" strokeMiterlimit="10"
-                d={drawSine(this.state.t)} />
+               />
         </Svg>
       </View>
     );
