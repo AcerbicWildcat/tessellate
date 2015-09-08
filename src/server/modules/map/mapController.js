@@ -10,7 +10,7 @@ module.exports = {
       if (!map){
         console.log("error: map not found");
       } else if (map){
-        res.send(map);
+        sendResp(res, {map: map}, 200);
       }
     });
   },
@@ -18,10 +18,12 @@ module.exports = {
   saveMap: function(req, res){
     var conditions = {_parentEvent: req.body.event._id},
         update     = {data: req.body.event.map.data},
-        options    = {new: true}, //guarantees that the callback returns the saved map object.
+        options    = {new: true}, //guarantees that the callback returns the saved map object--not the old one.
 
     Map.findOneAndUpdate(conditions, update, options, function(err, foundMap){
-      res.send(foundMap);
+      sendResp(res);
+      //currently, I don't need to send the map back--I just need to update it.
+      // res.json(foundMap);
     });
   }
 };
