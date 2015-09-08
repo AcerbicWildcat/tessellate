@@ -18,7 +18,7 @@ mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
       'sending': function (file, xhr, formData) {
         // console.log(formData, file, xhr);
         //TODO: modify the below based on the instructions you gave Jon.
-        formData.append("eventCode", $scope.eventTag);
+        formData.append("eventCode", $scope.event._id);
       },
       'success': function (file, response) {
         console.log('done with sending photo');
