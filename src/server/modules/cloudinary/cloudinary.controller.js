@@ -34,6 +34,16 @@ module.exports = {
     // // return req.pipe(busboy);
     // req.pipe(busboy);
 
+  },
+
+  addGuestImage : function(req, res){
+    module.exports.postImages(req, res, function(result){
+      //TODO: after we get the image back from the server, let's
+      //run get-pixels on it. It might make sense to require it in the body
+      //of this module and just invoke it here.
+      //TODO: figure out a way to get a 200x200 thumbnail back from Cloudinary.
+      //to review tomorrow.
+    });
   }
 
 };

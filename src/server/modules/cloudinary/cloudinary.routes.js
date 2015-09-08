@@ -6,6 +6,6 @@ module.exports = function (app) {
   
   app.get('/', controller.getImages);
 
-  app.post('/', controller.postImages);
+  app.post('/', controller.addGuestImage);
 
 };

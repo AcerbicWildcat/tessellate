@@ -9,7 +9,7 @@ mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
 
   $scope.dropzoneConfig = {
     'options': {
-      'url': '/event/addphoto', //ultimately, we need to set this route up on the server.
+      'url': '/event/images', //ultimately, we need to set this route up on the server.
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true
