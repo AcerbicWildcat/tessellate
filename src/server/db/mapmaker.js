@@ -4,11 +4,10 @@ var db = require('./db.js');
 var User = db.User,
     Event = db.Event,
     Map = db.Map;
-//TODO: fix these refs.
-//
+
 console.log(db.User + " should be a user constructor");
 
-var chunkSize = 10; //ultimately, we want 10.
+var chunkSize = 10;
 
 /**
  * Saves a map provided an event and a given path to the event's image. Invokes a callback at the end; the provided callback should invoke res.send() or res.end().
@@ -30,23 +29,6 @@ var saveEventAndMap = function(username, filePath, eventCode, callback){
     mapEventMaker(username, filePath, _storage, pixels, eventCode, callback);
   });
 };
-
-
-/**
- * invokes getPixels on an image existing at a provided path. Returns an ndArray.
- * @param  {[String]}
- * @return {[ndArray]}
- */
-// var pixelGetter = function(filePath){
-//   getPixels(filePath, function(err, pixels){
-//     if (err){
-//       console.log(err);
-//       return;
-//     };
-//     return pixels;
-    
-//   });
-// };
 
 /**
  * Saves a map; associates a map with a given event and an event with the saved map.
@@ -153,11 +135,3 @@ var getAverageColor = function(chunk) {
 };
 
 exports.saveEventAndMap = saveEventAndMap;
-
-// var returnRGB = function(data){
-//   return {
-//     r: data[0],
-//     g: data[1],
-//     b: data[2]
-//   }
-// }
