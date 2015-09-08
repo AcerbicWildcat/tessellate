@@ -18,7 +18,7 @@ module.exports = {
   saveMap: function(req, res){
     var conditions = {_id: req.body._id},
         update     = {data: req.body.data},
-        options    = {new: true}, //guarantees that the callback returns the saved map object--not the old one.
+        options    = {new: true}; //guarantees that the callback returns the saved map object--not the old one.
 
     Map.findOneAndUpdate(conditions, update, options, function(err, foundMap){
       sendResp(res);

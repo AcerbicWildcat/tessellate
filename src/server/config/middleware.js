@@ -14,6 +14,7 @@ module.exports = function (app, express) {
   //router declarations
   var imageRouter = express.Router();
   var eventRouter  = express.Router();
+  var mapRouter = express.Router();
 
   // files in /client/public/ will be served as static assets
   app.use(express.static(__dirname + '/../public/'));
@@ -34,6 +35,7 @@ module.exports = function (app, express) {
   //route paths
   app.use('/event/', eventRouter);
   app.use('/event/images', imageRouter);
+  app.use('/map', mapRouter);
 
   //use error handling methods from helpers
   app.use(helpers.errorLogger);
@@ -42,6 +44,7 @@ module.exports = function (app, express) {
   //attach routes to routers
   require('../modules/cloudinary/cloudinary.routes')(imageRouter);
   require('../modules/event/eventRoutes')(eventRouter);
+  require('../modules/map/mapRoutes')(mapRouter);
   // require('../modules/auth/auth-routes')(app, passport);
 
 };
