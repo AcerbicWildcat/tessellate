@@ -43,6 +43,9 @@ module.exports = {
       //of this module and just invoke it here.
       //TODO: figure out a way to get a 200x200 thumbnail back from Cloudinary.
       //to review tomorrow.
+      //maybe build a separate db function that does all of this!! Require it in this
+      //module. This will give us everything we need, as long as we attach
+      //the parent event _id to req.body.
     });
   }
 
