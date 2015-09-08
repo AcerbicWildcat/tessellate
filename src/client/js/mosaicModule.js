@@ -2,6 +2,11 @@ var mosaicView = angular.module('tessell.mosaic', []);
   
 mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
   console.log("in mosaic controller");
+  //TODO: define $scope.mainImg.height, $scope.mainImg.width, $scope.mainImg.path
+  $scope.mainImg.height = $obj.event.height;
+  $scope.mainImg.width = $obj.event.width;
+  $scope.mainImg.path = $obj.map.path;
+
   $scope.dropzoneConfig = {
     'options': {
       'url': '/event/addphoto', //ultimately, we need to set this route up on the server.
@@ -12,10 +17,12 @@ mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
         // console.log(formData, file, xhr);
+        //TODO: modify the below based on the instructions you gave Jon.
         formData.append("eventCode", $scope.eventTag);
       },
       'success': function (file, response) {
         console.log('done with sending photo');
+        //TODO: make sure that the correct functions are called with the response object.
         //do a factory method on response.path
       }
     }
@@ -23,9 +30,6 @@ mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
 }]);
 
 mosaicView.factory('mosaicFactory', ['http', '$scope', function ($http, $scope){
-  //$scope 
-  //create a function that iterates through the map and appends SVG elements to the
-  //SVG on the page.
   var mosaicFactory = {};
 
   mosaicFactory.init = function(){
@@ -69,62 +73,40 @@ mosaicView.factory('mosaicFactory', ['http', '$scope', function ($http, $scope){
     //for the above to append, the pan-zoom code snippet needs to have run...
   };
 
-  mosaicFactory.getAverageColor = function(imgPath) {
-    //POTENTIAL PROBLEM:
-    //These images will corrupt the canvas since they're on cloudinary.
-    //the server might need to do the work here.
-    var img = new Image();
-    //gets garbage collected...
-    img.src = imgPath;
-
-    var canvas = document.createElement('canvas');
-    //gets garbage collected...
-    var ctx = canvas.getContext('2d');
-    var width = canvas.width = img.naturalWidth;
-    var height = canvas.height = img.naturalHeight;
-
-    ctx.drawImage(img, 0, 0);
-
-    var imageData = ctx.getImageData(0, 0, width, height);
-    data = imageData.data;
-
-    var r = 0;
-    var g = 0;
-    var b = 0;
-
-    for (var i = 0, l = data.length; i < l; i += 4) {
-      r += data[i];
-      g += data[i+1];
-      b += data[i+2];
-    }
-
-    r = Math.floor(r / (data.length / 4));
-    g = Math.floor(g / (data.length / 4));
-    b = Math.floor(b / (data.length / 4));
-
-    return { r: r, g: g, b: b };
-
+  //we won't have to use this until we start handling collisions.
+  mosaicFactory.deleteImage = function(ID){
+    var removeLink = document.getElementById('image' + ID);
+    document.getElementsByClassName('svg-pan-zoom_viewport')[0].removeChild(removeLink);
   };
 
-  mosaicFactory.appendImageToSVG = function(imgPath, thumbnailPath){
+  mosaicFactory.findImageHome = function(guestImg){
 
-  // { "_id" : ObjectId("55e65ccc3b1c5de4381f9f68"), "data" : { "0" : { "original" : true, "rgb" : { "b" : 216, "g" : 216, "r" : 216 }, "coords" : [ 0, 0 ] }, "1" : { "original" : true, "rgb" : { "b" : 253, "g" : 253, "r" : 253 }, "coords" : [ 1, 0 ] }, "2" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 2, 0 ] }, "3" : { "original" : true, "rgb" : { "b" : 62, "g" : 140, "r" : 62 }, "coords" : [ 3, 0 ] }, "4" : { "original" : true, "rgb" : { "b" : 62, "g" : 138, "r" : 62 }, "coords" : [ 4, 0 ] }, "5" : { "original" : true, "rgb" : { "b" : 79, "g" : 79, "r" : 79 }, "coords" : [ 0, 1 ] }, "6" : { "original" : true, "rgb" : { "b" : 88, "g" : 88, "r" : 88 }, "coords" : [ 1, 1 ] }, "7" : { "original" : true, "rgb" : { "b" : 178, "g" : 178, "r" : 178 }, "coords" : [ 2, 1 ] }, "8" : { "original" : true, "rgb" : { "b" : 98, "g" : 165, "r" : 98 }, "coords" : [ 3, 1 ] }, "9" : { "original" : true, "rgb" : { "b" : 196, "g" : 226, "r" : 196 }, "coords" : [ 4, 1 ] }, "10" : { "original" : true, "rgb" : { "b" : 162, "g" : 162, "r" : 162 }, "coords" : [ 0, 2 ] }, "11" : { "original" : true, "rgb" : { "b" : 183, "g" : 183, "r" : 183 }, "coords" : [ 1, 2 ] }, "12" : { "original" : true, "rgb" : { "b" : 220, "g" : 220, "r" : 220 }, "coords" : [ 2, 2 ] }, "13" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 3, 2 ] }, "14" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 4, 2 ] }, "15" : { "original" : true, "rgb" : { "b" : 154, "g" : 77, "r" : 91 }, "coords" : [ 0, 3 ] }, "16" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 1, 3 ] }, "17" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 2, 3 ] }, "18" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 3, 3 ] }, "19" : { "original" : true, "rgb" : { "b" : 192, "g" : 192, "r" : 255 }, "coords" : [ 4, 3 ] }, "20" : { "original" : true, "rgb" : { "b" : 139, "g" : 62, "r" : 67 }, "coords" : [ 0, 4 ] }, "21" : { "original" : true, "rgb" : { "b" : 221, "g" : 194, "r" : 197 }, "coords" : [ 1, 4 ] }, "22" : { "original" : true, "rgb" : { "b" : 255, "g" : 255, "r" : 255 }, "coords" : [ 2, 4 ] }, "23" : { "original" : true, "rgb" : { "b" : 200, "g" : 200, "r" : 255 }, "coords" : [ 3, 4 ] }, "24" : { "original" : true, "rgb" : { "b" : 1, "g" : 1, "r" : 255 }, "coords" : [ 4, 4 ] } }, "height" : 5, "width" : 5, "__v" : 0, "_parentEvent" : ObjectId("55e65cca3b1c5de4381f9f67") }
+    //guestImg: comes back from the server with several properties.
+    //guestImg.thumbnailPath
+    //guestImg.imgPath
+    //guestImg.rgb
+      //guestImg.rgb.r
+      //guestImg.rgb.g
+      //guestImg.rgb.b
+    // {
+    //   _parentEvent: ObjectId,
+    //   thumbnailPath: String,
+    //   imgPath: String,
+    //   rgb: {
+    //     r: Number,
+    //     g: Number,
+    //     b: Number
+    //   }
+    // }
 
-    var minimums = [];
+    var minimums = []; //an array of all distances between guestImg.rgb and mainRGB.
     var whatChunk;
 
-    //_storage will ultimately be replaced with map.data
+    for(var key in $scope.map.data){
 
-    for(var key in _storage){
-
-      //check to see if key is in ignoreKeys before executing the block below.
-      var mainRGB = _storage[key].rgb;
-      var RGBDistance = Math.sqrt(Math.pow(mainRGB.r - rgb.r, 2) + Math.pow(mainRGB.g - rgb.g, 2) + Math.pow(mainRGB.b - rgb.b, 2));
+      var mainRGB = $scope.map.data[key].rgb;
+      var RGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
       //the difference between the average RGB value of the small image and the average RGB value of the large image.
-      
-      if (whatChunk === undefined){
-        whatChunk = _storage[key];
-      }
 
       minimums.push({
         key: key,
@@ -132,9 +114,42 @@ mosaicView.factory('mosaicFactory', ['http', '$scope', function ($http, $scope){
       });
     }
 
+    //sort the minimums so that the lowest difference is first.
+    minimums.sort(function(a, b){
+      return (a.min - b.min);
+    });
 
-    renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk);
-    //invoke this when the data comes back from Cloudinary.
+    console.log(minimums); //to verify the above
+
+    //now, iterate through the minimums and check each key in $scope.map.data for whether it has a minValue
+    for (var i = 0; i < minimums.length; i++){
+      if ($scope.map.data[minimums[i].key].original === false){
+        continue;
+        //right now, we're just skipping over sector that has an image in it.
+      } else {
+        whatChunk = $scope.map.data[minimums[i].key];
+        whatChunk.ID = minimums[i].key;
+        //updates the data.
+        $scope.map.data[minimums[i].key].original = false;
+        $scope.map.data[minimums[i].key].minValue = minimums[i].min;
+        $scope.map.data[minimums[i].key].imgPath = guestImg.imgPath;
+        $scope.map.data[minimums[i].key].thumbnailPath = guestImg.thumbnailPath;
+        break;
+      }
+    }
+
+    //TODO: make a post request to the server updating the model with the latest data.
+    $http.post('/model/revise', {
+      _id: $scope.map._id,
+      data: $scope.map.data
+    })
+    .then(function(response){
+      console.log("model revised!");
+    });
+
+    mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
+    //xCoord, yCoord, ID, imgPath, thumbnailPath
+    //eventually, when we revise this function to handle collisions, we'll want to invoke mosaicFactory.redrawImages.
   };
 
   return mosaicFactory;
