@@ -11,6 +11,7 @@ var {
   Component,
   TextInput,
   Image,
+  AlertIOS,
   
 } = React;
 
@@ -59,15 +60,15 @@ class LoginView extends Component {
       this.props.navigator.push({
         title: "Tessellate",
         component:Main,
-        passProps:{currentUser:'Jonathan Schapiro',}
+        passProps:{currentUser:'Jonathan Schapiro',
+        profilePicture:'.img'}
       })
       this.props.refs.setState({navBarHidden:true}) 
     }
   }
 
   login() {
-  //GET Request auth/facebook
-  console.log('logging in with facebook')
+  //GET Request user/facebook
   var getObject = {
     method: 'GET',
     headers: {
@@ -82,7 +83,11 @@ class LoginView extends Component {
     .then(function(res) {
       console.log('facebook');
       console.dir(res);
-      return {};
+      //example
+      if (!res.token){
+        throw new Error('Facebook Login Failed');
+      }
+      return res.json();
     })
     .then(function(resJson) {
       //SETTING THE STATE IS ASYNC!!!!! - write a damn blog post!
@@ -94,13 +99,11 @@ class LoginView extends Component {
       return resJson;
     })
     .catch((error) => {
-      console.log(error)
-
       AlertIOS.alert(
-        'Whoa! Something went wrong with the network.',
+        'Whoa! Something went wrong...',
         error.message, [{
           text: 'Try Again',
-          onPress: () => console.log('No Pressed!')
+          onPress: () =>  null
         }]
       );
 
