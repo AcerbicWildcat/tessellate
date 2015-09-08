@@ -19,27 +19,27 @@ var styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'transparent',
+		backgroundColor: '#1B2B32',
 	},
-	description: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#D9926A'
-  },
-  loginButton: {
-    //container for touchable highlight
-  },
   fbLogo: {
-    width:350,
+    width:300,
     height:45,
-    borderRadius:35,
+    backgroundColor:'#125989',
+    marginTop:20,
+    borderRadius:10,
+    textAlign:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     
+  },
+  fbLogoText: {
+    textAlign:'center',
+    color:'#FFFFFF',
+    fontSize:20,
   },
   logo: {
     width:400,
     height:400,
-    
-    
   }
 
 });
@@ -60,9 +60,7 @@ class LoginView extends Component {
       this.props.navigator.push({
         title: "Tessellate",
         component:Main,
-        passProps:{currentUser:'Jonathan Schapiro',
-
-        }
+        passProps:{currentUser:'Jonathan Schapiro',}
       })
       this.props.refs.setState({navBarHidden:true}) 
     }
@@ -85,8 +83,8 @@ class LoginView extends Component {
 
       <View style={styles.container}>
         <Image resizeMode='contain' source={require('image!mainLogo')} style={styles.logo}/>
-        <TouchableHighlight style={styles.loginButton} onPress={this.login.bind(this)}>
-          <Image source={require('image!fb_login')} style={styles.fbLogo}/>
+        <TouchableHighlight style={styles.fbLogo} onPress={this.login.bind(this)}>
+          <Text style={styles.fbLogoText}>Login with Facebook</Text>
         </TouchableHighlight>
       </View>
       
