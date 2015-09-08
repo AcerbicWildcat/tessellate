@@ -1,10 +1,11 @@
-angular.module('authServices', [])
+
 /**
  * Factory that intercepts server response to see if user was authenticated when making request.
  * @param  {dependency} $q
  * @param  {dependency} $location
  */
-.factory('ResInterceptor', function ($q, $location){
+tess.factory('ResInterceptor', ['$q', '$location', function ($q, $location){
+  // console.log('ResInterceptor has been injected');
   return {
     /**
      * If response is good, user is authenticated so the response is returned.
@@ -27,7 +28,7 @@ angular.module('authServices', [])
       return $q.reject(response);
     }
   };
-})
+}]);
 /**
  * Factory that uses promise to check if user is authenticated or not.
  * @param  {dependency} $q
@@ -35,7 +36,8 @@ angular.module('authServices', [])
  * @param  {dependency} $location
  * @param  {dependency} $rootScope
  */
-.factory('AuthCheck', function ($q, $http, $location, $rootScope){
+tess.factory('AuthCheck', ['$q', '$http', '$location', '$rootScope', function ($q, $http, $location, $rootScope){
+  // console.log('AuthCheck has been injected');
   return {
     /**
      * Returns a promise that resolves if user is authenticated, rejects and redirects to login if not.
@@ -61,5 +63,5 @@ angular.module('authServices', [])
       return deferred.promise;
     }
   };
-});
+}]);
 
