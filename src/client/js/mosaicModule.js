@@ -139,12 +139,12 @@ mosaicView.factory('mosaicFactory', ['http', '$scope', function ($http, $scope){
     }
 
     //TODO: make a post request to the server updating the model with the latest data.
-    $http.post('/model/revise', {
+    $http.post('/map/revise', {
       _id: $scope.map._id,
       data: $scope.map.data
     })
     .then(function(response){
-      console.log("model revised!");
+      console.log("map revised!");
     });
 
     mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
