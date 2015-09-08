@@ -1,4 +1,4 @@
-<!-- <header id="top" class="header"> -->
+<header id="top" class="header">
 
 
   <div class="text-vertical-center">
@@ -8,23 +8,18 @@
       <form>
         <div>
           <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="eventTag"/>
-          <input type="submit" value="Join Event" class="btn btn-lg" ng-click="checkForExistingEvent()">
+          <input type="submit" value="Join Event" class="btn btn-lg" id="submit-all" ng-click="checkForExistingEvent()">
           <!-- <input dropzone="dropzoneConfig"> -->
         </div>
         <div class="btn btn-lg" dropzone="dropzoneConfig">CLICK HERE</div>
       </form>
-      <!--   <button dropzone="dropzoneConfig">
-          Drag and drop files here or click to upload   
-        </button> -->
-  <!--     <form enctype="multipart/form-data" ng-dropzone dropzone="dropzoneConfig">
-        <input name="file" type="file" multiple />
-      </form> -->
-      <div>
+      <div class="btn btn-lg">
+        <a href="#/mosaic">Go to mosaic</a>
       </div>
   </div>
 
 
-<!-- </header> -->
+</header>
 <!--     <p>
       This is the most minimal example of Dropzone. The upload in this example
       doesn't work, because there is no actual server to handle the file upload.
