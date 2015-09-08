@@ -46,4 +46,4 @@ var getAverageColor = function(pixels) {
   return { r: r, g: g, b: b };
 };
 
-module.exports = 
+module.exports = analyzeGuestImage;
