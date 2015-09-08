@@ -1,53 +1,132 @@
-/**
- * tess is the main angular module.
- * @type {angular module}
- */
+
 var tess = angular.module("tessell", [
-  "ngRoute"
-  // "flow",
-  // 'authServices'
-])
-  // uncomment code below to add auth checks on protected resources
-  // .config(function ($routeProvider, $httpProvider, ResInterceptor, AuthCheck){
-  .config(function ($routeProvider, $httpProvider){
+  "ngRoute",
+  'tessell.mosaic'
+]);
+
+tess.config(["$routeProvider", function ($routeProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../main.html',
-        controller: 'tessellCtrl'
+        controller: 'tessellCtrl',
+        authenticate: false
       })
       .when('/create', {
         templateUrl: '../create.html',
         controller: 'tessellCtrl',
-        // resolve: {
-        //   loggedin: 'AuthCheck.checkLoggedIn'
-        // }
+        authenticate: true
       })
       .when('/mosaic', {
         templateUrl: '../mosaic.html', 
-        controller: 'tessellCtrl',
-        // resolve: {
-        //   loggedin: 'AuthCheck.checkLoggedIn'
-        // }
+        controller: 'mosaicCtrl',
+        authenticate: true
       });
-    // may not actually need this interceptor in addition to the resolves above
-    // $httpProvider.interceptors.push('ResInterceptor');
-  });
+  }]);
 
-//   .config(['flowFactoryProvider', function (flowFactoryProvider) {
-//     flowFactoryProvider.defaults = {
-//       // target: 'upload.php',
-//       permanentErrors: [404, 500, 501],
-//       maxChunkRetries: 1,
-//       chunkRetryInterval: 5000,
-//       simultaneousUploads: 4,
-//       singleFile: true
-//     };
-//     flowFactoryProvider.on('fileAdded', function (event) {
-//       console.log('fileAdded', arguments);
-//     });
-//     // Can be used with different implementations of Flow.js
-//     // flowFactoryProvider.factory = fustyFlowFactory;
-// }]);
+tess.run(function ($rootScope, $location){
+  $rootScope.$on("$routeChangeStart", function (event, next, current){
+    // console.log("next---> ", next.$$route.authenticate);
+    //TO DO: 
+    //  assuming function that returns boolean if user is authenticated
+    //  if(user authenticated and route requires authentication){
+    //    if( next.templateUrl === "login.html"){
+    //      
+    //    }else {
+    //      $location.path("/login");
+    //    }
+    //  }
+  });
+});
+
+tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
+  // $scope.eventTag = "";
+  // console.log('loaded Ctrl: ', $scope.mainMosaicImage);
+  $scope.mainMosaicImage = eventFactory.mainMosaicImage;
+  $scope.checkForExistingEvent = function(){
+    eventFactory.checkForExistingEvent($scope.eventTag);
+  };
+  $scope.dropzoneConfig = {
+    'options': {
+      'url': '/event/create', 
+      'method': 'POST',
+      'maxFiles': 1,
+      'clickable': true,
+      'autoProcessQueue': false,
+      init: function(){
+        dz = this;
+        $('#submit-all').click(function(){
+          dz.processQueue();
+        });
+      }
+    },
+    'eventHandlers': {
+      'sending': function (file, xhr, formData) {
+        // console.log(formData, file, xhr);
+        formData.append("eventCode", $scope.eventTag);
+      },
+      'success': function (file, response) {
+        $scope.getMosiacMap = eventFactory.getMosiacMap(response);
+        $location.path('/mosaic');
+        $scope.$apply();
+      }
+    }
+  };
+}]);
+
+tess.factory('eventFactory', ["$http", function ($http){
+  var eventFactory = {};
+  eventFactory.mosaicRetrieved = false;
+  eventFactory.getMosiacMap = function(response){
+    // console.log(response);
+    if(eventFactory.mosaicRetrieved === false){
+      eventFactory.mainMosaicImage = response;
+      eventFactory.mosaicRetrieved = true;
+    }
+    console.log('in factory');
+    return response;
+  };
+  eventFactory.checkForExistingEvent = function(eventTag){
+    $http.post('/event/join', {eventCode: eventTag})
+      .then(function(response){
+        // console.log(response);
+      });
+    // console.log('handling the event checking for', eventTag);
+  };
+  return eventFactory;
+}]);
+
+
+/**
+* An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
+* 
+* Usage:
+* 
+* <div ng-app="app" ng-controller="SomeCtrl">
+*   <button dropzone="dropzoneConfig">
+*     Drag and drop files here or click to upload
+*   </button>
+* </div>
+*/
+
+tess.directive('dropzone', function () {
+ return function (scope, element, attrs) {
+   var config, dropzone;
+
+   config = scope[attrs.dropzone];
+
+   // create a Dropzone for the element with the given options
+   dropzone = new Dropzone(element[0], config.options);
+
+   // bind the given event handlers
+   angular.forEach(config.eventHandlers, function (handler, event) {
+     dropzone.on(event, handler);
+   });
+ };
+});
+
+
+
+
 
 /*tess.controller("tessellCtrl", function ($scope, $location){
   $scope.testing = false;
@@ -88,78 +167,3 @@ var tess = angular.module("tessell", [
   $scope.open = function($event) {
     $scope.status.opened = true;
   };*/
-
-tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", "$window", function ($scope, eventFactory, $location, $window){
-  // $scope.eventTag = "";
-  $scope.checkForExistingEvent = function(){
-    eventFactory.checkForExistingEvent($scope.eventTag);
-  };
-  $scope.dropzoneConfig = {
-    'options': {
-      'url': '/event/create', 
-      'method': 'POST',
-      'maxFiles': 1,
-      'clickable': true
-    },
-    'eventHandlers': {
-      'sending': function (file, xhr, formData) {
-        // console.log(formData, file, xhr);
-        formData.append("eventCode", $scope.eventTag);
-      },
-      'success': function (file, response) {
-        // console.log(response);
-        console.log('done with sending photo');
-        // $location.url('/mosaic');
-        $scope.thingy = eventFactory.thingy(response);
-        console.log($scope.thingy);
-        $window.location.href = '/#/mosaic';
-      }
-    }
-  };
-}]);
-
-tess.factory('eventFactory', ["$http", function ($http){
-var eventFactory = {};
-eventFactory.thingy = function(response){
-  // console.log(response);
-  console.log('in factory');
-  return response;
-};
-eventFactory.checkForExistingEvent = function(eventTag){
-  $http.post('/event/join', {eventCode: eventTag})
-    .then(function(response){
-      console.log(response);
-    });
-  console.log('handling the event checking for', eventTag);
-};
-return eventFactory;
-}]);
-
-
-/**
-* An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
-* 
-* Usage:
-* 
-* <div ng-app="app" ng-controller="SomeCtrl">
-*   <button dropzone="dropzoneConfig">
-*     Drag and drop files here or click to upload
-*   </button>
-* </div>
-*/
-
-tess.directive('dropzone', function () {
- return function (scope, element, attrs) {
-   var config, dropzone;
-
-   config = scope[attrs.dropzone];
-
-   // create a Dropzone for the element with the given options
-   dropzone = new Dropzone(element[0], config.options);
-
-   // bind the given event handlers
-   angular.forEach(config.eventHandlers, function (handler, event) {
-     dropzone.on(event, handler);
-   });
- };
-});
