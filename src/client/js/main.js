@@ -5,23 +5,18 @@ var tess = angular.module("tessell", [
 tess.config(["$routeProvider", function ($routeProvider){
     $routeProvider
       .when('/', {
-        templateUrl: '../login.html', 
-        controller: 'eventsProfileController'
-      })
-      .when('/events', {
-        templateUrl: '../events.html',
+        templateUrl: '../events.html', 
         controller: 'eventsProfileController'
       });
-      // .otherwise({
-      //   //default path is back to the profile page
-      //   //the route auth validation will either load the profile view or the login view at '/'
-      //   redirectTo: '/login'
-      // });
+      /*.when('/events', {
+        templateUrl: '../events.html',
+        controller: 'eventsProfileController'
+      });*/
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
   $rootScope.$on("$routeChangeStart", function (event, next, current){
-    //TO DO: check if user is logged in. If not send them to the login page
+
   });
 }]);
 
@@ -43,8 +38,8 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   return httpRequestFactory;
 }]);
 
-
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', function ($scope, httpRequestFactory){
+  $scope.noEvent = false;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -54,19 +49,25 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
   $scope.userProfile = httpRequestFactory.fullUserProfile === undefined ? $scope.getUserProfile() : httpRequestFactory.fullUserProfile;
   $scope.joinEvent = function(){
     //TODO: code to join an exisiting event
-    console.log('ready to JOIN an event');
+    if(!!$scope.eventCode){
+      $scope.noEvent = false;
+      console.log('ready to JOIN an event ', $scope.eventCode);
+    } else {
+      $scope.noEvent = true;
+    }
   };
   $scope.createEvent = function(){
-    //capture entered event code (if any) and send the user to the create event view
-    console.log("ready to CREATE a new event");
+      console.log("ready to CREATE a new event ", $scope.eventCode);
   };
   $scope.goToExisitingEvent = function(){
     //on clicking an event, take the user to that event mosaic page
     console.log("off to an exisiting event");
-  };
+    };
 }]);
 
 /*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
+  // $scope.eventTag = "";
+  // console.log('loaded Ctrl: ', $scope.mainMosaicImage);
   $scope.mainMosaicImage = eventFactory.mainMosaicImage;
   $scope.checkForExistingEvent = function(){
     eventFactory.checkForExistingEvent($scope.eventTag);
