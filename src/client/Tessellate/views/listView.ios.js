@@ -29,9 +29,12 @@ class UserEventsView extends React.Component {
 	
 	constructor(props){
 	   super(props);
-	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+	   this.sectionIDs = ['Created Events', 'Joined Events'];
+	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2,
+	   sectionHeaderHasChanged: (s1, s2) => s1 !== s2})
 	   this.state = {
-	     dataSource: this.ds.cloneWithRows([{eventName:'Mack Wedding'},{eventName:'Rob Birthday'}])
+	     dataSource: this.ds.cloneWithRows([{eventName:'You don\'t have any events yet...'}]),
+	     dataBlob:{}
 	   }
 	 }
 
@@ -41,11 +44,13 @@ class UserEventsView extends React.Component {
 
 	fetchUserEvents(){
 		//api request
-		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},,{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'}]
-		
+		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
+		var tempDataBlob = this.state.dataBlob;
+		tempDataBlob[this.sectionIDs[0]]=data;
+		tempDataBlob[this.sectionIDs[1]]=data;
 
 		this.setState({
-              dataSource: this.ds.cloneWithRows(data)
+              dataSource: this.ds.cloneWithRowsAndSections(tempDataBlob)
         },function(){
         	console.log('we done did it')
         })
@@ -63,6 +68,14 @@ class UserEventsView extends React.Component {
 	   )
 	 }
 
+	renderSectionHeader(sectionData, sectionID){
+		return (
+	      <View style={styles.section}>
+	        <Text style={styles.sectionText}>{sectionID}</Text>
+	      </View>
+      )
+	}
+
 	render(){
 		
 	    return (
@@ -70,6 +83,7 @@ class UserEventsView extends React.Component {
 	          <ListView
 	            dataSource={this.state.dataSource}
 	            renderRow={this.renderRow.bind(this)}
+	            renderSectionHeader={this.renderSectionHeader}
 	            renderHeader={() => null} />
 	      </View>
 	    )
