@@ -14,13 +14,26 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor:'#FFFFFF',
     position:'relative',
+    top:0,
     marginTop:60,
     alignSelf:'stretch',
   },
+  section: {
+
+  	marginTop:0,
+  	backgroundColor:'#37646F',
+  },
+  sectionText: {
+  	fontSize:18,
+  	padding:12,
+  	color:'#FFFFFF',
+  },
   rowContainer: {
     padding: 20,
-    marginTop:10,
     backgroundColor:'grey',
+  }, 
+  rowText: {
+  	fontSize:14,
   }
 });
 
@@ -61,7 +74,7 @@ class UserEventsView extends React.Component {
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text> {rowData} </Text>
+	         <Text style={styles.rowText}> {rowData} </Text>
 	       </View>
 	      
 	     </View>
@@ -84,7 +97,9 @@ class UserEventsView extends React.Component {
 	            dataSource={this.state.dataSource}
 	            renderRow={this.renderRow.bind(this)}
 	            renderSectionHeader={this.renderSectionHeader}
-	            renderHeader={() => null} />
+	            renderHeader={() => null} 
+	            automaticallyAdjustContentInsets={false}/>
+
 	      </View>
 	    )
 	  }
