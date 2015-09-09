@@ -16,7 +16,8 @@
 </head>
 <body> -->
   <section class="topbar" ng-init="getUserProfile()">
-    <div class="logo"></div>
+    <div class="logo">
+    </div>
   </section>
   <section class="navbar">
     <!-- <div class="event-nav"> -->
@@ -46,6 +47,8 @@
   <section class="sidebar">
     <div class="account">
       <a href="">Logout</a><br>
+      <a href="">Settings</a>
+      <h1>{{userProfile}}</h1>
     </div>
   </section>
   
