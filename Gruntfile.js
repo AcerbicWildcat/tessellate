@@ -16,17 +16,19 @@ module.exports = function(grunt) {
      */
     watch: {
       javascript: {
-        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
+        // files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
+        files: ["src/client/**/*.js", "Gruntfile.js"],
         tasks: ['jshint', 'concat', 'copy']
       },
       html: {
         files: ["src/client/**/*.html", "src/server/*.html"],
         tasks: ['front']
-      },
-      sass: {
-        files: 'src/client/sass/{,*/}*.{scss,sass}',
-        tasks: ['sass:dist'],
       }
+      // },
+      // sass: {
+      //   files: 'src/client/sass/{,*/}*.{scss,sass}',
+      //   tasks: ['sass:dist'],
+      // }
 
     },
     /**

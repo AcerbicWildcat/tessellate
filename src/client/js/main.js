@@ -1,6 +1,6 @@
 var tess = angular.module("tessell", [
-  "ngRoute",
-  'tessell.mosaic'
+  "ngRoute"
+  // 'tessell.mosaic'
 ]);
 
 tess.config(["$routeProvider", function ($routeProvider){
@@ -18,8 +18,12 @@ tess.config(["$routeProvider", function ($routeProvider){
         controller: ''
       })*/
       .when('/', {
-        templateUrl: '../login.html', 
-        controller: 'mainController',
+        templateUrl: '../login.html' 
+        // controller: 'eventsProfileController',
+      })
+      .when('/events', {
+        templateUrl: '../events.html'
+        // controller: 'eventsProfileController'
       });
       // .otherwise({
       //   //default path is back to the profile page
@@ -28,12 +32,14 @@ tess.config(["$routeProvider", function ($routeProvider){
       // });
   }]);
 
-tess.run(function ($rootScope, $location){
+tess.run([ '$rootScope', '$location', function ($rootScope, $location){
   $rootScope.$on("$routeChangeStart", function (event, next, current){
-    console.log("next---> ", next.$$route.authenticate);
+    // console.log("next---> ", next);
+    // console.log("event---> ", event);
+    // console.log("current---> ", current);
     //TO DO: check if user is logged in. If not send them to the login page
   });
-});
+}]);
 
 // globally available functions that make http requests to the server
 tess.factory('httpRequestFactory', [ '$http', function ($http){
@@ -41,40 +47,45 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   httpRequestFactory.getUserProfile = function(){
     return $http({
       method: 'GET',
-      url: '/loggedin'//TBD assuming the roure is something like user/:userId?
+      url: '/user'//TBD assuming the roure is something like user/:userId?
     }).then(function(response){
       httpRequestFactory.fullUserProfile = response;
       return response;
-      //user profile information should be attached to this
-      //expecting events they either have created or are a part of
-      //expecting user display name
-      //expectine user profile picture
-      //set this information to the factory scope so we can grab it from any view we made need it for
     });
   };
   return httpRequestFactory;
 }]);
 
 tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
-  $scope.getUserProfile = function(){
+/*  $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
         console.log("response from main controller --> ", response);
       });
-  };
+  };*/
 }]);
 
-tess.controller('eventsProfileController', [ '$scope', 'eventFactory', function ($scope, eventFactory){
+tess.controller('eventsProfileController', [ '$scope', 'eventFactory', 'httpRequestFactory', function ($scope, eventFactory, httpRequestFactory){
+  console.log($scope.eventCode);
+  $scope.getUserProfile = function(){
+    httpRequestFactory.getUserProfile()
+      .then(function(response){
+        console.log("response from events controller --> ", response);
+      });
+  };
   $scope.joinEvent = function(){
     //TODO: code to join an exisiting event
+    console.log('ready to JOIN an event');
   };
   $scope.createEvent = function(){
     //capture entered event code (if any) and send the user to the create event view
+    console.log("ready to CREATE a new event");
   };
   $scope.goToExisitingEvent = function(){
     //on clicking an event, take the user to that event mosaic page
+    console.log("off to an exisiting event");
   };
-  $scope.userProfile = httpRequestFactory.fullUserProfile;
+  $scope.userProfile = httpRequestFactory.fullUserProfile || "hello World";
 }]);
 
 tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
