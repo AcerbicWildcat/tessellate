@@ -23,8 +23,7 @@ var {
  
 var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
 var TimerMixin = require('react-timer-mixin');
- console.log('helllllppppp')
- console.log('Path: ' + Path)
+
 var MosaicView = React.createClass({
   mixins: [TimerMixin],
  

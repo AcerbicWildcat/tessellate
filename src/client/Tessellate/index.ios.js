@@ -5,7 +5,6 @@
 'use strict';
 
 var React = require('react-native');
-var Main = require('./views/mainView.ios.js')
 var Login = require('./views/loginView.ios')
 
 //Desctructre the React Object
