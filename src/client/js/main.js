@@ -5,18 +5,6 @@ var tess = angular.module("tessell", [
 
 tess.config(["$routeProvider", function ($routeProvider){
     $routeProvider
-/*      .when('/events', {
-        templateUrl: '../profile.html',
-        controller: 'profileController'
-      })
-      .when('/events/create', {
-        templateUrl: '../createEvent.html',
-        controller: 'createEventController'
-      })
-      .when('/events/:id', {
-        templateUrl: '',
-        controller: ''
-      })*/
       .when('/', {
         templateUrl: '../login.html', 
         controller: 'mainController',
