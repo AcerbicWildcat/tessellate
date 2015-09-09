@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var Map = mongoose.Schema({
-  _parentEvent: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
+  _parentImage: {type: mongoose.Schema.Types.ObjectId, ref: "Image"},
   data: {},
   height: Number,
   width: Number
