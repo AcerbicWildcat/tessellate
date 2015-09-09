@@ -12,32 +12,14 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white'
-  },
-  button: {
-    height: 60,
-    backgroundColor: '#48BBEC',
-    flex: 3,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  searchInput: {
-    height: 60,
-    padding: 10,
-    fontSize: 18,
-    color: '#111',
-    flex: 10
+    backgroundColor:'#FFFFFF',
+    position:'relative',
+    marginTop:60,
+    alignSelf:'stretch',
   },
   rowContainer: {
     padding: 10,
-  },
-  footerContainer: {
-    backgroundColor: '#E3E3E3',
-    alignItems: 'center',
-    flexDirection: 'row'
+    backgroundColor:'grey',
   }
 });
 
@@ -48,7 +30,7 @@ class UserEventsView extends React.Component {
 	   super(props);
 	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
 	   this.state = {
-	     dataSource: this.ds.cloneWithRows({events:[{eventName:'Macks Wedding'},{eventName:'Prad Birthday'}]})
+	     dataSource: this.ds.cloneWithRows({events:[{eventName:'Macks Wedding', eventImage: '.img'},{eventName:'Prad Birthday'}]})
 	   }
 	 }
 
@@ -59,7 +41,7 @@ class UserEventsView extends React.Component {
 	fetchUserEvents(){
 		//api request
 		var data = {
-
+			events:[{eventName:'Macks Wedding'},{eventName:'Prad Birthday'}]
 		};
 
 		this.setState({
@@ -70,11 +52,11 @@ class UserEventsView extends React.Component {
 	}
 
 	renderRow(rowData){
-		console.log('cloning rows with data: ' + rowData)
+		console.dir(rowData[0].eventName)
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text> {rowData} </Text>
+	         <Text> {rowData[0].eventName} </Text>
 	       </View>
 	      
 	     </View>
@@ -82,12 +64,12 @@ class UserEventsView extends React.Component {
 	 }
 
 	render(){
-		console.log('rendering list view')
+		
 	    return (
 	      <View style={styles.container}>
 	          <ListView
 	            dataSource={this.state.dataSource}
-	            renderRow={this.renderRow}
+	            renderRow={this.renderRow.bind(this)}
 	            renderHeader={() => null} />
 	      </View>
 	    )

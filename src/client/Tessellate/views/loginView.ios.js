@@ -69,6 +69,7 @@ class LoginView extends Component {
 
   login() {
   //GET Request user/facebook
+  console.log('attempting to <login></login>')
   var getObject = {
     method: 'GET',
     headers: {
