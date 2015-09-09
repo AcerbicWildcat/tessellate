@@ -44,6 +44,6 @@ module.exports = function (app, express) {
   require('../modules/cloudinary/cloudinary.routes')(imageRouter);
   require('../modules/event/eventRoutes')(eventRouter);
   require('../modules/map/mapRoutes')(mapRouter);
-  // require('../modules/auth/auth-routes')(app, passport);
+  require('../modules/auth/auth-routes')(app, passport);
 
 };
