@@ -29,8 +29,11 @@ tess.run([ '$rootScope', '$location', function ($rootScope, $location){
 tess.factory('httpRequestFactory', [ '$http', function ($http){
   var httpRequestFactory = {};
   httpRequestFactory.madeUserProfileRequest = false;
-  httpRequestFactory.getUserProfile = function(){
-    console.log('making server request');
+  httpRequestFactory.getUserProfile = function(userId){
+    //take user identification and ask server for their profile
+    //if they have one, attach it to the factory scope for retrieval in other views
+    //if they do not a default blank one should be returned and that is what is attached to the factory scope
+    console.log('got to getUserProfile');
     return $http({
       method: 'GET',
       url: '/user'
@@ -62,7 +65,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
   $scope.goToExisitingEvent = function(){
     //on clicking an event, take the user to that event mosaic page
     console.log("off to an exisiting event");
-  };
+    };
 }]);
 
 /*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
