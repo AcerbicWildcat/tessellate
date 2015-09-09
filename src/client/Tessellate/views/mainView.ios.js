@@ -22,14 +22,7 @@ var {
  
  //Create Main Class (First View of App)
 var Main =  React.createClass({
-  /*constructor(props){
-    super(props);
-    this.state = {
-      eventCode: '',
-      loggedIn: false,
-      isLoading: false
-    }
-  },*/
+ 
   getInitialState: function() {
     return {
       eventCode: '',
@@ -47,7 +40,7 @@ var Main =  React.createClass({
        
          <Image resizeMode='contain' style={styles.header} source={require('image!tHeader')}/>
 
-          <EventsView/>
+          <EventsView passEventCode={this.showEventDetails}/>
 
            
          <View style={styles.footer}>
@@ -67,7 +60,8 @@ var Main =  React.createClass({
     );
   },
 
-  showEventDetails(){
+  showEventDetails(eventCode){
+    console.log(eventCode)
     //fetch event data
     var self = this;
 

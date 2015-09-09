@@ -80,7 +80,8 @@ class LoginView extends Component {
     }
   };
   var self = this;
-  fetch('http://localhost:8000/user/facebook', getObject)
+  self.isAuthorized(true);
+  /*fetch('http://localhost:8000/user/facebook', getObject)
     .then(function(res) {
       console.log('facebook');
       console.dir(res);
@@ -89,7 +90,7 @@ class LoginView extends Component {
       if (!res.token){
         throw new Error('Facebook Login Failed');
       }
-      return res.json();*/
+      return res.json();
       return {}
     })
     .then(function(resJson) {
@@ -110,7 +111,7 @@ class LoginView extends Component {
         }]
       );
 
-    });
+    });*/
 
 
 }
