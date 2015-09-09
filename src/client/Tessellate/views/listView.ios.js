@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
   },
   rowContainer: {
-    padding: 10,
+    padding: 20,
     marginTop:10,
     backgroundColor:'grey',
   }
@@ -41,7 +41,7 @@ class UserEventsView extends React.Component {
 
 	fetchUserEvents(){
 		//api request
-		var data = [{eventName:'Mack Wedding'},{eventName:'Rob Birthday'}]
+		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},,{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'},{eventName:'Rob Birthday'}]
 		
 
 		this.setState({
