@@ -10,7 +10,7 @@ module.exports = {
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-      enableProof: process.env.FACEBOOK_ENABLE_PROOF === "true"
+      profileFields: ['id','emails', 'first_name', 'last_name', 'displayName', 'photos']
     }
   },
   db: {

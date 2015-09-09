@@ -1,17 +1,14 @@
 module.exports = function (app, passport) {
   // These are protected resources --> will not be accessible if user
   // is not logged in with facebook
-  app.get('/event', isLoggedIn, function (req, res){
-    res.render('pages/event');
-  });
-
-  app.get('/event/:eventId', isLoggedIn, function (req, res){
-    res.render('pages/event/mosaic');
-  });
 
   // Route to test if user is logged in or not
   app.get('/loggedin', function (req, res){
-    res.send(req.isAuthenticated() ? req.user : 0);
+    if (req.isAuthenticated()){
+      res.send(req.user);
+    } else {
+      res.redirect('/');
+    }
   });
 
   // Logout of our app
@@ -36,11 +33,10 @@ module.exports = function (app, passport) {
   // On user interaction with facebook login, redirected back to here
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      // successRedirect: '/', //redirect to landing page for now --> will be account/event page once it exists
+      successRedirect: '/events', //redirect to landing page for now --> will be account/event page once it exists
       failureRedirect: '/'
-    }), function (req, res){
-      res.end();
-  });
+    })
+  );
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -57,7 +53,6 @@ module.exports = function (app, passport) {
       return next();
     } else {
       res.send(401);
-      // res.redirect('/');
     }
   };
 };
