@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 //can be either a main image with a map property or contributor image with an rgb property.
+
 var Image = mongoose.Schema({
   _parentUser: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   _parentEvent: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
