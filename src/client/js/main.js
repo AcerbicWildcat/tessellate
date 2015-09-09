@@ -47,6 +47,7 @@ tess.run(function ($rootScope, $location){
 tess.factory('httpRequestFactory', [ '$http', function ($http){
   //$scope varable for user login information
   //$scope variable for user profile information
+  //maybe cal it $scope.userObject
   var httpRequestFactory = {};
   httpRequestFactory.loginUser = function(){
     return $http({
@@ -85,16 +86,13 @@ tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location',
     httpRequestFactory.loginUser()
       .then(function(response){
         console.log('got a response back in controller login: ', response);
+        $location.path('/profile');
+        //maybe need this $apply method to load new path. Check on that notion.
+        // $scope.$apply();
       //after they login, find their user id or name and send that to the server to get their profile view
       // $scope.getUserProfile(/*user identification*/);
-      $scope.getUserProfile(/*user identification*/);
+      // $scope.getUserProfile(/*user identification*/);
     });
-  };
-  $scope.getUserProfile = function(/*user identification*/){
-    httpRequestFactory.getUserProfile(/*user identification*/)
-      .then(function(response){
-
-      });
   };
 }]);
 
