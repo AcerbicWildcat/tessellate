@@ -4,8 +4,10 @@
 
 html,
 body {
-    width: 100%;
-    height: 100%;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    background-color: #1B2B32;
+
 }
 
 body {
@@ -13,21 +15,24 @@ body {
     /*font-size: 80;*/
 }
 
-/*section { 
-    width: 80%; 
-    display: table; 
-    padding: 1em 0 0; 
+.center-container {
     margin-left: auto;
     margin-right: auto;
-}*/
-/*
-#thing { 
-    display: table-cell; 
-    width: 100%; 
-    margin-left: 100px;
-}*/
+}
 
-input { 
+#copy-name{
+     position:absolute;
+     bottom:0;
+     right:0;
+     margin-right: 5px;
+}
+
+#logo {
+    height: 45em;
+    width: 32em;
+    color: #A3ABAF;
+}
+/*input { 
     text-align: center;
     padding: 1em 2em; 
     border-radius: 5px;
@@ -40,7 +45,7 @@ button {
     border-radius: 5px;
     margin: 0 0 0 1em; 
     background-color: Transparent;
-}
+}*/
 
 /*button {
     background-repeat:no-repeat;
@@ -65,7 +70,7 @@ button {
 
 /* Custom Button Styles */
 
-.btn-dark {
+/*.btn-dark {
     border-radius: 0;
     color: #fff;
     background-color: rgba(0,0,0,0.4);
@@ -89,17 +94,18 @@ button {
 .btn-light:active {
     color: #333;
     background-color: rgba(255,255,255,0.8);
-}
+}*/
 
 .header {
     display: table;
     position: relative;
     width: 100%;
     height: 100%;
-    background: url(../assets/wedding.jpg) no-repeat center center scroll;
-    background-color: grey;
+    /*background: url(../assets/wedding.jpg) no-repeat center center scroll;*/
+    background-color: #1B2B32;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
 }
+

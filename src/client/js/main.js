@@ -6,10 +6,10 @@ var tess = angular.module("tessell", [
 
 tess.config(["$routeProvider", function ($routeProvider){
     $routeProvider
-      .when('/', {
+      .when('/main', {
         templateUrl: '../main.html',
         controller: 'tessellCtrl',
-        authenticate: false
+        authenticate: true
       })
       .when('/create', {
         templateUrl: '../create.html',
@@ -20,6 +20,11 @@ tess.config(["$routeProvider", function ($routeProvider){
         templateUrl: '../mosaic.html', 
         controller: 'mosaicCtrl',
         authenticate: true
+      })
+      .when('/', {
+        templateUrl: '../login.html', 
+        controller: 'tessellCtrl',
+        authenticate: false
       });
   }]);
 
