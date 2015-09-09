@@ -24,7 +24,6 @@ module.exports = function (app, passport) {
     passport.authenticate('facebook', {
       scope: ['email', 'user_friends'], 
       display: 'touch' 
-      // response_type: 'token'
     }),
     function (req, res){
       // Request redirected to facebook so this function does not get called
@@ -33,7 +32,7 @@ module.exports = function (app, passport) {
   // On user interaction with facebook login, redirected back to here
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: '/events', //redirect to landing page for now --> will be account/event page once it exists
+      successRedirect: '/main.html', //redirect to landing page for now --> will be account/event page once it exists
       failureRedirect: '/'
     })
   );
