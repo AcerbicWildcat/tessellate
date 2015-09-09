@@ -85,7 +85,7 @@ tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location',
         $location.path('/profile');
       //after they login, find their user id or name and send that to the server to get their profile view
       // $scope.getUserProfile(/*user identification*/);
-      // $scope.getUserProfile(/*user identification*/);
+      $scope.getUserProfile(/*user identification*/);
     });
   };
   $scope.getUserProfile = function(/*user identification*/){
