@@ -78,7 +78,6 @@ class UserEventsView extends React.Component {
 	       <View style={styles.rowContainer}>
 	         <Text style={styles.rowText} onPress={this.props.passEventCode}> {rowData} </Text>
 	       </View>
-	      
 	     </View>
 	   )
 	 }
@@ -92,7 +91,6 @@ class UserEventsView extends React.Component {
 	}
 
 	render(){
-		
 	    return (
 	      <View style={styles.container}>
 	          <ListView
@@ -101,12 +99,9 @@ class UserEventsView extends React.Component {
 	            renderSectionHeader={this.renderSectionHeader}
 	            renderHeader={() => null} 
 	            automaticallyAdjustContentInsets={false}/>
-
 	      </View>
 	    )
 	  }
-
-
 
 };
 
