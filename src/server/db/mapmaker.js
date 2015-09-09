@@ -148,3 +148,4 @@ var getAverageColor = function(chunk) {
 };
 
 exports.saveEventAndMap = saveEventAndMap;
+exports.mapEventMaker = mapEventMaker; //for testing.

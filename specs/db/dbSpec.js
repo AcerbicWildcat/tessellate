@@ -7,6 +7,7 @@ var config = require('../../src/server/config/config');
 var userSchema = require('../../src/server/db/collections/User');
 var eventSchema = require('../../src/server/db/collections/Event');
 var mapSchema = require('../../src/server/db/collections/Map');
+var mapmaker = require('../../src/server/db/mapmaker');
 
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
@@ -60,6 +61,14 @@ describe("Tessellate database", function() {
       expect(err).to.be.ok();
       done();
     });
+  });
+
+  //TODO: add tests for map and image here.
+
+  xit('should create an event, image and map', function(done){
+
+
+
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
