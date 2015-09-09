@@ -5,11 +5,11 @@ var tess = angular.module("tessell", [
 
 tess.config(["$routeProvider", function ($routeProvider){
     $routeProvider
-      .when('/main', {
+/*      .when('/', {
         templateUrl: '../main.html',
         controller: 'tessellCtrl',
         authenticate: true
-      })
+      })*/
 /*      .when('/create', {
         templateUrl: '../create.html',
         controller: 'tessellCtrl',
@@ -24,12 +24,12 @@ tess.config(["$routeProvider", function ($routeProvider){
         templateUrl: '../login.html', 
         controller: 'mainController',
         authenticate: false
-      })
-      .otherwise({
+      });
+/*      .otherwise({
         //default path is back to the profile page
         //the route auth validation will either load the profile view or the login view at '/'
-        redirectTo: '/'
-      });
+        redirectTo: '/login'
+      });*/
   }]);
 
 tess.run(function ($rootScope, $location){
@@ -49,24 +49,16 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   //$scope variable for user profile information
   //maybe cal it $scope.userObject
   var httpRequestFactory = {};
-  httpRequestFactory.loginUser = function(){
-    return $http({
-      method: 'GET',
-      url: '/auth/facebook'
-    }).then(function(response){
-      console.log('got a response back in factory login: ', response);
-      httpRequestFactory.userPofile = response;
-    });
-  };
-  httpRequestFactory.getUserProfile = function(userId){
+  httpRequestFactory.getUserProfile = function(){
     //take user identification and ask server for their profile
     //if they have one, attach it to the factory scope for retrieval in other views
     //if they do not a default blank one should be returned and that is what is attached to the factory scope
     console.log('got to getUserProfile');
     return $http({
       method: 'GET',
-      url: 'awesome/url'//TBD assuming the roure is something like user/:userId?
+      url: 'user/facebook'//TBD assuming the roure is something like user/:userId?
     }).then(function(response){
+      console.log("response from request factory --> ", response);
       //user profile information should be attached to this
       //expecting events they either have created or are a part of
       //expecting user display name
@@ -78,17 +70,25 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
 }]);
 
 tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
-  //TODO: do I need a globally availabe variable to hold user information?
-  $scope.loginUser = function(){
-    httpRequestFactory.loginUser()
+  $scope.getUserProfile = function(){
+    httpRequestFactory.getUserProfile()
       .then(function(response){
-        console.log('got a response back in controller login: ', response);
-        $location.path('/profile');
-      //after they login, find their user id or name and send that to the server to get their profile view
-      // $scope.getUserProfile(/*user identification*/);
-      // $scope.getUserProfile(/*user identification*/);
-    });
+        console.log("response from main controller --> ", response);
+      });
   };
+  //TODO: do I need a globally availabe variable to hold user information?
+  // $scope.loginUser = function(){
+  //   httpRequestFactory.loginUser()
+  //     .then(function(response){
+  //       console.log('got a response back in controller login: ', response);
+  //       $location.path('/profile');
+  //       //maybe need this $apply method to load new path. Check on that notion.
+  //       // $scope.$apply();
+  //     //after they login, find their user id or name and send that to the server to get their profile view
+  //     // $scope.getUserProfile(/*user identification*/);
+  //     // $scope.getUserProfile(/*user identification*/);
+  //   });
+  // };
 }]);
 
 tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
