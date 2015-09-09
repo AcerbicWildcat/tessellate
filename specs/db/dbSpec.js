@@ -80,11 +80,11 @@ describe("Tessellate database", function() {
       });
 
     setTimeout(function(){
-      expect(returnObj.event._creator).to.equal(setUser._id);
-      expect(returnObj.image._id).to.equal(returnObj.event.mainImage);
-      expect(returnObj.image._parentUser).to.equal(setUser._id);
-      expect(returnObj.image._parentEvent).to.equal(returnObj.event._id);
-      expect(returnObj.map._parentImage).to.equal(returnObj.image._id);
+      expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
+      expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
+      expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
+      expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
+      expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
       expect(returnObj.event.name).to.equal("Oizo Party");
       expect(returnObj.event.eventcode).to.equal("oizoparty");
       done();

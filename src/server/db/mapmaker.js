@@ -55,7 +55,7 @@ var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, 
         _parentEvent: event._id,
         imgPath: filePath
       }).save(function(err, image){
-        event.mainImage = image;
+        event.mainImage = image._id;
         new Map({
           _parentImage: image._id,
           data: _storage,
