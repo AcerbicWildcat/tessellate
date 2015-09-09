@@ -17,7 +17,7 @@ var chunkSize = 10;
  * @param  {Function}
  * @return {[type]}
  */
-var saveEventAndMap = function(username, filePath, eventCode, callback){
+var saveEventAndMap = function(facebookId, filePath, eventCode, eventName, callback){
   // var pixels = pixelGetter(filePath); //change argument to (path where images will live) + filePath
   getPixels(filePath, function(err, pixels){
     if (err){
@@ -26,7 +26,7 @@ var saveEventAndMap = function(username, filePath, eventCode, callback){
     };
     console.log(pixels + "are our pixels");
     var _storage = chunker(pixels);
-    mapEventMaker(username, filePath, _storage, pixels, eventCode, callback);
+    mapEventMaker(facebookId, filePath, _storage, pixels, eventCode, eventName, callback);
   });
 };
 
@@ -38,22 +38,26 @@ var saveEventAndMap = function(username, filePath, eventCode, callback){
  * @param  {Function}
  * @return {[type]}
  */
-var mapEventMaker = function(username, filePath, _storage, pixels, eventCode, callback){
-    //TODO:
-    //find a user using req.body.username
-    //then, create an event, using user._id as the foreign key.
-  User.findOne({username: username}, function(err, user){
+var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, eventName, callback){
+  User.findOne({facebookId: facebookId}, function(err, user){
     new Event({
-      _parentUser: user._id,
+      _creator: user._id,
       eventCode: eventCode,
-      path: filePath
+      name: eventName,
     }).save(function(err, event){
       user.events.push(event); //is this right?
-      new Map({
+      new Image({
+        _parentUser: user._id,
         _parentEvent: event._id,
-        data: _storage,
-        height: pixels.shape[1],
-        width: pixels.shape[0]
+        imgPath: filePath
+      }).save(function(err, image){
+        new Map({
+          _parentEvent: event._id,
+          data: _storage,
+          height: pixels.shape[1],
+          width: pixels.shape[0]
+        });
+        
       })
       .save(function(err, map){
         console.log(event + "should be the saved event");
