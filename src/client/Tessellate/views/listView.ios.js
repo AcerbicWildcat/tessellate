@@ -25,15 +25,17 @@ var styles = StyleSheet.create({
   },
   sectionText: {
   	fontSize:18,
+  	fontWeight:'700',
   	padding:12,
   	color:'#FFFFFF',
   },
   rowContainer: {
     padding: 20,
-    backgroundColor:'grey',
+    backgroundColor:'#FFFFFF',
   }, 
   rowText: {
   	fontSize:14,
+  	fontWeight:'500',
   }
 });
 
@@ -74,7 +76,7 @@ class UserEventsView extends React.Component {
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text style={styles.rowText}> {rowData} </Text>
+	         <Text style={styles.rowText} onPress={this.props.passEventCode}> {rowData} </Text>
 	       </View>
 	      
 	     </View>
