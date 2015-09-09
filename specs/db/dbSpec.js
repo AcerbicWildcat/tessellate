@@ -94,25 +94,25 @@ describe("Tessellate database", function() {
       expect(returnObj.map.height).to.equal(150);
       expect(returnObj.map.data.dummyData).to.equal("dummyData");
       expect(returnObj.image.imgPath).to.equal("path");
-      done();
       // delete everything.
+      //TODO: figure out how to chain removes. They only execute with a callback.
       User.remove({
         facebookId: "Mr Oizo"
-      }).then(function(err){
+      }, function(err){
         Event.remove({
           name: "Oizo Party"
+        }, function(err){
+          Image.remove({
+            imgPath: "path"
+          }, function(err){
+            Map.remove({
+              height: 150
+            }, function(err){
+              done();
+            });
+          });    
         });
-      }).then(function(err){
-        Image.remove({
-          height: 150
-        });
-      }).then(function(err){
-        Map.remove({
-          imgPath: "path"
-        });
-      }).then(function(err){
-        done();
-      })
+      });
     }, 1000);
   });
 
