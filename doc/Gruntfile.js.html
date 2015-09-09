@@ -28,19 +28,45 @@
         <article>
             <pre class="prettyprint source linenums"><code>module.exports = function(grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    /**
+     * Run 'grunt bower:install'
+     */
+    bower: {
+      install: {
+        options: {
+          targetDir: './src/client/bower_components'
+        }
+      }
+    },
     /**
      * watch javascript files in src/ and specs/ for changes. Run grunt tast "test" on changes.
-     * @type {Object}
      */
     watch: {
       javascript: {
-        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js"],
-        tasks: "test"
+        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
+        tasks: ['jshint', 'concat', 'copy']
+      },
+      html: {
+        files: ["src/client/**/*.html", "src/server/*.html"],
+        tasks: ['front']
+      },
+      sass: {
+        files: 'src/client/sass/{,*/}*.{scss,sass}',
+        tasks: ['sass:dist'],
+      }
+
+    },
+    /**
+     * nodemon server runner
+     */
+    nodemon: {
+      dev: {
+        script: 'src/server/server.js'
       }
     },
     /**
      * jasmine spec runner task for client side testing
-     * @type {Object}
      */
     jasmine: {
       src: "src/client/js/*.js",
@@ -50,7 +76,6 @@
     },
     /**
      * mochacli tool for server side testing
-     * @type {Object}
      */
     mochacli: {
       options: {
@@ -61,41 +86,148 @@
     },
     /**
      * javascript syntax checking task
-     * @type {Object}
      */
     jshint: {
       all: [
         "Gruntfile.js",
-        "src/**/*.js",
-        "spec/**/*.js"
+        "src/client/js/*.js"
       ]
     },
     /**
      * task for documentation generation using jsdoc. Will create documentation for Gruntfile, src/ and specs/
-     * @type {Object}
      */
     jsdoc: {
       dist: {
-        src: ["Gruntfile.js", "src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js"],
+        src: ["Gruntfile.js", "src/server/modules/**/*.js", "specs/**/*Spec.js"],
         options: {
           destination: 'doc'
         }
       }
-    }
+    },
+    /**
+     * Task for concatenating javascript files into a .min file
+     */
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: [
+        'node_modules/angular/angular.js',
+        'node_modules/angular-route/angular-route.js',
+        'src/client/bower_components/ng-file-upload/ng-file-upload-all.min.js',
+        // 'src/client/bower_components/dropzone/dist/dropzone.min.js',
+        'src/client/bower_components/jquery/dist/jquery.js', 
+        'src/client/bower_components/bootstrap/dist/js/bootstrap.js', 
+        'src/client/bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+        'src/client/js/tessellate.js'],
+        dest: 'src/server/public/js/app.min.js'
+      },
+    },
+    /**
+     * Task for concatenating scss files into css
+     */
+    sass: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'src/client/sass/',
+          src: ['**/*.scss'],
+            dest: 'src/server/public/css/',
+            ext: '.css'
+        }]
+      }
+    },
+    /**
+     * Task to copy folders and files from client to server public folder
+     */    
+    copy: {
+      main: {
+        files: [{ 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/bower_components/bootstrap/fonts/**'],
+          dest: 'src/server/public/fonts'
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/bootstrap/dist/css/**'],
+          dest: 'src/server/public/css/'
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/dropzone/dist/*.css'],
+          dest: 'src/server/public/css/'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/*.html', 'src/client/templates/*.html'],
+          dest: 'src/server/public/'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/css/**'],
+          dest: 'src/server/public/css'
+        }, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/assets/**'],
+          dest: 'src/server/public/assets'
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/js/main.js', 'src/client/js/authServices.js', 'src/client/js/mosaicModule.js'],
+          dest: 'src/server/public/js'
+        }, {
+          expand: true, 
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/dropzone/dist/min/dropzone.min.js'],
+          dest: 'src/server/public/js'
+        }/*, { 
+          expand: true,
+          flatten: true, 
+          filter: 'isFile',
+          src: ['src/client/bower_components/ng-flow/dist/ng-flow-standalone.min.js'],
+          dest: 'src/server/public/js'
+        }*/],
+      },
+    },
+
   });
+
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.loadNpmTasks("grunt-mocha-cli");
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks("grunt-jsdoc");
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-bower-task');
 
-
+  /**
+   * Test: this is the same as default. Just runs jshint, mochacli, jasmine
+   */
   grunt.registerTask("test", ["jshint", "mochacli", "jasmine"]);
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
-  grunt.registerTask("build", []);
-};</code></pre>
+  grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
+  grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'copy', 'watch']);
+
+  grunt.registerTask("build", ['bower:install', 'concat', 'copy']);
+
+};
+</code></pre>
         </article>
     </section>
 
@@ -105,13 +237,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#jasmine">jasmine</a></li><li><a href="global.html#jsdoc">jsdoc</a></li><li><a href="global.html#jshint">jshint</a></li><li><a href="global.html#mochacli">mochacli</a></li><li><a href="global.html#watch">watch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="-_event%2520GET.html">/event GET</a></li><li><a href="-_event%2520POST.html">/event POST</a></li><li><a href="-_event__eventId%2520GET.html">/event/:eventId GET</a></li><li><a href="-_event_image%2520GET.html">/event/image GET</a></li><li><a href="-_event_image__imageId%2520DELETE.html">/event/image/:imageId DELETE</a></li><li><a href="-_event_image__imageId%2520GET.html">/event/image/:imageId GET</a></li><li><a href="-_event_image_image%2520POST.html">/event/image/image POST</a></li><li><a href="-_event_eventId.html">/event:eventId</a></li><li><a href="-_user%252520GET.html">/user GET</a></li></ul><h3>Global</h3><ul><li><a href="global.html#bower">bower</a></li><li><a href="global.html#concat">concat</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#jasmine">jasmine</a></li><li><a href="global.html#jsdoc">jsdoc</a></li><li><a href="global.html#jshint">jshint</a></li><li><a href="global.html#mochacli">mochacli</a></li><li><a href="global.html#nodemon">nodemon</a></li><li><a href="global.html#sass">sass</a></li><li><a href="global.html#watch">watch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Aug 31 2015 11:41:06 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Tue Sep 08 2015 22:43:26 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>
