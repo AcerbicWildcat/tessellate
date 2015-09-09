@@ -8,12 +8,25 @@ var cloudinary = require('cloudinary');
 cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
 
 module.exports = {
-  
+
   getImages : function (req, res) {
-    res.send("Hello from controller");
+    res.json({ image: {} });
+  },  
+
+  getImage : function (req, res) {
+    res.json({ image: {} });
   },
 
-  postImages : function (req, res, next) {
+  //TODO: after we get the image back from the server, let's
+  //run get-pixels on it. It might make sense to require it in the body
+  //of this module and just invoke it here.
+  //TODO: figure out a way to get a 200x200 thumbnail back from Cloudinary.
+  //to review tomorrow.
+  //maybe build a separate db function that does all of this!! Require it in this
+  //module. This will give us everything we need, as long as we attach
+  //the parent event _id to req.body.
+  addImages : function (req, res, next) {
+
     cloudinary.uploader.upload(req.file.path, function(result) { 
       next(result); 
     });
@@ -36,17 +49,8 @@ module.exports = {
 
   },
 
-  addGuestImage : function(req, res){
-    module.exports.postImages(req, res, function(result){
-      //TODO: after we get the image back from the server, let's
-      //run get-pixels on it. It might make sense to require it in the body
-      //of this module and just invoke it here.
-      //TODO: figure out a way to get a 200x200 thumbnail back from Cloudinary.
-      //to review tomorrow.
-      //maybe build a separate db function that does all of this!! Require it in this
-      //module. This will give us everything we need, as long as we attach
-      //the parent event _id to req.body.
-    });
+  deleteImage: function (req, res) {
+    res.json({ deleted: true });
   }
 
 };
