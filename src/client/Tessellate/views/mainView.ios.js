@@ -226,6 +226,10 @@ var styles = StyleSheet.create({
       left:0,
       width:400,
       height:60,
+    }, 
+    eventView: {
+      position:'absolute',
+      marginTop:10,
     }
   
 });
