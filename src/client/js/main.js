@@ -21,12 +21,12 @@ tess.config(["$routeProvider", function ($routeProvider){
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
   $rootScope.$on("$routeChangeStart", function (event, next, current){
-    //TO DO: check if user is logged in. If not send them to the login page
   });
 }]);
 
 // globally available functions that make http requests to the server
 tess.factory('httpRequestFactory', [ '$http', function ($http){
+<<<<<<< HEAD
   var httpRequestFactory = {};
   httpRequestFactory.madeUserProfileRequest = false;
   httpRequestFactory.getUserProfile = function(){
