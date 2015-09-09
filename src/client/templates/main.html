@@ -1,12 +1,38 @@
-<header id="top" class="header">
-  <div class="text-vertical-center">
-    <h1>Join Which Event?</h1>
-    <br>
-    <div name="eventForm">
-      <input class="btn btn-lg" type="text" required ng-model="eventTag" ng-keydown="go($event)"/>
-      <!-- <button class="btn btn-dark btn-lg" ng-click="go($event)">Create...</button> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Events</title>
+  <script>
+  if (window.location.hash == '#_=_'){
+      history.replaceState 
+          ? history.replaceState(null, null, window.location.href.split('#')[0])
+          : window.location.hash = '';
+  }
+  </script>
+</head>
+<body>
+  <section class="topbar">
+    <div class="logo"></div>
+  </section>
+  <section class="navbar">
+    <div class="event-nav">
+      <form class="nav">
+        <input type="text" value="#">
+        <input type="submit" id="join" value="JOIN">
+        <input type="submit" id="create" value="CREATE">
+      </form>
     </div>
-    <a href="#/create">Create New Event</a>
-    <h2 ng-show="testing">Please enter an event tag</h2>
+  </section>
+  <div class="content">
   </div>
-</header>
+  <section class="sidebar">
+    <div class="account">
+      <a href="#">Logout</a><br>
+      <a href="#">Settings</a>
+    </div>
+  </section>
+  
+</body>
+</html>
