@@ -23,9 +23,13 @@ module.exports = function(grunt) {
         files: ["src/client/**/*.html", "src/server/*.html"],
         tasks: ['front']
       },
-      sass: {
-        files: 'src/client/sass/{,*/}*.{scss,sass}',
-        tasks: ['sass:dist'],
+      // sass: {
+      //   files: 'src/client/sass/{,*/}*.{scss,sass}',
+      //   tasks: ['sass:dist'],
+      // },
+      css: {
+        files: 'src/client/css/*.css',
+        tasks: 'copy'
       }
 
     },
