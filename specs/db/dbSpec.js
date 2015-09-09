@@ -9,6 +9,7 @@ var eventSchema = require('../../src/server/db/collections/Event');
 var mapSchema = require('../../src/server/db/collections/Map');
 var imageSchema = require('../../src/server/db/collections/Image');
 var mapmaker = require('../../src/server/db/mapmaker');
+var getEventsByUser = require('../../src/server/db/getEventsByUser');
 
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
@@ -114,6 +115,40 @@ describe("Tessellate database", function() {
         });
       });
     }, 1000);
+  });
+
+  it("Should return a user populated with events, which in turn are populated with paths for main images", function(done){
+
+    var responseObj;
+
+    new User({
+      facebookId: "Mack Levine"
+    }).save(function(err, user){
+      new Event({
+
+      }).then(function(){
+        new Event({
+
+        }).save();
+      }).then(function(){
+        new Event({
+
+        }).save();
+      }).then(function(){
+        new Event({
+
+        }).save();
+      })
+      //create several events for this user;
+      //when each one saves in turn, create an image in the callback
+      //and populate each with a path.
+    })
+
+    getEventsByUser.getEventsByUser("Mack Levine", function(response){
+      responseObj = response;
+    }); //TODO: make sure this has time to run.
+
+
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
