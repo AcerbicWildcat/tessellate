@@ -37,8 +37,11 @@ module.exports = {
         eventName = req.body.eventName,
         facebookId = req.body.facebookId;
 
-    console.log(eventCode + " is our event code");
-    dB.Event.findOne({eventCode: eventCode}, function(err, event){
+    // console.log(eventCode + " is our event code...");
+    // console.log(eventName + " is our event name...");
+    // console.log(facebookId + " is our facebookId...");
+
+    db.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         sendResp(res, err);
       }
