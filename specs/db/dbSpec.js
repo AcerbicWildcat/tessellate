@@ -23,14 +23,13 @@ describe("Tessellate database", function() {
   it('should create a new user and event', function (done) {
 
     new User({
-      username: "smashingpenguin"
+      name: "smashingpenguin"
     }).save(function(err, user){
       expect(user).to.be.ok();
       new Event({
-        _parentUser: user._id,
-        username: user.username,
+        _creator: user._id,
         eventCode: "partytime",
-        path: "http://res.cloudinary.com/tesselate/image/upload/v1441481287/dgqwfqdeckpdyoantea6.jpg",
+        eventName: "Party Time"
       }).save(function(err, event){
         expect(event).to.be.ok();
         done();
@@ -44,7 +43,7 @@ describe("Tessellate database", function() {
    */
   it('should delete a new user', function (done) {
     User.remove({
-      username: "smashingpenguin"
+      name: "smashingpenguin"
     }).then(function(err) {
       expect(err).to.be.ok();
       done();
@@ -56,7 +55,7 @@ describe("Tessellate database", function() {
    */
   it('should delete an event', function (done) {
     Event.remove({
-      username: "smashingpenguin"
+      eventCode: "partytime"
     }).then(function(err) {
       expect(err).to.be.ok();
       done();
