@@ -47,7 +47,10 @@ tess.run(function ($rootScope, $location){
 tess.factory('httpRequestFactory', [ '$http', function ($http){
   //$scope varable for user login information
   //$scope variable for user profile information
+<<<<<<< HEAD
   //maybe cal it $scope.userObject
+=======
+>>>>>>> skeleton framework on client for login and get user profile requests
   var httpRequestFactory = {};
   httpRequestFactory.loginUser = function(){
     return $http({
@@ -55,8 +58,11 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       url: '/auth/facebook'
     }).then(function(response){
       console.log('got a response back in factory login: ', response);
+<<<<<<< HEAD
       httpRequestFactory.userPofile = response;
       //set $scope.userObject to the response for global app usage
+=======
+>>>>>>> skeleton framework on client for login and get user profile requests
       //if they logged in successfully
       //route them to their main user view page
       //return their user id to be used to get their profile page
@@ -87,6 +93,7 @@ tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location',
     httpRequestFactory.loginUser()
       .then(function(response){
         console.log('got a response back in controller login: ', response);
+<<<<<<< HEAD
         $location.path('/profile');
         //maybe need this $apply method to load new path. Check on that notion.
         // $scope.$apply();
@@ -95,6 +102,19 @@ tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location',
       // $scope.getUserProfile(/*user identification*/);
     });
   };
+=======
+      //after they login, find their user id or name and send that to the server to get their profile view
+      // $scope.getUserProfile(/*user identification*/);
+      $scope.getUserProfile(/*user identification*/);
+    });
+  };
+  $scope.getUserProfile = function(/*user identification*/){
+    httpRequestFactory.getUserProfile(/*user identification*/)
+      .then(function(response){
+
+      });
+  };
+>>>>>>> skeleton framework on client for login and get user profile requests
 }]);
 
 tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
