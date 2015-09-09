@@ -7,11 +7,13 @@ var config = require('../../src/server/config/config');
 var userSchema = require('../../src/server/db/collections/User');
 var eventSchema = require('../../src/server/db/collections/Event');
 var mapSchema = require('../../src/server/db/collections/Map');
+var imageSchema = require('../../src/server/db/collections/Image');
 var mapmaker = require('../../src/server/db/mapmaker');
 
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
 var Map = mongoose.model("Map", mapSchema);
+var Image = mongoose.model("Image", imageSchema);
 
 /**
  * Test script for tessellate database
@@ -79,21 +81,39 @@ describe("Tessellate database", function() {
         });
       });
 
-    setTimeout(function(){
+    setTimeout(function(){ 
+      //ensure that all relationships are correctly established.
       expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
       expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
       expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
       expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
       expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
+      //ensure that fields are correctly established.
       expect(returnObj.event.name).to.equal("Oizo Party");
-      expect(returnObj.event.eventcode).to.equal("oizoparty");
+      expect(returnObj.event.eventCode).to.equal("oizoparty");
+      expect(returnObj.map.height).to.equal(150);
+      expect(returnObj.map.data.dummyData).to.equal("dummyData");
+      expect(returnObj.image.imgPath).to.equal("path");
       done();
+      // delete everything.
+      User.remove({
+        facebookId: "Mr Oizo"
+      }).then(function(err){
+        Event.remove({
+          name: "Oizo Party"
+        });
+      }).then(function(err){
+        Image.remove({
+          height: 150
+        });
+      }).then(function(err){
+        Map.remove({
+          imgPath: "path"
+        });
+      }).then(function(err){
+        done();
+      })
     }, 1000);
-    //first, create a dummy user.
-    // (facebookId, filePath, _storage, pixels, eventCode, eventName, callback)
-
-    //what are some properties we should test for the presence of?
-    //delete the dummy user.
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
