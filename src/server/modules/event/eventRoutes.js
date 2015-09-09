@@ -7,13 +7,32 @@ var storage = multer.diskStorage({
   }
 });
 
-
 var upload = multer({storage: storage});
 
 module.exports = function (app) {
 
-  // Decisions user can make from event page
-  app.post('/join', eventController.findEvent);
-  app.post('/create', upload.single("file"), eventController.createEvent);
+  /**
+   * @namespace /event GET
+   * @desc Returns JSON object of all users events
+   */
+  app.get('/', eventController.getEvents);
+
+  /**
+   * @namespace /event/:eventId GET
+   * @desc Returns JSON object of event
+   */
+  app.get('/:eventId', eventController.getEvent);
+
+  /**
+   * @namespace /event:eventId
+   * @desc Returns JSON object of event
+   */
+  app.put('/:eventId', eventController.updateEvent);
+
+  /**
+   * @namespace /event POST
+   * @desc Returns JSON object of created event
+   */
+  app.post('/', upload.single("file"), eventController.createEvent);
 
 };
