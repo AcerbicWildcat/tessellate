@@ -19,6 +19,7 @@ var styles = StyleSheet.create({
   },
   rowContainer: {
     padding: 10,
+    marginTop:10,
     backgroundColor:'grey',
   }
 });
@@ -30,7 +31,7 @@ class UserEventsView extends React.Component {
 	   super(props);
 	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
 	   this.state = {
-	     dataSource: this.ds.cloneWithRows({events:[{eventName:'Macks Wedding', eventImage: '.img'},{eventName:'Prad Birthday'}]})
+	     dataSource: this.ds.cloneWithRows([{eventName:'Mack Wedding'},{eventName:'Rob Birthday'}])
 	   }
 	 }
 
@@ -40,9 +41,8 @@ class UserEventsView extends React.Component {
 
 	fetchUserEvents(){
 		//api request
-		var data = {
-			events:[{eventName:'Macks Wedding'},{eventName:'Prad Birthday'}]
-		};
+		var data = [{eventName:'Mack Wedding'},{eventName:'Rob Birthday'}]
+		
 
 		this.setState({
               dataSource: this.ds.cloneWithRows(data)
@@ -52,11 +52,11 @@ class UserEventsView extends React.Component {
 	}
 
 	renderRow(rowData){
-		console.dir(rowData[0].eventName)
+		
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text> {rowData[0].eventName} </Text>
+	         <Text> {rowData} </Text>
 	       </View>
 	      
 	     </View>
