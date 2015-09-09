@@ -21,7 +21,7 @@ tess.config(["$routeProvider", function ($routeProvider){
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
   $rootScope.$on("$routeChangeStart", function (event, next, current){
-    //TO DO: check if user is logged in. If not send them to the login page
+
   });
 }]);
 
