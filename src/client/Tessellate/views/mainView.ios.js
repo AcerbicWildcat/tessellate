@@ -4,6 +4,7 @@ var React = require('react-native');
 var TabView = require('./tabView.ios.js');
 var NewEventView = require('./newEvent.ios')
 var ProgressHUD = require('react-native-progress-hud');
+var EventsView = require('./listView.ios')
 
 //Destructure React Object
 var {
@@ -46,7 +47,7 @@ var Main =  React.createClass({
        
          <Image resizeMode='contain' style={styles.header} source={require('image!tHeader')}/>
 
-        
+          <EventsView/>
 
            
          <View style={styles.footer}>
