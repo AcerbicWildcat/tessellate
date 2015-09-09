@@ -9,7 +9,7 @@ tess.config(["$routeProvider", function ($routeProvider){
       .when('/main', {
         templateUrl: '../main.html',
         controller: 'tessellCtrl',
-        authenticate: false
+        authenticate: true
       })
       .when('/create', {
         templateUrl: '../create.html',
