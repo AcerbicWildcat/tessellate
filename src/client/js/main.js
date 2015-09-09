@@ -43,7 +43,6 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   return httpRequestFactory;
 }]);
 
-
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', function ($scope, httpRequestFactory){
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
@@ -67,6 +66,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
 }]);
 
 /*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
+  // $scope.eventTag = "";
+  // console.log('loaded Ctrl: ', $scope.mainMosaicImage);
   $scope.mainMosaicImage = eventFactory.mainMosaicImage;
   $scope.checkForExistingEvent = function(){
     eventFactory.checkForExistingEvent($scope.eventTag);
