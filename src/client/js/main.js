@@ -26,7 +26,6 @@ tess.run([ '$rootScope', '$location', function ($rootScope, $location){
 
 // globally available functions that make http requests to the server
 tess.factory('httpRequestFactory', [ '$http', function ($http){
-<<<<<<< HEAD
   var httpRequestFactory = {};
   httpRequestFactory.madeUserProfileRequest = false;
   httpRequestFactory.getUserProfile = function(){
