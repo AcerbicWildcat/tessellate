@@ -10,35 +10,36 @@ tess.config(["$routeProvider", function ($routeProvider){
         controller: 'tessellCtrl',
         authenticate: true
       })
-      .when('/create', {
+/*      .when('/create', {
         templateUrl: '../create.html',
         controller: 'tessellCtrl',
         authenticate: true
-      })
-      .when('/mosaic', {
+      })*/
+/*      .when('/mosaic', {
         templateUrl: '../mosaic.html', 
         controller: 'mosaicCtrl',
         authenticate: true
-      })
+      })*/
       .when('/', {
         templateUrl: '../login.html', 
         controller: 'mainController',
         authenticate: false
+      })
+      .otherwise({
+        //default path is back to the profile page
+        //the route auth validation will either load the profile view or the login view at '/'
+        redirectTo: '/'
       });
   }]);
 
 tess.run(function ($rootScope, $location){
   $rootScope.$on("$routeChangeStart", function (event, next, current){
-    // console.log("next---> ", next.$$route.authenticate);
-    //TO DO: 
-    //  assuming function that returns boolean if user is authenticated
-    //  if(user authenticated and route requires authentication){
-    //    if( next.templateUrl === "login.html"){
-    //      
-    //    }else {
-    //      $location.path("/login");
-    //    }
-    //  }
+    console.log("next---> ", next.$$route.authenticate);
+    //TO DO:
+    //if user is not authenticated
+    //  redirect to the login view
+    //  $location.path('/');
+    //  $scope.$apply();
   });
 });
 
@@ -46,6 +47,7 @@ tess.run(function ($rootScope, $location){
 tess.factory('httpRequestFactory', [ '$http', function ($http){
   //$scope varable for user login information
   //$scope variable for user profile information
+  //maybe cal it $scope.userObject
   var httpRequestFactory = {};
   httpRequestFactory.loginUser = function(){
     return $http({
@@ -53,6 +55,8 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       url: '/auth/facebook'
     }).then(function(response){
       console.log('got a response back in factory login: ', response);
+      httpRequestFactory.userPofile = response;
+      //set $scope.userObject to the response for global app usage
       //if they logged in successfully
       //route them to their main user view page
       //return their user id to be used to get their profile page
@@ -83,16 +87,13 @@ tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location',
     httpRequestFactory.loginUser()
       .then(function(response){
         console.log('got a response back in controller login: ', response);
+        $location.path('/profile');
+        //maybe need this $apply method to load new path. Check on that notion.
+        // $scope.$apply();
       //after they login, find their user id or name and send that to the server to get their profile view
       // $scope.getUserProfile(/*user identification*/);
-      $scope.getUserProfile(/*user identification*/);
+      // $scope.getUserProfile(/*user identification*/);
     });
-  };
-  $scope.getUserProfile = function(/*user identification*/){
-    httpRequestFactory.getUserProfile(/*user identification*/)
-      .then(function(response){
-
-      });
   };
 }]);
 
@@ -181,47 +182,3 @@ tess.directive('dropzone', function () {
    });
  };
 });
-
-
-
-
-
-/*tess.controller("tessellCtrl", function ($scope, $location){
-  $scope.testing = false;
-  $scope.eventTag = "";
-  $scope.go = function (event){
-    if($scope.eventTag === "" && event.keyCode === 13){
-      $scope.testing = true;
-    }
-    else if(event.keyCode === 13){
-      // console.log($scope.eventTag);
-      $scope.eventTag = "";
-      $scope.testing = false;
-    }
-    // $location.path( path );
-  };
-});*/
-
-/*tess.controller('DatepickerDemoCtrl', function ($scope) {
-  $scope.today = function() {
-    $scope.dt = new Date();
-  };
-  $scope.today();
-
-  $scope.clear = function () {
-    $scope.dt = null;
-  };
-
-  // Disable weekend selection
-  $scope.disabled = function(date, mode) {
-    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-  };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
-
-  $scope.open = function($event) {
-    $scope.status.opened = true;
-  };*/
