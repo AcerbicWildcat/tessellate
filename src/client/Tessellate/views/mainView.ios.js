@@ -44,18 +44,17 @@ var Main =  React.createClass({
      <View style={styles.container}>
 
        
-         <Image resizeMode='contain' style={styles.header} source={require('image!tHeaderDark')}/>
+         <Image resizeMode='contain' style={styles.header} source={require('image!tHeader')}/>
 
-         <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
+        
 
-             <Text style={styles.subHeader}>
-                 Enter an Event Code to Join Your Event
-             </Text>
-
-
+           
+         <View style={styles.footer}>
+             <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
              <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails}>
-                 <Text style={styles.buttonText}>Search</Text>
+                 <Text style={styles.buttonText}>Join</Text>
              </TouchableHighlight>
+        </View>
 
              <ProgressHUD
                       isVisible={this.state.is_hud_visible}
@@ -171,18 +170,22 @@ var styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    position:'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    flexWrap:'nowrap',
+    flexDirection:'column',
+    backgroundColor: '#FFFFFF',
   },
   textInput: {
-
     height: 40,
     borderColor: 'gray',
     backgroundColor: 'white',
     padding:10,
     textAlign: 'left',
-    margin:20
+    margin:10,
+    width:200,
+    borderRadius:10,
   },
   subHeader: {
     fontSize:14,
@@ -190,12 +193,13 @@ var styles = StyleSheet.create({
 
   },
   button: {
-        height: 36,
-        width:160,
+        height: 40,
+        width:100,
         backgroundColor: 'grey',
         borderRadius: 8,
         justifyContent: 'center',
-        marginTop: 15
+        margin: 10,
+        marginLeft:10,
     },
    buttonText: {
         fontSize: 12,
@@ -203,7 +207,23 @@ var styles = StyleSheet.create({
         alignSelf: 'center'
     },
     header: {
-      width:350,
+      flex:1,
+      position:'absolute',
+      alignSelf:'stretch',
+      backgroundColor:'#1B2B32',
+      top:0,
+      left:0,
+      width:400,
+      height:60,
+    }, 
+    footer: {
+      flex:1,
+      flexDirection:'row',
+      position:'absolute',
+      backgroundColor:'#1B2B32',
+      bottom:0,
+      left:0,
+      width:400,
       height:60,
     }
   

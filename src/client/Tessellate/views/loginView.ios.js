@@ -84,10 +84,12 @@ class LoginView extends Component {
       console.log('facebook');
       console.dir(res);
       //example
+      /*
       if (!res.token){
         throw new Error('Facebook Login Failed');
       }
-      return res.json();
+      return res.json();*/
+      return {}
     })
     .then(function(resJson) {
       //SETTING THE STATE IS ASYNC!!!!! - write a damn blog post!
