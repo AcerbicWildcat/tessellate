@@ -60,6 +60,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
 }]);
 
 /*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
+  // $scope.eventTag = "";
+  // console.log('loaded Ctrl: ', $scope.mainMosaicImage);
   $scope.mainMosaicImage = eventFactory.mainMosaicImage;
   $scope.checkForExistingEvent = function(){
     eventFactory.checkForExistingEvent($scope.eventTag);
