@@ -47,6 +47,6 @@ module.exports = function (app, express) {
   require('../modules/event/eventRoutes')(eventRouter);
   require('../modules/map/mapRoutes')(mapRouter);
   require('../modules/user/userRoutes')(userRouter);
-  // require('../modules/auth/auth-routes')(app, passport);
+  require('../modules/auth/auth-routes')(app, passport);
 
 };
