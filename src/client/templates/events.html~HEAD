@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -14,17 +14,17 @@
   }
   </script>
 </head>
-<body>
-  <section class="topbar">
+<body> -->
+  <section class="topbar" ng-init="getUserProfile()">
     <div class="logo">
     </div>
   </section>
   <section class="navbar">
     <!-- <div class="event-nav"> -->
       <form class="nav">
-        <input type="text" value="#">
-        <input type="button" id="join" value="JOIN">
-        <input type="submit" id="create" value="CREATE">
+        <input type="text" placeholder="#" ng-model="eventCode">
+        <input type="submit" id="join" value="JOIN" ng-click="joinEvent()">
+        <input type="submit" id="create" value="CREATE" ng-click="createEvent()">
       </form>
     <!-- </div> -->
   </section>
@@ -46,10 +46,11 @@
   </section>
   <section class="sidebar">
     <div class="account">
-      <a href="#">Logout</a><br>
-      <a href="#">Settings</a>
+      <a href="">Logout</a><br>
+      <a href="">Settings</a>
+      <h1>{{userProfile}}</h1>
     </div>
   </section>
   
-</body>
-</html>
+<!-- </body>
+</html> -->
