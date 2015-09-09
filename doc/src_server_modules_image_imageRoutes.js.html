@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/server/modules/image/imageRoutes.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,48 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/server/modules/image/imageRoutes.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+var controller = require(__dirname + '/imageController');
 
-    <h3> </h3>
+module.exports = function (app) {
+  
+  /**
+   * @namespace /event/image GET
+   * @desc Returns JSON object of all events images
+   */
+  app.get('/', controller.getImages);
 
+  /**
+   * @namespace /event/image/:imageId GET
+   * @desc Returns JSON object of specific image
+   */
+  app.get('/:imageId', controller.getImage);
 
+  /**
+   * @namespace /event/image/image POST
+   * @desc Returns JSON object of all events images
+   */
+  app.post('/', controller.addImages);
 
+  /**
+   * @namespace /event/image/:imageId DELETE
+   * @desc Returns JSON object of result
+   */
+  app.delete('/:imageId', controller.deleteImage);
 
-
-
-
-
-
-
-    
-
-
-
-
-
+};</code></pre>
+        </article>
+    </section>
 
 
 

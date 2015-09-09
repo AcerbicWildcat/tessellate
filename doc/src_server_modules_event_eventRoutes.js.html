@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/server/modules/event/eventRoutes.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,55 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/server/modules/event/eventRoutes.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var eventController = require(__dirname + '/eventController');
+var multer = require('multer');
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/tmp/')
+  }
+});
 
-    <h3> </h3>
+var upload = multer({storage: storage});
 
+module.exports = function (app) {
 
+  /**
+   * @namespace /event GET
+   * @desc Returns JSON object of all users events
+   */
+  app.get('/', eventController.getEvents);
 
+  /**
+   * @namespace /event/:eventId GET
+   * @desc Returns JSON object of event
+   */
+  app.get('/:eventId', eventController.getEvent);
 
+  /**
+   * @namespace /event:eventId
+   * @desc Returns JSON object of event
+   */
+  app.put('/:eventId', eventController.updateEvent);
 
+  /**
+   * @namespace /event POST
+   * @desc Returns JSON object of created event
+   */
+  app.post('/', upload.single("file"), eventController.createEvent);
 
-
-
-
-
-    
-
-
-
-
-
+};</code></pre>
+        </article>
+    </section>
 
 
 

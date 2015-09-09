@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/server/modules/user/userRoutes.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,36 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/server/modules/user/userRoutes.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
 
+var controller = require(__dirname + '/userController');
 
-    <h3> </h3>
+module.exports = function (app) {
 
+  /**
+   * @namespace /user GET 
+   * @desc Returns JSON object of user
+   */
+  app.get('/', controller.getUserDetails);
 
+  /**
+   * @namespace /user GET
+   * @desc Logs out user and returns JSON object
+   */
+  app.get('/logout', controller.logout);
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+};</code></pre>
+        </article>
+    </section>
 
 
 
