@@ -7,7 +7,7 @@ var User = mongoose.Schema({
   profPhoto: String,
   facebookToken: String,
   events: [{type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
-  images: [{type: mongoose.Schema.Types.ObjectId, ref: "GuestImage"}]
+  images: [{type: mongoose.Schema.Types.ObjectId, ref: "Image"}]
 });
 
 module.exports = User;
