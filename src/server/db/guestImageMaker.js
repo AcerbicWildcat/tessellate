@@ -1,5 +1,6 @@
 var getPixels = require('get-pixels');
 var db = require('./db.js');
+var cloudinary = require('cloudinary');; //TODO: require cloudinary here.
 
 var Event = db.Event,
     GuestImage = db.GuestImage;
@@ -18,8 +19,8 @@ var analyzeGuestImage = function(filePath, eventID, cloudinaryResponse, callback
       new GuestImage({
         _parentEvent: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
         rgb: rgb,
-        thumbnailPath: "path",  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
-        imgPath: cloudinaryResponse.path
+        thumbnailPath: thumbnailMaker(cloudinaryResponse.public_id, cloudinaryResponse.format),  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
+        imgPath: cloudinaryResponse.url
         //TODO: include properties in here.
       }).save();
     })
@@ -28,10 +29,10 @@ var analyzeGuestImage = function(filePath, eventID, cloudinaryResponse, callback
   });
 };
 
-var thumbnailMaker = function(path){
-  //add w_100,h_100,c_fill to the path.
-  //could be as simple as splitting the URL using "/" as a delimiter and splicing in 
-  //the string above, then joining it back together using "/"
+var thumbnailMaker = function(name, format){
+  var fileName =  name + "." + format;
+  return cloudinary.url(name, { width: 100, height: 100, crop: 'fill' });
+  //essentially the same as adding w_100,h_100,c_fill to the url path.
 };
 
 var getAverageColor = function(pixels) {
