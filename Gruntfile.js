@@ -16,7 +16,8 @@ module.exports = function(grunt) {
      */
     watch: {
       javascript: {
-        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
+        // files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
+        files: ["src/client/**/*.js", "Gruntfile.js"],
         tasks: ['jshint', 'concat', 'copy']
       },
       html: {
@@ -31,6 +32,11 @@ module.exports = function(grunt) {
         files: 'src/client/css/*.css',
         tasks: 'copy'
       }
+      // },
+      // sass: {
+      //   files: 'src/client/sass/{,*/}*.{scss,sass}',
+      //   tasks: ['sass:dist'],
+      // }
 
     },
     /**
