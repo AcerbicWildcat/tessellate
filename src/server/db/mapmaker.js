@@ -39,6 +39,9 @@ var saveEventAndMap = function(facebookId, filePath, eventCode, eventName, callb
  * @return {[type]}
  */
 var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, eventName, callback){
+  
+  var returnObj;
+
   User.findOne({facebookId: facebookId}, function(err, user){
     new Event({
       _creator: user._id,
@@ -51,27 +54,29 @@ var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, 
         _parentEvent: event._id,
         imgPath: filePath
       }).save(function(err, image){
+        event.mainImage = image;
         new Map({
-          _parentEvent: event._id,
+          _parentImage: image._id,
           data: _storage,
           height: pixels.shape[1],
           width: pixels.shape[0]
-        });
-        
-      })
-      .save(function(err, map){
-        console.log(event + "should be the saved event");
-        event.map = map._id;
-        event.save()
-          .then(function(){
-            return user.save()
+        }).save(function(err, map){
+          image.map = map;
+          user.save().then(function(){
+            return event.save();
           }).then(function(){
-            var returnObj = {
+            return image.save(); //TODO: make sure event is also saved.
+          }).then(function(){
+            return map.save();
+          }).then(function(){
+            returnObj = {
               event: event,
+              image: image,
               map: map
             };
             callback(returnObj);
           });
+        });
       });
     });
   });
