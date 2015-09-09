@@ -46,7 +46,6 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
-<<<<<<< HEAD
         return response;
       });
   };
