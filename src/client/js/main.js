@@ -5,60 +5,46 @@ var tess = angular.module("tessell", [
 
 tess.config(["$routeProvider", function ($routeProvider){
     $routeProvider
-/*      .when('/', {
-        templateUrl: '../main.html',
-        controller: 'tessellCtrl',
-        authenticate: true
-      })*/
-/*      .when('/create', {
-        templateUrl: '../create.html',
-        controller: 'tessellCtrl',
-        authenticate: true
-      })*/
-/*      .when('/mosaic', {
-        templateUrl: '../mosaic.html', 
-        controller: 'mosaicCtrl',
-        authenticate: true
+/*      .when('/events', {
+        templateUrl: '../profile.html',
+        controller: 'profileController'
+      })
+      .when('/events/create', {
+        templateUrl: '../createEvent.html',
+        controller: 'createEventController'
+      })
+      .when('/events/:id', {
+        templateUrl: '',
+        controller: ''
       })*/
       .when('/', {
         templateUrl: '../login.html', 
         controller: 'mainController',
-        authenticate: false
       });
-/*      .otherwise({
-        //default path is back to the profile page
-        //the route auth validation will either load the profile view or the login view at '/'
-        redirectTo: '/login'
-      });*/
+      // .otherwise({
+      //   //default path is back to the profile page
+      //   //the route auth validation will either load the profile view or the login view at '/'
+      //   redirectTo: '/login'
+      // });
   }]);
 
 tess.run(function ($rootScope, $location){
   $rootScope.$on("$routeChangeStart", function (event, next, current){
     console.log("next---> ", next.$$route.authenticate);
-    //TO DO:
-    //if user is not authenticated
-    //  redirect to the login view
-    //  $location.path('/');
-    //  $scope.$apply();
+    //TO DO: check if user is logged in. If not send them to the login page
   });
 });
 
 // globally available functions that make http requests to the server
 tess.factory('httpRequestFactory', [ '$http', function ($http){
-  //$scope varable for user login information
-  //$scope variable for user profile information
-  //maybe cal it $scope.userObject
   var httpRequestFactory = {};
   httpRequestFactory.getUserProfile = function(){
-    //take user identification and ask server for their profile
-    //if they have one, attach it to the factory scope for retrieval in other views
-    //if they do not a default blank one should be returned and that is what is attached to the factory scope
-    console.log('got to getUserProfile');
     return $http({
       method: 'GET',
-      url: 'user/facebook'//TBD assuming the roure is something like user/:userId?
+      url: '/loggedin'//TBD assuming the roure is something like user/:userId?
     }).then(function(response){
-      console.log("response from request factory --> ", response);
+      httpRequestFactory.fullUserProfile = response;
+      return response;
       //user profile information should be attached to this
       //expecting events they either have created or are a part of
       //expecting user display name
@@ -76,19 +62,19 @@ tess.controller('mainController', [ '$scope', 'httpRequestFactory', '$location',
         console.log("response from main controller --> ", response);
       });
   };
-  //TODO: do I need a globally availabe variable to hold user information?
-  // $scope.loginUser = function(){
-  //   httpRequestFactory.loginUser()
-  //     .then(function(response){
-  //       console.log('got a response back in controller login: ', response);
-  //       $location.path('/profile');
-  //       //maybe need this $apply method to load new path. Check on that notion.
-  //       // $scope.$apply();
-  //     //after they login, find their user id or name and send that to the server to get their profile view
-  //     // $scope.getUserProfile(/*user identification*/);
-  //     // $scope.getUserProfile(/*user identification*/);
-  //   });
-  // };
+}]);
+
+tess.controller('eventsProfileController', [ '$scope', 'eventFactory', function ($scope, eventFactory){
+  $scope.joinEvent = function(){
+    //TODO: code to join an exisiting event
+  };
+  $scope.createEvent = function(){
+    //capture entered event code (if any) and send the user to the create event view
+  };
+  $scope.goToExisitingEvent = function(){
+    //on clicking an event, take the user to that event mosaic page
+  };
+  $scope.userProfile = httpRequestFactory.fullUserProfile;
 }]);
 
 tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
