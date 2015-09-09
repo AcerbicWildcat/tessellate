@@ -43,7 +43,6 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   return httpRequestFactory;
 }]);
 
-
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', function ($scope, httpRequestFactory){
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
