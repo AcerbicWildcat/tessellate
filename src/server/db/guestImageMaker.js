@@ -18,7 +18,7 @@ var analyzeGuestImage = function(filePath, eventID, cloudinaryResponse, callback
       new GuestImage({
         _parentEvent: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
         rgb: rgb,
-        thumbnailPath: "path",  //TODO: get these back from the response.
+        thumbnailPath: "path",  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
         imgPath: cloudinaryResponse.path
         //TODO: include properties in here.
       }).save();
@@ -26,6 +26,12 @@ var analyzeGuestImage = function(filePath, eventID, cloudinaryResponse, callback
 
     //next, create and save an instance of guestImage in the database.
   });
+};
+
+var thumbnailMaker = function(path){
+  //add w_100,h_100,c_fill to the path.
+  //could be as simple as splitting the URL using "/" as a delimiter and splicing in 
+  //the string above, then joining it back together using "/"
 };
 
 var getAverageColor = function(pixels) {
