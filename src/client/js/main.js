@@ -42,6 +42,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
+        console.log(response);
         return response;
       });
   };
@@ -56,6 +57,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
     }
   };
   $scope.createEvent = function(){
+    $scope.userProfile = "new things";
       console.log("ready to CREATE a new event ", $scope.eventCode);
   };
   $scope.goToExisitingEvent = function(){
