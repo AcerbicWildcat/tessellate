@@ -3,7 +3,8 @@ var db = require('./db.js');
 
 var User = db.User,
     Event = db.Event,
-    Map = db.Map;
+    Map = db.Map,
+    Image = db.Image;
 
 console.log(db.User + " should be a user constructor");
 

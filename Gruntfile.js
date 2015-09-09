@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         reporter: "nyan",
         ui: "tdd"
       },
-      all: ["specs/server/*Spec.js"]
+      all: ["specs/server/*Spec.js", "specs/db/*Spec.js"]
     },
     /**
      * javascript syntax checking task
