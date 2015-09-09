@@ -13,6 +13,7 @@ var {
   TabBarIOS,
   NavigatorIOS,
   Navigator,
+  Image,
   
 } = React;
 
@@ -40,6 +41,8 @@ class TabView extends Component {
   render() {
   
     return (
+  
+  	  
       <TabBarIOS selectedTab={this.state.selectedTab}>
         <TabBarIOS.Item
             icon={{uri: cameraBase64Icon, scale: 2}}
@@ -50,6 +53,7 @@ class TabView extends Component {
                     selectedTab: 'camera'
                 });
             }}>
+        
         <Camera mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack.bind(this)}/>      
         </TabBarIOS.Item>
         <TabBarIOS.Item
@@ -61,9 +65,11 @@ class TabView extends Component {
                     selectedTab: 'mosaic'
                 });
           }}>
+
           <Mosaic eventCode={this.state.eventCode}/>
         </TabBarIOS.Item>
       </TabBarIOS>
+      
       
     );
   }
@@ -76,7 +82,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#1B2B32',
   },
   description: {
       fontSize: 30,
@@ -90,7 +96,17 @@ var styles = StyleSheet.create({
   tabBarItemIcon: {
     height:25,
     width:25,
-  }
+  },
+   header: {
+      flex:1,
+      position:'absolute',
+      alignSelf:'stretch',
+      backgroundColor:'#1B2B32',
+      top:0,
+      left:0,
+      width:400,
+      height:60,
+    }, 
 
 });
 

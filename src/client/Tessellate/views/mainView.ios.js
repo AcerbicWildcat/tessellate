@@ -35,27 +35,23 @@ var Main =  React.createClass({
 
   render() {
     return (
-     <View style={styles.container}>
+       <View style={styles.container}>
+        
+    
+         <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+        
+         <EventsView passEventCode={this.showEventDetails}/>  
 
        
-         <Image resizeMode='contain' style={styles.header} source={require('image!tHeader')}/>
-
-          <EventsView passEventCode={this.showEventDetails}/>
-
-           
-         <View style={styles.footer}>
-             <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
+         <View style={styles.footer}>  
+           <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
              <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails}>
-                 <Text style={styles.buttonText}>Join</Text>
+               <Text style={styles.buttonText}>Join</Text>
              </TouchableHighlight>
-        </View>
+         </View>
 
-             <ProgressHUD
-                      isVisible={this.state.is_hud_visible}
-                      isDismissible={true}
-                      overlayColor="rgba(0, 0, 0, 0.11)"
-                    />
-     </View>
+         <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
+       </View>
       
     );
   },

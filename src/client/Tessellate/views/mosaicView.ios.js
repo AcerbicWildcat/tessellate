@@ -19,6 +19,8 @@ var {
   StyleSheet,
   Text,
   View,
+  Image,
+  TouchableHighlight,
 } = React;
  
 var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
@@ -41,7 +43,8 @@ var MosaicView = React.createClass({
  
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'black', justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
+      <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         <Svg width={500} height={500} style={{width: 320, height: 350}}
              forceUpdate={this.state.t.toString()}>
           <Path fill="none" stroke="#00D8FF" strokeWidth="3" strokeMiterlimit="10"
@@ -50,6 +53,20 @@ var MosaicView = React.createClass({
       </View>
     );
   }
+});
+
+var styles = StyleSheet.create({
+   header: {
+      flex:1,
+      position:'absolute',
+      alignSelf:'stretch',
+      backgroundColor:'#1B2B32',
+      top:0,
+      left:0,
+      width:400,
+      height:60,
+    }, 
+
 });
 
 module.exports = MosaicView;
