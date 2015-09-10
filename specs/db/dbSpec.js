@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var request = require("supertest");
 var expect = require('expect.js');
+var util = require('util');
 //get the environment variables
 require('../../node_modules/dotenv').config({silent: true});
 var config = require('../../src/server/config/config');
@@ -133,7 +134,7 @@ describe("Tessellate database", function() {
         user.events.push(event);
         var image1 = new Image({
           _parentEvent: event._id,
-          //image path goes here
+          imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
         });
         return image1.save(function(err, img){
           event.mainImage = img._id;
@@ -141,17 +142,15 @@ describe("Tessellate database", function() {
         });
       })
       .then(function(){
-        console.log("MADE IT INTO SECOND THEN");
         var event2 = new Event({
           eventCode: "dingus22",
           name: "Not a Borpo party"
         });
         return event2.save(function(err, event){
-          console.log(event + " should have been SAVED");
           user.events.push(event);
           var image2 = new Image({
             _parentEvent: event._id,
-
+            imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
           });
           return image2.save(function(err, img){
             event.mainImage = img._id;
@@ -167,7 +166,7 @@ describe("Tessellate database", function() {
           user.events.push(event);
           var image3 = new Image({
             _parentEvent: event._id,
-
+            imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
           });
           return image3.save(function(err, img){
             event.mainImage = img._id;
@@ -184,7 +183,7 @@ describe("Tessellate database", function() {
           user.events.push(event);
           var image4 = new Image({
             _parentEvent: event._id,
-
+            imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
           });
           return image4.save(function(err, img){
             event.mainImage = img._id;
@@ -192,15 +191,18 @@ describe("Tessellate database", function() {
           });
         });
       }).then(function(){
+        return user.save();
+      }).then(function(){
         getEventsByUser.getEventsByUser("Mack Levine", function(response){
           responseObj = response;
         }); //TODO: make sure this has time to run
-        return user.save();
       });
     });
     
     setTimeout(function(){
-
+      console.log(util.inspect(responseObj));
+      expect(responseObj.events[0]).to.be.ok;
+      done();
     }, 1000);
     
     // done();

@@ -1,4 +1,6 @@
 var db = require('./db.js');
+var fs = require('fs');
+var util = require('util');
 
 var User = db.User,
     Event = db.Event,
@@ -7,36 +9,32 @@ var User = db.User,
 //is the facebook id what gets passed along here?
 
 var getEventsByUser = function(facebookId, callback){
-  User.findOne({facebookId: facebookId})
+  User.findOne({facebookId: facebookId}) //recursive population with query is supposedly not supported.
     .populate('events')
-    .exec(function(err, user){
+    .exec(function(err, docs){
       var opts = {
         path: 'events.mainImage',
-        select: 'imgPath'
+        model: 'Image'
       };
-      User.populate(user, opts, function(err, result){
-        res.json(result);
+      User.populate(docs, opts, function(err, result){
+        fs.writeFile('./log.txt', util.inspect(result));
+        callback(result);
       });
     });
 };
-
-   // BlogPost.create(blogposts, function (err, docs) {
-   //    assert.ifError(err);
-
-   //    BlogPost.find({ tags: 'fun' }).lean().populate('author').exec(function (err, docs) {
-   //      assert.ifError(err);
-
-   //      var opts = {
-   //          path: 'author.friends'
-   //        , select: 'name'
-   //        , options: { limit: 2 }
-   //      }
-
-   //      BlogPost.populate(docs, opts, function (err, docs) {
-   //        assert.ifError(err);
-   //        console.log();
-   //        console.log(docs);
-   //        done();
-   //      })  
+// Car
+// .find()
+// .populate('partIds')
+// .exec(function(err, docs) {
+//   if(err) return callback(err);
+//   Car.populate(docs, {
+//     path: 'partIds.otherIds',
+//     model: 'Other'
+//   },
+//   function(err, cars) {
+//     if(err) return callback(err);
+//     console.log(cars); // This object should now be populated accordingly.
+//   });
+// });
 
 exports.getEventsByUser = getEventsByUser;
