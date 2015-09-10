@@ -2,15 +2,15 @@ var db = require('./db.js');
 
 var Map = db.Map;
 
-var getMap = function(mapId, callback){
-  Map.findOne({_id: mapId}, function(err, map){
-    if (!map){
-      console.log("error: map not found");
-    } else if (map){
-      callback(map);
-    }
-  });
-}
+// var getMap = function(mapId, callback){
+//   Map.findOne({_id: mapId}, function(err, map){
+//     if (!map){
+//       console.log("error: map not found");
+//     } else if (map){
+//       callback(map);
+//     }
+//   });
+// }
 
 var reviseMap = function(mapId, data, callback){
   var conditions = {_id: mapId},
@@ -24,5 +24,5 @@ var reviseMap = function(mapId, data, callback){
   });
 };
 
-exports.getMap = getMap;
+// exports.getMap = getMap;
 exports.reviseMap = reviseMap;

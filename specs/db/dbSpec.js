@@ -235,22 +235,6 @@ describe("Tessellate database", function() {
     }, 1000);
   });
 
-  it("Should fetch an existing map from the db", function(done){
-    new Map({
-      data:{stuff: "A"}
-    }).save().then(function(map){
-      mapHelpers.getMap(map._id, function(map){
-        expect(map.data.stuff).to.equal("A");
-        expect(map.data.stuff).to.not.equal("B");
-        Map.remove({
-          _id: map._id
-        }, function(err){
-          done();
-        });
-      });
-    });
-  });
-
   it("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
     new Map({
       data: {stuff: "A"}
@@ -259,13 +243,13 @@ describe("Tessellate database", function() {
         expect(map.data.stuff).to.equal("B");
         expect(map.data.stuff).to.not.equal("A");
         //make sure the change is reflected in the database as well.
-        mapHelpers.getMap(map._id, function(mapInDB){
-          expect(mapInDB.data.stuff).to.equal("B");
+        Map.findOne({_id: map._id}, function(err, map){
+          expect(map.data.stuff).to.equal("B");
           Map.remove({
-            _id: mapInDB._id
+            _id: map._id
           }, function(err){
             done();
-          });
+          })
         });
       });
     });
