@@ -210,7 +210,27 @@ describe("Tessellate database", function() {
       expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
       expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
       
-      done();
+      Event.remove({
+        _creator: responseObj._id
+      }, function(err){
+        Event.remove({
+          eventCode: "dingus22"
+        }, function(err){
+          Event.remove({
+            eventCode: "lamegradstudentparty"
+          }, function(err){
+            Image.remove({
+              imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
+            }, function(err){
+              User.remove({
+                facebookId: "Mack Levine"
+              }, function(err){
+                done();
+              })
+            })
+          });
+        });
+      });
     }, 1000);
     
     // done();
