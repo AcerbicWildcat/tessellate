@@ -79,6 +79,21 @@ class UserEventsView extends React.Component {
 		  .then(function(resJson) {
 		  	console.dir(resJson)
 		  	self.props.stopSpin();
+
+		  	// temp data
+		  			var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
+		  			var tempDataBlob = self.state.dataBlob;
+		  			tempDataBlob[self.sectionIDs[0]]=data;
+		  			tempDataBlob[self.sectionIDs[1]]=data;
+
+		  			self.setState({
+		  	              dataSource: self.ds.cloneWithRowsAndSections(tempDataBlob)
+		  	        },function(){
+		  	        	console.log('we done did it')
+		  	        })
+
+
+		  	//
 		    return resJson;
 		   })
 		  .catch((error) => {
@@ -87,17 +102,8 @@ class UserEventsView extends React.Component {
 		  
 
 
-		//api request
-		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
-		var tempDataBlob = this.state.dataBlob;
-		tempDataBlob[this.sectionIDs[0]]=data;
-		tempDataBlob[this.sectionIDs[1]]=data;
-
-		this.setState({
-              dataSource: this.ds.cloneWithRowsAndSections(tempDataBlob)
-        },function(){
-        	console.log('we done did it')
-        })
+	
+		
 	}
 
 	renderRow(rowData){
