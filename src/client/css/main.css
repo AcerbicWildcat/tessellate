@@ -92,8 +92,10 @@ section {
   padding-left: 4%;
   top: 15%;
   width: 88%;
-  height: 9.5%;
+  /*height: 9.5%;*/
+  height: 12%;
   background-color: #37646F;
+  color: #FFFFFF;
 }
 .sidebar {
   position: fixed;
@@ -109,10 +111,12 @@ section {
 .content {
   position: fixed;
   padding: 4%;
-  top: 24.5%;
+  top: 27%;
+  /*top: 24.5%;*/
   width: 82%;
   height: 75.5%;
   background-color: #FFFFFF;
+  overflow: scroll;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -127,6 +131,16 @@ h1 {
 /*ELEMENTS*/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+ul li div {
+  display: inline-block;
+  margin: 0.5em;
+}
+
+ul li div img {
+  height: 3em;
+  width: 3em;
+}
+
 .account {
   /*position: absolute;*/
   /*width: 50%;*/
@@ -135,6 +149,7 @@ h1 {
   font-size: 0.6em;
   font-weight: 300;
   color: #FFFFFF;
+  margin-top: 10%;
 }
 
 /* .event-nav {
@@ -155,10 +170,17 @@ h1 {
   height: 6%;
   font-size: 0.9em;
   color: #A3ABAF;
+  /*color: #FFFFFF;*/
   border: none;
   border-radius: 0.2em;
   outline: 0;
   padding-left: 8px;
+}
+
+.nav input[type="button"]:hover{
+  /*background-color: #1B2B32;*/
+  background-color: #A3ABAF;
+  /*color: white;*/
 }
 
 #join {
@@ -210,10 +232,16 @@ h1 {
   background-color: yellow;
   float: right;
   border-radius: 50px;
-  margin-right: 20px;
-  padding-right: 20px;
-  margin-top: 10px;
-  padding-top: 10px;
-  top: 10px;
-  right: 20px;
+  margin-right: 4%;
+  /*padding-right: 20px;*/
+  margin-top: 2%;
+  /*padding-top: 10px;*/
+  /*top: 10px;*/
+  /*right: 20px;*/
+}
+
+#error-message {
+  display: inline-block;
+  /*float: left;*/
+  right: 0;
 }

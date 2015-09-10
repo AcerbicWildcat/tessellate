@@ -7,7 +7,7 @@ tess.config(["$routeProvider", function ($routeProvider){
       .when('/', {
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
-      })
+      });
       /*.when('/events', {
         templateUrl: '../events.html',
         controller: 'eventsProfileController'
@@ -39,6 +39,7 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
 }]);
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', function ($scope, httpRequestFactory){
+  $scope.noEvent = false;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -48,11 +49,15 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
   $scope.userProfile = httpRequestFactory.fullUserProfile === undefined ? $scope.getUserProfile() : httpRequestFactory.fullUserProfile;
   $scope.joinEvent = function(){
     //TODO: code to join an exisiting event
-    console.log('ready to JOIN an event');
+    if(!!$scope.eventCode){
+      $scope.noEvent = false;
+      console.log('ready to JOIN an event ', $scope.eventCode);
+    } else {
+      $scope.noEvent = true;
+    }
   };
   $scope.createEvent = function(){
-    //capture entered event code (if any) and send the user to the create event view
-    console.log("ready to CREATE a new event");
+      console.log("ready to CREATE a new event ", $scope.eventCode);
   };
   $scope.goToExisitingEvent = function(){
     //on clicking an event, take the user to that event mosaic page
