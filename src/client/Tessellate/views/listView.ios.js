@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
 });
 
 
-classe UserEventsView extends React.Component {
+class UserEventsView extends React.Component {
 	
 	constructor(props){
 	   super(props);
