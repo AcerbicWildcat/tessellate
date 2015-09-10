@@ -144,3 +144,4 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
    });
  };
 });*/
+
