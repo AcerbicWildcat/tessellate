@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="./css/main.css">
-  <title>Events</title>
+  <title>Tessellate</title>
+  <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" href="./css/dropzone.css"> -->
+  <!-- <link rel="stylesheet" href="./css/basic.css"> -->
+  <script src="./js/dropzone.min.js"></script>
+  <script src="./js/app.min.js"></script>
+  <script src='./js/main.js'></script>
+  <script src='./js/authServices.js'></script>
+  <script src='./js/mosaicModule.js'></script>
   <script src="https://use.typekit.net/col8pcn.js"></script>
   <script>try{Typekit.load({ async: true });}catch(e){}</script>
   <script>
@@ -14,42 +22,7 @@
   }
   </script>
 </head>
-<body>
-  <section class="topbar">
-    <div class="logo">
-    </div>
-  </section>
-  <section class="navbar">
-    <!-- <div class="event-nav"> -->
-      <form class="nav">
-        <input type="text" value="#">
-        <input type="button" id="join" value="JOIN">
-        <input type="submit" id="create" value="CREATE">
-      </form>
-    <!-- </div> -->
-  </section>
-  <section class="content">
-    <div class="created-events">
-      <h1>Created Events</h1>
-      <!-- ng-repeat list elements for user created events
-      <ul>
-        <li></li>
-      </ul> -->
-    </div>
-    <div class="joined-events">
-      <h1>Joined Events</h1>
-      <!-- ng-repeat list elements for user joined events
-      <ul>
-        <li></li>
-      </ul> -->
-    </div>
-  </section>
-  <section class="sidebar">
-    <div class="account">
-      <a href="#">Logout</a><br>
-      <a href="#">Settings</a>
-    </div>
-  </section>
-  
+<body ng-app="tessell" ng-controller="eventsProfileController"  ng-view>
+  <!-- <button ng-click="sayHello()">Hello</button> -->
 </body>
 </html>

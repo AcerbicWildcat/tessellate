@@ -54,6 +54,7 @@ a {
   color: #FFFFFF;
 }
 
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*GRID*/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -62,6 +63,10 @@ a {
 *::before,
 *::after {
   box-sizing: inherit;
+}
+
+*:focus {
+    outline: 0;
 }
 
 html {
@@ -86,15 +91,19 @@ section {
   position: fixed;
   padding-left: 4%;
   top: 15%;
-  width: 82%;
-  height: 9.5%;
+  width: 88%;
+  /*height: 9.5%;*/
+  height: 12%;
   background-color: #37646F;
+  color: #FFFFFF;
 }
 .sidebar {
   position: fixed;
   top: 15%;
-  left: 82%;
-  width: 18%;
+ /*  left: 82%;
+ width: 18%; */
+  left: 88%;
+  width: 12%;
   height: 90.5%;
   background-color: #1B2B32;
   text-align: center;
@@ -102,10 +111,12 @@ section {
 .content {
   position: fixed;
   padding: 4%;
-  top: 24.5%;
+  top: 27%;
+  /*top: 24.5%;*/
   width: 82%;
   height: 75.5%;
   background-color: #FFFFFF;
+  overflow: scroll;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -120,6 +131,16 @@ h1 {
 /*ELEMENTS*/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+ul li div {
+  display: inline-block;
+  margin: 0.5em;
+}
+
+ul li div img {
+  height: 3em;
+  width: 3em;
+}
+
 .account {
   /*position: absolute;*/
   /*width: 50%;*/
@@ -128,33 +149,50 @@ h1 {
   font-size: 0.6em;
   font-weight: 300;
   color: #FFFFFF;
+  margin-top: 10%;
 }
 
-.event-nav {
+/* .event-nav {
   display: inline-block;
   position: relative;
   vertical-align: middle;
-}
+} */
 .nav {
   font-size: 1em;
   font-weight: 300;
   color: #FFFFFF;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  vertical-align: middle;
 }
+
 .nav input {
-  height: 4%;
-  font-size: 0.8em;
+  height: 6%;
+  font-size: 0.9em;
   color: #A3ABAF;
+  /*color: #FFFFFF;*/
+  border: none;
+  border-radius: 0.2em;
+  outline: 0;
+  padding-left: 8px;
 }
+
+.nav input[type="button"]:hover{
+  /*background-color: #1B2B32;*/
+  background-color: #A3ABAF;
+  /*color: white;*/
+}
+
 #join {
   color: #1B2B32;
   margin-left: 0.4em;
-  width: 100px;
-  height: 80px;
 }
+
 #create {
   color: #1B2B32;
   margin: 0.2em 0.4em;
 }
+
 .created-events {
   
 }
@@ -179,4 +217,31 @@ h1 {
   vertical-align: bottom;
   font-size: 0.3em;
   color: #FFFFFF;
+}
+
+/* #copy-name{
+     position:absolute;
+     bottom:15px;
+     right:0;
+     margin-right: 5px;
+} */
+
+#profile-pic {
+  height: 100px;
+  width: 100px;
+  background-color: yellow;
+  float: right;
+  border-radius: 50px;
+  margin-right: 4%;
+  /*padding-right: 20px;*/
+  margin-top: 2%;
+  /*padding-top: 10px;*/
+  /*top: 10px;*/
+  /*right: 20px;*/
+}
+
+#error-message {
+  display: inline-block;
+  /*float: left;*/
+  right: 0;
 }

@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Tessellate</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="./css/dropzone.css"> -->
-    <!-- <link rel="stylesheet" href="./css/basic.css"> -->
-    <script src="./js/dropzone.min.js"></script>
-    <script src="./js/app.min.js"></script>
-    <script src='./js/main.js'></script>
-    <script src='./js/authServices.js'></script>
-    <script src='./js/mosaicModule.js'></script>
+  <title>Tessellate</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <!-- <header id="top" class="header" ng-view></header> -->
+  <header id="top" class="header">
+    <div class="text-vertical-center">
+      <img id="logo" src="./assets/tessellate_logo.png">
+      <div>
+        <form action="/auth/facebook" method="GET">
+          <div>
+            <input type="image" src="./assets/fb_login_button_v2.png" alt="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </header>
+  <div id="copy-name">&copy;2015 Tessellate</div>
 </body>
-
 </html>
