@@ -22,14 +22,7 @@ var {
  
  //Create Main Class (First View of App)
 var Main =  React.createClass({
-  /*constructor(props){
-    super(props);
-    this.state = {
-      eventCode: '',
-      loggedIn: false,
-      isLoading: false
-    }
-  },*/
+ 
   getInitialState: function() {
     return {
       eventCode: '',
@@ -42,32 +35,29 @@ var Main =  React.createClass({
 
   render() {
     return (
-     <View style={styles.container}>
+       <View style={styles.container}>
+        
+    
+         <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+        
+         <EventsView passEventCode={this.showEventDetails}/>  
 
        
-         <Image resizeMode='contain' style={styles.header} source={require('image!tHeader')}/>
-
-          <EventsView/>
-
-           
-         <View style={styles.footer}>
-             <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
+         <View style={styles.footer}>  
+           <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
              <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails}>
-                 <Text style={styles.buttonText}>Join</Text>
+               <Text style={styles.buttonText}>Join</Text>
              </TouchableHighlight>
-        </View>
+         </View>
 
-             <ProgressHUD
-                      isVisible={this.state.is_hud_visible}
-                      isDismissible={true}
-                      overlayColor="rgba(0, 0, 0, 0.11)"
-                    />
-     </View>
+         <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
+       </View>
       
     );
   },
 
-  showEventDetails(){
+  showEventDetails(eventCode){
+    console.log(eventCode)
     //fetch event data
     var self = this;
 
@@ -226,6 +216,10 @@ var styles = StyleSheet.create({
       left:0,
       width:400,
       height:60,
+    }, 
+    eventView: {
+      position:'absolute',
+      marginTop:10,
     }
   
 });

@@ -12,32 +12,30 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor:'#FFFFFF',
+    position:'relative',
+    top:0,
+    marginTop:60,
+    alignSelf:'stretch',
   },
-  buttonText: {
-    fontSize: 18,
-    color: 'white'
+  section: {
+
+  	marginTop:0,
+  	backgroundColor:'#37646F',
   },
-  button: {
-    height: 60,
-    backgroundColor: '#48BBEC',
-    flex: 3,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  searchInput: {
-    height: 60,
-    padding: 10,
-    fontSize: 18,
-    color: '#111',
-    flex: 10
+  sectionText: {
+  	fontSize:18,
+  	fontWeight:'700',
+  	padding:12,
+  	color:'#FFFFFF',
   },
   rowContainer: {
-    padding: 10,
-  },
-  footerContainer: {
-    backgroundColor: '#E3E3E3',
-    alignItems: 'center',
-    flexDirection: 'row'
+    padding: 20,
+    backgroundColor:'#FFFFFF',
+  }, 
+  rowText: {
+  	fontSize:14,
+  	fontWeight:'500',
   }
 });
 
@@ -46,9 +44,12 @@ class UserEventsView extends React.Component {
 	
 	constructor(props){
 	   super(props);
-	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+	   this.sectionIDs = ['Created Events', 'Joined Events'];
+	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2,
+	   sectionHeaderHasChanged: (s1, s2) => s1 !== s2})
 	   this.state = {
-	     dataSource: this.ds.cloneWithRows({events:[{eventName:'Macks Wedding'},{eventName:'Prad Birthday'}]})
+	     dataSource: this.ds.cloneWithRows([{eventName:'You don\'t have any events yet...'}]),
+	     dataBlob:{}
 	   }
 	 }
 
@@ -58,42 +59,49 @@ class UserEventsView extends React.Component {
 
 	fetchUserEvents(){
 		//api request
-		var data = {
-
-		};
+		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
+		var tempDataBlob = this.state.dataBlob;
+		tempDataBlob[this.sectionIDs[0]]=data;
+		tempDataBlob[this.sectionIDs[1]]=data;
 
 		this.setState({
-              dataSource: this.ds.cloneWithRows(data)
+              dataSource: this.ds.cloneWithRowsAndSections(tempDataBlob)
         },function(){
         	console.log('we done did it')
         })
 	}
 
 	renderRow(rowData){
-		console.log('cloning rows with data: ' + rowData)
+		
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text> {rowData} </Text>
+	         <Text style={styles.rowText} onPress={this.props.passEventCode}> {rowData} </Text>
 	       </View>
-	      
 	     </View>
 	   )
 	 }
 
+	renderSectionHeader(sectionData, sectionID){
+		return (
+	      <View style={styles.section}>
+	        <Text style={styles.sectionText}>{sectionID}</Text>
+	      </View>
+      )
+	}
+
 	render(){
-		console.log('rendering list view')
 	    return (
 	      <View style={styles.container}>
 	          <ListView
 	            dataSource={this.state.dataSource}
-	            renderRow={this.renderRow}
-	            renderHeader={() => null} />
+	            renderRow={this.renderRow.bind(this)}
+	            renderSectionHeader={this.renderSectionHeader}
+	            renderHeader={() => null} 
+	            automaticallyAdjustContentInsets={false}/>
 	      </View>
 	    )
 	  }
-
-
 
 };
 

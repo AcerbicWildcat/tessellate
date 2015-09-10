@@ -2,6 +2,8 @@
  
 var React = require('react-native');
 var Main = require('./mainView.ios.js');
+var FBLogin = require('react-native-facebook-login');
+var FBLoginManager = require('NativeModules').FBLoginManager;
 
 var {
   StyleSheet,
@@ -68,60 +70,61 @@ class LoginView extends Component {
   }
 
   login() {
-  //GET Request user/facebook
-  var getObject = {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Origin': '',
-      'Host': 'localhost:8081/'
-    }
-  };
+ 
   var self = this;
-  fetch('http://localhost:8000/user/facebook', getObject)
-    .then(function(res) {
-      console.log('facebook');
-      console.dir(res);
-      //example
-      /*
-      if (!res.token){
-        throw new Error('Facebook Login Failed');
-      }
-      return res.json();*/
-      return {}
-    })
-    .then(function(resJson) {
-      //SETTING THE STATE IS ASYNC!!!!! - write a damn blog post!
-      self.setState({
-        loggedIn: true
-      }, function() {
-        self.isAuthorized(this.state.loggedIn);
-      })
-      return resJson;
-    })
-    .catch((error) => {
-      AlertIOS.alert(
-        'Whoa! Something went wrong...',
-        error.message, [{
-          text: 'Try Again',
-          onPress: () =>  null
-        }]
-      );
-
-    });
-
+   console.log('we are here:' + self.state.user)
+  self.isAuthorized(self.state.user);
 
 }
 
   render() {
+    var _this = this;
     return (
 
       <View style={styles.container}>
         <Image resizeMode='contain' source={require('image!mainLogo')} style={styles.logo}/>
-        <TouchableHighlight style={styles.fbLogo} onPress={this.login.bind(this)}>
-          <Text style={styles.fbLogoText}>Login with Facebook</Text>
-        </TouchableHighlight>
+        
+         <FBLogin style={{ marginBottom: 10, }}
+        permissions={["email","user_friends","public_profile"]}
+        onLogin={function(data){
+          console.log("Logged in!");
+          console.log(data.credentials);
+          _this.setState({ user : data.credentials },function(){
+            _this.login();
+          });
+          
+        }}
+        onLogout={function(){
+          console.log("Logged out.");
+          _this.setState({ user : null });
+        }}
+        onLoginFound={function(data){
+          console.log("Existing login found.");
+          console.log(data);
+          _this.setState({ user : data.credentials });
+        }}
+        onLoginNotFound={function(){
+          console.log("No user logged in.");
+          _this.setState({ user : null });
+        }}
+        onError={function(data){
+          console.log("ERROR");
+          console.log(data);
+        }}
+        onCancel={function(){
+          console.log("User cancelled.");
+        }}
+        onPermissionsMissing={function(data){
+          console.log("Check permissions!");
+          console.log(data);
+        }}
+      />
+
+        
+
+
+
+
       </View>
       
     );
@@ -129,5 +132,15 @@ class LoginView extends Component {
 
   
 }
+
+
+/*
+  OLD LOGIN BUTTON
+  <TouchableHighlight style={styles.fbLogo} onPress={this.login.bind(this)}>
+          <Text style={styles.fbLogoText}>Login with Facebook</Text>
+        </TouchableHighlight>
+
+
+ */
 
 module.exports = LoginView;
