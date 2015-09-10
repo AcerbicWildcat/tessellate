@@ -24,6 +24,7 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   var httpRequestFactory = {};
   httpRequestFactory.madeUserProfileRequest = false;
   httpRequestFactory.getUserProfile = function(){
+    console.log('making server request');
     return $http({
       method: 'GET',
       url: '/user'
