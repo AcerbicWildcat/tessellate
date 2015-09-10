@@ -76,6 +76,16 @@ html {
 body {
   font-size: 36px;
 }
+/*@media screen and (max-device-width : 1200px){
+  body {
+    font: 24px;
+  }
+}
+@media screen and (max-device-width : 1920px){
+  body {
+    font: 72px;
+  }
+}*/
 
 section {
   display: block;
@@ -126,7 +136,10 @@ section {
 h1 {
   font-size: 1em;
 }
-
+h2 {
+  color: #A3ABAF;
+  font-size: 0.6em;
+}
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*ELEMENTS*/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -185,20 +198,29 @@ ul li div img {
 
 #join {
   color: #1B2B32;
+  background-color: #CCCCCC;
   margin-left: 0.4em;
+  padding: 0 .4em;
+  width: 4%;
+  height: 0.7em;
 }
 
 #create {
   color: #1B2B32;
+  background-color: #CCCCCC;
   margin: 0.2em 0.4em;
+  padding: 0 .4em;
+  width: 5%;
+  height: 0.7em;
 }
 
 .created-events {
-  
+  margin: 0.4em 0;
 }
 .joined-events {
   position: absolute;
   top: 30%;
+  margin: 0.4em 0;
 }
 
 .logo {
@@ -245,3 +267,25 @@ ul li div img {
   /*float: left;*/
   right: 0;
 }
+
+#upload {
+  float: right;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*CLEARFIX*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
