@@ -23,9 +23,13 @@ module.exports = function(grunt) {
         files: ["src/client/**/*.html", "src/server/*.html"],
         tasks: ['front']
       },
-      sass: {
-        files: 'src/client/sass/{,*/}*.{scss,sass}',
-        tasks: ['sass:dist'],
+      // sass: {
+      //   files: 'src/client/sass/{,*/}*.{scss,sass}',
+      //   tasks: ['sass:dist'],
+      // },
+      css: {
+        files: 'src/client/css/*.css',
+        tasks: 'copy'
       }
 
     },
@@ -54,7 +58,7 @@ module.exports = function(grunt) {
         reporter: "nyan",
         ui: "tdd"
       },
-      all: ["specs/server/*Spec.js"]
+      all: ["specs/server/*Spec.js", "specs/db/*Spec.js"]
     },
     /**
      * javascript syntax checking task

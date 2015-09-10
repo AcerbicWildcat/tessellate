@@ -49,6 +49,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*GRID*/
@@ -59,9 +63,25 @@ table {
 *::after {
   box-sizing: inherit;
 }
+
 html {
   box-sizing: border-box;
 }
+
+body {
+  font-size: 36px;
+}
+/*@media screen and (max-device-width : 1200px){
+  body {
+    font: 24px;
+  }
+}
+@media screen and (max-device-width : 1920px){
+  body {
+    font: 72px;
+  }
+}*/
+
 section {
   display: block;
 }
@@ -73,33 +93,141 @@ section {
   background-color: #1B2B32;
 }
 .navbar {
-  position: absolute;
+  position: fixed;
+  padding-left: 4%;
   top: 15%;
   width: 82%;
   height: 9.5%;
   background-color: #37646F;
 }
 .sidebar {
-  position: absolute;
+  position: fixed;
   top: 15%;
   left: 82%;
   width: 18%;
   height: 90.5%;
   background-color: #1B2B32;
+  text-align: center;
 }
+.content {
+  position: fixed;
+  padding: 4%;
+  top: 24.5%;
+  width: 82%;
+  height: 75.5%;
+  background-color: #FFFFFF;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*TYPOGRAPHY*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+h1 {
+  font-size: 1em;
+}
+h2 {
+  color: #A3ABAF;
+  font-size: 0.6em;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*ELEMENTS*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 .account {
-  position: relative;
+  /*position: absolute;*/
   /*width: 50%;*/
-  margin: auto;
+  /*margin: auto;*/
+  display: inline-block;
+  font-size: 0.6em;
+  font-weight: 300;
+  color: #FFFFFF;
 }
+
 .event-nav {
-  display: table-cell;
-  /*position: relative;*/
-  vertical-align: middle;
-}
-/*input {
-  display: inline;
+  display: inline-block;
   position: relative;
   vertical-align: middle;
-  margin: auto;
+}
+.nav {
+  font-size: 1em;
+  font-weight: 300;
+  color: #FFFFFF;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  vertical-align: middle;
+}
+.nav input,
+.nav span {
+  height: 4%;
+  font-size: 0.8em;
+  color: #A3ABAF;
+}
+.nav span {
+  color: #1B2B32;
+}
+/*.navbar span {
+  background-color: #A3ABAF;
 }*/
+.navbutton {
+  color: #1B2B32;
+  background-color: #CCCCCC;
+  margin-left: 0.4em;
+  padding: 0 .4em;
+  width: 4%;
+  height: 0.7em;
+}
+#create {
+  color: #1B2B32;
+  background-color: #CCCCCC;
+  margin: 0.2em 0.4em;
+  padding: 0 .4em;
+  width: 5%;
+  height: 0.7em;
+}
+.created-events {
+  margin: 0.4em 0;
+}
+.joined-events {
+  position: absolute;
+  top: 30%;
+  margin: 0.4em 0;
+}
+
+.logo {
+  position: absolute;
+  margin-left: 4%;
+  width: 100%;
+  height: 85%;
+  top: 13%;
+  background-image: url('../assets/logo_header_white.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  vertical-align: baseline;
+}
+#copyright {
+  display: inline-block;
+  vertical-align: bottom;
+  font-size: 0.3em;
+  color: #FFFFFF;
+}
+#upload {
+  float: right;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*CLEARFIX*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
