@@ -32,12 +32,6 @@ module.exports = function(grunt) {
         files: 'src/client/css/*.css',
         tasks: 'copy'
       }
-      // },
-      // sass: {
-      //   files: 'src/client/sass/{,*/}*.{scss,sass}',
-      //   tasks: ['sass:dist'],
-      // }
-
     },
     /**
      * nodemon server runner
