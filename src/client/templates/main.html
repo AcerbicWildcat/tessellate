@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Tessellate</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" href="./css/dropzone.css"> -->
+  <!-- <link rel="stylesheet" href="./css/basic.css"> -->
+  <script src="./js/dropzone.min.js"></script>
+  <script src="./js/app.min.js"></script>
+  <script src='./js/main.js'></script>
+  <script src='./js/authServices.js'></script>
+  <script src='./js/mosaicModule.js'></script>
+  <script src="https://use.typekit.net/col8pcn.js"></script>
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
+  <script>
+  if (window.location.hash == '#_=_'){
+      history.replaceState 
+          ? history.replaceState(null, null, window.location.href.split('#')[0])
+          : window.location.hash = '';
+  }
+  </script>
+</head>
+<body ng-app="tessell" ng-controller="eventsProfileController" ng-init="getUserProfile()" ng-view>
+  <!-- <button ng-click="sayHello()">Hello</button> -->
+  
+</body>
+</html>
