@@ -10,6 +10,7 @@ var eventSchema = require('../../src/server/db/collections/Event');
 var mapSchema = require('../../src/server/db/collections/Map');
 var imageSchema = require('../../src/server/db/collections/Image');
 var mapmaker = require('../../src/server/db/mapmaker');
+var mapHelpers = require('../../src/server/db/getAndReviseMap');
 var getEventsByUser = require('../../src/server/db/getEventsByUser');
 
 var User = mongoose.model("User", userSchema);
@@ -232,34 +233,25 @@ describe("Tessellate database", function() {
         });
       });
     }, 1000);
-    
-    // done();
-      //create several events for this user;
-      //when each one saves in turn, create an image in the callback
-      //and populate each with a path.
   });
 
-  xit("Should analyze an image and save a coordinate map to the database", function(done){
-
-  });
-
-  xit("Should analyze an image and save a coordinate map to the database", function(done){
-    request({ 
-      method: "POST",
-      uri: "http://localhost:3000/", //need to add whatever route we use...
-      json: {
-        name: "mack",
-        tag: "#mackevent",
-        path: "hackreactor.jpg",
-        username: "mack"
-      }
-    }, function() {
-
-        collection.find({height: 250}).toArray(function(err, results){
-          expect(results[0].width).to.equal(850); //check height and width...
-          done();
+  it("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
+    new Map({
+      data: {stuff: "A"}
+    }).save().then(function(map){
+      mapHelpers.reviseMap(map._id, {stuff: "B"}, function(map){
+        expect(map.data.stuff).to.equal("B");
+        expect(map.data.stuff).to.not.equal("A");
+        //make sure the change is reflected in the database as well.
+        Map.findOne({_id: map._id}, function(err, map){
+          expect(map.data.stuff).to.equal("B");
+          Map.remove({
+            _id: map._id
+          }, function(err){
+            done();
+          })
         });
-
+      });
     });
   });
 
