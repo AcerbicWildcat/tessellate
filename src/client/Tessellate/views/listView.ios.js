@@ -6,6 +6,8 @@ var {
     Text,
     View,
     ListView,
+    AlertIOS,
+    Image,
 } = React;
 
 var styles = StyleSheet.create({
@@ -34,7 +36,7 @@ var styles = StyleSheet.create({
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
-  	fontSize:14,
+  	fontSize:10,
   	fontWeight:'500',
   }
 });
@@ -71,51 +73,66 @@ class UserEventsView extends React.Component {
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://localhost:8000/event', getEvents)  
+		fetch('http://localhost:8000/user', getEvents)  
 		  .then(function(res) {
-		  	console.log('fetching' + res)
+		  
+		  	
 		    return res.json();
 		   })
 		  .then(function(resJson) {
-		  	console.dir(resJson)
+		  	
+		  	var data = resJson.events;
+		  	var createdEvents = [];
+		  	var joinedEvents = [];
+
+		  	for (var i = 0 ; i< data.length; i++){
+		  		console.dir(data[i]._creator.toString());
+		  	}
+
 		  	self.props.stopSpin();
 
-		  	// temp data
-		  			var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
-		  			var tempDataBlob = self.state.dataBlob;
-		  			tempDataBlob[self.sectionIDs[0]]=data;
-		  			tempDataBlob[self.sectionIDs[1]]=data;
+  			var tempDataBlob = self.state.dataBlob;
+  			tempDataBlob[self.sectionIDs[0]]=data;
+  			tempDataBlob[self.sectionIDs[1]]=data;
 
-		  			self.setState({
-		  	              dataSource: self.ds.cloneWithRowsAndSections(tempDataBlob)
-		  	        },function(){
-		  	        	console.log('we done did it')
-		  	        })
+  			self.setState({
+  	              dataSource: self.ds.cloneWithRowsAndSections(tempDataBlob)
+  	        },function(){
+  	        	console.log('we done did it')
+  	        })
 
-
-		  	//
 		    return resJson;
 		   })
 		  .catch((error) => {
+		  	self.stopSpin()
+		  	AlertIOS.alert(
+		  	   'Whoa! Something Went Wrong.',
+		  	   error.message,
+		  	   [
+		  	     {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
+		  	   ]
+		  	 );
 
 		  });
-		  
+	}
 
-
-	
-		
+	goToMosaic(eventCode){
+		this.props.passEventCode(eventCode);
 	}
 
 	renderRow(rowData){
-		
+				
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text style={styles.rowText} onPress={this.props.passEventCode}> {rowData} </Text>
+	         <Text style={styles.rowText} onPress={this.goToMosaic.bind(this,rowData.eventCode)}> {rowData.name} |  {'#'}{rowData.eventCode} 
+	         </Text>
+	         
 	       </View>
 	     </View>
 	   )
 	 }
+
 
 	renderSectionHeader(sectionData, sectionID){
 		return (
