@@ -58,6 +58,33 @@ class UserEventsView extends React.Component {
 	 }
 
 	fetchUserEvents(){
+		//construct GET request
+		var getEvents = {  
+		  method: 'GET',
+		  headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json',
+		    'Origin': '',
+		    'Host': 'http://localhost:8081'
+		  }
+		}
+
+		//make Fetch Call
+		fetch('http://localhost:8000/event', getEvents)  
+		  .then(function(res) {
+		  	console.log('fetching' + res)
+		    return res.json();
+		   })
+		  .then(function(resJson) {
+		  	console.dir(resJson)
+		    return resJson;
+		   })
+		  .catch((error) => {
+
+		  });
+		  
+
+
 		//api request
 		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
 		var tempDataBlob = this.state.dataBlob;
