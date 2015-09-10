@@ -1,50 +1,55 @@
-<header id="top" class="header">
-
-
-  <div class="text-vertical-center">
-      <h1>Tessellate</h1>
-      <h3>Real Time Photo Mosaic Creation</h3>
-      <br>
-      <form>
-        <div>
-          <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="eventTag"/>
-          <input type="submit" value="Join Event" class="btn btn-lg" id="submit-all" ng-click="checkForExistingEvent()">
-          <!-- <input dropzone="dropzoneConfig"> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width" />
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Events</title>
+  <script src="https://use.typekit.net/col8pcn.js"></script>
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
+</head>
+<body>
+  <section class="topbar">
+    <div class="logo">
+    </div>
+  </section>
+  <section class="navbar">
+    <div class="nav">
+      <span class="navbutton">BACK</span>
+    </div>
+  </section>
+  <section class="content">
+    <h1>Create New Event</h1>
+    <br>
+    <div id="left clearfix">
+      <form class="nav">
+        <h2>Event Code</h2>
+        <input type="text" id="event-code"><br>
+        <br>
+        <h2>Event Name</h2>
+        <input type="text" id="event-name"><br>
+        <br>
+        <!-- For now, just a Start Date, can add end date functionality later -->
+        <h2>Start Date</h2>
+        <input type="text" id="calendar">
+        <!-- Need to figure out how to float this right properly -->
+        <div id="upload">
+          <h2>Upload Image</h2><button id="browse">Browse...</button>
+        <!--
+        Insert image upload here
+        -->
         </div>
-        <div class="btn btn-lg" dropzone="dropzoneConfig">CLICK HERE</div>
       </form>
-      <div class="btn btn-lg">
-        <a href="#/mosaic">Go to mosaic</a>
-      </div>
-  </div>
-
-
-</header>
-<!--     <p>
-      This is the most minimal example of Dropzone. The upload in this example
-      doesn't work, because there is no actual server to handle the file upload.
-    </p>
-
-     <form action="/upload-target" class="dropzone"></form> -->
-
-    <!-- </div> -->
-<!--   <div ng-controller="tessellCtrl" class="text-vertical-center">
-    <form>
-    <div>
-      <input class="btn btn-lg" type="text" placeholder="Event Tag" ng-model="event.eventCode"/>
     </div>
-    <br>
-    <div>
-      <input type="date" class=" btn btn-lg" datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" /> -->
-        <!-- <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button> -->
-<!-- uploading image part containted here -->
-<!--     </div>
-    <br>
-    <div>
-      <input class="btn btn-lg" type="file" ng-model="event.file">
+
+
+  </section>
+  <section class="sidebar">
+    <div class="account">
+      <a href="#">Logout</a><br>
+      <a href="#">Settings</a>
     </div>
-    <div>
-      <input type="submit" value="PARTY" class="btn btn-lg" ng-click="createEvent()">
-    </div>
-  </form>
-  </div> -->
+  </section>
+  
+</body>
+</html>
