@@ -8,15 +8,10 @@ tess.config(["$routeProvider", function ($routeProvider){
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
       })
-      .when('/events', {
+      /*.when('/events', {
         templateUrl: '../events.html',
         controller: 'eventsProfileController'
-      });
-      // .otherwise({
-      //   //default path is back to the profile page
-      //   //the route auth validation will either load the profile view or the login view at '/'
-      //   redirectTo: '/login'
-      // });
+      });*/
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){

@@ -1,13 +1,13 @@
-  <section class="topbar" ng-init="getUserProfile()">
+  <section class="topbar">
     <div class="logo"></div>
+    <div id="profile-pic"></div>
   </section>
   <section class="navbar">
       <form class="nav">
         <input type="text" placeholder="#" ng-model="eventCode">
-        <input type="submit" id="join" value="JOIN" ng-click="joinEvent()">
-        <input type="submit" id="create" value="CREATE" ng-click="createEvent()">
+        <input type="button" id="join" value="Join" ng-click="joinEvent()">
+        <input type="button" id="create" value="Create" ng-click="createEvent()">
       </form>
-    <!-- </div> -->
   </section>
   <section class="content">
     <div class="created-events">
@@ -28,8 +28,10 @@
   <section class="sidebar">
     <div class="account">
       <a href="">Logout</a><br>
+      <hr>
       <a href="">Settings</a>
-      <h1>{{userProfile}}</h1>
+      <hr>
     </div>
+    <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
   </section>
   
