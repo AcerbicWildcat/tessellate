@@ -124,31 +124,89 @@ describe("Tessellate database", function() {
     new User({
       facebookId: "Mack Levine"
     }).save(function(err, user){
-      new Event({
-
-      }).then(function(){
-        new Event({
-
-        }).save();
-      }).then(function(){
-        new Event({
-
-        }).save();
-      }).then(function(){
-        new Event({
-
-        }).save();
+      var event1 = new Event({
+        _creator: user._id,
+        name: "Borpo's blowout",
+        eventCode: "blowout2015"
+      });
+      return event1.save(function(err, event){
+        user.events.push(event);
+        var image1 = new Image({
+          _parentEvent: event._id,
+          //image path goes here
+        });
+        return image1.save(function(err, img){
+          event.mainImage = img._id;
+          return event.save();
+        });
       })
+      .then(function(){
+        console.log("MADE IT INTO SECOND THEN");
+        var event2 = new Event({
+          eventCode: "dingus22",
+          name: "Not a Borpo party"
+        });
+        return event2.save(function(err, event){
+          console.log(event + " should have been SAVED");
+          user.events.push(event);
+          var image2 = new Image({
+            _parentEvent: event._id,
+
+          });
+          return image2.save(function(err, img){
+            event.mainImage = img._id;
+            return event.save();
+          });
+        });
+      }).then(function(){
+        var event3 = new Event({
+          eventCode: "lamegradstudentparty",
+          name: "Totally Awesome Rager"
+        });
+        return event3.save(function(err, event){
+          user.events.push(event);
+          var image3 = new Image({
+            _parentEvent: event._id,
+
+          });
+          return image3.save(function(err, img){
+            event.mainImage = img._id;
+            return event.save();
+          });
+        });
+      }).then(function(){
+        var event4 = new Event({
+          _creator: user._id,
+          eventCode: "borp2",
+          name: "Borpo 2: Electric Borpaloo"
+        });
+        return event4.save(function(err, event){
+          user.events.push(event);
+          var image4 = new Image({
+            _parentEvent: event._id,
+
+          });
+          return image4.save(function(err, img){
+            event.mainImage = img._id;
+            return event.save();
+          });
+        });
+      }).then(function(){
+        getEventsByUser.getEventsByUser("Mack Levine", function(response){
+          responseObj = response;
+        }); //TODO: make sure this has time to run
+        return user.save();
+      });
+    });
+    
+    setTimeout(function(){
+
+    }, 1000);
+    
+    // done();
       //create several events for this user;
       //when each one saves in turn, create an image in the callback
       //and populate each with a path.
-    })
-
-    getEventsByUser.getEventsByUser("Mack Levine", function(response){
-      responseObj = response;
-    }); //TODO: make sure this has time to run.
-
-
   });
 
   xit("Should analyze an image and save a coordinate map to the database", function(done){
