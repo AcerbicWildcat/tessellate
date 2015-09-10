@@ -59,6 +59,7 @@ class UserEventsView extends React.Component {
 
 	fetchUserEvents(){
 		//construct GET request
+		var self = this;
 		var getEvents = {  
 		  method: 'GET',
 		  headers: {
@@ -68,7 +69,7 @@ class UserEventsView extends React.Component {
 		    'Host': 'http://localhost:8081'
 		  }
 		}
-
+		this.props.spin();
 		//make Fetch Call
 		fetch('http://localhost:8000/event', getEvents)  
 		  .then(function(res) {
@@ -77,6 +78,7 @@ class UserEventsView extends React.Component {
 		   })
 		  .then(function(resJson) {
 		  	console.dir(resJson)
+		  	self.props.stopSpin();
 		    return resJson;
 		   })
 		  .catch((error) => {

@@ -40,7 +40,7 @@ var Main =  React.createClass({
     
          <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         
-         <EventsView passEventCode={this.showEventDetails}/>  
+         <EventsView passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner}/>  
 
        
          <View style={styles.footer}>  
@@ -54,6 +54,14 @@ var Main =  React.createClass({
        </View>
       
     );
+  },
+
+  startSpinner(){
+    this.showProgressHUD();
+  },
+
+  stopSpinner(){
+    this.dismissProgressHUD();
   },
 
   showEventDetails(eventCode){
