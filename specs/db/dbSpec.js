@@ -201,10 +201,15 @@ describe("Tessellate database", function() {
     
     setTimeout(function(){
       console.log(util.inspect(responseObj));
+      //verifies that image paths show up on the returned object.
       expect(responseObj.events[0].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
       expect(responseObj.events[1].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
       expect(responseObj.events[2].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
       expect(responseObj.events[3].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+      //verifies that the child events have the correct creators.
+      expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
+      expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
+      
       done();
     }, 1000);
     
