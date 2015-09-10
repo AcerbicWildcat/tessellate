@@ -13,7 +13,7 @@
   </script>
 </head>
 <body> -->
-  <section class="topbar">
+  <section class="topbar" ng-init="getUserProfile()">
     <div class="logo"></div>
   </section>
   <section class="navbar">
@@ -31,8 +31,8 @@
     <div class="account">
       <a href="">Logout</a><br>
       <a href="">Settings</a>
+      <h1>{{userProfile}}</h1>
     </div>
-    <pre>{{userProfile}}</pre>
   </section>
   
 <!-- </body>
