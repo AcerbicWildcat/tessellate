@@ -1,5 +1,5 @@
 var sendResp = require('../../config/helpers').sendResponse,
-    dB       = require('../../db/db'),
+    db       = require('../../db/db'),
     mapmaker = require('../../db/mapmaker'),
     cloudinary = require('../image/imageController.js');
 
@@ -11,7 +11,7 @@ module.exports = {
 
   getEvent: function (req, res){
     var eventCode = req.body.eventCode;
-    dB.Event.findOne({eventCode: eventCode}, function(err, event){
+    db.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         sendResp(res, err, 500);
       }
@@ -28,16 +28,29 @@ module.exports = {
   },
 
   createEvent: function (req, res){
-    var eventCode = req.body.eventCode;
-    dB.Event.findOne({eventCode: eventCode}, function(err, event){
+
+    // for debugging
+    // console.log(req.file);
+    // console.log(req.file.path);
+
+    var eventCode = req.body.eventCode,
+        eventName = req.body.eventName,
+        facebookId = req.body.facebookId;
+
+    // console.log(eventCode + " is our event code...");
+    // console.log(eventName + " is our event name...");
+    // console.log(facebookId + " is our facebookId...");
+
+    db.Event.findOne({eventCode: eventCode}, function(err, event){
       if (err){
         sendResp(res, err);
       }
       if (event){
-        sendResp(res, {event: false});
+        sendResp(res, {event: "sorry, that event code already exists"});
       } else {
         cloudinary.postImages(req, res, function(result){
-          mapmaker.saveEventAndMap("mack", result.url, eventCode, function(returnObj){
+          console.log(result.url + " is the result we got back!");
+          mapmaker.saveEventAndMap(facebookId, result.url, eventCode, eventName, function(returnObj){
             res.json(returnObj);
             sendResp(res);
           });
