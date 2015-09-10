@@ -54,6 +54,7 @@ a {
   color: #FFFFFF;
 }
 
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*GRID*/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -62,6 +63,10 @@ a {
 *::before,
 *::after {
   box-sizing: inherit;
+}
+
+*:focus {
+    outline: 0;
 }
 
 html {
@@ -86,15 +91,17 @@ section {
   position: fixed;
   padding-left: 4%;
   top: 15%;
-  width: 82%;
+  width: 88%;
   height: 9.5%;
   background-color: #37646F;
 }
 .sidebar {
   position: fixed;
   top: 15%;
-  left: 82%;
-  width: 18%;
+ /*  left: 82%;
+ width: 18%; */
+  left: 88%;
+  width: 12%;
   height: 90.5%;
   background-color: #1B2B32;
   text-align: center;
@@ -130,31 +137,40 @@ h1 {
   color: #FFFFFF;
 }
 
-.event-nav {
+/* .event-nav {
   display: inline-block;
   position: relative;
   vertical-align: middle;
-}
+} */
 .nav {
   font-size: 1em;
   font-weight: 300;
   color: #FFFFFF;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  vertical-align: middle;
 }
+
 .nav input {
-  height: 4%;
-  font-size: 0.8em;
+  height: 6%;
+  font-size: 0.9em;
   color: #A3ABAF;
+  border: none;
+  border-radius: 0.2em;
+  outline: 0;
+  padding-left: 8px;
 }
+
 #join {
   color: #1B2B32;
   margin-left: 0.4em;
-  width: 100px;
-  height: 80px;
 }
+
 #create {
   color: #1B2B32;
   margin: 0.2em 0.4em;
 }
+
 .created-events {
   
 }
@@ -179,4 +195,25 @@ h1 {
   vertical-align: bottom;
   font-size: 0.3em;
   color: #FFFFFF;
+}
+
+/* #copy-name{
+     position:absolute;
+     bottom:15px;
+     right:0;
+     margin-right: 5px;
+} */
+
+#profile-pic {
+  height: 100px;
+  width: 100px;
+  background-color: yellow;
+  float: right;
+  border-radius: 50px;
+  margin-right: 20px;
+  padding-right: 20px;
+  margin-top: 10px;
+  padding-top: 10px;
+  top: 10px;
+  right: 20px;
 }
