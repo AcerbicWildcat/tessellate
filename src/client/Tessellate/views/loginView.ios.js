@@ -70,51 +70,10 @@ class LoginView extends Component {
   }
 
   login() {
-  //GET Request user/facebook
-  console.log('attempting to <login></login>')
-  var getObject = {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Origin': '',
-      'Host': 'localhost:8081/'
-    }
-  };
+ 
   var self = this;
-  self.isAuthorized(true);
-  /*fetch('http://localhost:8000/user/facebook', getObject)
-    .then(function(res) {
-      console.log('facebook');
-      console.dir(res);
-      //example
-      /*
-      if (!res.token){
-        throw new Error('Facebook Login Failed');
-      }
-      return res.json();
-      return {}
-    })
-    .then(function(resJson) {
-      //SETTING THE STATE IS ASYNC!!!!! - write a damn blog post!
-      self.setState({
-        loggedIn: true
-      }, function() {
-        self.isAuthorized(this.state.loggedIn);
-      })
-      return resJson;
-    })
-    .catch((error) => {
-      AlertIOS.alert(
-        'Whoa! Something went wrong...',
-        error.message, [{
-          text: 'Try Again',
-          onPress: () =>  null
-        }]
-      );
-
-    });*/
-
+   console.log('we are here:' + self.state.user)
+  self.isAuthorized(self.state.user);
 
 }
 
@@ -126,11 +85,14 @@ class LoginView extends Component {
         <Image resizeMode='contain' source={require('image!mainLogo')} style={styles.logo}/>
         
          <FBLogin style={{ marginBottom: 10, }}
-        permissions={["email","user_friends"]}
+        permissions={["email","user_friends","public_profile"]}
         onLogin={function(data){
           console.log("Logged in!");
-          console.log(data);
-          _this.setState({ user : data.credentials });
+          console.log(data.credentials);
+          _this.setState({ user : data.credentials },function(){
+            _this.login();
+          });
+          
         }}
         onLogout={function(){
           console.log("Logged out.");
