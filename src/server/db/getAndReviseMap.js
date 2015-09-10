@@ -2,8 +2,8 @@ var db = require('./db.js');
 
 var Map = db.Map;
 
-var getMap = function(eventId, callback){
-  Map.findOne({_id: eventId}, function(err, map){
+var getMap = function(mapId, callback){
+  Map.findOne({_id: mapId}, function(err, map){
     if (!map){
       console.log("error: map not found");
     } else if (map){
