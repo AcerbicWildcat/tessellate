@@ -1,7 +1,7 @@
-<section class="topbar">
+<!-- <section class="topbar">
   <div class="logo"></div>
-  <div id="profile-pic"></div>
-</section>
+  <div id="username">Howdy, {{ userProfile.name }}</div>
+</section> -->
 <section class="navbar">
     <form class="nav">
       <input type="text" placeholder="Event Code..." ng-model="eventCode">
@@ -11,32 +11,32 @@
     </form>
 </section>
 <section class="content">
-  <div class="created-events">
+  <!-- <div class="created-events"> -->
     <h1>Created Events</h1>
     <ul>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
+      <li class="event" ng-click="goToExisitingEvent(event.eventCode)" ng-repeat="event in userProfile.events">
+        <div>
+          <!-- src="event.mainImage.imgPath" -->
+          <img src="../assets/baneCat.jpg">
+        </div>
+        <div>
+          {{event.name}}
+        </div>
+        <div>
+          #{{event.eventCode}}
+        </div>
+        <hr>
+      </li>
     </ul>
   <!-- <div class="joined-events"> -->
     <h1>Joined Events</h1>
-    <ul>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-      <li><div><img src="../assets/baneCat.jpg" ng-click="goToExisitingEvent()"></div><div>Here is a thing</div></li><hr>
-    </ul>
-  </div>
+  <!-- </div> -->
 </section>
-<section class="sidebar">
+<!-- <section class="sidebar">
   <div class="account">
     <a href="">Logout</a><br>
     <hr>
     <a href="">Settings</a>
     <hr>
   </div>
-  <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
-</section>
+</section> -->

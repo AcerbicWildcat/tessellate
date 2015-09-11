@@ -22,7 +22,22 @@
   }
   </script>
 </head>
-<body ng-app="tessell" ng-controller="eventsProfileController"  ng-view>
+<body ng-app="tessell" ng-controller="eventsProfileController" ng-init="getUserProfile()">
   <!-- <button ng-click="sayHello()">Hello</button> -->
+  <section class="topbar">
+    <div class="logo"></div>
+    <div id="username">Howdy, {{ userProfile.name }}</div>
+    <!-- <div id="profile-pic">hello</div> -->
+  </section>
+<div ng-view></div>
+  <section class="sidebar">
+    <div class="account">
+      <a href="">Logout</a><br>
+      <hr>
+      <a href="">Settings</a>
+      <hr>
+    </div>
+    <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
+  </section>
 </body>
 </html>
