@@ -1,12 +1,8 @@
 "use strict";
 
-var getEventsByUser = require('../../db/getEventsByUser');
-var createUser = require('../../db/createUser');
-
 module.exports = {
 
   getUserDetails: function (req, res) {
-    //getEventsByUser.getEventsByUser();
     res.json({
       _id: {
         toString: function(){return "2as2agskadlawoin"}
@@ -80,9 +76,6 @@ module.exports = {
     res.json({
       loggedIn: false
     });
-  },
-  createUser: function (req, res) {
-    createUser.createUser(req.body.facebookId, req.body.name, req.body.email, req.body.profPhoto, req.body.facebookToken);
   }
 
 }
