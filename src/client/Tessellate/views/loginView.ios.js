@@ -83,18 +83,17 @@ class LoginView extends Component {
         'Host': 'http://10.6.1.173:8081'
       },
       body: JSON.stringify({
-         facebookId:facebookId
+         facebookId:facebookId,
+        
        })
     }
 
     //REFACTOR
     fetch('http://10.6.1.173:8000/user', loginObject)  
       .then(function(res) {
-        console.log(res)
         return res.json();
        })
       .then(function(resJson) {
-        console.dir(resJson)
         self.setState({userId:resJson._id,facebookId:facebookId})
         self.isAuthorized(self.state.user);
         return resJson;
@@ -140,8 +139,7 @@ class LoginView extends Component {
         onLoginFound={function(data){
           console.log("Existing login found.");
           console.log(data);
-           _this.setState({ user : data.credentials });
-            
+           _this.setState({ user : data.credentials }); 
 
         }}
         onLoginNotFound={function(){

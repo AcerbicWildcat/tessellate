@@ -73,14 +73,12 @@ class UserEventsView extends React.Component {
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://localhost:8000/user', getEvents)  
+		fetch('http://localhost:8000/events', getEvents)  
 		  .then(function(res) {
-		  	console.log('attempting to get events' + res);
-		  	
 		    return res.json();
 		   })
 		  .then(function(resJson) {
-		  	console.log('Res JSON: ' + resJson)
+		  	console.log('LOGGGIN EVENTS')
 		  	console.dir(resJson)
 		  	var data = resJson.events;
 		  	var createdEvents = [];
