@@ -1,5 +1,5 @@
 'use strict';
-
+//phone dev ip: 10.6.1.173
 var React = require('react-native');
 var {
     StyleSheet,
@@ -75,10 +75,13 @@ class UserEventsView extends React.Component {
 		//make Fetch Call
 		fetch('http://localhost:8000/user', getEvents)  
 		  .then(function(res) {
+		  	console.log('attempting to get events' + res);
+		  	
 		    return res.json();
 		   })
 		  .then(function(resJson) {
-		  	
+		  	console.log('Res JSON: ' + resJson)
+		  	console.dir(resJson)
 		  	var data = resJson.events;
 		  	var createdEvents = [];
 		  	var joinedEvents = [];

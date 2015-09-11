@@ -69,21 +69,24 @@ class LoginView extends Component {
     }
   }
 
-  login() {
+  login(facebookId) {
  
     var self = this;
     var loginObject = {  
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081'
-      }
+        'Host': 'http://10.6.1.173:8081'
+      },
+      body: JSON.stringify({
+         facebookId:facebookId
+       })
     }
 
     //REFACTOR
-    fetch('http://localhost:8000/', loginObject)  
+    fetch('http://10.6.1.173:8000/user', loginObject)  
       .then(function(res) {
         console.log(res)
         return {};
@@ -92,6 +95,19 @@ class LoginView extends Component {
         self.isAuthorized(self.state.user);
         return resJson;
        })
+      .catch((error) => {
+        for (var e in error){
+          console.log(error[e]);
+        }
+        AlertIOS.alert(
+           'Whoa! Something Went Wrong.',
+           error.message,
+           [
+             {text: 'Try Again', onPress: () => {}}
+           ]
+         );
+
+      });
 
 
 
@@ -112,7 +128,7 @@ class LoginView extends Component {
           console.log("Logged in!");
           console.log(data.credentials);
           _this.setState({ user : data.credentials },function(){
-            _this.login();
+            _this.login(data.credentials.userId);
           });
           
         }}
