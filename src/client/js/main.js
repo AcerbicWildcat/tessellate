@@ -2,7 +2,7 @@ var tess = angular.module("tessell", [
   "ngRoute"
 ]);
 
-tess.config(["$routeProvider", function ($routeProvider){
+tess.config(["$routeProvider",'$httpProvider', function ($routeProvider, $httpProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../events.html', 
@@ -30,6 +30,7 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       method: 'GET',
       url: '/user'
     }).then(function(response){
+      console.log('Response from GET User: ',response.data);
       httpRequestFactory.fullUserProfile = response.data;
       return response;
     });
