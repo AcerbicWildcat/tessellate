@@ -2,8 +2,10 @@ var sendResp = require('../../config/helpers').sendResponse,
     db       = require('../../db/db'),
     mapmaker = require('../../db/mapmaker'),
     getEventAndMap = require('../../db/getEventAndMap'),
-    cloudinary = require('../image/imageController.js');
+    updateEvent = require('../../db/updateEvent'),
+    cloudinary = require('../image/imageController.js'),
     getEventsByUser = require('../../db/getEventsByUser.js');
+
 
 
 module.exports = {
