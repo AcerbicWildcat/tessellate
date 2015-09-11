@@ -6,6 +6,8 @@ var {
     Text,
     View,
     ListView,
+    AlertIOS,
+    Image,
 } = React;
 
 var styles = StyleSheet.create({
@@ -34,7 +36,7 @@ var styles = StyleSheet.create({
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
-  	fontSize:14,
+  	fontSize:10,
   	fontWeight:'500',
   }
 });
@@ -58,29 +60,77 @@ class UserEventsView extends React.Component {
 	 }
 
 	fetchUserEvents(){
-		//api request
-		var data = [{eventName:'Jimmy Wedding',img:'  hello jimmy'},{eventName:'Rob Birthday'}];
-		var tempDataBlob = this.state.dataBlob;
-		tempDataBlob[this.sectionIDs[0]]=data;
-		tempDataBlob[this.sectionIDs[1]]=data;
+		//construct GET request
+		var self = this;
+		var getEvents = {  
+		  method: 'GET',
+		  headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json',
+		    'Origin': '',
+		    'Host': 'http://localhost:8081'
+		  }
+		}
+		this.props.spin();
+		//make Fetch Call
+		fetch('http://localhost:8000/user', getEvents)  
+		  .then(function(res) {
+		    return res.json();
+		   })
+		  .then(function(resJson) {
+		  	
+		  	var data = resJson.events;
+		  	var createdEvents = [];
+		  	var joinedEvents = [];
 
-		this.setState({
-              dataSource: this.ds.cloneWithRowsAndSections(tempDataBlob)
-        },function(){
-        	console.log('we done did it')
-        })
+		  	for (var i = 0 ; i< data.length; i++){
+		  		//console.dir(data[i]._creator.toString());
+		  	}
+
+		  	self.props.stopSpin();
+
+  			var tempDataBlob = self.state.dataBlob;
+  			tempDataBlob[self.sectionIDs[0]]=data;
+  			tempDataBlob[self.sectionIDs[1]]=data;
+
+  			self.setState({
+  	              dataSource: self.ds.cloneWithRowsAndSections(tempDataBlob)
+  	        },function(){
+  	        	console.log('we done did it')
+  	        })
+  			
+		    return resJson;
+		   })
+		  .catch((error) => {
+		  	self.stopSpin()
+		  	AlertIOS.alert(
+		  	   'Whoa! Something Went Wrong.',
+		  	   error.message,
+		  	   [
+		  	     {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
+		  	   ]
+		  	 );
+
+		  });
+	}
+
+	goToMosaic(eventCode){
+		this.props.passEventCode(eventCode);
 	}
 
 	renderRow(rowData){
-		
+				
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	         <Text style={styles.rowText} onPress={this.props.passEventCode}> {rowData} </Text>
+	         <Text style={styles.rowText} onPress={this.goToMosaic.bind(this,rowData.eventCode)}> {rowData.name} |  {'#'}{rowData.eventCode} 
+	         </Text>
+	         
 	       </View>
 	     </View>
 	   )
 	 }
+
 
 	renderSectionHeader(sectionData, sectionID){
 		return (

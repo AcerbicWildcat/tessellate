@@ -71,11 +71,11 @@ class LoginView extends Component {
 
   login() {
  
-  var self = this;
-   console.log('we are here:' + self.state.user)
-  self.isAuthorized(self.state.user);
+    var self = this;
+    console.log('we are here:' + self.state.user)
+    self.isAuthorized(self.state.user);
 
-}
+  }
 
   render() {
     var _this = this;
@@ -120,11 +120,6 @@ class LoginView extends Component {
         }}
       />
 
-        
-
-
-
-
       </View>
       
     );
@@ -133,14 +128,5 @@ class LoginView extends Component {
   
 }
 
-
-/*
-  OLD LOGIN BUTTON
-  <TouchableHighlight style={styles.fbLogo} onPress={this.login.bind(this)}>
-          <Text style={styles.fbLogoText}>Login with Facebook</Text>
-        </TouchableHighlight>
-
-
- */
 
 module.exports = LoginView;
