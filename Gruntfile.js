@@ -159,7 +159,7 @@ module.exports = function(grunt) {
           expand: true, 
           flatten: true,
           filter: 'isFile',
-          src: ['src/client/js/main.js', 'src/client/js/authServices.js', 'src/client/js/mosaicModule.js'],
+          src: ['src/client/js/main.js', 'src/client/js/login.js', 'src/client/js/mosaicModule.js'],
           dest: 'src/server/public/js'
         }, {
           expand: true, 
