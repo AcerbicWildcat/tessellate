@@ -81,21 +81,13 @@ module.exports = {
     var eventCode = req.body.eventCode;
     getEventAndMap(eventCode, function(obj){
       if (typeof obj === "string"){
-        res.json(obj); //handle an error here.
+        sendResp(res, obj, 404);
+        // res.json(obj);
       } else {
-        res.json(obj);
+        sendResp(res, obj, 200);
+        // res.json(obj);
       }
     });
-    // db.Event.findOne({eventCode: eventCode}, function(err, event){
-    //   if (err){
-    //     sendResp(res, err, 500);
-    //   }
-    //   if (event){
-    //     sendResp(res, {event: event}, 200);
-    //   } else {
-    //     sendResp(res, {event: false}, 404);
-    //   }
-    // });
   },
 
   updateEvent: function (req, res){
