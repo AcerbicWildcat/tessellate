@@ -7,11 +7,15 @@ tess.config(["$routeProvider", function ($routeProvider){
       .when('/', {
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
-      });
-      /*.when('/events', {
-        templateUrl: '../events.html',
+      })
+      .when('/create', {
+        templateUrl: '../create.html', 
         controller: 'eventsProfileController'
-      });*/
+      })
+      .when('/mosaic', {
+        templateUrl: '../mosaic.html',
+        controller: 'eventsProfileController'
+      });
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
@@ -22,31 +26,32 @@ tess.run([ '$rootScope', '$location', function ($rootScope, $location){
 // globally available functions that make http requests to the server
 tess.factory('httpRequestFactory', [ '$http', function ($http){
   var httpRequestFactory = {};
-  httpRequestFactory.madeUserProfileRequest = false;
+  // httpRequestFactory.madeUserProfileRequest = false;
   httpRequestFactory.getUserProfile = function(){
     console.log('making server request');
     return $http({
       method: 'GET',
       url: '/user'
     }).then(function(response){
-      httpRequestFactory.fullUserProfile = response;
-      httpRequestFactory.madeUserProfileRequest = true;
+      httpRequestFactory.fullUserProfile = response.data;
+      // httpRequestFactory.madeUserProfileRequest = true;
       return response;
     });
   };
   return httpRequestFactory;
 }]);
 
-tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', function ($scope, httpRequestFactory){
+tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
   $scope.noEvent = false;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
-        console.log(response);
-        return response;
+        console.log(response.data);
+        $scope.userProfile = response.data;
+        // return response;
       });
   };
-  $scope.userProfile = httpRequestFactory.fullUserProfile === undefined ? $scope.getUserProfile() : httpRequestFactory.fullUserProfile;
+  // $scope.userProfile = httpRequestFactory.fullUserProfile;// === undefined ? $scope.getUserProfile() : httpRequestFactory.fullUserProfile;
   $scope.joinEvent = function(){
     //TODO: code to join an exisiting event
     if(!!$scope.eventCode){
@@ -57,13 +62,40 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
     }
   };
   $scope.createEvent = function(){
-    $scope.userProfile = "new things";
-      console.log("ready to CREATE a new event ", $scope.eventCode);
+    $location.url('/create');
+    console.log("ready to CREATE a new event ", $scope.eventCode);
   };
-  $scope.goToExisitingEvent = function(){
+  $scope.goToExisitingEvent = function(eventCode){
     //on clicking an event, take the user to that event mosaic page
-    console.log("off to an exisiting event");
+    console.log("off to an exisiting event: ", eventCode);
+    $location.url('/mosaic');
     };
+  $scope.dropzoneConfig = {
+    'options': {
+      'url': '/event/create', 
+      'method': 'POST',
+      'maxFiles': 1,
+      'clickable': true,
+      'autoProcessQueue': false,
+      init: function(){
+        dz = this;
+        $('#submit-all').click(function(){
+          dz.processQueue();
+        });
+      }
+    },
+    'eventHandlers': {
+      'sending': function (file, xhr, formData) {
+        console.log(formData, file, xhr);
+        formData.append("eventCode", $scope.eventTag);
+      }/*,
+      'success': function (file, response) {
+        $scope.getMosiacMap = eventFactory.getMosiacMap(response);
+        $location.path('/mosaic');
+        $scope.$apply();
+      }*/
+    }
+  };
 }]);
 
 /*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
@@ -101,25 +133,6 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
   };
 }]);*/
 
-/*tess.factory('eventFactory', ["$http", function ($http){
-  var eventFactory = {};
-  eventFactory.mosaicRetrieved = false;
-  eventFactory.getMosiacMap = function(response){
-    if(eventFactory.mosaicRetrieved === false){
-      eventFactory.mainMosaicImage = response;
-      eventFactory.mosaicRetrieved = true;
-    }
-    console.log('in factory');
-    return response;
-  };
-  eventFactory.checkForExistingEvent = function(eventTag){
-    $http.post('/event/join', {eventCode: eventTag})
-      .then(function(response){
-      });
-  };
-  return eventFactory;
-}]);*/
-
 
 /**
 * An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
@@ -133,7 +146,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
 * </div>
 */
 
-/*tess.directive('dropzone', function () {
+tess.directive('dropzone', function () {
  return function (scope, element, attrs) {
    var config, dropzone;
 
@@ -144,4 +157,4 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', fun
      dropzone.on(event, handler);
    });
  };
-});*/
+});

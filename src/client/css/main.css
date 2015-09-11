@@ -154,6 +154,9 @@ ul li div img {
   width: 3em;
 }
 
+.event:hover {
+  background-color: #A3ABAF;
+}
 .account {
   /*position: absolute;*/
   /*width: 50%;*/
@@ -266,6 +269,13 @@ ul li div img {
   display: inline-block;
   /*float: left;*/
   right: 0;
+}
+
+#username {
+  float: right;
+  color: #A3ABAF;
+  margin-right: 2%;
+  margin-top: 2%;
 }
 
 #upload {

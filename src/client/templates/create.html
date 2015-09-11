@@ -1,55 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width" />
-  <link rel="stylesheet" href="./css/main.css">
-  <title>Events</title>
-  <script src="https://use.typekit.net/col8pcn.js"></script>
-  <script>try{Typekit.load({ async: true });}catch(e){}</script>
-</head>
-<body>
-  <section class="topbar">
-    <div class="logo">
-    </div>
-  </section>
-  <section class="navbar">
-    <div class="nav">
-      <span class="navbutton">BACK</span>
-    </div>
-  </section>
-  <section class="content">
-    <h1>Create New Event</h1>
-    <br>
-    <div id="left clearfix">
-      <form class="nav">
-        <h2>Event Code</h2>
-        <input type="text" id="event-code"><br>
-        <br>
-        <h2>Event Name</h2>
-        <input type="text" id="event-name"><br>
-        <br>
-        <!-- For now, just a Start Date, can add end date functionality later -->
-        <h2>Start Date</h2>
-        <input type="text" id="calendar">
-        <!-- Need to figure out how to float this right properly -->
-        <div id="upload">
-          <h2>Upload Image</h2><button id="browse">Browse...</button>
-        <!--
-        Insert image upload here
-        -->
-        </div>
-      </form>
-    </div>
-
-
-  </section>
-  <section class="sidebar">
-    <div class="account">
-      <a href="#">Logout</a><br>
-      <a href="#">Settings</a>
-    </div>
-  </section>
-  
-</body>
-</html>
+<section class="navbar">
+  <div class="nav">
+    <span class="navbutton"><a href="#/">BACK</a></span>
+    <span class="navbutton" id="submit-all"><a>SUBMIT</a></span>
+  </div>
+</section>
+<section class="content">
+  <h1>Create New Event</h1>
+  <br>
+  <div id="left clearfix">
+    <form class="nav">
+      <h2>Event Code</h2>
+      <input type="text" id="event-code"><br>
+      <br>
+      <h2>Event Name</h2>
+      <input type="text" id="event-name"><br>
+      <br>
+      <h2>Start Date</h2>
+      <script>
+         angular.module('dateInputExample', [])
+           .controller('DateController', ['$scope', function($scope) {
+             $scope.example = {
+               value: new Date(2015, 9, 10)
+             };
+           }]);
+      </script>
+      <form name="myForm" ng-controller="DateController as dateCtrl">
+         <input type="date" name="input" ng-model="example.value"
+             placeholder="example.value" min="example.value" max="2050-12-31" required />
+         <div role="alert">
+           <span class="error" ng-show="myForm.input.$error.required">
+               Required!</span>
+           <span class="error" ng-show="myForm.input.$error.date">
+               Not a valid date!</span>
+          </div>
+<!--       <input type="text" id="calendar">
+      <div id="upload">
+         <button dropzone="dropzoneConfig">Upload mosaic image</button> -->
+      </div>
+    </form>
+  </div>
+</section>
