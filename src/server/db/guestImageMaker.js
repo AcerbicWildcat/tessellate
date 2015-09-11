@@ -3,9 +3,10 @@ var db = require('./db.js');
 var cloudinary = require('cloudinary');; //TODO: require cloudinary here.
 
 var Event = db.Event,
-    GuestImage = db.GuestImage;
+    Image = db.Image,
+    User  = db.User;
 
-var analyzeGuestImage = function(filePath, eventID, cloudinaryResponse, callback){
+var analyzeGuestImage = function(filePath, eventID, facebookId, cloudinaryResponse, callback){
   getPixels(filePath, function(err, pixels){
     if (err){
       console.log(err);
@@ -13,17 +14,28 @@ var analyzeGuestImage = function(filePath, eventID, cloudinaryResponse, callback
     };
     console.log(pixels.length + "should be the length of the pixels we got back...");
 
-    var rgb = getAverageColor(pixels); //TODO: what form do pixels come back in? double-check.
+    var rgb = getAverageColor(pixels.data); //might have to invoke this on pixels.data
 
     Event.findOne({_id: eventID}, function(err, foundEvent){
-      new GuestImage({
-        _parentEvent: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
-        rgb: rgb,
-        thumbnailPath: thumbnailMaker(cloudinaryResponse.public_id, cloudinaryResponse.format),  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
-        imgPath: cloudinaryResponse.url
-        //TODO: include properties in here.
-      }).save();
-    })
+      User.findOne({facebookId: facebookId}, function(err, foundUser){
+          new Image({
+            _parentEvent: foundEvent._id,
+            _parentUser: foundUser._id,
+            rgb: rgb,
+            thumbnailPath: thumbnailMaker(cloudinaryResponse.public_id, cloudinaryResponse.format),  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
+            imgPath: cloudinaryResponse.url
+            //TODO: include properties in here.
+          }).save(function(err, image){
+            foundEvent.images.push(image);
+            foundUser.images.push(image);
+            foundUser.save(function(){
+              foundEvent.save(function(){
+                callback();
+              });
+            });
+          });
+      });
+    });
 
     //next, create and save an instance of guestImage in the database.
   });

@@ -70,7 +70,7 @@ describe('user', function () {
  */
 describe('event', function() {
 
-  it('GET /event should return a 200', function(done){
+  xit('GET /event should return a 200', function(done){
     request(app)
       .get('/event')
       .expect(200)
