@@ -1,5 +1,8 @@
 //Get the environment variables. If on production, fail silently
-require('dotenv').config({silent: true});
+require('dotenv').config({
+  silent: true,
+  path: __dirname + "/../../.env"
+});
 
 var express  = require('express'),
     morgan   = require('morgan'),
