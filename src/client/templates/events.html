@@ -6,8 +6,9 @@
     <form class="nav">
       <input type="text" placeholder="Event Code..." ng-model="eventCode">
       <input type="button" id="join" value="Join" ng-click="joinEvent()">
-      <input type="button" id="create" value="Create" ng-click="createEvent()">
-      <div id="error-message" ng-show="noEvent">Enter an event code.</div>
+      <!-- <input type="button" id="create" value="Create" ng-click="createEvent()"> -->
+      <a href="#/create">Events here</a>
+      <div id="error-message" ng-show="noEventCode">Enter an event code.</div>
     </form>
 </section>
 <section class="content">

@@ -110,6 +110,10 @@ section {
   background-color: #37646F;
   color: #FFFFFF;
 }
+.navbar h1{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 .sidebar {
   position: fixed;
   top: 15%;
@@ -130,6 +134,17 @@ section {
   height: 75.5%;
   background-color: #FFFFFF;
   overflow: scroll;
+}
+
+.create-content {
+  position: fixed;
+  padding-left: 4%;
+  top: 15%;
+  width: 88%;
+  /*height: 9.5%;*/
+  height: 85%;
+  background-color: #FFFFFF;
+  overflow: hidden;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -157,6 +172,11 @@ ul li div img {
   width: 3em;
 }
 
+.nav h1 {
+  font-size: 28px;
+  color: red;
+}
+
 .event:hover {
   background-color: #A3ABAF;
 }
@@ -172,10 +192,11 @@ ul li div img {
 }
 
 .photoUpload {
-  border-style: dashed;
-  border-color: #123456;
-  border-width: 0.1em;
-  width: 30%;
+  /*border-style: dashed;*/
+  /*border-color: #123456;*/
+  /*border-width: 0.1em;*/
+  /*max-width: 30%;*/
+  /*max-height: 7em;*/
   color: #A3ABAF;
 }
 
@@ -196,18 +217,41 @@ ul li div img {
 .nav input {
   height: 6%;
   font-size: 0.9em;
-  color: #A3ABAF;
+  color: #1B2B32;
   /*color: #FFFFFF;*/
   border: none;
   border-radius: 0.2em;
   outline: 0;
   padding-left: 8px;
+  margin-top: 2px;
+  background-color: #CCCCCC;
+}
+
+.nav input:hover{
+  border: solid 1px;
 }
 
 .nav input[type="button"]:hover{
   /*background-color: #1B2B32;*/
   background-color: #A3ABAF;
   /*color: white;*/
+}
+
+.nav #submit-all {
+  background-color: #CCCCCC;
+  color: #1B2B32;
+  border-radius: 0.3em;
+  width: 7em;
+  height: 1.5em;
+  text-align: center;
+  padding: 0.15em;
+  /*margin-top: 1em;*/
+  /*margin-bottom: 1em;*/
+}
+
+.nav #submit-all:hover {
+  background-color: #1B2B32;
+  color: #FFFFFF;
 }
 
 #join {

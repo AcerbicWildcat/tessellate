@@ -28,7 +28,7 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
   var httpRequestFactory = {};
   // httpRequestFactory.madeUserProfileRequest = false;
   httpRequestFactory.getUserProfile = function(){
-    console.log('making server request');
+    // console.log('making server request');
     return $http({
       method: 'GET',
       url: '/user'
@@ -42,11 +42,11 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
 }]);
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
-  $scope.noEvent = false;
+  // console.log($scope.minDate);
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
-        console.log(response.data);
+        // console.log(response.data);
         $scope.userProfile = response.data;
         // return response;
       });
@@ -55,15 +55,22 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   $scope.joinEvent = function(){
     //TODO: code to join an exisiting event
     if(!!$scope.eventCode){
-      $scope.noEvent = false;
-      console.log('ready to JOIN an event ', $scope.eventCode);
+      $scope.noEventCode = false;
+      // console.log('ready to JOIN an event ', $scope.eventCode);
     } else {
-      $scope.noEvent = true;
+      $scope.noEventCode = true;
     }
   };
   $scope.createEvent = function(){
-    $location.url('/create');
-    console.log("ready to CREATE a new event ", $scope.eventCode);
+    // $location.url('/create');
+    // console.log("ready to CREATE a new event ", $scope.eventCode);
+    if(!!$scope.eventCode){
+      $scope.noEventCode = false;
+      // console.log('ready to create new event ', $scope.eventCode);
+    } else {
+      // console.log('no event code');
+      $scope.noEventCode = true;
+    }
   };
   $scope.goToExisitingEvent = function(eventCode){
     //on clicking an event, take the user to that event mosaic page
@@ -77,51 +84,16 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       'maxFiles': 1,
       'clickable': true,
       'autoProcessQueue': false,
+      'acceptedFiles': 'image/jpeg, image/png',
       init: function(){
+        $scope.photoTest = true;
         dz = this;
         $('#submit-all').click(function(){
-          dz.processQueue();
-        });
-      }
-    },
-    'eventHandlers': {
-      'sending': function (file, xhr, formData) {
-        console.log(formData, file, xhr);
-        formData.append("eventCode", $scope.eventTag);
-      }/*,
-      'success': function (file, response) {
-        $scope.getMosiacMap = eventFactory.getMosiacMap(response);
-        $location.path('/mosaic');
-        $scope.$apply();
-      }*/
-    }
-  };
-  $scope.minDate = {
-    value: function(){
-      var x = new Date();
-      console.log(x);
-    }()
-  }
-}]);
-
-/*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
-  // $scope.eventTag = "";
-  // console.log('loaded Ctrl: ', $scope.mainMosaicImage);
-  $scope.mainMosaicImage = eventFactory.mainMosaicImage;
-  $scope.checkForExistingEvent = function(){
-    eventFactory.checkForExistingEvent($scope.eventTag);
-  };
-  $scope.dropzoneConfig = {
-    'options': {
-      'url': '/event/create', 
-      'method': 'POST',
-      'maxFiles': 1,
-      'clickable': true,
-      'autoProcessQueue': false,
-      init: function(){
-        dz = this;
-        $('#submit-all').click(function(){
-          dz.processQueue();
+          // console.log('click');
+          if(!!$scope.eventCode && !!$scope.eventName && !!$scope.date && dz.files.length === 1){
+            // console.log('processing photo');
+            dz.processQueue();
+          }
         });
       }
     },
@@ -131,13 +103,19 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         formData.append("eventCode", $scope.eventTag);
       },
       'success': function (file, response) {
-        $scope.getMosiacMap = eventFactory.getMosiacMap(response);
-        $location.path('/mosaic');
-        $scope.$apply();
+        console.log('yeah, it uploaded');
+      },
+      'maxfilesexceeded': function(file){
+        this.removeAllFiles();
+        this.addFile(file);
+      },
+      'addedfile': function(){
+        $scope.photoTest = false;
       }
     }
   };
-}]);*/
+}]);
+
 
 
 /**
