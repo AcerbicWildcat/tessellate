@@ -4,39 +4,41 @@
     <span class="navbutton" id="submit-all"><a>SUBMIT</a></span>
   </div>
 </section>
+<style>
+  .content {
+    overflow: hidden;
+  }
+</style>
 <section class="content">
   <h1>Create New Event</h1>
   <br>
   <div id="left clearfix">
-    <form class="nav">
+    <form class="nav" name="myForm">
       <h2>Event Code</h2>
-      <input type="text" id="event-code"><br>
+      <input type="text" id="event-code" placeholder="#">
+      <br>
       <br>
       <h2>Event Name</h2>
-      <input type="text" id="event-name"><br>
+      <input type="text" id="event-name" placeholder="Enter event name...">
       <br>
-      <h2>Start Date</h2>
-      <script>
-         angular.module('dateInputExample', [])
-           .controller('DateController', ['$scope', function($scope) {
-             $scope.example = {
-               value: new Date(2015, 9, 10)
-             };
-           }]);
-      </script>
-      <form name="myForm" ng-controller="DateController as dateCtrl">
-         <input type="date" name="input" ng-model="example.value"
-             placeholder="example.value" min="example.value" max="2050-12-31" required />
-         <div role="alert">
-           <span class="error" ng-show="myForm.input.$error.required">
-               Required!</span>
-           <span class="error" ng-show="myForm.input.$error.date">
-               Not a valid date!</span>
-          </div>
-<!--       <input type="text" id="calendar">
-      <div id="upload">
-         <button dropzone="dropzoneConfig">Upload mosaic image</button> -->
+      <br>
+      <h2>Event Date</h2>
+      <input type="date" name="input" ng-model="minDate.value" placeholder="minDate.value" min="minDate.value" max="2050-12-31" required />
+      <br>
+      <br>
+      <!-- <div id="upload"> -->
+      <h2>Upload Photo</h2>
+         <div class="photoUpload" dropzone="dropzoneConfig">Click Here</div>
+      <!-- </div> -->
+      <div role="alert">
+        <span class="error" ng-show="myForm.input.$error.required">
+            Required!</span>
+        <span class="error" ng-show="myForm.input.$error.date">
+            Not a valid date!</span>
       </div>
+<!--       <div id="upload">
+         <button dropzone="dropzoneConfig">Upload mosaic image</button>
+      </div> -->
     </form>
   </div>
 </section>

@@ -53,7 +53,10 @@ a {
   text-decoration: none;
   color: #FFFFFF;
 }
-
+.dz-progress, .dz-error-message, .dz-success-mark,
+.dz-details, .dz-size, .dz-error-mark {
+  display: none;
+}
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*GRID*/
@@ -166,6 +169,14 @@ ul li div img {
   font-weight: 300;
   color: #FFFFFF;
   margin-top: 10%;
+}
+
+.photoUpload {
+  border-style: dashed;
+  border-color: #123456;
+  border-width: 0.1em;
+  width: 30%;
+  color: #A3ABAF;
 }
 
 /* .event-nav {

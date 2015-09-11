@@ -96,6 +96,12 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       }*/
     }
   };
+  $scope.minDate = {
+    value: function(){
+      var x = new Date();
+      console.log(x);
+    }()
+  }
 }]);
 
 /*tess.controller('tessellCtrl', ['$scope', "eventFactory", "$location", function ($scope, eventFactory, $location){
