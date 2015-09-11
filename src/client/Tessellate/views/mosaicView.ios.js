@@ -43,7 +43,7 @@ var MosaicView = React.createClass({
 
   fetchMosaicData(){
     var _this = this;
-    var apiString = 'http://localhost:8000/events/' + this.state.eventCode.toString();
+    var apiString = 'http://10.6.1.173:8000/events/' + this.state.eventCode.toString();
     var getMosaicObject = {  
       method: 'GET',
       headers: {
@@ -78,7 +78,7 @@ var MosaicView = React.createClass({
            [
              {text: 'Try Again', onPress: () => {
               //redirect back to main page
-              _this.props.nav.pop()
+              //_this.props.nav.pop()
 
              }}
            ]

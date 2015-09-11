@@ -78,7 +78,7 @@ class LoginView extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081'
+        'Host': 'http://10.6.1.173:8081'
       },
       body: JSON.stringify({
          facebookId:facebookId
@@ -86,7 +86,7 @@ class LoginView extends Component {
     }
 
     //REFACTOR
-    fetch('http://localhost:8000/user', loginObject)  
+    fetch('http://10.6.1.173:8000/user', loginObject)  
       .then(function(res) {
         console.log(res)
         return {};
@@ -95,6 +95,19 @@ class LoginView extends Component {
         self.isAuthorized(self.state.user);
         return resJson;
        })
+      .catch((error) => {
+        for (var e in error){
+          console.log(error[e]);
+        }
+        AlertIOS.alert(
+           'Whoa! Something Went Wrong.',
+           error.message,
+           [
+             {text: 'Try Again', onPress: () => {}}
+           ]
+         );
+
+      });
 
 
 

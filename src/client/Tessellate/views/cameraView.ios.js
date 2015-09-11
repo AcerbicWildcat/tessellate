@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Device = require('react-native-device');
 var {
   AppRegistry,
   StyleSheet,
@@ -19,8 +20,7 @@ var CameraView = React.createClass({
     }
   },
 
-  render() {
-    
+  renderCamera(){
     return (
       <Camera
         ref="cam"
@@ -34,6 +34,20 @@ var CameraView = React.createClass({
 
       </Camera>
     );
+  },
+
+  renderText(){
+    return (
+      <View style={styles.container}>
+        <Text> You are unable to take photos on this device </Text>
+      </View>
+    )
+  },
+
+  render() {
+    var _this = this;
+    _this.renderCamera();
+    
   },
 
   /**
