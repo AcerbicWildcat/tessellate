@@ -11,7 +11,8 @@ var sendResp = require('../../config/helpers').sendResponse,
 module.exports = {
 
   getEvents: function (req, res) {
-    getEventsByUser(req.body.facebookId, function(user){
+    var facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    getEventsByUser(facebookId, function(user){
       if (!user){
         res.json("error: user does not exist");
       } else {

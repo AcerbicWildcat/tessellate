@@ -34,7 +34,7 @@ describe('app', function() {
  */
 describe('user', function () {
 
-  it('should have a /user route', function (done) {
+  xit('should have a /user route', function (done) {
 
     request(app)
       .head('/user')
@@ -70,7 +70,7 @@ describe('user', function () {
  */
 describe('event', function() {
 
-  it('GET /event should return a 200', function(done){
+  xit('GET /event should return a 200', function(done){
     request(app)
       .get('/event')
       .expect(200)

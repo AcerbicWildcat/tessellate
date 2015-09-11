@@ -69,7 +69,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   });*/
   $scope.dropzoneConfig = {
     'options': {
-      'url': '/event/create', 
+      'url': '/event',
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true,
@@ -87,11 +87,10 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        console.log('yeah, it uploaded');
-        console.log($scope.eventCode, $scope.eventName, $scope.eventDate);
-        // formData.append("eventCode", $scope.eventCode);
-        // formData.append("eventName", $scope.eventName);
-        // formData.append("eventDate", $scope.eventDate);
+        // console.log('yeah, it uploaded');
+        formData.append("eventCode", $scope.eventCode);
+        formData.append("eventName", $scope.eventName);
+        formData.append("eventDate", $scope.eventDate);
       },
       'success': function (file, response) {
         console.log('yeah, it uploaded');
@@ -101,7 +100,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         this.addFile(file);
       },
       'addedfile': function(file){
-        console.log(file);
+        // console.log(file);
         // $scope.$broadcast('photoUploaded');
       }
     }
