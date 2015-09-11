@@ -21,6 +21,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  AlertIOS,
 } = React;
  
 var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
@@ -30,11 +31,61 @@ var MosaicView = React.createClass({
   mixins: [TimerMixin],
  
   getInitialState() {
-    return {t: 0}
+    return {t: 0,
+      nav:this.props.mainNavigator,
+      eventCode:this.props.eventCode}
   },
  
   componentDidMount() {
     //this.setInterval(this.updateTime, 16);
+    this.fetchMosaicData();
+  },
+
+  fetchMosaicData(){
+    var _this = this;
+    var apiString = 'http://localhost:8000/events/' + this.state.eventCode.toString();
+    var getMosaicObject = {  
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Origin': '',
+        'Host': 'http://localhost:8081'
+      }
+    }
+
+    fetch(apiString, getMosaicObject)  
+      .then(function(res) {
+        if (!res){
+          throw new Error('We were unable to find this event.')
+        }
+        return res.json();
+       })
+      .then(function(resJson) {
+        console.log('Response: ' + resJson)
+        console.dir(resJson.event)
+        if (!resJson.event){
+          console.log('this event not found')
+          throw new Error('This event does not exist!');
+        }
+        return resJson;
+       })
+      .catch((error) => {
+        
+        AlertIOS.alert(
+           'Whoa! Something Went Wrong.',
+           error.message,
+           [
+             {text: 'Try Again', onPress: () => {
+              //redirect back to main page
+              _this.props.nav.pop()
+
+             }}
+           ]
+         );
+
+      });
+
   },
  
   updateTime() {
