@@ -6,7 +6,7 @@ var User = db.User,
 
 //is the facebook id what gets passed along here?
 
-var getEventsByUser = function(facebookId, callback){
+module.exports = function(facebookId, callback){
   User.findOne({facebookId: facebookId}) //recursive population with query is supposedly not supported.
     .populate('events')
     .exec(function(err, docs){
@@ -19,5 +19,3 @@ var getEventsByUser = function(facebookId, callback){
       });
     });
 };
-
-exports.getEventsByUser = getEventsByUser;
