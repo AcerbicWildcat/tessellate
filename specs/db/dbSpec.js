@@ -10,6 +10,7 @@ var eventSchema = require('../../src/server/db/collections/Event');
 var mapSchema = require('../../src/server/db/collections/Map');
 var imageSchema = require('../../src/server/db/collections/Image');
 var mapmaker = require('../../src/server/db/mapmaker');
+var getEventAndMap = require('../../src/server/db/getEventAndMap');
 var mapHelpers = require('../../src/server/db/getAndReviseMap');
 var getEventsByUser = require('../../src/server/db/getEventsByUser');
 
@@ -117,6 +118,46 @@ describe("Tessellate database", function() {
         });
       });
     }, 1000);
+  });
+
+  it("Should return an event, an event's main image, and that main image's map", function(done){
+    new User({
+      facebookId: "Mr Oizo"
+    })
+    .save(function(err, user){
+      mapmaker.mapEventMaker("Mr Oizo", "path", {dummyData: "dummyData"}, {shape: [350, 150]}, "oizoparty", "Oizo Party", function(object){
+        getEventAndMap.getEventAndMap(object.event.eventCode, function(object2){
+          expect(object2.event._creator.toString()).to.equal(user._id.toString());
+          expect(object2.image._id.toString()).to.equal(object2.event.mainImage.toString());
+          expect(object2.image._parentUser.toString()).to.equal(user._id.toString());
+          expect(object2.image._parentEvent.toString()).to.equal(object2.event._id.toString());
+          expect(object2.map._parentImage.toString()).to.equal(object2.image._id.toString());
+          //ensure that fields are correctly established.
+          expect(object2.event.name).to.equal("Oizo Party");
+          expect(object2.event.eventCode).to.equal("oizoparty");
+          expect(object2.map.height).to.equal(150);
+          expect(object2.map.data.dummyData).to.equal("dummyData");
+          expect(object2.image.imgPath).to.equal("path");
+          User.remove({
+            facebookId: "Mr Oizo"
+          }, function(err){
+            Event.remove({
+              name: "Oizo Party"
+            }, function(err){
+              Image.remove({
+                imgPath: "path"
+              }, function(err){
+                Map.remove({
+                  height: 150
+                }, function(err){
+                  done();
+                });
+              });    
+            });
+          });           
+        });
+      });
+    });
   });
 
   it("Should return a user populated with events, which in turn are populated with paths for main images", function(done){
@@ -249,7 +290,7 @@ describe("Tessellate database", function() {
             _id: map._id
           }, function(err){
             done();
-          })
+          });
         });
       });
     });
