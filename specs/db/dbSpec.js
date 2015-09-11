@@ -13,6 +13,7 @@ var mapmaker = require('../../src/server/db/mapmaker');
 var getEventAndMap = require('../../src/server/db/getEventAndMap');
 var mapHelpers = require('../../src/server/db/getAndReviseMap');
 var getEventsByUser = require('../../src/server/db/getEventsByUser');
+var updateEvent = require('../../src/server/db/updateEvent');
 
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
@@ -307,6 +308,25 @@ describe("Tessellate database", function() {
         });
       });
     });
+  });
+
+  it("Should be able to revise an event using data in a JSON object", function(done){
+    new Event({
+      eventCode: "anevent",
+      name: "An Event"
+    }).save(function(err, event){
+      var revision = {
+        name: "Another Event",
+        eventCode: "anotherevent"
+      };
+      updateEvent(event.eventCode, revision, function(event){
+        expect(event.eventCode).to.equal("anotherevent");
+        expect(event.name).to.equal("Another Event");
+        Event.remove({name: "Another Event"}, function(err){
+          done();
+        });
+      });
+    })
   });
 
 });

@@ -2,8 +2,10 @@ var sendResp = require('../../config/helpers').sendResponse,
     db       = require('../../db/db'),
     mapmaker = require('../../db/mapmaker'),
     getEventAndMap = require('../../db/getEventAndMap'),
-    cloudinary = require('../image/imageController.js');
+    updateEvent = require('../../db/updateEvent'),
+    cloudinary = require('../image/imageController.js'),
     getEventsByUser = require('../../db/getEventsByUser.js');
+
 
 
 module.exports = {
@@ -91,7 +93,9 @@ module.exports = {
   },
 
   updateEvent: function (req, res){
-    res.json({ result: "event updated" });
+    updateEvent(req.body.eventCode, req.body.update, function(event){
+      sendResp(res, event, 200);
+    });
   },
 
   createEvent: function (req, res){
