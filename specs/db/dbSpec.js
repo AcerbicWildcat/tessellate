@@ -242,7 +242,6 @@ describe("Tessellate database", function() {
     });
     
     setTimeout(function(){
-      console.log(util.inspect(responseObj));
       //verifies that image paths show up on the returned object.
       expect(responseObj.events[0].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
       expect(responseObj.events[1].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
@@ -251,6 +250,20 @@ describe("Tessellate database", function() {
       //verifies that the child events have the correct creators.
       expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
       expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
+
+      for (var i = 0; i < responseObj.events.length; i++){
+        if (responseObj.events[i]._creator !== undefined){
+          responseObj.events[i]._creatorString = responseObj.events[i]._creator.toString();
+          //apparently, we cannot overwrite the value of _creator, even when it's a regular
+          //object on the server side! It  might be because the object type is ObjectID.
+          //For now, we'll put a new property on each event: _creatorString.
+          expect(typeof responseObj.events[i]._creatorString).to.equal("string");
+        }
+      }
+
+      responseObj._idString = responseObj._id.toString();
+
+      expect(typeof responseObj._idString).to.equal("string");
       
       Event.remove({
         _creator: responseObj._id
