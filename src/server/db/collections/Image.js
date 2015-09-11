@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var Image = mongoose.Schema({
   _parentUser: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   _parentEvent: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
-  rgb: {}, //has either this or the map property below.
+  rgb: {},
   thumbnailPath: String, //only has this if the image is a contributor image.
   imgPath: String,
   map: {type: mongoose.Schema.Types.ObjectId, ref: "Map"}

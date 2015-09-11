@@ -3,13 +3,13 @@ var mosaicView = angular.module('tessell.mosaic', []);
 mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
   console.log("in mosaic controller");
   //TODO: define $scope.mainImg.height, $scope.mainImg.width, $scope.mainImg.path
-  $scope.mainImg.height = $obj.event.height;
-  $scope.mainImg.width = $obj.event.width;
-  $scope.mainImg.path = $obj.map.path;
+  $scope.image.height = $obj.event.height;
+  $scope.image.width = $obj.event.width;
+  $scope.image.path = $obj.map.path;
 
   $scope.dropzoneConfig = {
     'options': {
-      'url': '/event/images', //ultimately, we need to set this route up on the server.
+      'url': '/event/' + $scope.event.eventCode + '/image', //ultimately, we need to set this route up on the server.
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true
@@ -18,7 +18,7 @@ mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
       'sending': function (file, xhr, formData) {
         // console.log(formData, file, xhr);
         //TODO: modify the below based on the instructions you gave Jon.
-        formData.append("eventCode", $scope.eventTag);
+        formData.append("eventCode", $scope.event._id);
       },
       'success': function (file, response) {
         console.log('done with sending photo');
@@ -81,24 +81,6 @@ mosaicView.factory('mosaicFactory', ['http', '$scope', function ($http, $scope){
 
   mosaicFactory.findImageHome = function(guestImg){
 
-    //guestImg: comes back from the server with several properties.
-    //guestImg.thumbnailPath
-    //guestImg.imgPath
-    //guestImg.rgb
-      //guestImg.rgb.r
-      //guestImg.rgb.g
-      //guestImg.rgb.b
-    // {
-    //   _parentEvent: ObjectId,
-    //   thumbnailPath: String,
-    //   imgPath: String,
-    //   rgb: {
-    //     r: Number,
-    //     g: Number,
-    //     b: Number
-    //   }
-    // }
-
     var minimums = []; //an array of all distances between guestImg.rgb and mainRGB.
     var whatChunk;
 
@@ -139,12 +121,12 @@ mosaicView.factory('mosaicFactory', ['http', '$scope', function ($http, $scope){
     }
 
     //TODO: make a post request to the server updating the model with the latest data.
-    $http.post('/model/revise', {
+    $http.post('/event/' + $scope.event.eventCode + '/map', {
       _id: $scope.map._id,
       data: $scope.map.data
     })
     .then(function(response){
-      console.log("model revised!");
+      console.log("map revised!");
     });
 
     mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);

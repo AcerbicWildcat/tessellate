@@ -3,7 +3,7 @@ var sendResp = require('../../config/helpers').sendResponse,
     mapmaker = require('../../db/mapmaker'),
     getEventAndMap = require('../../db/getEventAndMap'),
     updateEvent = require('../../db/updateEvent'),
-    cloudinary = require('../image/imageController.js'),
+    cloudinary = require('cloudinary'),
     getEventsByUser = require('../../db/getEventsByUser.js');
 
 
@@ -107,7 +107,8 @@ module.exports = {
 
     var eventCode = req.body.eventCode,
         eventName = req.body.eventName,
-        facebookId = req.body.facebookId;
+        facebookId = req.body.facebookId,
+        path = req.file.path;
 
     // console.log(eventCode + " is our event code...");
     // console.log(eventName + " is our event name...");
@@ -120,11 +121,10 @@ module.exports = {
       if (event){
         sendResp(res, {event: "sorry, that event code already exists"});
       } else {
-        cloudinary.postImages(req, res, function(result){
+        cloudinary.uploader.upload(path, function(result) { 
           console.log(result.url + " is the result we got back!");
           mapmaker.saveEventAndMap(facebookId, result.url, eventCode, eventName, function(returnObj){
-            res.json(returnObj);
-            sendResp(res);
+            sendResp(res, returnObj, 201);
           });
         });
       }
