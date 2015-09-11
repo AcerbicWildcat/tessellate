@@ -8,7 +8,7 @@ module.exports = function (app) {
    * @namespace /user GET 
    * @desc Returns JSON object of user
    */
-  app.get('/', controller.getUserDetails);
+  app.get('/', controller.getUser);
   app.post('/', controller.createUser);
 
   /**
