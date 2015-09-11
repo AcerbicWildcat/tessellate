@@ -172,9 +172,9 @@ ul li div img {
   width: 3em;
 }
 
-.nav h1 {
-  font-size: 28px;
-  color: red;
+input {
+  display: inline-block;
+  float: left;
 }
 
 .event:hover {
@@ -192,9 +192,12 @@ ul li div img {
 }
 
 .photoUpload {
-  /*border-style: dashed;*/
+  display: inline-block;
+  float: left;
+  border-style: dashed;
+  padding: 0.1em;
   /*border-color: #123456;*/
-  /*border-width: 0.1em;*/
+  border-width: 0.1em;
   /*max-width: 30%;*/
   /*max-height: 7em;*/
   color: #A3ABAF;
@@ -225,6 +228,7 @@ ul li div img {
   padding-left: 8px;
   margin-top: 2px;
   background-color: #CCCCCC;
+  margin-bottom: 0.5em;
 }
 
 .nav input:hover{
@@ -232,26 +236,43 @@ ul li div img {
 }
 
 .nav input[type="button"]:hover{
-  /*background-color: #1B2B32;*/
   background-color: #A3ABAF;
-  /*color: white;*/
 }
 
 .nav #submit-all {
+  position: fixed;
+  bottom: 5%;
+  right: 18%;
   background-color: #CCCCCC;
   color: #1B2B32;
   border-radius: 0.3em;
   width: 7em;
   height: 1.5em;
   text-align: center;
-  padding: 0.15em;
-  /*margin-top: 1em;*/
-  /*margin-bottom: 1em;*/
+  padding-top: 0.15em;
+  margin: 0;
+  border: 0;
 }
 
 .nav #submit-all:hover {
   background-color: #1B2B32;
   color: #FFFFFF;
+}
+
+.navbutton {
+  display: inline-block;
+  float: left;
+  font-size: 1em;
+  font-weight: 300;
+  color: #FFFFFF;
+}
+
+.form-error {
+  float: left;
+  /*background-color: yellow;*/
+  font-size: 1em;
+  color: red;
+  margin-left: 0.5em;
 }
 
 #join {
