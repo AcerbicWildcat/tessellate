@@ -32,9 +32,16 @@ module.exports = function (app, express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  //route paths
+  /**
+   * route paths
+   *
+   * Using plural and singular - semantics are debatable, putting both in
+   * 
+   */
+  app.use('/event/:eventId/image', imageRouter);
   app.use('/event/', eventRouter);
-  app.use('/event/images', imageRouter);
+  app.use('/events/:eventId/images', imageRouter);
+  app.use('/events/', eventRouter);
   app.use('/user', userRouter);
   app.use('/map', mapRouter);
 
