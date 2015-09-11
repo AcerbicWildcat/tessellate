@@ -25,7 +25,7 @@ module.exports = {
   //maybe build a separate db function that does all of this!! Require it in this
   //module. This will give us everything we need, as long as we attach
   //the parent event _id to req.body.
-  addImages : function (req, res, next) {
+  postImages : function (req, res, next) {
 
     cloudinary.uploader.upload(req.file.path, function(result) { 
       next(result); 
