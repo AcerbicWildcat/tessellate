@@ -13,7 +13,7 @@ module.exports = {
       } else {
         if (user.events){ 
           for (var i = 0; i < user.events.length; i++){
-            user.events[i]._creator = user.events[i]._creator.toString();
+            user.events[i]._creatorString = user.events[i]._creator.toString();
           }
         }
         res.json(user);

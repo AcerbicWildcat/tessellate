@@ -4,10 +4,6 @@ var User = db.User;
 
 module.exports = function(facebookId, name, email, profPhoto, facebookToken, callback){
 
-  for (var i = 0; i < arguments.length; i++){
-    console.log(arguments[i]);
-  };
-
   new User({
     facebookId: facebookId,
     name: name,
