@@ -30,6 +30,7 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       method: 'GET',
       url: '/user'
     }).then(function(response){
+      console.log(response);
       httpRequestFactory.fullUserProfile = response.data;
       return response;
     });
