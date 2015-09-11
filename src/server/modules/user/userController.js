@@ -23,7 +23,9 @@ module.exports = {
     });
   },
   getUser: function(req, res) {
-    getUser(req.body.facebookId, function(user){
+    var facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    console.log('facebook ID in getUSer: ', facebookId);
+    getUser(facebookId, function(user){
       res.json(user);
     });
   }
