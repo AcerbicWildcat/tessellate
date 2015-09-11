@@ -35,6 +35,15 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       return response;
     });
   };
+  httpRequestFactory.getUserEvents = function(){
+    return $http({
+      method: 'GET',
+      url: '/events'
+    }).then(function(response){
+      // console.log("Reponse from GET events: ", response.data);
+      return response;
+    });
+  };
   return httpRequestFactory;
 }]);
 
@@ -44,6 +53,12 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     httpRequestFactory.getUserProfile()
       .then(function(response){
         $scope.userProfile = response.data;
+      });
+  };
+  $scope.getUserEvents = function(){
+    httpRequestFactory.getUserEvents()
+      .then(function(response){
+        console.log(response.data);
       });
   };
   $scope.joinEvent = function(){
@@ -90,7 +105,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         // console.log('yeah, it uploaded');
         formData.append("eventCode", $scope.eventCode);
         formData.append("eventName", $scope.eventName);
-        formData.append("eventDate", $scope.eventDate);
+        // formData.append("eventDate", $scope.eventDate);
       },
       'success': function (file, response) {
         console.log('yeah, it uploaded');

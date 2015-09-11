@@ -107,8 +107,8 @@ module.exports = {
 
     var eventCode = req.body.eventCode,
         eventName = req.body.eventName,
-        facebookId = req.body.facebookId,
         path = req.file.path;
+    var facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
 
     // console.log(eventCode + " is our event code...");
     // console.log(eventName + " is our event name...");

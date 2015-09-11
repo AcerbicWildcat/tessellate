@@ -5,7 +5,7 @@
 <section class="navbar">
     <form class="nav">
       <input type="text" placeholder="Event Code..." ng-model="eventCode">
-      <input type="button" id="join" value="Join" ng-click="joinEvent()">
+      <input type="button" id="join" value="Join" ng-click="getUserEvents()">
       <!-- <input type="button" id="create" value="Create" ng-click="createEvent()"> -->
       <a href="#/create">Events here</a>
       <div id="error-message" ng-show="noEventCode">Enter an event code.</div>
@@ -17,7 +17,6 @@
     <ul>
       <li class="event" ng-click="goToExisitingEvent(event.eventCode)" ng-repeat="event in userProfile.events">
         <div>
-          <!-- src="event.mainImage.imgPath" -->
           <img src="../assets/baneCat.jpg">
         </div>
         <div>
