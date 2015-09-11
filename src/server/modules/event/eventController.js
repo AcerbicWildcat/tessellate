@@ -93,7 +93,9 @@ module.exports = {
   },
 
   updateEvent: function (req, res){
-    res.json({ result: "event updated" });
+    updateEvent(req.body.eventCode, req.body.update, function(event){
+      sendResp(res, event, 200);
+    });
   },
 
   createEvent: function (req, res){
