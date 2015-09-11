@@ -5,7 +5,7 @@ var User = db.User,
     Map = db.Map,
     Image = db.Image;
 
-var getEventAndMap = function(eventCode, callback){
+module.exports = function(eventCode, callback){
   var returnObj;
   Event.findOne({eventCode: eventCode})
     .exec(function(err, event){
@@ -23,5 +23,3 @@ var getEventAndMap = function(eventCode, callback){
         });
     });
 };
-
-exports.getEventAndMap = getEventAndMap;

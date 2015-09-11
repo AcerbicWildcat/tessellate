@@ -1,6 +1,7 @@
 var sendResp = require('../../config/helpers').sendResponse,
     db       = require('../../db/db'),
     mapmaker = require('../../db/mapmaker'),
+    getEventAndMap = require('../../db/getEventAndMap'),
     cloudinary = require('../image/imageController.js');
 
 module.exports = {
@@ -11,16 +12,19 @@ module.exports = {
 
   getEvent: function (req, res){
     var eventCode = req.body.eventCode;
-    db.Event.findOne({eventCode: eventCode}, function(err, event){
-      if (err){
-        sendResp(res, err, 500);
-      }
-      if (event){
-        sendResp(res, {event: event}, 200);
-      } else {
-        sendResp(res, {event: false}, 404);
-      }
+    getEventAndMap(eventCode, function(obj){
+      res.json(obj);
     });
+    // db.Event.findOne({eventCode: eventCode}, function(err, event){
+    //   if (err){
+    //     sendResp(res, err, 500);
+    //   }
+    //   if (event){
+    //     sendResp(res, {event: event}, 200);
+    //   } else {
+    //     sendResp(res, {event: false}, 404);
+    //   }
+    // });
   },
 
   updateEvent: function (req, res){
