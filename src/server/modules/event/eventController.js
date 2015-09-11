@@ -21,7 +21,7 @@ module.exports = {
         user._idString = user._id.toString();
         res.json(user);
       }
-    };
+    });
   },
 
     // res.json({
