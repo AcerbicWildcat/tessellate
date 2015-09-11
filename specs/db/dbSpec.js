@@ -126,7 +126,7 @@ describe("Tessellate database", function() {
     })
     .save(function(err, user){
       mapmaker.mapEventMaker("Mr Oizo", "path", {dummyData: "dummyData"}, {shape: [350, 150]}, "oizoparty", "Oizo Party", function(object){
-        getEventAndMap.getEventAndMap(object.event.eventCode, function(object2){
+        getEventAndMap(object.event.eventCode, function(object2){
           expect(object2.event._creator.toString()).to.equal(user._id.toString());
           expect(object2.image._id.toString()).to.equal(object2.event.mainImage.toString());
           expect(object2.image._parentUser.toString()).to.equal(user._id.toString());
@@ -235,7 +235,7 @@ describe("Tessellate database", function() {
       }).then(function(){
         return user.save();
       }).then(function(){
-        getEventsByUser.getEventsByUser("Mack Levine", function(response){
+        getEventsByUser("Mack Levine", function(response){
           responseObj = response;
         }); //TODO: make sure this has time to run
       });

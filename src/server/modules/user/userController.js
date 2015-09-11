@@ -8,10 +8,16 @@ module.exports = {
 
   getUserDetails: function (req, res) {
     getEventsByUser(req.body.facebookId, function(user){
-      for (var i = 0; i < user.events.length; i++){
-        user.events[i]._creator = user.events[i]._creator.toString();
+      if (!user){
+        res.json("error: user does not exist");
+      } else {
+        if (user.events){ 
+          for (var i = 0; i < user.events.length; i++){
+            user.events[i]._creator = user.events[i]._creator.toString();
+          }
+        }
+        res.json(user);
       }
-      res.json(user);
     });
     // res.json({
     //   _id: {

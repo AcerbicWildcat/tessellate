@@ -13,7 +13,11 @@ module.exports = {
   getEvent: function (req, res){
     var eventCode = req.body.eventCode;
     getEventAndMap(eventCode, function(obj){
-      res.json(obj);
+      if (typeof obj === "string"){
+        res.json(obj); //handle an error here.
+      } else {
+        res.json(obj);
+      }
     });
     // db.Event.findOne({eventCode: eventCode}, function(err, event){
     //   if (err){
