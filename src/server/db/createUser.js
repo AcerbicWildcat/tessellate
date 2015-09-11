@@ -2,7 +2,11 @@ var db = require('./db.js');
 
 var User = db.User;
 
-var createUser = function(facebookId, name, email, profPhoto, facebookToken, callback){
+module.exports = function(facebookId, name, email, profPhoto, facebookToken, callback){
+
+  for (var i = 0; i < arguments.length; i++){
+    console.log(arguments[i]);
+  };
 
   new User({
     facebookId: facebookId,
@@ -15,5 +19,3 @@ var createUser = function(facebookId, name, email, profPhoto, facebookToken, cal
   });
 
 };
-
-exports.createUser = createUser;
