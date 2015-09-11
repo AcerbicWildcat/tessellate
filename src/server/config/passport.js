@@ -9,6 +9,7 @@ module.exports = function(passport) {
   });
   // find user by id when deserializing
   passport.deserializeUser(function (user, done) {
+    console.log("USER IN DESERIALIZE: ", user);
     User.findOne({'facebookId': user.id}, function (err, user) {
       done(null, user);
     });
