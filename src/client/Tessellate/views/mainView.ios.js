@@ -65,98 +65,19 @@ var Main =  React.createClass({
   },
 
   showEventDetails(eventCode){
-    console.log(eventCode)
-    //fetch event data
+    //console.log('Passed Back Event Code: ' + eventCode)
+    //console.log('State Event Code: ' + this.state.eventCode)
     var self = this;
-
-    var validEvent = true;
-    var postObject = {
-      method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Origin': '',
-          'Host': 'localhost:8081/'
-        },
-        body: JSON.stringify({
-          'eventCode':self.state.eventCode
-        })
-    };
-    
-    //Begin Request
-    //
-    //
-    //
-    //
-    //
-    //
-    //
+    eventCode = eventCode || self.state.eventCode;
     self.props.navigator.push({
                     title: self.state.eventCode, //refactor to contain event title
                     component: TabView,
-                    passProps: {eventCode: self.state.eventCode,
+                    passProps: {eventCode: eventCode,
                     mainNavigator: self.props.navigator} //refactor to contain eventcode
                     
            }); 
-    //
-    //
-    //
-    //
-    //
-    
+
     self.showProgressHUD();
-    /*fetch('http://localhost:8000/event/join',postObject)  
-      .then(function(res) {
-       
-        console.log('res: ' + res)
-        return res.json();
-       })
-      .then(function(resJson) {
-        if (resJson && resJson.event){
-          validEvent = true;
-        }
-        self.dismissProgressHUD();
-        // if event exists - pass event code on to next page
-        if (self.state.eventCode && validEvent){
-          
-          self.props.navigator.push({
-                    title: self.state.eventCode, //refactor to contain event title
-                    component: TabView,
-                    passProps: {eventCode: self.state.eventCode,
-                    mainNavigator: self.props.navigator} //refactor to contain eventcode
-                    
-           }); 
-         
-        }
-         else {
-          //An Event Code DNE so prompt the user to create an event or try again
-
-          self.dismissProgressHUD();
-
-          AlertIOS.alert(
-            'This Event Does Not Exist!',
-            'Create One?',
-            [
-              {text: 'Try Again', onPress: () => console.log('No Pressed!')}
-            ]
-          );
-
-        }
-        return resJson;
-      })
-      .catch((error) => {
-        console.log(error)
-         self.dismissProgressHUD();
-         AlertIOS.alert(
-            'Whoa! Something went wrong with the network.',
-            'One more time!',
-            [
-              {text: 'Try Again', onPress: () => console.log('No Pressed!')}
-            ]
-          );
-        
-      });*/
-    //persist eventcode to use in subsequent api calls
   
   },
 });

@@ -75,8 +75,6 @@ class UserEventsView extends React.Component {
 		//make Fetch Call
 		fetch('http://localhost:8000/user', getEvents)  
 		  .then(function(res) {
-		  
-		  	
 		    return res.json();
 		   })
 		  .then(function(resJson) {
@@ -86,7 +84,7 @@ class UserEventsView extends React.Component {
 		  	var joinedEvents = [];
 
 		  	for (var i = 0 ; i< data.length; i++){
-		  		console.dir(data[i]._creator.toString());
+		  		//console.dir(data[i]._creator.toString());
 		  	}
 
 		  	self.props.stopSpin();
@@ -100,7 +98,7 @@ class UserEventsView extends React.Component {
   	        },function(){
   	        	console.log('we done did it')
   	        })
-
+  			
 		    return resJson;
 		   })
 		  .catch((error) => {
