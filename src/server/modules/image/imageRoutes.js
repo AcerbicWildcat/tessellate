@@ -20,7 +20,7 @@ module.exports = function (app) {
    * @namespace /event/image/image POST
    * @desc Returns JSON object of all events images
    */
-  app.post('/', controller.addImages);
+  app.post('/', controller.addContributorImages);
 
   /**
    * @namespace /event/image/:imageId DELETE
