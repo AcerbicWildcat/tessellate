@@ -19,7 +19,7 @@ module.exports = {
     res.json({ image: {} });
   },
 
-  addContributorImages : function (req, res, next) {
+  postImages : function (req, res, next) {
 
     cloudinary.uploader.upload(req.file.path, function(result) { 
       next(result); 
