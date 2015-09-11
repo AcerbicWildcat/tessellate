@@ -23,19 +23,23 @@ module.exports = function (app, passport) {
   app.get('/auth/facebook',
     passport.authenticate('facebook', {
       scope: ['email', 'user_friends'], 
-      display: 'touch' 
+      display: 'touch'
     }),
     function (req, res){
       // Request redirected to facebook so this function does not get called
     });
 
   // On user interaction with facebook login, redirected back to here
-  app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-      successRedirect: '/main.html', //redirect to landing page for now --> will be account/event page once it exists
-      failureRedirect: '/'
-    })
-  );
+  app.get('/auth/facebook/callback', function (req,resp,next){
+    passport.authenticate('facebook',{ session: false, failureRedirect: "/" },
+    function (err, token){
+      console.log('session set' + JSON.stringify(token))
+      resp.cookie('facebookToken', JSON.stringify(token), { maxAge: 900000});
+      resp.redirect('/main.html');
+      // resp.end();
+
+    })(req,resp,next);
+  });
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

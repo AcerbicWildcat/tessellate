@@ -3,17 +3,20 @@
 <head>
   <title>Tessellate</title>
   <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/app.min.js"></script>
+  <script src='./js/login.js'></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-cookies.js"></script>
 </head>
-<body>
+<body ng-app="login">
   <header id="top" class="header">
     <div class="text-vertical-center">
       <img id="logo" src="./assets/tessellate_logo.png">
       <div>
-        <form action="/auth/facebook" method="GET">
-          <div>
-            <input type="image" src="./assets/fb_login_button_v2.png" alt="Submit">
+          <div ng-controller="AuthController">
+            <a href="/auth/facebook">
+            <img ng-click = "signInWithFB()" class="facebookLogin" src="./assets/fb_login_button_v2.png" />
+            </a>
           </div>
-        </form>
       </div>
     </div>
   </header>
