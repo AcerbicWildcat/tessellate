@@ -69,21 +69,24 @@ class LoginView extends Component {
     }
   }
 
-  login() {
+  login(facebookId) {
  
     var self = this;
     var loginObject = {  
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
         'Host': 'http://localhost:8081'
-      }
+      },
+      body: JSON.stringify({
+         facebookId:facebookId
+       })
     }
 
     //REFACTOR
-    fetch('http://localhost:8000/', loginObject)  
+    fetch('http://localhost:8000/user', loginObject)  
       .then(function(res) {
         console.log(res)
         return {};
@@ -112,7 +115,7 @@ class LoginView extends Component {
           console.log("Logged in!");
           console.log(data.credentials);
           _this.setState({ user : data.credentials },function(){
-            _this.login();
+            _this.login(data.credentials.userId);
           });
           
         }}
