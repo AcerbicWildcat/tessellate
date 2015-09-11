@@ -3,7 +3,7 @@ var sendResp = require('../../config/helpers').sendResponse,
     mapmaker = require('../../db/mapmaker'),
     getEventAndMap = require('../../db/getEventAndMap'),
     updateEvent = require('../../db/updateEvent'),
-    cloudinary = require('../image/imageController.js'),
+    cloudinary = require('cloudinary'),
     getEventsByUser = require('../../db/getEventsByUser.js');
 
 
