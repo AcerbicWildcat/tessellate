@@ -1,5 +1,4 @@
 var db = require('./db.js');
-var fs = require('fs');
 
 var User = db.User,
     Event = db.Event,
