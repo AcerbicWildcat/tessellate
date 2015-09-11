@@ -16,6 +16,7 @@ module.exports = {
             user.events[i]._creatorString = user.events[i]._creator.toString();
           }
         }
+        user._idString = user._id.toString();
         res.json(user);
       }
     });

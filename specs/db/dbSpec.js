@@ -261,6 +261,9 @@ describe("Tessellate database", function() {
         }
       }
 
+      responseObj._idString = responseObj._id.toString();
+
+      expect(typeof responseObj._idString).to.equal("string");
       
       Event.remove({
         _creator: responseObj._id
