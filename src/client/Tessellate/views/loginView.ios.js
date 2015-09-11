@@ -53,6 +53,8 @@ class LoginView extends Component {
     super(props);
     this.state = {
       loggedIn:false,
+      userId: '',
+      facebookId: '',
     }
   }
 
@@ -89,16 +91,15 @@ class LoginView extends Component {
     fetch('http://10.6.1.173:8000/user', loginObject)  
       .then(function(res) {
         console.log(res)
-        return {};
+        return res.json();
        })
       .then(function(resJson) {
+        console.dir(resJson)
+        self.setState({userId:resJson._id,facebookId:facebookId})
         self.isAuthorized(self.state.user);
         return resJson;
        })
       .catch((error) => {
-        for (var e in error){
-          console.log(error[e]);
-        }
         AlertIOS.alert(
            'Whoa! Something Went Wrong.',
            error.message,
