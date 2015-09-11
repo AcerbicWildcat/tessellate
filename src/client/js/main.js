@@ -23,18 +23,14 @@ tess.run([ '$rootScope', '$location', function ($rootScope, $location){
   });
 }]);
 
-// globally available functions that make http requests to the server
 tess.factory('httpRequestFactory', [ '$http', function ($http){
   var httpRequestFactory = {};
-  // httpRequestFactory.madeUserProfileRequest = false;
   httpRequestFactory.getUserProfile = function(){
-    // console.log('making server request');
     return $http({
       method: 'GET',
       url: '/user'
     }).then(function(response){
       httpRequestFactory.fullUserProfile = response.data;
-      // httpRequestFactory.madeUserProfileRequest = true;
       return response;
     });
   };
@@ -42,41 +38,34 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
 }]);
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
-  // console.log($scope.minDate);
+  $scope.photoLoaded = false;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
-        // console.log(response.data);
         $scope.userProfile = response.data;
-        // return response;
       });
   };
-  // $scope.userProfile = httpRequestFactory.fullUserProfile;// === undefined ? $scope.getUserProfile() : httpRequestFactory.fullUserProfile;
   $scope.joinEvent = function(){
-    //TODO: code to join an exisiting event
     if(!!$scope.eventCode){
       $scope.noEventCode = false;
-      // console.log('ready to JOIN an event ', $scope.eventCode);
     } else {
       $scope.noEventCode = true;
     }
   };
   $scope.createEvent = function(){
-    // $location.url('/create');
-    // console.log("ready to CREATE a new event ", $scope.eventCode);
     if(!!$scope.eventCode){
       $scope.noEventCode = false;
-      // console.log('ready to create new event ', $scope.eventCode);
     } else {
-      // console.log('no event code');
       $scope.noEventCode = true;
     }
   };
   $scope.goToExisitingEvent = function(eventCode){
-    //on clicking an event, take the user to that event mosaic page
     console.log("off to an exisiting event: ", eventCode);
-    $location.url('/mosaic');
     };
+/*  $scope.$on('photoUploaded', function (event, data){
+    console.log('heard the event');
+    $scope.photoLoaded = true;
+  });*/
   $scope.dropzoneConfig = {
     'options': {
       'url': '/event/create', 
@@ -86,21 +75,22 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       'autoProcessQueue': false,
       'acceptedFiles': 'image/jpeg, image/png',
       init: function(){
-        $scope.photoTest = true;
         dz = this;
         $('#submit-all').click(function(){
-          // console.log('click');
-          if(!!$scope.eventCode && !!$scope.eventName && !!$scope.date && dz.files.length === 1){
-            // console.log('processing photo');
+          if(!!$scope.eventCode && !!$scope.eventName && !!$scope.eventDate && dz.files.length === 1){
             dz.processQueue();
+            dz.removeAllFiles();
           }
         });
       }
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        // console.log(formData, file, xhr);
-        formData.append("eventCode", $scope.eventTag);
+        console.log('yeah, it uploaded');
+        console.log($scope.eventCode, $scope.eventName, $scope.eventDate);
+        // formData.append("eventCode", $scope.eventCode);
+        // formData.append("eventName", $scope.eventName);
+        // formData.append("eventDate", $scope.eventDate);
       },
       'success': function (file, response) {
         console.log('yeah, it uploaded');
@@ -109,8 +99,9 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         this.removeAllFiles();
         this.addFile(file);
       },
-      'addedfile': function(){
-        $scope.photoTest = false;
+      'addedfile': function(file){
+        console.log(file);
+        // $scope.$broadcast('photoUploaded');
       }
     }
   };

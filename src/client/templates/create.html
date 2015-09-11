@@ -3,36 +3,28 @@
     overflow: hidden;
   }
 </style>
-<!-- <section class="navbar">
-  <h1>Create New Event</h1>
-</section> -->
 <section class="create-content">
   <div id="left clearfix">
     <form class="nav" name="myForm">
-     <!--  <div class="nav" ng-hide="myForm.$invalid">
-        <div class="navbutton" id="submit-all" ng-click="createEvent()">Create Event</div>
-      </div> -->
-      <!-- <h1 ng-hide="eventCode">Please enter an event code</h1> -->
-      <h1 ng-show="myForm.eventCode.$error.required">Please enter an event code here</h1>
-      <!-- <h1 ng-hide="myForm.event.$error.required">Awesome</h1> -->
-      <!-- <span ng-show="myform.myfield.$error.required">Please enter something!</span> -->
       <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
-      <!-- <div id="error-message" ng-show="noEvent">Enter an event code.</div> -->
+      <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
       <br>
       <br>
-      <h1 ng-show="myForm.eventName.$error.required">Give your event a memorable name</h1>
       <input type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
+      <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
       <br>
       <br>
-      <h1 ng-show="myForm.eventDate.$error.required">Event Date</h1>
-      <input type="date" name="eventDate" ng-model="date" required />
+      <input type="date" name="eventDate" ng-model="eventDate" required />
+      <div class="form-error" ng-show="myForm.eventDate.$error.required">*events need a start date</div> 
       <br>
       <br>
-      <!-- <input type="file" dropzone="dropzoneConfig"> -->
-      <div class="photoUpload" dropzone="dropzoneConfig" ng-model="photoTest">Click to add image</div>
-      <div class="nav" ng-show="!myForm.$invalid && !photoTest">
-        <div class="navbutton" id="submit-all" ng-click="createEvent()">Create Event</div>
-      </div>
+      <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
+      <!-- <div class="form-error" ng-hide="photoLoaded">*upload an image to start with</div> -->
+      <br>
+      <br>
+      <!-- <div class="nav"> -->
+      <div class="navbutton" id="submit-all" ng-click="createEvent()">Create Event</div>
+      <!-- </div> -->
     </form>
   </div>
 </section>
