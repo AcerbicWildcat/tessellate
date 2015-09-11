@@ -66,7 +66,7 @@ class TabView extends Component {
                 });
           }}>
 
-          <Mosaic eventCode={this.state.eventCode}/>
+          <Mosaic eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
         </TabBarIOS.Item>
       </TabBarIOS>
       

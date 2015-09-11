@@ -57,7 +57,7 @@ class LoginView extends Component {
   }
 
   isAuthorized(loginState){
-    
+    console.log('transitioning')
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
@@ -72,8 +72,30 @@ class LoginView extends Component {
   login() {
  
     var self = this;
-    console.log('we are here:' + self.state.user)
-    self.isAuthorized(self.state.user);
+    var loginObject = {  
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Origin': '',
+        'Host': 'http://localhost:8081'
+      }
+    }
+
+    //REFACTOR
+    fetch('http://localhost:8000/', loginObject)  
+      .then(function(res) {
+        console.log(res)
+        return {};
+       })
+      .then(function(resJson) {
+        self.isAuthorized(self.state.user);
+        return resJson;
+       })
+
+
+
+    
 
   }
 
@@ -101,7 +123,9 @@ class LoginView extends Component {
         onLoginFound={function(data){
           console.log("Existing login found.");
           console.log(data);
-          _this.setState({ user : data.credentials });
+           _this.setState({ user : data.credentials });
+            
+
         }}
         onLoginNotFound={function(){
           console.log("No user logged in.");
