@@ -19,9 +19,16 @@ module.exports = {
   },
 
   postImages : function (req, res) {
+    var facebookId;
+    if (!!req.headers.facebookid){
+      facebookId = req.headers.facebookid;
+    } else if (!!req.cookies.facebookToken){
+      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    }
 
+    console.log(req.params.eventId + " should be our eventId");
     cloudinary.uploader.upload(req.file.path, function(result) { 
-      guestImageMaker.analyzeGuestImage(req.params.eventId, req.body.facebookId, result, function(image){
+      guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function(image){
         res.json(image);
         res.end();
       }); 

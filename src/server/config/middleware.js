@@ -38,10 +38,10 @@ module.exports = function (app, express) {
    * Using plural and singular - semantics are debatable, putting both in
    * 
    */
-  app.use('/event/:eventId/image', imageRouter);
+  app.use('/event/image', imageRouter);
   app.use('/event/', eventRouter);
   app.use('/event/:eventId/map', mapRouter);
-  app.use('/events/:eventId/images', imageRouter);
+  app.use('/events/images', imageRouter);
   app.use('/events/', eventRouter);
   app.use('/user', userRouter);
 
