@@ -56,6 +56,7 @@ class UserEventsView extends React.Component {
 	 }
 
 	 componentDidMount() {
+	 	console.log('hey there: ' + this.props.facebookId)
 	       this.fetchUserEvents();
 	 }
 
@@ -68,7 +69,8 @@ class UserEventsView extends React.Component {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    'Host': 'http://localhost:8081'
+		    'Host': 'http://localhost:8081',
+		    'FacebookID':this.props.facebookId,
 		  }
 		}
 		this.props.spin();
