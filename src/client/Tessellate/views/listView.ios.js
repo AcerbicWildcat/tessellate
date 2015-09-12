@@ -103,6 +103,14 @@ class UserEventsView extends React.Component {
 		  		}
 		  	}
 
+		  	if (!createdEvents.length){
+		  		createdEvents.push({name:'No created events...'})
+		  	}
+
+		  	if (!joinedEvents.length){
+		  		joinedEvents.push({name:'No joined events...'})
+		  	}	
+
 		  	self.props.stopSpin();
 
   			var tempDataBlob = self.state.dataBlob;
