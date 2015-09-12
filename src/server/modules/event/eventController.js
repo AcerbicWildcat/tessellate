@@ -86,7 +86,7 @@ module.exports = {
     // });
 
   getEvent: function (req, res){
-    var eventCode = req.body.eventCode;
+    var eventCode = req.params.eventId;
     getEventAndMap(eventCode, function(obj){
       if (typeof obj === "string"){
         sendResp(res, obj, 404);
