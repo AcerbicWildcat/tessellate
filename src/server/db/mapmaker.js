@@ -1,6 +1,6 @@
 var getPixels = require('get-pixels');
 var db = require('./db.js');
-
+var fs = require('fs');
 var User = db.User,
     Event = db.Event,
     Map = db.Map,
@@ -102,6 +102,7 @@ var chunker = function(pixels){
       };
     }
   }
+  // fs.writeFileSync('log.txt', util.inspect(_storage), 'utf-8');
   return _storage;
 };
 

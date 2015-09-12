@@ -363,7 +363,11 @@ describe("Tessellate database", function() {
         joinEvent("Mack Levine", "dummyevent", function(){
           expect(event.contributors.length).to.be.ok;
           expect(user.events.length).to.be.ok;
-          done();
+          Event.remove({eventCode: "dummyevent"}, function(err){
+            User.remove({facebookId: "Mack Levine"}, function(err){
+              done();
+            });
+          });
         });
       });
     })
