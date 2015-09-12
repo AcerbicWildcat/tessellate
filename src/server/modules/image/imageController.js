@@ -29,7 +29,7 @@ module.exports = {
   postImages : function (req, res) {
 
     cloudinary.uploader.upload(req.file.path, function(result) { 
-      guestImageMaker(req.body.eventCode, req.body.facebookId, result, function(image){
+      guestImageMaker.analyzeGuestImage(req.body.eventCode, req.body.facebookId, result, function(image){
         res.json(image);
         res.end();
       }); 
