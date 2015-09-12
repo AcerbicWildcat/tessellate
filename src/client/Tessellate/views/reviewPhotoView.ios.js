@@ -62,29 +62,32 @@ class ReviewPhotoView extends Component {
    */
   _savePictureToDB(nav,tab){
     //start progress HUD
-
+    var _this = this;
     //make POST request to API
-    //pop off nav stack but set selected tab bar item to be mosaic
-    /*var postObject = {  
+    var imageToSave = this.props.photo;
+    var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'images';
+    var savePictureObject = {  
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'api.producthunt.com'
+        'Host': 'http://10.6.1.173:8081',
+        'FacebookID':_this.props.facebookId,
       },
       body: JSON.stringify({
-        //tbd
+        image:_this.props.photo
       })
-    /*
-    fetch('API_ENDPOINT', OBJECT)  
+    }
+    
+    fetch(savePhotoURL,savePictureObject)  
       .then(function(res) {
         return res.json();
        })
       .then(function(resJson) {
         return resJson;
        })
-    */
+    
    
     //END PROGRESS HUD
     tab('mosaic')

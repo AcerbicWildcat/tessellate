@@ -55,7 +55,7 @@ class TabView extends Component {
                 });
             }}>
         
-        <Camera mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack.bind(this)}/>      
+        <Camera facebookId={this.state.facebookId} mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack.bind(this)}/>      
         </TabBarIOS.Item>
         <TabBarIOS.Item
             

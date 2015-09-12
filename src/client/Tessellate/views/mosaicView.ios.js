@@ -40,14 +40,14 @@ var MosaicView = React.createClass({
   },
  
   componentDidMount() {
-    //this.setInterval(this.updateTime, 16);
+    
     this.fetchMosaicData();
   },
 
   fetchMosaicData(){
     var _this = this;
     console.log('EVEEEEEENT: ' + this.state.eventCode)
-    var apiString = 'http://localhost:8000/event/' + this.state.eventCode;
+    var apiString = 'http://10.6.1.173:8000/event/' + this.state.eventCode;
     console.log(apiString.toString())
     var getMosaicObject = {  
       method: 'GET',
@@ -55,7 +55,7 @@ var MosaicView = React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081',
+        'Host': 'http://10.6.1.173:8081',
         'FacebookID':_this.props.facebookId,
       }
     }
@@ -69,7 +69,7 @@ var MosaicView = React.createClass({
        })
       .then(function(resJson) {
         console.log('Mosaic Response: ' + resJson)
-        console.dir(resJson)
+       
         var mosaicMainImage = resJson.image.imgPath;
         if (!resJson){
           console.log('this event not found')
@@ -97,10 +97,7 @@ var MosaicView = React.createClass({
       });
 
   },
- 
-  updateTime() {
-    this.setState({t: this.state.t + 0.05});
-  },
+
  
   render() {
     return (
