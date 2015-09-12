@@ -16,6 +16,7 @@ var CameraView = React.createClass({
   getInitialState() {
     return {
       cameraType: Camera.constants.Type.back,
+      captureTarget:Camera.constants.CaptureTarget.disk,
       eventCode: this.props.eventCode,
       facebookId: this.props.facebookId,
     }

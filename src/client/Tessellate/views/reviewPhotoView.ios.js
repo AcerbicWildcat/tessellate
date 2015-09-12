@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
     width:150,
     height:50,
     marginRight:20,
+    left:20,
     borderRadius:25,
     
   },
@@ -82,6 +83,8 @@ class ReviewPhotoView extends Component {
     
     fetch(savePhotoURL,savePictureObject)  
       .then(function(res) {
+        console.log(res);
+        console.log('Attempting to save: ' + _this.props.photo)
         return res.json();
        })
       .then(function(resJson) {
