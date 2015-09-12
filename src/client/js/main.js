@@ -45,7 +45,6 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
     });
   };
   httpRequestFactory.getEvent = function(eventCode){
-    console.log('trying to GET /events with eventCode');
     return $http({
       method: 'GET',
       url:'/events/'+ eventCode
@@ -233,7 +232,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         $scope.userEvents = response.data;
       });
   };
-  // $scope.getUserEvents();
+  $scope.getUserEvents();
   $scope.joinEvent = function(){
     if(!!$scope.eventCode){
       $scope.noEventCode = false;
@@ -254,7 +253,6 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       .then(function(response){
         console.log(response.data);
         $location.url('/mosaic');
-        // $scope.$apply();
       });
     };
 
