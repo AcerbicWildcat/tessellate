@@ -59,7 +59,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         $scope.userEvents = response.data;
       });
   };
-  $scope.getUserEvents();
+  // $scope.getUserEvents();
   $scope.joinEvent = function(){
     if(!!$scope.eventCode){
       $scope.noEventCode = false;
