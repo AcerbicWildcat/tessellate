@@ -1,7 +1,6 @@
 'use strict';
 var fs = require('fs');
 var http = require('http');
-var util = require('util');
 var Busboy = require('busboy');
 var cloudinary = require('cloudinary');
 var guestImageMaker = require('../../db/guestImageMaker');
@@ -27,10 +26,14 @@ module.exports = {
   //maybe build a separate db function that does all of this!! Require it in this
   //module. This will give us everything we need, as long as we attach
   //the parent event _id to req.body.
-  postImages : function (req, res, next) {
+  postImages : function (req, res) {
 
     cloudinary.uploader.upload(req.file.path, function(result) { 
-      next(result); 
+      guestImageMaker(req.body.eventCode, req.body.facebookId, result, function(image){
+        res.json(image);
+        res.end();
+      }); 
+      //filePath, eventID, facebookId, cloudinaryResponse, callback
     });
 
     // var busboy = new Busboy({ headers: req.headers });

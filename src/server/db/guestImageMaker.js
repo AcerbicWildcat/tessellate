@@ -6,8 +6,8 @@ var Event = db.Event,
     Image = db.Image,
     User  = db.User;
 
-var analyzeGuestImage = function(eventID, facebookId, cloudinaryResult, callback){
-  getPixels(filePath, function(err, pixels){
+var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, callback){
+  getPixels(cloudinaryResult.url, function(err, pixels){
     if (err){
       console.log(err);
       return;
@@ -22,22 +22,20 @@ var analyzeGuestImage = function(eventID, facebookId, cloudinaryResult, callback
           _parentEvent: foundEvent._id,
           _parentUser: foundUser._id,
           rgb: rgb,
-          thumbnailPath: thumbnailMaker(cloudinaryResponse.public_id, cloudinaryResponse.format),  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
-          imgPath: cloudinaryResponse.url
+          thumbnailPath: thumbnailMaker(cloudinaryResult.public_id, cloudinaryResult.format),
+          imgPath: cloudinaryResult.url
           //TODO: include properties in here.
         }).save(function(err, image){
           foundEvent.images.push(image);
           foundUser.images.push(image);
           foundUser.save(function(){
             foundEvent.save(function(){
-              callback();
+              callback(image);  //invoked on the entire saved image.
             });
           });
         });
       });
     });
-
-    //next, create and save an instance of guestImage in the database.
   });
 };
 

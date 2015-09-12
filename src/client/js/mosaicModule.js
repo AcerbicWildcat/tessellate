@@ -22,8 +22,7 @@ mosaicView.controller('mosaicCtrl', ['$scope', function ($scope){
       },
       'success': function (file, response) {
         console.log('done with sending photo');
-        //TODO: make sure that the correct functions are called with the response object.
-        //do a factory method on response.path
+        mosaicFactory.findImageHome(response);
       }
     }
   };
