@@ -22,6 +22,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		541E6CF41BA39B150040FB10 /* RNCookieManagerIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 541E6CF31BA39B150040FB10 /* RNCookieManagerIOS.m */; };
 		544236E91B9E530400C83978 /* libRCTSvg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 544236E31B9E52E700C83978 /* libRCTSvg.a */; };
 		54439E851BA33FF70042A756 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54439E821BA33FF70042A756 /* FBSDKCoreKit.framework */; };
 		54439E861BA33FF70042A756 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54439E831BA33FF70042A756 /* FBSDKLoginKit.framework */; };
@@ -155,6 +156,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		541E6CF21BA39B150040FB10 /* RNCookieManagerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCookieManagerIOS.h; sourceTree = "<group>"; };
+		541E6CF31BA39B150040FB10 /* RNCookieManagerIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCookieManagerIOS.m; sourceTree = "<group>"; };
 		544236D71B9E52E700C83978 /* RCTSvg.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSvg.xcodeproj; path = "../node_modules/react-native-svg-elements/RCTSvg.xcodeproj"; sourceTree = "<group>"; };
 		54439E821BA33FF70042A756 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		54439E831BA33FF70042A756 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -281,6 +284,7 @@
 		13B07FAE1A68108700A75B9A /* Tessellate */ = {
 			isa = PBXGroup;
 			children = (
+				541E6CF11BA39B150040FB10 /* RNCookieManagerIOS */,
 				54439E8A1BA3544B0042A756 /* DeviceUtil.h */,
 				54439E8B1BA3544B0042A756 /* DeviceUtil.m */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -300,6 +304,16 @@
 				146834041AC3E56700842450 /* libReact.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		541E6CF11BA39B150040FB10 /* RNCookieManagerIOS */ = {
+			isa = PBXGroup;
+			children = (
+				541E6CF21BA39B150040FB10 /* RNCookieManagerIOS.h */,
+				541E6CF31BA39B150040FB10 /* RNCookieManagerIOS.m */,
+			);
+			name = RNCookieManagerIOS;
+			path = "../../node_modules/react-native-cookies/RNCookieManagerIOS";
 			sourceTree = "<group>";
 		};
 		544236D81B9E52E700C83978 /* Products */ = {
@@ -655,6 +669,7 @@
 				54439E8C1BA3544B0042A756 /* DeviceUtil.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				541E6CF41BA39B150040FB10 /* RNCookieManagerIOS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

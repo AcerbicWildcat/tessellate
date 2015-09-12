@@ -4,6 +4,7 @@ var React = require('react-native');
 var Main = require('./mainView.ios.js');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
+var CookieManager = require('react-native-cookies');
 
 var {
   StyleSheet,
@@ -53,6 +54,8 @@ class LoginView extends Component {
     super(props);
     this.state = {
       loggedIn:false,
+      userId: '',
+      facebookId: '',
     }
   }
 
@@ -81,24 +84,22 @@ class LoginView extends Component {
         'Host': 'http://10.6.1.173:8081'
       },
       body: JSON.stringify({
-         facebookId:facebookId
+         facebookId:facebookId,
+        
        })
     }
 
     //REFACTOR
     fetch('http://10.6.1.173:8000/user', loginObject)  
       .then(function(res) {
-        console.log(res)
-        return {};
+        return res.json();
        })
       .then(function(resJson) {
+        self.setState({userId:resJson._id,facebookId:facebookId})
         self.isAuthorized(self.state.user);
         return resJson;
        })
       .catch((error) => {
-        for (var e in error){
-          console.log(error[e]);
-        }
         AlertIOS.alert(
            'Whoa! Something Went Wrong.',
            error.message,
@@ -128,6 +129,21 @@ class LoginView extends Component {
           console.log("Logged in!");
           console.log(data.credentials);
           _this.setState({ user : data.credentials },function(){
+            // set a cookie
+            CookieManager.set({
+              name: 'facebookData',
+              value: data.credentials,
+              domain: 'localhost:8000',
+              origin: '',
+              path: '/',
+              version: '1',
+              expiration: '2015-05-30T12:30:00.00-05:00'
+            }, (err, res) => {
+              console.log('cookie set!');
+              console.log(err);
+              console.log('Cookie: ' + res);
+            });
+
             _this.login(data.credentials.userId);
           });
           
@@ -139,8 +155,7 @@ class LoginView extends Component {
         onLoginFound={function(data){
           console.log("Existing login found.");
           console.log(data);
-           _this.setState({ user : data.credentials });
-            
+           _this.setState({ user : data.credentials }); 
 
         }}
         onLoginNotFound={function(){
