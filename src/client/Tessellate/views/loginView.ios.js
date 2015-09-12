@@ -4,6 +4,7 @@ var React = require('react-native');
 var Main = require('./mainView.ios.js');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
+var CookieManager = require('react-native-cookies');
 
 var {
   StyleSheet,
@@ -128,6 +129,21 @@ class LoginView extends Component {
           console.log("Logged in!");
           console.log(data.credentials);
           _this.setState({ user : data.credentials },function(){
+            // set a cookie
+            CookieManager.set({
+              name: 'facebookData',
+              value: data.credentials,
+              domain: 'localhost:8000',
+              origin: '',
+              path: '/',
+              version: '1',
+              expiration: '2015-05-30T12:30:00.00-05:00'
+            }, (err, res) => {
+              console.log('cookie set!');
+              console.log(err);
+              console.log('Cookie: ' + res);
+            });
+
             _this.login(data.credentials.userId);
           });
           
