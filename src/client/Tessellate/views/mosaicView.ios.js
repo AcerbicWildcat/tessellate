@@ -33,7 +33,9 @@ var MosaicView = React.createClass({
   getInitialState() {
     return {t: 0,
       nav:this.props.mainNavigator,
-      eventCode:this.props.eventCode}
+      eventCode:this.props.eventCode,
+      facebookId:this.props.facebookId
+    }
   },
  
   componentDidMount() {
@@ -43,14 +45,17 @@ var MosaicView = React.createClass({
 
   fetchMosaicData(){
     var _this = this;
-    var apiString = 'http://10.6.1.173:8000/events/' + this.state.eventCode.toString();
+    console.log('EVEEEEEENT: ' + this.state.eventCode)
+    var apiString = 'http://localhost:8000/events/' + this.state.eventCode;
+    console.log(apiString.toString())
     var getMosaicObject = {  
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081'
+        'Host': 'http://localhost:8081',
+        'FacebookID':_this.props.facebookId,
       }
     }
 
@@ -78,7 +83,7 @@ var MosaicView = React.createClass({
            [
              {text: 'Try Again', onPress: () => {
               //redirect back to main page
-              //_this.props.nav.pop()
+              _this.props.nav.pop()
 
              }}
            ]

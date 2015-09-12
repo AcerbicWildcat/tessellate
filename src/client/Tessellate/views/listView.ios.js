@@ -125,6 +125,7 @@ class UserEventsView extends React.Component {
 	}
 
 	goToMosaic(eventCode){
+		console.log('clicked event code: ' + eventCode)
 		this.props.passEventCode(eventCode);
 	}
 

@@ -70,11 +70,12 @@ var Main =  React.createClass({
     //console.log('Passed Back Event Code: ' + eventCode)
     //console.log('State Event Code: ' + this.state.eventCode)
     var self = this;
-    eventCode = eventCode || self.state.eventCode;
+    eventCode = eventCode;
     self.props.navigator.push({
-                    title: self.state.eventCode, //refactor to contain event title
+                    title: eventCode, //refactor to contain event title
                     component: TabView,
                     passProps: {eventCode: eventCode,
+                      facebookId:this.state.facebookId,
                     mainNavigator: self.props.navigator} //refactor to contain eventcode
                     
            }); 
