@@ -19,8 +19,6 @@ tess.config(["$routeProvider",'$httpProvider', function ($routeProvider, $httpPr
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
-  $rootScope.$on("$routeChangeStart", function (event, next, current){
-  });
 }]);
 
 tess.factory('httpRequestFactory', [ '$http', function ($http){
@@ -30,8 +28,16 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       method: 'GET',
       url: '/user'
     }).then(function(response){
-      console.log('Response from GET User: ',response.data);
       httpRequestFactory.fullUserProfile = response.data;
+      return response;
+    });
+  };
+  httpRequestFactory.getUserEvents = function(){
+    return $http({
+      method: 'GET',
+      url: '/events'
+    }).then(function(response){
+      httpRequestFactory.userEvents = response.data;
       return response;
     });
   };
@@ -46,6 +52,14 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         $scope.userProfile = response.data;
       });
   };
+  $scope.getUserEvents = function(){
+    console.log('getting events');
+    httpRequestFactory.getUserEvents()
+      .then(function(response){
+        $scope.userEvents = response.data;
+      });
+  };
+  // $scope.getUserEvents();
   $scope.joinEvent = function(){
     if(!!$scope.eventCode){
       $scope.noEventCode = false;
@@ -61,12 +75,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     }
   };
   $scope.goToExisitingEvent = function(eventCode){
-    console.log("off to an exisiting event: ", eventCode);
     };
-/*  $scope.$on('photoUploaded', function (event, data){
-    console.log('heard the event');
-    $scope.photoLoaded = true;
-  });*/
+
   $scope.dropzoneConfig = {
     'options': {
       'url': '/event',
@@ -87,20 +97,17 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        // console.log('yeah, it uploaded');
         formData.append("eventCode", $scope.eventCode);
         formData.append("eventName", $scope.eventName);
-        formData.append("eventDate", $scope.eventDate);
+        // formData.append("eventDate", $scope.eventDate);
       },
       'success': function (file, response) {
-        console.log('yeah, it uploaded');
       },
       'maxfilesexceeded': function(file){
         this.removeAllFiles();
         this.addFile(file);
       },
       'addedfile': function(file){
-        // console.log(file);
         // $scope.$broadcast('photoUploaded');
       }
     }
