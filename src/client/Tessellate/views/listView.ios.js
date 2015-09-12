@@ -77,11 +77,17 @@ class UserEventsView extends React.Component {
 		//make Fetch Call
 		fetch('http://localhost:8000/events', getEvents)  
 		  .then(function(res) {
+		  	if (!res){
+		  		throw new Error('We could not find that event!')
+		  	}
 		    return res.json();
 		   })
 		  .then(function(resJson) {
 		  	console.log('Main DATA: ' + resJson)
 		  	console.dir(resJson)
+		  	if (!resJson){
+		  		throw new Error('We could not find that event!')
+		  	}
 		  	var userID = resJson._id;
 		  	var data = resJson.events;
 		  	var createdEvents = [];
