@@ -344,8 +344,6 @@ describe("Tessellate database", function() {
   it("Should get the average color for an image uploaded to cloudinary", function(done){
     var pixels = getPixels("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap", function(err, pixels){
       aveRGB = guestImageMaker.getAverageColor(pixels.data);
-      console.log(aveRGB);
-      //{ r: 68, g: 68, b: 59 }
       expect(aveRGB.r).to.equal(68);
       expect(aveRGB.g).to.equal(68);
       expect(aveRGB.b).to.equal(59);
