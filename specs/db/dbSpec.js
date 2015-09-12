@@ -336,7 +336,7 @@ describe("Tessellate database", function() {
   it("Should generate a valid Cloudinary thumbnail URL", function(done){
     //http://res.cloudinary.com/tesselate/image/upload/v1442015055/khd0vihzt7vdfy63k1ap.png
     var thumbURL = guestImageMaker.thumbnailMaker("v1442015055/khd0vihzt7vdfy63k1ap", "png");
-    console.log(thumbURL);
+    expect(thumbUrl).to.equal("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap");
     done();
   });
 
