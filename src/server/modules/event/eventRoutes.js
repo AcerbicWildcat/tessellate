@@ -30,6 +30,12 @@ module.exports = function (app) {
   app.put('/:eventId', eventController.updateEvent);
 
   /**
+   * @namespace /event:eventId
+   * @desc Returns JSON object of event
+   */
+  app.post('/:eventId', eventController.joinEvent);
+  
+  /**
    * @namespace /event POST
    * @desc Returns JSON object of created event
    */

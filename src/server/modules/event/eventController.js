@@ -4,7 +4,8 @@ var sendResp = require('../../config/helpers').sendResponse,
     getEventAndMap = require('../../db/getEventAndMap'),
     updateEvent = require('../../db/updateEvent'),
     cloudinary = require('cloudinary'),
-    getEventsByUser = require('../../db/getEventsByUser.js');
+    getEventsByUser = require('../../db/getEventsByUser.js'),
+    joinEvent = require('../../db/joinEvent');
 
 
 
@@ -139,6 +140,26 @@ module.exports = {
         });
       }
     });
-  }
+  },
+
+  joinEvent: function (req, res){
+    var eventCode = req.params.eventId;
+    var facebookId;
+    if (!!req.headers.facebookid){
+      facebookId = req.headers.facebookid;
+    } else if (!!req.cookies.facebookToken){
+      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    }
+    joinEvent(facebookId, eventCode, function(){
+      getEventAndMap(eventCode, function (obj){
+        if (typeof obj === "string"){
+          sendResp(res, obj, 404);
+        } else {
+          sendResp(res, obj, 200);
+        }
+      });
+    });
+
+  }  
 
 };

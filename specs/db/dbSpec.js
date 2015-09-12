@@ -19,6 +19,7 @@ var mapHelpers = require('../../src/server/db/getAndReviseMap');
 var getEventsByUser = require('../../src/server/db/getEventsByUser');
 var updateEvent = require('../../src/server/db/updateEvent');
 var guestImageMaker = require('../../src/server/db/guestImageMaker');
+var joinEvent = require('../../src/server/db/joinEvent');
 
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
@@ -350,5 +351,22 @@ describe("Tessellate database", function() {
       done();
     });
   });
+
+  it("Should allow a user to join an event and create a mutual relationship", function(done){
+    new Event({
+      eventCode: "dummyevent",
+      name: "Dummy Event"
+    }).save(function(err, event){
+      new User({
+        facebookId: "Mack Levine"
+      }).save(function(err, user){
+        joinEvent("Mack Levine", "dummyevent", function(){
+          expect(event.contributors.length).to.be.ok;
+          expect(user.events.length).to.be.ok;
+          done();
+        });
+      });
+    })
+  })
 
 });
