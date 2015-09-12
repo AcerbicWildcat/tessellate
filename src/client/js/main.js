@@ -195,7 +195,7 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
   $scope.dropzoneConfig = {
     'options': {
       // 'url': '/event/' + 
-      'url': '/event/' + $scope.currentEvent.event.eventCode + '/image', //ultimately, we need to set this route up on the server.
+      'url': '/event/image/' + $scope.currentEvent.event.eventCode, //ultimately, we need to set this route up on the server.
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true,
