@@ -9,11 +9,15 @@ var userSchema = require('../../src/server/db/collections/User');
 var eventSchema = require('../../src/server/db/collections/Event');
 var mapSchema = require('../../src/server/db/collections/Map');
 var imageSchema = require('../../src/server/db/collections/Image');
+
+//DB helper services below.
+
 var mapmaker = require('../../src/server/db/mapmaker');
 var getEventAndMap = require('../../src/server/db/getEventAndMap');
 var mapHelpers = require('../../src/server/db/getAndReviseMap');
 var getEventsByUser = require('../../src/server/db/getEventsByUser');
 var updateEvent = require('../../src/server/db/updateEvent');
+var guestImageMaker = require('../../src/server/db/guestImageMaker');
 
 var User = mongoose.model("User", userSchema);
 var Event = mongoose.model("Event", eventSchema);
@@ -327,6 +331,13 @@ describe("Tessellate database", function() {
         });
       });
     })
+  });
+
+  it("Should generate a valid Cloudinary thumbnail URL", function(done){
+    //http://res.cloudinary.com/tesselate/image/upload/v1442015055/khd0vihzt7vdfy63k1ap.png
+    var thumbURL = guestImageMaker.thumbnailMaker("v1442015055/khd0vihzt7vdfy63k1ap", "png");
+    console.log(thumbURL);
+    done();
   });
 
 });

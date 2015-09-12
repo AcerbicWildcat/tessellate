@@ -64,4 +64,6 @@ var getAverageColor = function(pixels) {
 };
 
 exports.analyzeGuestImage = analyzeGuestImage;
+exports.thumbnailMaker = thumbnailMaker;
+exports.getAverageColor = getAverageColor;
 
