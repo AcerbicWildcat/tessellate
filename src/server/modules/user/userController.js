@@ -12,7 +12,7 @@ module.exports = {
   },
   createUser: function(req, res) {
     console.log(req.body, "is our body...");
-    var facebookId = req.body.facebookId,
+    var facebookId = req.headers.facebookid || JSON.parse(req.cookies.facebookToken).facebookId,
         name = req.body.name,
         profPhoto = req.body.profPhoto,
         email = req.body.email,
@@ -23,7 +23,7 @@ module.exports = {
     });
   },
   getUser: function(req, res) {
-    var facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    var facebookId = req.headers.facebookid || JSON.parse(req.cookies.facebookToken).facebookId;
     console.log('facebook ID in getUSer: ', facebookId);
     getUser(facebookId, function(user){
       res.json(user);
