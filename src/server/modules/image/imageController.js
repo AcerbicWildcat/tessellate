@@ -1,7 +1,6 @@
 'use strict';
 var fs = require('fs');
 var http = require('http');
-var util = require('util');
 var Busboy = require('busboy');
 var cloudinary = require('cloudinary');
 var guestImageMaker = require('../../db/guestImageMaker');
@@ -19,18 +18,13 @@ module.exports = {
     res.json({ image: {} });
   },
 
-  //TODO: after we get the image back from the server, let's
-  //run get-pixels on it. It might make sense to require it in the body
-  //of this module and just invoke it here.
-  //TODO: figure out a way to get a 200x200 thumbnail back from Cloudinary.
-  //to review tomorrow.
-  //maybe build a separate db function that does all of this!! Require it in this
-  //module. This will give us everything we need, as long as we attach
-  //the parent event _id to req.body.
-  postImages : function (req, res, next) {
+  postImages : function (req, res) {
 
     cloudinary.uploader.upload(req.file.path, function(result) { 
-      next(result); 
+      guestImageMaker.analyzeGuestImage(req.body.eventCode, req.body.facebookId, result, function(image){
+        res.json(image);
+        res.end();
+      }); 
     });
 
     // var busboy = new Busboy({ headers: req.headers });

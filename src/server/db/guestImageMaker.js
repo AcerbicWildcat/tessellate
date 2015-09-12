@@ -6,38 +6,35 @@ var Event = db.Event,
     Image = db.Image,
     User  = db.User;
 
-var analyzeGuestImage = function(filePath, eventID, facebookId, cloudinaryResponse, callback){
-  getPixels(filePath, function(err, pixels){
+var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, callback){
+  getPixels(cloudinaryResult.url, function(err, pixels){
     if (err){
       console.log(err);
       return;
     };
-    console.log(pixels.length + "should be the length of the pixels we got back...");
 
-    var rgb = getAverageColor(pixels.data); //might have to invoke this on pixels.data
+    var rgb = getAverageColor(pixels.data);
 
-    Event.findOne({_id: eventID}, function(err, foundEvent){
+    Event.findOne({eventCode: eventCode}, function(err, foundEvent){
       User.findOne({facebookId: facebookId}, function(err, foundUser){
-          new Image({
-            _parentEvent: foundEvent._id,
-            _parentUser: foundUser._id,
-            rgb: rgb,
-            thumbnailPath: thumbnailMaker(cloudinaryResponse.public_id, cloudinaryResponse.format),  //TODO: add w_100,h_100,c_fill to the path. Create a helper function for this.
-            imgPath: cloudinaryResponse.url
-            //TODO: include properties in here.
-          }).save(function(err, image){
-            foundEvent.images.push(image);
-            foundUser.images.push(image);
-            foundUser.save(function(){
-              foundEvent.save(function(){
-                callback();
-              });
+        new Image({
+          _parentEvent: foundEvent._id,
+          _parentUser: foundUser._id,
+          rgb: rgb,
+          thumbnailPath: thumbnailMaker(cloudinaryResult.public_id, cloudinaryResult.format),
+          imgPath: cloudinaryResult.url
+          //TODO: include properties in here.
+        }).save(function(err, image){
+          foundEvent.images.push(image);
+          foundUser.images.push(image);
+          foundUser.save(function(){
+            foundEvent.save(function(){
+              callback(image);  //invoked on the entire saved image.
             });
           });
+        });
       });
     });
-
-    //next, create and save an instance of guestImage in the database.
   });
 };
 
@@ -65,5 +62,7 @@ var getAverageColor = function(pixels) {
   return { r: r, g: g, b: b };
 };
 
-module.exports = analyzeGuestImage;
+exports.analyzeGuestImage = analyzeGuestImage;
+exports.thumbnailMaker = thumbnailMaker;
+exports.getAverageColor = getAverageColor;
 
