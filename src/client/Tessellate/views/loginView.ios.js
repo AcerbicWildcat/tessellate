@@ -83,6 +83,7 @@ class LoginView extends Component {
       },
       body: JSON.stringify({
          facebookId:facebookId,
+         name: 'Jonathan'
        })
     }
 

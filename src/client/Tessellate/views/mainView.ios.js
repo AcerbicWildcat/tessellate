@@ -47,7 +47,7 @@ var Main =  React.createClass({
        
          <View style={styles.footer}>  
            <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
-             <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails}>
+             <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails.bind(this,this.state.eventCode)}>
                <Text style={styles.buttonText}>Join</Text>
              </TouchableHighlight>
          </View>
@@ -67,14 +67,15 @@ var Main =  React.createClass({
   },
 
   showEventDetails(eventCode){
-    //console.log('Passed Back Event Code: ' + eventCode)
+    console.log('Passed Back Event Code: ' + eventCode)
     //console.log('State Event Code: ' + this.state.eventCode)
     var self = this;
-    eventCode = eventCode || self.state.eventCode;
+    eventCode = eventCode;
     self.props.navigator.push({
-                    title: self.state.eventCode, //refactor to contain event title
+                    title: eventCode, //refactor to contain event title
                     component: TabView,
                     passProps: {eventCode: eventCode,
+                      facebookId:this.state.facebookId,
                     mainNavigator: self.props.navigator} //refactor to contain eventcode
                     
            }); 

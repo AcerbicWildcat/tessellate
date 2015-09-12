@@ -26,8 +26,9 @@ class TabView extends Component {
     super(props);
     this.state = {
       selectedTab: 'mosaic',
-      eventCode: props.eventCode,
+      eventCode: this.props.eventCode,
       mainNavigator: props.mainNavigator,
+      facebookId:this.props.facebookId,
     }
   }
   /**
@@ -66,7 +67,7 @@ class TabView extends Component {
                 });
           }}>
 
-          <Mosaic eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
+          <Mosaic facebookId={this.state.facebookId} eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
         </TabBarIOS.Item>
       </TabBarIOS>
       
