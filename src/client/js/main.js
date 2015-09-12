@@ -41,6 +41,15 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       return response;
     });
   };
+  httpRequestFactory.getEvent = function(eventCode){
+    return $http({
+      method: 'GET',
+      url:'/events/'+ eventCode
+    }).then(function(response){
+      httpRequestFactory.currentEvent = response.data;
+      return response;
+    });
+  };
   return httpRequestFactory;
 }]);
 
@@ -74,7 +83,12 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       $scope.noEventCode = true;
     }
   };
-  $scope.goToExisitingEvent = function(eventCode){
+  $scope.getEvent = function(eventCode){
+    console.log(eventCode);
+    httpRequestFactory.getEvent(eventCode)
+      .then(function(response){
+        console.log(response.data);
+      });
     };
 
   $scope.dropzoneConfig = {
