@@ -12,9 +12,8 @@ var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, callba
       console.log(err);
       return;
     };
-    console.log(pixels.length + "should be the length of the pixels we got back...");
 
-    var rgb = getAverageColor(pixels.data); //might have to invoke this on pixels.data
+    var rgb = getAverageColor(pixels.data);
 
     Event.findOne({eventCode: eventCode}, function(err, foundEvent){
       User.findOne({facebookId: facebookId}, function(err, foundUser){
