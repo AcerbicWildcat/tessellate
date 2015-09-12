@@ -80,26 +80,33 @@ class UserEventsView extends React.Component {
 		    return res.json();
 		   })
 		  .then(function(resJson) {
-		  	console.log('LOGGGIN EVENTS')
+		  	console.log('Main DATA: ' + resJson)
 		  	console.dir(resJson)
+		  	var userID = resJson._id;
 		  	var data = resJson.events;
 		  	var createdEvents = [];
 		  	var joinedEvents = [];
 
 		  	for (var i = 0 ; i< data.length; i++){
+		  		console.log('EVENT DATA')
 		  		//console.dir(data[i]._creator.toString());
+		  		if (userID === data[i]._creator.toString()){
+		  			createdEvents.push(data[i]);
+		  		} else {
+		  			joinedEvents.push(data[i]);
+		  		}
 		  	}
 
 		  	self.props.stopSpin();
 
   			var tempDataBlob = self.state.dataBlob;
-  			tempDataBlob[self.sectionIDs[0]]=data;
-  			tempDataBlob[self.sectionIDs[1]]=data;
+  			tempDataBlob[self.sectionIDs[0]]=createdEvents;
+  			tempDataBlob[self.sectionIDs[1]]=joinedEvents;
 
   			self.setState({
   	              dataSource: self.ds.cloneWithRowsAndSections(tempDataBlob)
   	        },function(){
-  	        	console.log('we done did it')
+  	        	
   	        })
   			
 		    return resJson;
