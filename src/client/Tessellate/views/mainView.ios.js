@@ -27,20 +27,22 @@ var Main =  React.createClass({
     return {
       eventCode: '',
       loggedIn: false,
-      isLoading: false
+      isLoading: false,
+      facebookId: this.props.facebookId,
     };
   },
 
   mixins: [ProgressHUD.Mixin],
 
   render() {
+    console.log('Facebook ID in Main: ' + this.state.facebookId)
     return (
        <View style={styles.container}>
         
     
          <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         
-         <EventsView passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner}/>  
+         <EventsView passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner} facebookId={this.state.facebookId}/>  
 
        
          <View style={styles.footer}>  

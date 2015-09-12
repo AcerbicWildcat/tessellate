@@ -60,12 +60,11 @@ class LoginView extends Component {
   }
 
   isAuthorized(loginState){
-    console.log('transitioning')
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
         component:Main,
-        passProps:{currentUser:'Jonathan Schapiro',
+        passProps:{facebookId:this.state.facebookId,
         profilePicture:'.img'}
       })
       this.props.refs.setState({navBarHidden:true}) 
@@ -73,7 +72,6 @@ class LoginView extends Component {
   }
 
   login(facebookId) {
- 
     var self = this;
     var loginObject = {  
       method: 'POST',
@@ -81,22 +79,23 @@ class LoginView extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.6.1.173:8081'
+        'Host': 'http://localhost:8081'
       },
       body: JSON.stringify({
          facebookId:facebookId,
-        
        })
     }
 
     //REFACTOR
-    fetch('http://10.6.1.173:8000/user', loginObject)  
+    fetch('http://localhost:8000/user', loginObject)  
       .then(function(res) {
         return res.json();
        })
       .then(function(resJson) {
-        self.setState({userId:resJson._id,facebookId:facebookId})
-        self.isAuthorized(self.state.user);
+        self.setState({facebookId:facebookId},function(){
+          self.isAuthorized(self.state.user);
+        })
+        
         return resJson;
        })
       .catch((error) => {
@@ -111,9 +110,6 @@ class LoginView extends Component {
       });
 
 
-
-    
-
   }
 
   render() {
@@ -126,24 +122,8 @@ class LoginView extends Component {
          <FBLogin style={{ marginBottom: 10, }}
         permissions={["email","user_friends","public_profile"]}
         onLogin={function(data){
-          console.log("Logged in!");
-          console.log(data.credentials);
-          _this.setState({ user : data.credentials },function(){
-            // set a cookie
-            CookieManager.set({
-              name: 'facebookData',
-              value: data.credentials,
-              domain: 'localhost:8000',
-              origin: '',
-              path: '/',
-              version: '1',
-              expiration: '2015-05-30T12:30:00.00-05:00'
-            }, (err, res) => {
-              console.log('cookie set!');
-              console.log(err);
-              console.log('Cookie: ' + res);
-            });
 
+          _this.setState({ user : data.credentials },function(){
             _this.login(data.credentials.userId);
           });
           
