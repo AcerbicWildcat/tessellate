@@ -11,7 +11,12 @@ var sendResp = require('../../config/helpers').sendResponse,
 module.exports = {
 
   getEvents: function (req, res) {
-    var facebookId = req.headers.facebookid || JSON.parse(req.cookies.facebookToken).facebookId;
+    var facebookId;
+    if (!!req.headers.facebookid){
+      facebookId = req.headers.facebookid;
+    } else if (!!req.cookies.facebookToken){
+      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    }
     getEventsByUser(facebookId, function(user){
       if (!user){
         res.json("error: user does not exist");
@@ -107,8 +112,13 @@ module.exports = {
 
     var eventCode = req.body.eventCode,
         eventName = req.body.eventName,
-        path = req.file.path,
-        facebookId = req.headers.facebookid || JSON.parse(req.cookies.facebookToken).facebookId;
+        path = req.file.path;
+    var facebookId;
+    if (!!req.headers.facebookid){
+      facebookId = req.headers.facebookid;
+    } else if (!!req.cookies.facebookToken){
+      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    }
 
     // console.log(eventCode + " is our event code...");
     // console.log(eventName + " is our event name...");
