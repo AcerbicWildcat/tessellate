@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image map</title>
+</head>
+<body>
+  
+  <h1>Image map</h1>
+
+  <h2>It work on an image</h2>
+  <p>If we are going to just embed the generated mosaic, it should just be an image. The below will work.</p>
+  <!-- HOW TO IMPLEMENT AN IMAGE MAP ON AN IMAGE -->
+  <p>In the image tag (or svg) usemap="mosaic"</p>
+  <pre>
+  <code>&lt;img src="../../src/client/assets/baneCat.jpg" alt="Bane Cat" usemap="mosaic"&gt;</code></pre>
+  <pre>
+  <code>&lt;map name="mosaic"&gt;
+    &lt;area shape="rect" coords="0,0,20,20" href="http://www.google.com" alt="Google"&gt;
+    &lt;area shape="rect" coords="20,0,40,20" href="http://www.bbc.com" alt="BBC"&gt;
+  &lt;/map&gt;</code></pre>
+  <img src="../../src/client/assets/baneCat.jpg" alt="Bane Cat" usemap="mosaic">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/map -->
+  <map name="mosaic">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area -->
+    <!-- coords -->
+    <area shape="rect" coords="0,0,20,20" href="http://www.google.com" alt="Google">
+    <area shape="rect" coords="20,0,40,20" href="http://www.bbc.com" alt="BBC">
+  </map>
+
+  <h2>SVG Images</h2>
+  <p>The coordinates and urls will already exist in the elements.</p>
+
+</body>
+</html>
