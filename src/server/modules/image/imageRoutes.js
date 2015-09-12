@@ -2,6 +2,14 @@
 
 var controller = require(__dirname + '/imageController');
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/tmp/')
+  }
+});
+
 module.exports = function (app) {
   
   /**
@@ -20,7 +28,7 @@ module.exports = function (app) {
    * @namespace /event/image/image POST
    * @desc Returns JSON object of all events images
    */
-  app.post('/', controller.postImages);
+  app.post('/', upload.single("file"), controller.postImages);
 
   /**
    * @namespace /event/image/:imageId DELETE
