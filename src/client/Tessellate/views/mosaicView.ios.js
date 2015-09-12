@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
  
 function drawSine(t) {
   var path = `M ${0} ${Math.sin(t) * 100 + 120}`;

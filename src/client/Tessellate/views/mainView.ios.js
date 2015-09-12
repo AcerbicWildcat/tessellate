@@ -46,7 +46,7 @@ var Main =  React.createClass({
 
        
          <View style={styles.footer}>  
-           <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="#"/>
+           <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="# Join an Event"/>
              <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails.bind(this,this.state.eventCode)}>
                <Text style={styles.buttonText}>Join</Text>
              </TouchableHighlight>
@@ -79,6 +79,7 @@ var Main =  React.createClass({
                     mainNavigator: self.props.navigator} //refactor to contain eventcode
                     
            }); 
+    
 
     self.showProgressHUD();
   
