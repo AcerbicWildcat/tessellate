@@ -50,15 +50,15 @@ module.exports = function (app, express) {
    * 
    */
 
-  app.use('/events/:eventId/images', imageRouter);
-  app.use('/events/:eventId/map', mapRouter);
+  app.use('/events/:eventId/images', isAuth, imageRouter);
+  app.use('/events/:eventId/map', isAuth, mapRouter);
 
-  app.use('/event/:eventId/image', imageRouter);
-  app.use('/event/:eventId/map', mapRouter);
+  app.use('/event/:eventId/image', isAuth, imageRouter);
+  app.use('/event/:eventId/map', isAuth, mapRouter);
   
-  app.use('/events/', eventRouter);
-  app.use('/event/', eventRouter);
-  
+  app.use('/events/', isAuth, eventRouter);
+  app.use('/event/', isAuth, eventRouter);
+
   app.use('/user', userRouter);
 
   //use error handling methods from helpers
