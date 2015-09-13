@@ -1,6 +1,8 @@
 var eventController = require(__dirname + '/eventController');
 var multer = require('multer');
 
+var imageController = require('../image/imageController');
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '/tmp/')
@@ -34,7 +36,7 @@ module.exports = function (app) {
    * @desc Returns JSON object of event
    */
   app.post('/:eventId', eventController.joinEvent);
-  
+
   /**
    * @namespace /event POST
    * @desc Returns JSON object of created event
