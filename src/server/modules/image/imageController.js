@@ -6,7 +6,6 @@ var cloudinary = require('cloudinary');
 var guestImageMaker = require('../../db/guestImageMaker');
 var util = require('util');
 
-
 cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
 
 module.exports = {
