@@ -132,7 +132,7 @@ describe('event', function() {
 
       describe('GET /event/:eventId/images', function() {
 
-        it('should return 404 response', function(done){
+        xit('should return 404 response', function(done){
           request(app)
             .get('/event/25/images')
             .expect(404, done);
