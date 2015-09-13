@@ -7,9 +7,6 @@ var sendResp = require('../../config/helpers').sendResponse,
     getEventsByUser = require('../../db/getEventsByUser.js'),
     joinEvent = require('../../db/joinEvent');
    
-
-
-
 module.exports = {
 
   getEvents: function (req, res) {
