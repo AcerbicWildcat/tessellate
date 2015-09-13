@@ -11,10 +11,10 @@ var morgan            = require('morgan'),
 module.exports = function (app, express) {
 
   //router declarations
-  var imageRouter = express.Router();
-  var eventRouter  = express.Router();
-  var mapRouter = express.Router();
-  var userRouter = express.Router();
+  var imageRouter = express.Router({mergeParams: true});
+  var eventRouter  = express.Router({mergeParams: true});
+  var mapRouter = express.Router({mergeParams: true});
+  var userRouter = express.Router({mergeParams: true});
 
   // files in /client/public/ will be served as static assets
   app.use(express.static(__dirname + '/../public/'));
@@ -38,12 +38,16 @@ module.exports = function (app, express) {
    * Using plural and singular - semantics are debatable, putting both in
    * 
    */
-  // app.use('/event/:eventId/image', imageRouter);
-  app.use('/event/', eventRouter);
-  app.use('/event/:eventId/map', mapRouter);
-  // app.use('/events/:eventId/images', imageRouter);
-  app.use('/events/', eventRouter);
+
+  app.use('/events/:eventId/images', imageRouter);
   app.use('/events/:eventId/map', mapRouter);
+
+  app.use('/event/:eventId/image', imageRouter);
+  app.use('/event/:eventId/map', mapRouter);
+  
+  app.use('/events/', eventRouter);
+  app.use('/event/', eventRouter);
+
   app.use('/user', userRouter);
 
   //use error handling methods from helpers

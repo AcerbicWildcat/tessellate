@@ -5,7 +5,6 @@ var Busboy = require('busboy');
 var cloudinary = require('cloudinary');
 var guestImageMaker = require('../../db/guestImageMaker');
 
-
 cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
 
 module.exports = {
