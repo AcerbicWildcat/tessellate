@@ -38,11 +38,12 @@ module.exports = function (app, express) {
    * Using plural and singular - semantics are debatable, putting both in
    * 
    */
-  app.use('/event/:eventId/image', imageRouter);
+  // app.use('/event/:eventId/image', imageRouter);
   app.use('/event/', eventRouter);
   app.use('/event/:eventId/map', mapRouter);
-  app.use('/events/:eventId/images', imageRouter);
+  // app.use('/events/:eventId/images', imageRouter);
   app.use('/events/', eventRouter);
+  app.use('/events/:eventId/map', mapRouter);
   app.use('/user', userRouter);
 
   //use error handling methods from helpers
@@ -50,7 +51,7 @@ module.exports = function (app, express) {
   app.use(helpers.errorHandler);
 
   //attach routes to routers
-  require('../modules/image/imageRoutes')(imageRouter);
+  // require('../modules/image/imageRoutes')(imageRouter);
   require('../modules/event/eventRoutes')(eventRouter);
   require('../modules/map/mapRoutes')(mapRouter);
   require('../modules/user/userRoutes')(userRouter);

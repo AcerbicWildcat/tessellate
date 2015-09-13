@@ -6,6 +6,7 @@ var sendResp = require('../../config/helpers').sendResponse,
     cloudinary = require('cloudinary'),
     getEventsByUser = require('../../db/getEventsByUser.js'),
     joinEvent = require('../../db/joinEvent');
+   
 
 
 
