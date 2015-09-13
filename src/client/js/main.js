@@ -62,7 +62,6 @@ tess.factory('mosaicFactory', ['$http', function ($http){
   var mosaicFactory = {};
 
   mosaicFactory.startMosaic = function(mosaicData){
-    console.log("path: ", mosaicData.image.imgPath);
     var mosaic = document.getElementById('mosaic');
     mosaic.setAttributeNS(null, 'height', mosaicData.map.height.toString());
     mosaic.setAttributeNS(null, 'width', mosaicData.map.width.toString());
@@ -84,6 +83,7 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     for (var key in map.data){
       //signs into an event or creates an event.
       if (!!key.imagePath){
+        console.log(key.imagePath);
         mosaicFactory.renderImage(key.coords[0], key.coords[1], key, key.imgPath, key.thumbnailPath);
       }
     }
@@ -104,24 +104,25 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     svgLink.setAttributeNS(null,'id','image'+ID);
     svgLink.appendChild(svgImg);
 
-    document.getElementsByClassName('svg-pan-zoom_viewport')[0].appendChild(svgLink);
+    // document.getElementsByClassName('svg-pan-zoom_viewport')[0].appendChild(svgLink);
+    document.getElementById('mosaic').appendChild(svgLink);
     //for the above to append, the pan-zoom code snippet needs to have run...
   };
 
   //we won't have to use this until we start handling collisions.
-  mosaicFactory.deleteImage = function(ID){
+/*  mosaicFactory.deleteImage = function(ID){
     var removeLink = document.getElementById('image' + ID);
     document.getElementsByClassName('svg-pan-zoom_viewport')[0].removeChild(removeLink);
-  };
+  };*/
 
-  mosaicFactory.findImageHome = function(guestImg){
+  mosaicFactory.findImageHome = function(guestImg, map, eventCode){
 
     var minimums = []; //an array of all distances between guestImg.rgb and mainRGB.
     var whatChunk;
 
-    for(var key in $scope.eventMap.data){ //map -> eventMap
+    for(var key in map.data){ //map -> eventMap
 
-      var mainRGB = $scope.eventMap.data[key].rgb; //map -> eventMap
+      var mainRGB = map.data[key].rgb; //map -> eventMap
       var RGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
       //the difference between the average RGB value of the small image and the average RGB value of the large image.
 
@@ -140,25 +141,25 @@ tess.factory('mosaicFactory', ['$http', function ($http){
 
     //now, iterate through the minimums and check each key in $scope.map.data for whether it has a minValue
     for (var i = 0; i < minimums.length; i++){
-      if ($scope.eventMap.data[minimums[i].key].original === false){//map -> eventMap
+      if (map.data[minimums[i].key].original === false){//map -> eventMap
         continue;
         //right now, we're just skipping over sector that has an image in it.
       } else {
-        whatChunk = $scope.map.data[minimums[i].key];//map -> eventMap
+        whatChunk = map.data[minimums[i].key];//map -> eventMap
         whatChunk.ID = minimums[i].key;
         //updates the data.
-        $scope.eventMap.data[minimums[i].key].original = false;//map -> eventMap
-        $scope.eventMap.data[minimums[i].key].minValue = minimums[i].min;//map -> eventMap
-        $scope.eventMap.data[minimums[i].key].imgPath = guestImg.imgPath;//map -> eventMap
-        $scope.eventMap.data[minimums[i].key].thumbnailPath = guestImg.thumbnailPath;//map -> eventMap
+        map.data[minimums[i].key].original = false;//map -> eventMap
+        map.data[minimums[i].key].minValue = minimums[i].min;//map -> eventMap
+        map.data[minimums[i].key].imgPath = guestImg.imgPath;//map -> eventMap
+        map.data[minimums[i].key].thumbnailPath = guestImg.thumbnailPath;//map -> eventMap
         break;
       }
     }
 
     //TODO: make a post request to the server updating the model with the latest data.
-    $http.post('/event/' + $scope.event.eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
-      _id: $scope.eventMap._id,//map -> eventMap
-      data: $scope.eventMap.data//map -> eventMap
+    $http.post('/event/' + eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
+      _id: map._id, //map -> eventMap
+      data: map.data //map -> eventMap
     })
     .then(function(response){
       console.log("map revised!");
@@ -183,7 +184,6 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
   //$scope.image.width = //main imgae width $obj.event.width;
   //$scope.image.path = //cloudinary path to main image $obj.map.path;
   //$scope.event._id = //current event id TOASK: is this mongo _id or eventCode -> both should be unique??
-  //$scope.eventMap = //I assume there is a map property for each event
   // $scope.map.data[key].rgb;
   // $scope.map.data
 
@@ -204,8 +204,8 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
         // formData.append("eventCode", $scope.event._id);
       },
       'success': function (file, response) {
-        console.log('done with sending photo');
-        mosaicFactory.findImageHome(response);
+        console.log($scope.currentEvent.map);
+        mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode);
       }
     }
   };
