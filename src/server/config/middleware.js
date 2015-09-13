@@ -58,7 +58,7 @@ module.exports = function (app, express) {
   
   app.use('/events/', eventRouter);
   app.use('/event/', eventRouter);
-
+  
   app.use('/user', userRouter);
 
   //use error handling methods from helpers
