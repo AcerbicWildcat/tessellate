@@ -8,7 +8,6 @@ var util = require('util');
 var getEventAndMap = require('../../db/getEventAndMap');
 var getAndReviseMap = require('../../db/getAndReviseMap');
 
-
 cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
 
 module.exports = {
