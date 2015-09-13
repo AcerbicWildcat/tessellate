@@ -55,7 +55,7 @@ module.exports = function (app, express) {
 
   app.use('/event/:eventId/image', isAuth, imageRouter);
   app.use('/event/:eventId/map', isAuth, mapRouter);
-
+  
   app.use('/events/', isAuth, eventRouter);
   app.use('/event/', isAuth, eventRouter);
 
