@@ -72,26 +72,21 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     mainImg.setAttributeNS(null, 'x', 0);
     mainImg.setAttributeNS(null, 'y', 0);
     mainImg.setAttributeNS(null, 'visibility', 'visible');
-    // mainImg.setAttributeNS(null, 'dropzone', 'dropzoneConfig');
 
     mosaic.appendChild(mainImg);
-    mosaicFactory.redrawImages(mosaicData.map);  //iterates through the model we're given.
-    // return 'cool beans';
+    mosaicFactory.redrawImages(mosaicData.map);
   };
 
   mosaicFactory.redrawImages = function(map){
     for (var key in map.data){
-      //signs into an event or creates an event.
-      if (!!key.imagePath){
-        console.log(key.imagePath);
-        mosaicFactory.renderImage(key.coords[0], key.coords[1], key, key.imgPath, key.thumbnailPath);
+      if (map.data[key].imgPath){
+        mosaicFactory.renderImage(map.data[key].coords[0], map.data[key].coords[1], key, map.data[key].imgPath, map.data[key].thumbnailPath);
       }
     }
   };
 
   mosaicFactory.renderImage = function(xCoord, yCoord, ID, imgPath, thumbnailPath){
     var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
-    // var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svgImg.setAttributeNS(null,'height','10'); //squishes the image down, but still preserves the actual size
     svgImg.setAttributeNS(null,'width','10');
     svgImg.setAttributeNS('http://www.w3.org/1999/xlink','href', thumbnailPath);
@@ -116,7 +111,7 @@ tess.factory('mosaicFactory', ['$http', function ($http){
   };*/
 
   mosaicFactory.findImageHome = function(guestImg, map, eventCode){
-
+    console.log('findImageHome');
     var minimums = []; //an array of all distances between guestImg.rgb and mainRGB.
     var whatChunk;
 
@@ -137,7 +132,6 @@ tess.factory('mosaicFactory', ['$http', function ($http){
       return (a.min - b.min);
     });
 
-    console.log(minimums); //to verify the above
 
     //now, iterate through the minimums and check each key in $scope.map.data for whether it has a minValue
     for (var i = 0; i < minimums.length; i++){
@@ -152,7 +146,7 @@ tess.factory('mosaicFactory', ['$http', function ($http){
         map.data[minimums[i].key].thumbnailPath = guestImg.thumbnailPath;//map -> eventMap
         whatChunk = map.data[minimums[i].key];//map -> eventMap
         whatChunk.ID = minimums[i].key;
-        console.log(whatChunk);
+        // console.log(whatChunk);
         break;
       }
     }
@@ -164,7 +158,7 @@ tess.factory('mosaicFactory', ['$http', function ($http){
       eventCode: eventCode
     })
     .then(function(response){
-      console.log("map revised!");
+      console.log("map revised!-->", response);
     });
 
     mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
@@ -182,16 +176,9 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
     mosaicFactory.startMosaic(mosaicData);
   };
   $scope.startMosaic($scope.currentEvent);
-  //$scope.image.height = //main image height $obj.event.height; 
-  //$scope.image.width = //main imgae width $obj.event.width;
-  //$scope.image.path = //cloudinary path to main image $obj.map.path;
-  //$scope.event._id = //current event id TOASK: is this mongo _id or eventCode -> both should be unique??
-  // $scope.map.data[key].rgb;
-  // $scope.map.data
 
   $scope.dropzoneConfig = {
     'options': {
-      // 'url': '/event/' + 
       'url': '/event/' + $scope.currentEvent.event.eventCode + '/image', //ultimately, we need to set this route up on the server.
       'method': 'POST',
       'maxFiles': 1,
@@ -200,13 +187,12 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        console.log(file);
-        // console.log(formData, file, xhr);
+        console.log('file sent');
         //TODO: modify the below based on the instructions you gave Jon.
         // formData.append("eventCode", $scope.event._id);
       },
       'success': function (file, response) {
-        console.log($scope.currentEvent.map);
+        console.log('file returned success');
         mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode);
       }
     }
@@ -215,7 +201,12 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
   $scope.photoLoaded = false;
-  $scope.currentEvent = httpRequestFactory.currentEvent || 'cats';
+  // something to try and reload the new mosaic
+  $scope.$on('redraw', function (newMosaicData){
+    console.log('trying to redraw');
+    mosaicFactory.redrawImages(newMosaicData);
+  });
+  $scope.currentEvent = httpRequestFactory.currentEvent;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -248,7 +239,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     console.log(eventCode);
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
-        console.log(response.data);
+        // console.log(response.data);
         $location.url('/event/' + eventCode);
       });
     };
