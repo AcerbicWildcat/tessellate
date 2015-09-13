@@ -2,7 +2,7 @@ var tess = angular.module("tessell", [
   "ngRoute"
 ]);
 
-tess.config(["$routeProvider",'$httpProvider', function ($routeProvider, $httpProvider){
+tess.config(["$routeProvider", '$locationProvider', function ($routeProvider, $locationProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../events.html', 
@@ -12,13 +12,14 @@ tess.config(["$routeProvider",'$httpProvider', function ($routeProvider, $httpPr
         templateUrl: '../create.html', 
         controller: 'eventsProfileController'
       })
-      .when('/mosaic', {/*eventually /mosaic/:eventId*/
+      .when('/event/:eventcode', {/*eventually /mosaic/:eventId*/
         templateUrl: '../mosaic.html',
         controller: 'mosaicCtrl'
       });
       /*
       .otherwise route to /events
        */
+      // $locationProvider.html5Mode(true);
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
@@ -60,7 +61,7 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
 tess.factory('mosaicFactory', ['$http', function ($http){
   var mosaicFactory = {};
 
-  mosaicFactory.init = function(mosaicData){
+  mosaicFactory.startMosaic = function(mosaicData){
     console.log("path: ", mosaicData.image.imgPath);
     var mosaic = document.getElementById('mosaic');
     mosaic.setAttributeNS(null, 'height', mosaicData.map.height.toString());
@@ -173,17 +174,11 @@ tess.factory('mosaicFactory', ['$http', function ($http){
 }]);
 
 tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', function ($scope, mosaicFactory, httpRequestFactory){
-  console.log("in mosaic controller");
-  //TODO: define $scope.mainImg.height, $scope.mainImg.width, $scope.mainImg.path
-  console.log(httpRequestFactory.currentEvent);
-  $scope.testing = "tacocat";
   $scope.currentEvent = httpRequestFactory.currentEvent;
-
-  $scope.init = function(mosaicData){
-    // mosaicFactory.init(mosaicData);
-    console.log(mosaicFactory.init(mosaicData));
+  $scope.startMosaic = function(mosaicData){
+    mosaicFactory.startMosaic(mosaicData);
   };
-  $scope.init($scope.currentEvent);
+  $scope.startMosaic($scope.currentEvent);
   //$scope.image.height = //main image height $obj.event.height; 
   //$scope.image.width = //main imgae width $obj.event.width;
   //$scope.image.path = //cloudinary path to main image $obj.map.path;
@@ -252,7 +247,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
         console.log(response.data);
-        $location.url('/mosaic');
+        $location.url('/event/' + eventCode);
       });
     };
 
