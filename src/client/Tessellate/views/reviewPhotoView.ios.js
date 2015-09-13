@@ -66,7 +66,7 @@ class ReviewPhotoView extends Component {
      var _this = this;
     //create form
     var imageObj = {
-        uri:_this.props.photo // either an 'assets-library' url (for files from photo library) or an image dataURL 
+        uri:_this.props.photo.toString() // either an 'assets-library' url (for files from photo library) or an image dataURL 
         /*uploadUrl,
         fileName,
         mimeType,
@@ -82,6 +82,7 @@ class ReviewPhotoView extends Component {
        // if the file path protocol is not supported the status will be 0 
        // and the request won't be made at all 
        console.log('HOPE THIS WORKS: ' + res.data)
+       console.log('HOOPE THDIS WORKS STAT: ' + res.status)
 
        var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'images';
        var savePictureObject = {  
@@ -99,7 +100,7 @@ class ReviewPhotoView extends Component {
        fetch(savePhotoURL,savePictureObject)  
          .then(function(res) {
            console.log(res);
-           console.log('Attempting to save: ' + _this.props.photo)
+           console.log('Attempting to save: ' + _this.props.photo.toString())
            return res.json();
           })
          .then(function(resJson) {
