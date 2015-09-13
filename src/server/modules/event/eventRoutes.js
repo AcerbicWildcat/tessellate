@@ -1,8 +1,6 @@
 var eventController = require(__dirname + '/eventController');
 var multer = require('multer');
 
-var imageController = require('../image/imageController');
-
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '/tmp/')
