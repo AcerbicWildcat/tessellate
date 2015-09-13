@@ -158,13 +158,14 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     }
 
     //TODO: make a post request to the server updating the model with the latest data.
-    // $http.post('/event/' + eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
-    //   key: whatChunk.ID, //map -> eventMap
-    //   value: whatChunk //map -> eventMap
-    // })
-    // .then(function(response){
-    //   console.log("map revised!");
-    // });
+    $http.post('/event/' + eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
+      key: whatChunk.ID, //map -> eventMap
+      value: whatChunk, //map -> eventMap
+      eventCode: eventCode
+    })
+    .then(function(response){
+      console.log("map revised!");
+    });
 
     mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
     //xCoord, yCoord, ID, imgPath, thumbnailPath
