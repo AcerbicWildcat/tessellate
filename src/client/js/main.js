@@ -145,25 +145,26 @@ tess.factory('mosaicFactory', ['$http', function ($http){
         continue;
         //right now, we're just skipping over sector that has an image in it.
       } else {
-        whatChunk = map.data[minimums[i].key];//map -> eventMap
-        whatChunk.ID = minimums[i].key;
         //updates the data.
         map.data[minimums[i].key].original = false;//map -> eventMap
         map.data[minimums[i].key].minValue = minimums[i].min;//map -> eventMap
         map.data[minimums[i].key].imgPath = guestImg.imgPath;//map -> eventMap
         map.data[minimums[i].key].thumbnailPath = guestImg.thumbnailPath;//map -> eventMap
+        whatChunk = map.data[minimums[i].key];//map -> eventMap
+        whatChunk.ID = minimums[i].key;
+        console.log(whatChunk);
         break;
       }
     }
 
     //TODO: make a post request to the server updating the model with the latest data.
-    $http.post('/event/' + eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
-      _id: map._id, //map -> eventMap
-      data: map.data //map -> eventMap
-    })
-    .then(function(response){
-      console.log("map revised!");
-    });
+    // $http.post('/event/' + eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
+    //   key: whatChunk.ID, //map -> eventMap
+    //   value: whatChunk //map -> eventMap
+    // })
+    // .then(function(response){
+    //   console.log("map revised!");
+    // });
 
     mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
     //xCoord, yCoord, ID, imgPath, thumbnailPath
