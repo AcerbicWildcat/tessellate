@@ -13,7 +13,7 @@ module.exports = {
   },
 
   saveMap: function(req, res){
-    mapHelpers.reviseMap(req.body._id, function(map){
+    mapHelpers.reviseMap(req.body.eventCode, req.body, function(map){
       sendResp(res, {map: map}, 200);
     });
   }

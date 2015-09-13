@@ -296,7 +296,7 @@ describe("Tessellate database", function() {
     }, 1000);
   });
 
-  it("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
+  xit("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
     new Map({
       data: {stuff: "A"}
     }).save().then(function(map){
