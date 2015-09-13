@@ -13,6 +13,7 @@
     "react-native-device": "^1.0.0",
     "react-native-facebook-login": "^0.5.6",
     "react-native-fbsdklogin": "0.0.5",
+    "react-native-file-transfer": "0.0.3",
     "react-native-svg": "^0.2.1",
     "react-native-svg-elements": "0.0.10",
     "react-timer-mixin": "^0.13.2"

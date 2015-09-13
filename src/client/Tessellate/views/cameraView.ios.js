@@ -16,7 +16,7 @@ var CameraView = React.createClass({
   getInitialState() {
     return {
       cameraType: Camera.constants.Type.back,
-      captureTarget:Camera.constants.CaptureTarget.disk,
+      captureTarget:Camera.constants.CaptureTarget.disk, 
       eventCode: this.props.eventCode,
       facebookId: this.props.facebookId,
     }
@@ -118,8 +118,6 @@ var styles = StyleSheet.create({
         position:'absolute',
         bottom:120,
         left:150,
-        height: 36,
-        width:160,
         backgroundColor: 'transparent',
         borderRadius: 8,
 

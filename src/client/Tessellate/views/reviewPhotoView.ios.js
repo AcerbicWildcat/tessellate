@@ -10,6 +10,7 @@ var {
   Component,
   TextInput,
   Image,
+  NativeModules,
   
 } = React;
 
@@ -62,39 +63,59 @@ class ReviewPhotoView extends Component {
    * @return {[null]}     [none]
    */
   _savePictureToDB(nav,tab){
-    //start progress HUD
-    var _this = this;
-    //make POST request to API
-    var imageToSave = this.props.photo;
-    var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'images';
-    var savePictureObject = {  
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Origin': '',
-        'Host': 'http://10.6.1.173:8081',
-        'FacebookID':_this.props.facebookId,
-      },
-      body: JSON.stringify({
-        image:_this.props.photo
-      })
-    }
+     var _this = this;
+    //create form
+    var imageObj = {
+        uri:_this.props.photo // either an 'assets-library' url (for files from photo library) or an image dataURL 
+        /*uploadUrl,
+        fileName,
+        mimeType,
+        data: {
+            // whatever properties you wish to send in the request 
+            // along with the uploaded file 
+        }*/
+    };
+
+   NativeModules.FileTransfer.upload(imageObj, (err, res) => {
+       // handle response 
+       // it is an object with 'status' and 'data' properties 
+       // if the file path protocol is not supported the status will be 0 
+       // and the request won't be made at all 
+       console.log('HOPE THIS WORKS: ' + res.data)
+
+       var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'images';
+       var savePictureObject = {  
+         method: 'POST',
+         headers: {
+           'Accept': 'application/json',
+           'Content-Type': "application/json",
+           'Origin': '',
+           'Host': 'http://10.6.1.173:8081',
+           'FacebookID':_this.props.facebookId,
+         },
+         body:res.data
+       }
+       
+       fetch(savePhotoURL,savePictureObject)  
+         .then(function(res) {
+           console.log(res);
+           console.log('Attempting to save: ' + _this.props.photo)
+           return res.json();
+          })
+         .then(function(resJson) {
+           return resJson;
+          })
+
+         tab('mosaic')
+         nav.pop();
+   
+   });
+   
     
-    fetch(savePhotoURL,savePictureObject)  
-      .then(function(res) {
-        console.log(res);
-        console.log('Attempting to save: ' + _this.props.photo)
-        return res.json();
-       })
-      .then(function(resJson) {
-        return resJson;
-       })
     
    
     //END PROGRESS HUD
-    tab('mosaic')
-    nav.pop();
+   
   }
 
 
