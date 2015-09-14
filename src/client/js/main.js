@@ -249,6 +249,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     httpRequestFactory.getUserEvents()
       .then(function(response){
         $scope.userEvents = response.data;
+        console.log(response.data.events);
       });
   };
   $scope.joinEvent = function(eventCode){
@@ -260,23 +261,18 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       $scope.noEventCode = false;
       httpRequestFactory.joinEvent(eventCode)
         .then(function(response){
-          console.log(response);
+          // console.log(response);
           $scope.getEvent(eventCode);
         });
     }
   };
-  $scope.createEvent = function(){
-    if(!!$scope.eventCode){
-      $scope.noEventCode = false;
-    } else {
-      $scope.noEventCode = true;
-    }
+  $scope.createEvent = function(eventCode){
   };
   $scope.getEvent = function(eventCode){
     // console.log(eventCode);
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
-        // console.log(response.data);
+        console.log(response.data);
         $location.url('/event/' + eventCode);
       });
     };
