@@ -108,7 +108,7 @@ var chunker = function(pixels){
       chunk = chunkMaker(j, i, pixels); /*format: x, y, data*/
       _storage[index++] = {
         coords: [j, i], 
-        rgb: getAverageColor(chunk),
+        originalRGB: getAverageColor(chunk),
         original: true
       };
     }

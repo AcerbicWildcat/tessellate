@@ -63,12 +63,33 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       return response;
     });
   };
+  httpRequestFactory.updateMap = function(replacedSector, eventCode){
+    return $http({
+      method: 'POST',
+      url: '/events/' + eventCode + '/map',
+      data: {
+        key: replacedSector.ID,
+        value: replacedSector,
+        eventCode: eventCode
+      }
+    }).then(function(response){
+      console.log("response from post request ",response);
+      return response;
+    });
+  };
   return httpRequestFactory;
 }]);
 
 
-tess.factory('mosaicFactory', ['$http', function ($http){
+tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactory){
   var mosaicFactory = {};
+
+  mosaicFactory.updateMap = function(replacedSector, eventCode){
+    httpRequestFactory.updateMap(replacedSector, eventCode)
+      .then(function(response){
+        console.log("inside mosaicFactory ", response);
+      });
+  };
 
   mosaicFactory.startMosaic = function(mosaicData){
     var mosaic = document.getElementById('mosaic');
@@ -119,38 +140,73 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     document.getElementsByClassName('svg-pan-zoom_viewport')[0].removeChild(removeLink);
   };*/
 
-  mosaicFactory.findImageHome = function(guestImg, map, eventCode){
+  mosaicFactory.findImageHome = function(guestImg, map, eventCode, index){
     console.log('findImageHome');
-    var minimums = []; //an array of all distances between guestImg.rgb and mainRGB.
-    var whatChunk;
+    index = index || 0;
+    var placedNewImage = false;
+    var replacedSector;
 
-/*    var index = index || 0;
-    var placedNewImage = false;*/
     /*
     while we haven't placed the image AND we are still within bounds of the mosaic image
     go through each sector.
      */
-/*    while(placedNewImage === false && index < Object.keys(map.data).length){
+    while(placedNewImage === false && index < Object.keys(map.data).length){
       //if there is no image currently there place the guestImg in that position
       if(!map.data[index].hasOwnProperty('imgPath')){
-        map.data[index].original = false;
+        // map.data[index].original = false;
         // map.data[index].minvalue = ???; // need to calculate the current min value
         // need to store both the original image rgb AND the current image rgb
         map.data[index].imgPath = guestImg.imgPath;
         map.data[index].thumbnailPath = guestImg.thumbnailPath;
         replacedSector = map.data[index];
         replacedSector.ID = index;
+        replacedSector.currentRGB = guestImg.rgb;
         placedNewImage = true;
       }else{
+        //there was an image placed there already
+        //put in guestImg and find home for the current image you jsut replaced
         var mainRGB = map.data[index].rgb; //map -> eventMap
         var CurrentImageRGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
         var PotentialImageRGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
-        
-        if()
-      }
-    }*/
+        if(PotentialImageRGBDistance < CurrentImageRGBDistance){
+          //replace the current image with the guest image
+          //
+          //temp variable to hold the current image about to be replaced
+          var tempImage = {
+            'imgPath': map.data[index].imgPath, 
+            'rgb': map.data[index].currentRGB,
+            'thumbnailPath': map.data[index].thumbnailPath
+          };
 
-    for(var key in map.data){ //map -> eventMap
+          //replace the current image with the guest image
+          map.data[index].imgPath = guestImg.imgPath;
+          map.data[index].thumbnailPath = guestImg.thumbnailPath;
+          replacedSector = map.data[index];
+          replacedSector.ID = index;
+          replacedSector.currentRGB = guestImg.rgb;
+          placedNewImage = true;
+
+          //now do something with the image you just replaced
+          index++;
+          findImageHome(tempImage, map, eventCode, index);
+
+          mosaicFactory.updateMap(replacedSector, eventCode);
+          // httpRequestFactory.updateMap(replacedSector, eventCode);
+
+          /*$http.post('/event/' + eventCode + '/map', { 
+            key: replacedSector.ID,
+            value: replacedSector,
+            eventCode: eventCode
+          })
+          .then(function(response){
+            console.log("map revised!-->", response);
+          });*/
+        }
+      }
+    }
+    mosaicFactory.renderImage(replacedSector.coords[0], replacedSector.coords[1], replacedSector.ID, guestImg.imgPath, guestImg.thumbnailPath);
+
+/*    for(var key in map.data){ //map -> eventMap
 
       var mainRGB = map.data[key].rgb; //map -> eventMap
       var RGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
@@ -160,16 +216,16 @@ tess.factory('mosaicFactory', ['$http', function ($http){
         key: key,
         min: RGBDistance
       });
-    }
+    }*/
 
     //sort the minimums so that the lowest difference is first.
-    minimums.sort(function(a, b){
+  /*  minimums.sort(function(a, b){
       return (a.min - b.min);
-    });
+    });*/
 
 
     //now, iterate through the minimums and check each key in $scope.map.data for whether it has a minValue
-    for (var i = 0; i < minimums.length; i++){
+/*    for (var i = 0; i < minimums.length; i++){
       if (map.data[minimums[i].key].original === false){//map -> eventMap
         continue;
         //right now, we're just skipping over sector that has an image in it.
@@ -184,9 +240,9 @@ tess.factory('mosaicFactory', ['$http', function ($http){
         // console.log(whatChunk);
         break;
       }
-    }
+    }*/
 
-    $http.post('/event/' + eventCode + '/map', { 
+/*    $http.post('/event/' + eventCode + '/map', { 
       //QUESTION: Why do we need whatChunk.ID if we are already passing over whatChunk?
       //TO DO: whatChunk is NOT a descriptive variable name....rename for documentation and clarity
       key: whatChunk.ID,
@@ -195,9 +251,9 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     })
     .then(function(response){
       console.log("map revised!-->", response);
-    });
+    });*/
 
-    mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
+    // mosaicFactory.renderImage(whatChunk.coords[0], whatChunk.coords[1], whatChunk.ID, guestImg.imgPath, guestImg.thumbnailPath);
     //xCoord, yCoord, ID, imgPath, thumbnailPath
     //eventually, when we revise this function to handle collisions, we'll want to invoke mosaicFactory.redrawImages.
   };
