@@ -2,7 +2,7 @@
     <form class="nav">
       <input type="text" placeholder="Event Code..." ng-model="eventCode">
     </form>
-      <div><a href="">Join</a></div>
+      <div ng-click="joinEvent(eventCode)"><a>Join</a></div>
       <!-- <div><a href="#/create">Create</a></div> -->
       <!-- <a href="#/create">Events here</a> -->
       <div id="error-message" ng-show="noEventCode">Enter an event code.</div>
