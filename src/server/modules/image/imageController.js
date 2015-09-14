@@ -26,7 +26,7 @@ module.exports = {
     } else if (!!req.cookies.facebookToken){
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
-
+    console.log("inside imgaeController--->", req.file);
     cloudinary.uploader.upload(req.file.path, function(result) { 
       guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function(image){
         res.json(image);
