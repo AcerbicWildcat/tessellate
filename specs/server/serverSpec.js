@@ -96,7 +96,7 @@ describe('event', function() {
       .get('/event/xyz')
       .expect(200)
       .end(function(err, res) {
-        assert.ok(err === null);
+        assert.ok(err);
         done();
       });
 
