@@ -15,6 +15,7 @@ var {
   TextInput,
   Image,
   AlertIOS,
+  NativeModules,
   
 } = React;
 
@@ -72,6 +73,20 @@ class LoginView extends Component {
   }
 
   login(facebookId) {
+
+    //TESTING
+    //
+    //
+    
+ /*   NativeModules.ReadImageData.readImage(_this.props.photo, (image) => {
+      console.log('This is actually it: ', image)
+      imageToSave = image;
+     })
+*/
+    //
+
+
+
     var self = this;
     var loginObject = {  
       method: 'POST',

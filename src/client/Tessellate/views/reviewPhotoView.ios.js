@@ -9,7 +9,8 @@ var {
   Text,
   Component,
   TextInput,
-  Image
+  Image,
+  NativeModules,
   
 } = React;
 
@@ -63,31 +64,58 @@ class ReviewPhotoView extends Component {
    */
   _savePictureToDB(nav,tab){
      var _this = this;
-    
-       var savePhotoURL = 'http://10.0.1.156:8000/events/'+this.state.eventCode + '/' + 'images';
-       var savePictureObject = {  
-         method: 'POST',
-         headers: {
-           'Accept': 'application/json',
-           'Content-Type': "application/json",
-           'Origin': '',
-           'Host': 'http://10.0.1.156:8081',
-           'FacebookID':_this.props.facebookId,
-         },
-         body:JSON.stringify({
-          image:_this.props.photo
+
+     //convet image path to image file
+     var imageToSave = '';
+     NativeModules.ReadImageData.readImage(_this.props.photo, (image) => {
+      console.log('This is actually it: ', image)
+      imageToSave = image;
+
+      var obj = {
+          uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
+          uploadUrl:'http://10.6.1.173:8000/events/'+_this.state.eventCode + '/' + 'image',
+          fileName:'image',
+          //mimeType,
+          headers:{
+            'Host': 'http://10.6.1.173:8081',
+            'FacebookID':_this.props.facebookId,
+          },
+          data: {
+              // whatever properties you wish to send in the request
+              // along with the uploaded file
+          }
+      };
+      NativeModules.FileTransfer.upload(obj, (err, res) => {
+          // handle response
+          // it is an object with 'status' and 'data' properties
+          // if the file path protocol is not supported the status will be 0
+          // and the request won't be made at all
+          console.log('did it work: ' + res.status)
+      });
+
+      /*
+
+      var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'image';
+      var savePictureObject = {  
+        method: 'POST',
+        headers: {
+          'Host': 'http://10.6.1.173:8081',
+          'FacebookID':_this.props.facebookId,
+        },
+        body:form
+      }
+      
+      fetch(savePhotoURL,savePictureObject)  
+        .then(function(res) {
+          console.log(res);
+          console.log('Attempting to save: ' + _this.props.photo.toString())
+          return res.json();
          })
-       }
-       
-       fetch(savePhotoURL,savePictureObject)  
-         .then(function(res) {
-           console.log(res);
-           console.log('Attempting to save: ' + _this.props.photo.toString())
-           return res.json();
-          })
-         .then(function(resJson) {
-           return resJson;
-          })
+        .then(function(resJson) {
+          return resJson;
+         })
+     })*/
+    
 
          tab('mosaic')
          nav.pop();
