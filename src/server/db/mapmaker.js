@@ -11,23 +11,22 @@ console.log(db.User + " should be a user constructor");
 var chunkSize = 10;
 
 /**
- * Saves a map provided an event and a given path to the event's image. Invokes a callback at the end; the provided callback should invoke res.send() or res.end().
+ * Saves a map provided an event and a given path to the event's image. Invokes done at the end; done should invoke res.send() or res.end().
  * @param {String}
  * @param  {String}
  * @param  {String}
  * @param  {Function}
  * @return {[type]}
  */
-var saveEventAndMap = function(facebookId, filePath, eventCode, eventName, callback){
+var saveEventAndMap = function(facebookId, filePath, eventCode, eventName, done){
   // var pixels = pixelGetter(filePath); //change argument to (path where images will live) + filePath
-  getPixels(filePath, function(err, pixels){
+  getPixels(filePath, function (err, pixels){
     if (err){
-      console.log(err);
-      return;
-    };
+      done(err);
+    }
     console.log(pixels + "are our pixels");
     var _storage = chunker(pixels);
-    mapEventMaker(facebookId, filePath, _storage, pixels, eventCode, eventName, callback);
+    mapEventMaker(facebookId, filePath, _storage, pixels, eventCode, eventName, done);
   });
 };
 
@@ -39,29 +38,41 @@ var saveEventAndMap = function(facebookId, filePath, eventCode, eventName, callb
  * @param  {Function}
  * @return {[type]}
  */
-var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, eventName, callback){
+var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, eventName, done){
   
-  var returnObj;
+  var createdEvent;
 
-  User.findOne({facebookId: facebookId}, function(err, user){
+  User.findOne({facebookId: facebookId}, function (err, user){
+    if (err){
+      done(err);
+    }
     new Event({
       _creator: user._id,
       eventCode: eventCode,
       name: eventName,
-    }).save(function(err, event){
+    }).save(function (err, event){
+      if (err){
+        done(err);
+      }
       user.events.push(event); //is this right?
       new Image({
         _parentUser: user._id,
         _parentEvent: event._id,
         imgPath: filePath
-      }).save(function(err, image){
+      }).save(function (err, image){
+        if (err){
+          done(err);
+        }
         event.mainImage = image._id;
         new Map({
           _parentImage: image._id,
           data: _storage,
           height: pixels.shape[1],
           width: pixels.shape[0]
-        }).save(function(err, map){
+        }).save(function (err, map){
+          if (err){
+            done(err);
+          }
           image.map = map;
           user.save().then(function(){
             return event.save();
@@ -70,12 +81,12 @@ var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, 
           }).then(function(){
             return map.save();
           }).then(function(){
-            returnObj = {
+            createdEvent = {
               event: event,
               image: image,
               map: map
             };
-            callback(returnObj);
+            done(null, createdEvent);
           });
         });
       });
