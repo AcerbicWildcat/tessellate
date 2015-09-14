@@ -16,7 +16,9 @@ var CameraView = React.createClass({
   getInitialState() {
     return {
       cameraType: Camera.constants.Type.back,
-      eventCode: this.props.eventCode
+      captureTarget:Camera.constants.CaptureTarget.disk, 
+      eventCode: this.props.eventCode,
+      facebookId: this.props.facebookId,
     }
   },
 
@@ -45,8 +47,17 @@ var CameraView = React.createClass({
   },
 
   render() {
-    var _this = this;
-    _this.renderCamera();
+     return (<Camera
+        ref="cam"
+        style={styles.container}
+        type={this.state.cameraType}
+      >
+        <TouchableHighlight style={styles.button}
+        onPress={this._takePicture}>
+          <Image resizeMode='contain' style={styles.takePic} source={require('image!takePictureIcon')}/>
+        </TouchableHighlight>
+
+      </Camera>)
     
   },
 
@@ -76,12 +87,13 @@ var CameraView = React.createClass({
       
       if (photoURL){
         self.props.mainNavigator.push({
-          title: 'SOS',
+          title: 'Review Photo',
           component:ReviewPhoto,
           passProps: {photo:photoURL,
           mainNavigator: self.props.mainNavigator,
           eventCode: self.state.eventCode,
-          selectedTab:self.props.selectedTab }
+          selectedTab:self.props.selectedTab,
+          facebookId:self.state.facebookId }
         })
       }
     });
@@ -106,8 +118,6 @@ var styles = StyleSheet.create({
         position:'absolute',
         bottom:120,
         left:150,
-        height: 36,
-        width:160,
         backgroundColor: 'transparent',
         borderRadius: 8,
 

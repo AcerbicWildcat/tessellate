@@ -10,6 +10,7 @@ var {
   Component,
   TextInput,
   Image,
+  NativeModules,
   
 } = React;
 
@@ -28,6 +29,7 @@ var styles = StyleSheet.create({
     width:150,
     height:50,
     marginRight:20,
+    left:20,
     borderRadius:25,
     
   },
@@ -61,34 +63,60 @@ class ReviewPhotoView extends Component {
    * @return {[null]}     [none]
    */
   _savePictureToDB(nav,tab){
-    //start progress HUD
+     var _this = this;
+    //create form
+    var imageObj = {
+        uri:_this.props.photo.toString() // either an 'assets-library' url (for files from photo library) or an image dataURL 
+        /*uploadUrl,
+        fileName,
+        mimeType,
+        data: {
+            // whatever properties you wish to send in the request 
+            // along with the uploaded file 
+        }*/
+    };
 
-    //make POST request to API
-    //pop off nav stack but set selected tab bar item to be mosaic
-    /*var postObject = {  
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Origin': '',
-        'Host': 'api.producthunt.com'
-      },
-      body: JSON.stringify({
-        //tbd
-      })
-    /*
-    fetch('API_ENDPOINT', OBJECT)  
-      .then(function(res) {
-        return res.json();
-       })
-      .then(function(resJson) {
-        return resJson;
-       })
-    */
+   NativeModules.FileTransfer.upload(imageObj, (err, res) => {
+       // handle response 
+       // it is an object with 'status' and 'data' properties 
+       // if the file path protocol is not supported the status will be 0 
+       // and the request won't be made at all 
+       console.log('HOPE THIS WORKS: ' + res.data)
+       console.log('HOOPE THDIS WORKS STAT: ' + res.status)
+
+       var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'images';
+       var savePictureObject = {  
+         method: 'POST',
+         headers: {
+           'Accept': 'application/json',
+           'Content-Type': "application/json",
+           'Origin': '',
+           'Host': 'http://10.6.1.173:8081',
+           'FacebookID':_this.props.facebookId,
+         },
+         body:res.data
+       }
+       
+       fetch(savePhotoURL,savePictureObject)  
+         .then(function(res) {
+           console.log(res);
+           console.log('Attempting to save: ' + _this.props.photo.toString())
+           return res.json();
+          })
+         .then(function(resJson) {
+           return resJson;
+          })
+
+         tab('mosaic')
+         nav.pop();
+   
+   });
+   
+    
+    
    
     //END PROGRESS HUD
-    tab('mosaic')
-    nav.pop();
+   
   }
 
 

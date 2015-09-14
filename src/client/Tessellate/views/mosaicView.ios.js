@@ -34,19 +34,20 @@ var MosaicView = React.createClass({
     return {t: 0,
       nav:this.props.mainNavigator,
       eventCode:this.props.eventCode,
-      facebookId:this.props.facebookId
+      facebookId:this.props.facebookId,
+      mosaicMainImage:'./img'
     }
   },
  
   componentDidMount() {
-    //this.setInterval(this.updateTime, 16);
+    
     this.fetchMosaicData();
   },
 
   fetchMosaicData(){
     var _this = this;
     console.log('EVEEEEEENT: ' + this.state.eventCode)
-    var apiString = 'http://localhost:8000/events/' + this.state.eventCode;
+    var apiString = 'http://10.6.1.173:8000/event/' + this.state.eventCode;
     console.log(apiString.toString())
     var getMosaicObject = {  
       method: 'GET',
@@ -54,7 +55,7 @@ var MosaicView = React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081',
+        'Host': 'http://10.6.1.173:8081',
         'FacebookID':_this.props.facebookId,
       }
     }
@@ -67,12 +68,16 @@ var MosaicView = React.createClass({
         return res.json();
        })
       .then(function(resJson) {
-        console.log('Response: ' + resJson)
-        console.dir(resJson.event)
-        if (!resJson.event){
+        console.log('Mosaic Response: ' + resJson)
+       
+        var mosaicMainImage = resJson.image.imgPath;
+        if (!resJson){
           console.log('this event not found')
           throw new Error('This event does not exist!');
         }
+
+        _this.setState({mosaicMainImage:mosaicMainImage}); 
+
         return resJson;
        })
       .catch((error) => {
@@ -92,19 +97,15 @@ var MosaicView = React.createClass({
       });
 
   },
- 
-  updateTime() {
-    this.setState({t: this.state.t + 0.05});
-  },
+
  
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
       <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
-        <Svg width={500} height={500} style={{width: 320, height: 350}}
-             forceUpdate={this.state.t.toString()}>
-          <Path fill="none" stroke="#00D8FF" strokeWidth="3" strokeMiterlimit="10"
-               />
+        <Svg width={500} height={500} style={styles.container}>
+          <Image source={{uri: this.state.mosaicMainImage}}
+                 style={{width: 400, height: 400}} />
         </Svg>
       </View>
     );
@@ -122,6 +123,13 @@ var styles = StyleSheet.create({
       width:400,
       height:60,
     }, 
+    container: {
+      flex:1,
+      position:'relative',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+    }
 
 });
 
