@@ -93,8 +93,8 @@ class ReviewPhotoView extends Component {
           console.log('did it work: ' + res.status)
       });
 
-      /*
 
+      /*
       var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'image';
       var savePictureObject = {  
         method: 'POST',
@@ -113,8 +113,8 @@ class ReviewPhotoView extends Component {
          })
         .then(function(resJson) {
           return resJson;
-         })
-     })*/
+         })*/
+     })
     
 
          tab('mosaic')
