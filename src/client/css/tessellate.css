@@ -3,7 +3,12 @@
  */
 
 h1 {
-  font-size: 1.9rem;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem; 
 }
 
 /* Links */
@@ -55,7 +60,7 @@ body {
 }
 
 .cover-container main {
-  background-color: #1B2B32;
+  background-color: transparent;
 }
 
 /* Padding for spacing */
@@ -68,13 +73,30 @@ body {
  * Header
  */
 
+/*
+ * Logo
+ */
 
-/* main */
-
-main {
-  background-color: #fff;
-  padding-top: 2rem;
+.logo {
+  height: 2rem;
+  background: url('../img/logo_header.svg') 0 0 no-repeat;
+  background-size: contain;
+  margin: 1rem 0 1rem 1rem;
 }
+
+.logo-large {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  background: url('../img/tessellate_logo.png') 50% 0 no-repeat;
+  background-size: contain;
+  height: 20rem;
+}
+
+
+/*
+ * nav 
+ */
+
 
 .navbar {
   margin-bottom: 0;
@@ -94,8 +116,6 @@ main {
   color: #818a91;
 }
 
-
-
 @media (min-width: 48em) {
   .masthead-brand {
     float: left;
@@ -107,12 +127,33 @@ main {
 
 
 /*
+ * main 
+ */
+
+main {
+  background-color: #fff;
+}
+
+.row {
+  padding: 2rem;
+}
+
+.event-form {
+  background-color: #37646F;
+}
+
+.event-form h1 {
+  color: #fff;
+}
+
+/*
  * Cover
  */
 
 .cover {
   padding: 0 1.5rem;
 }
+
 .cover .btn-lg {
   padding: .75rem 1.25rem;
   font-weight: bold;
@@ -170,21 +211,6 @@ main {
  * Homepage
  */
 
-.logo {
-  height: 2rem;
-  background: url('../img/logo_header.svg') 0 0 no-repeat;
-  background-size: contain;
-  margin: 1rem 0 1rem 1rem;
-}
-
-.logo-large {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  background: url('../img/tessellate_logo.png') 50% 0 no-repeat;
-  background-size: contain;
-  height: 20rem;
-}
-
 @media (min-width: 40em) {
 
   .logo-large {
@@ -206,20 +232,27 @@ main {
  */
 
 
-.card {
-  float: left;
-  width: 33.333%;
-  padding: .75rem;
-  margin-bottom: 2rem;
-  border: 0;
+.thumbnail {
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+    overflow: hidden;
 }
 
-.card > img {
-  margin-bottom: .75rem;
+.thumbnail img {
+  width: 100%;
+  margin-bottom: 0.6rem;
 }
 
-.card-text {
-  font-size: 85%;
+.thumbnail p {
+  margin-bottom: 0.2rem;
 }
 
 .about {
@@ -235,7 +268,6 @@ main {
 .social a:hover {
   color: #fff;
 }
-
 
 /*
  * Footer
