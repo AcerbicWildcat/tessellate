@@ -1,4 +1,11 @@
-<section class="navbar">
+  <!-- <button ng-click="sayHello()">Hello</button> -->
+  <section class="topbar">
+    <div class="logo"></div>
+    <!-- <div id="username">Howdy, {{ userProfile.name }}</div> -->
+    <!-- <div id="profile-pic">hello</div> -->
+  </section>
+<div>
+  <section class="navbar">
     <form class="nav">
       <input type="text" placeholder="Event Code..." ng-model="eventCode">
     </form>
@@ -24,3 +31,15 @@
     <h1>Joined Events</h1>
     <h1 ng-if="results.length == 0" href="#/create">No Results found...create new event <a class="search-event" href="#/create">{{eventCode}}</a>?</h1>
 </section>
+</div>
+  <section class="sidebar">
+    <div class="account">
+      <a href="#/">Events</a><br>
+      <hr>
+      <a href="#/create">Create</a>
+      <hr>
+      <a href="">Logout</a>
+      <hr>
+    </div>
+    <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
+  </section>

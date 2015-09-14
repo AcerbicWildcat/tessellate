@@ -5,6 +5,10 @@ var tess = angular.module("tessell", [
 tess.config(["$routeProvider", '$locationProvider', function ($routeProvider, $locationProvider){
     $routeProvider
       .when('/', {
+        templateUrl: '../login.html',
+        controller: 'landingController'
+      })
+      .when('/events', {
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
       })
@@ -319,7 +323,9 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
 
 }]);
 
+tess.controller('landingController', ['$scope', function ($scope){
 
+}]);
 
 /**
 * An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
