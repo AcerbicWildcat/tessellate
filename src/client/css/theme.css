@@ -1,0 +1,68 @@
+html {
+  margin: 0 auto;
+}
+
+body {
+  background-color: #1B2B32;
+  color: white;
+  margin-bottom: 
+}
+
+.home {
+  text-align: center;
+}
+
+footer {
+  position: fixed;
+  height: 3rem;
+  width: 100%;
+  bottom: 0;
+}
+
+header.home {
+  margin-top: 6rem;
+  margin: 4rem auto 1rem;
+  background-size: contain;
+  height: 30rem;
+  background: url('../assets/images/tessellate-large-logo.png') 0 0 no-repeat;
+  width: 70%;
+}
+
+header.home h1 {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+@media only screen and (min-width: 330px) {
+  
+  header.home {
+    height: 40rem;
+  }
+
+  header.home h1 {
+
+  }
+
+}
+
+@media only screen and (min-width: 414px) {
+
+  header.home {
+    height: 42rem;
+  }
+
+}
+
+@media only screen and (min-width: 1024px) {
+  
+  header.home {
+    width: 30%;
+    height: 48rem;
+  }
+
+  header.home h1 {
+
+  }
+
+}

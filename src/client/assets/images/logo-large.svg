@@ -1,0 +1,28 @@
+<svg width="161" height="210" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="0" y="0" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="40" y="0" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="80" y="0" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="120" y="0" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+
+    <rect x="0" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="40" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="80" y="40" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="40" width="40" height="40" stroke="black" fill="silver" stroke-width="1" />
+
+    <rect x="0" y="80" width="40" height="40" stroke="black" fill="silver" stroke-width="1" />
+    <rect x="40" y="80" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="80" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="80" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="120" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="80" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="120" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+
+    <rect x="0" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="40" y="160" width="40" height="40" stroke="black" fill="black" stroke-width="1" />
+    <rect x="80" y="160" width="40" height="40" stroke="black" fill="transparent" stroke-width="1" />
+    <rect x="120" y="160" width="40" height="40" stroke="black" fill="grey" stroke-width="1" />
+
+  </svg>
