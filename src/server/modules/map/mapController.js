@@ -6,15 +6,23 @@ var Map      = db.Map;
 
  //for users trying to view an event.
 module.exports = {
-  getMap: function(req, res){
-    mapHelpers.getMap(req.body._id, function(map){
-      sendResp(res, {map: map}, 200);
+  getMap: function(req, res, next){
+    mapHelpers.getMap(req.body._id, function (err, map){
+      if (err){
+        next(err);
+      } else {
+        sendResp(res, {map: map}, 200);
+      }
     });
   },
 
-  saveMap: function(req, res){
-    mapHelpers.reviseMap(req.body.eventCode, req.body, function(map){
-      sendResp(res, {map: map}, 200);
+  saveMap: function(req, res, next){
+    mapHelpers.reviseMap(req.body.eventCode, req.body, function (err, map){
+      if (err){
+        next(err);
+      } else {
+        sendResp(res, {map: map}, 200);
+      }
     });
   }
 };
