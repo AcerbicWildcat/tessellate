@@ -12,16 +12,19 @@ var sendResp = require('../../config/helpers').sendResponse,
 
 module.exports = {
 
-  getEvents: function (req, res) {
+  getEvents: function (req, res, next) {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
-    getEventsByUser(facebookId, function(user){
+    getEventsByUser(facebookId, function (err, user){
+      if (err){
+        next(err);
+      }
       if (!user){
-        res.json("error: user does not exist");
+        sendResp(res, {error: 'Error: User Does Not Exist'}, 404);
       } else {
         if (user.events){ 
           for (var i = 0; i < user.events.length; i++){
@@ -87,22 +90,24 @@ module.exports = {
     //   ]
     // });
 
-  getEvent: function (req, res){
+  getEvent: function (req, res, next){
     var eventCode = req.params.eventId;
-    getEventAndMap(eventCode, function(obj){
-      if (typeof obj === "string"){
-        sendResp(res, obj, 404);
-        // res.json(obj);
+    getEventAndMap(eventCode, function (err, event){
+      if (err){
+        next(err);
       } else {
-        sendResp(res, obj, 200);
-        // res.json(obj);
+        sendResp(res, event, 200);
       }
     });
   },
 
-  updateEvent: function (req, res){
-    updateEvent(req.body.eventCode, req.body.update, function(event){
-      sendResp(res, event, 200);
+  updateEvent: function (req, res, next){
+    updateEvent(req.body.eventCode, req.body.update, function (err, event){
+      if (err){
+        next(err);
+      } else {
+        sendResp(res, event, 200);
+      }
     });
   },
 
@@ -130,8 +135,9 @@ module.exports = {
           mapmaker.saveEventAndMap(facebookId, result.url, eventCode, eventName, function (err, createdEvent){
             if (err){
               next(err);
+            } else {
+              sendResp(res, createdEvent, 201);
             }
-            sendResp(res, createdEvent, 201);
           });
         });
       }
