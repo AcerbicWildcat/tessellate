@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+
+    <!-- temp styles and scripts - to be moved to grunt -->
+    <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+
+    <link rel="stylesheet" href="css/tessellate.css">
+
+    <script>
+
+    /*
+      Jimmy, remove this script and replace the loading div with:
+
+      <div class="loading" aria-hidden="true" ng-show="{{!loaded}}">
+        <div class="spinner"></div>
+      </div>
+
+     */
+    window.addEventListener('load', function () {
+      var spinner = document.querySelector('.loading');
+      spinner.parentNode.removeChild(spinner);
+    });
+
+    </script>
+  </head>
+  <body>
+
+    <div class="loading" aria-hidden="true">
+      <div class="spinner"></div>
+    </div>
+
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <header class="inner cover logo-large">
+            <h1 class="cover-heading">Tessellate</h1>
+          </header>
+          <main ng-controller="AuthController">
+            <!-- <a href="/auth/facebook"> -->
+            <a href="event.html">
+              <img class="facebookLogin" src="img/fb_login.png" role="button" />
+            </a>
+          </main>
+          <footer class="mastfoot">
+            <div class="inner">
+              <small>&copy; Tessellate 2015</small>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery first, then Bootstrap JS. -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+
+  </body>
+</html>

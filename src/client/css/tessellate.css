@@ -1,0 +1,250 @@
+/*
+ * Globals
+ */
+
+h1 {
+  font-size: 1.9rem;
+}
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: #fff;
+  border: .05rem solid #fff;
+}
+
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+  background-color: #1B2B32;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  text-align: center;
+  display: table;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+  -webkit-box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
+          box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+}
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.cover-container main {
+  background-color: #1B2B32;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 2rem;
+}
+
+
+/*
+ * Header
+ */
+
+
+/* main */
+
+main {
+  background-color: #fff;
+  padding-top: 2rem;
+}
+
+.navbar {
+  margin-bottom: 0;
+  background-color: #1B2B32;
+}
+
+.navbar button {
+  color: #fff;
+}
+
+.navbar-collapse .container-fluid {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid #55595c;
+}
+
+.navbar-collapse h4 {
+  color: #818a91;
+}
+
+
+
+@media (min-width: 48em) {
+  .masthead-brand {
+    float: left;
+  }
+  .nav-masthead {
+    float: right;
+  }
+}
+
+
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 0 1.5rem;
+}
+.cover .btn-lg {
+  padding: .75rem 1.25rem;
+  font-weight: bold;
+}
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 40em) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
+
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 62em) {
+  .masthead,
+  .cover-container {
+    width: 42rem;
+  }
+}
+
+/*
+ * Splash overlay
+ */
+
+.loading {
+  position: absolute;
+  background-color: #1B2B32;
+  width: 100%;
+  height: 100%;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -45px;
+  margin-left: -38px;
+  width: 77px;
+  height: 95px;
+  background: url('../img/loading.gif') 0 0 no-repeat;
+}
+
+/*
+ * Homepage
+ */
+
+.logo {
+  height: 2rem;
+  background: url('../img/logo_header.svg') 0 0 no-repeat;
+  background-size: contain;
+  margin: 1rem 0 1rem 1rem;
+}
+
+.logo-large {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  background: url('../img/tessellate_logo.png') 50% 0 no-repeat;
+  background-size: contain;
+  height: 20rem;
+}
+
+@media (min-width: 40em) {
+
+  .logo-large {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+    height: 28rem;
+  }
+
+}
+
+.logo h1, .logo-large h1.cover-heading {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/*
+ * Events
+ */
+
+
+.card {
+  float: left;
+  width: 33.333%;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 0;
+}
+
+.card > img {
+  margin-bottom: .75rem;
+}
+
+.card-text {
+  font-size: 85%;
+}
+
+.about {
+  float: left;
+  max-width: 30rem;
+  margin-right: 3rem;
+}
+
+.social a {
+  font-weight: 500;
+  color: #eceeef;
+}
+.social a:hover {
+  color: #fff;
+}
+
+
+/*
+ * Footer
+ */
+
+.tessellate-footer {
+  width: 100%;
+  text-align: left;
+  color: #fff;
+  background-color: #1B2B32;
+}
+
