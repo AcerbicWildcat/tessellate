@@ -6,7 +6,7 @@ var User = db.User,
     Image = db.Image;
 
 module.exports = function(eventCode, done){
-  var joinedEvent;
+  var targetEvent;
   Event.findOne({eventCode: eventCode})
     .exec(function (err, event){
       if (err){
@@ -23,12 +23,12 @@ module.exports = function(eventCode, done){
                 if (err){
                   done(err);
                 }
-                joinedEvent = {
+                targetEvent = {
                   event: event,
                   image: image,
                   map: map
                 };
-                done(null, joinedEvent);
+                done(null, targetEvent);
               })
           });
       } else {
