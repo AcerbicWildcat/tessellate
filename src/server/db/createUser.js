@@ -2,15 +2,15 @@ var db = require('./db.js');
 
 var User = db.User;
 
-module.exports = function(facebookId, name, email, profPhoto, facebookToken, callback){
+module.exports = function(facebookId, name, email, profPhoto, facebookToken, done){
 
   User.findOne({'facebookId': facebookId}, function (err, user){
 
     if (err){
-      return err;
+      done(err);
     }
     if (user) {
-      callback(user);
+      done(null, user);
     }
     else {
       new User({
@@ -19,11 +19,12 @@ module.exports = function(facebookId, name, email, profPhoto, facebookToken, cal
         email: email,
         profPhoto: profPhoto,
         facebookToken: facebookToken
-      }).save(function(err, user){
+      }).save(function (err, user){
         if (err){
-          console.log("createUser DB Save Error:", err);
+          done(err);
+        } else {
+          done(null, user);
         }
-        callback(user);
       });
     }
   });
