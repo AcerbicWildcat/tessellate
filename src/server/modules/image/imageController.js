@@ -36,7 +36,7 @@ module.exports = {
       imagePath = JSON.parse(req.body).image;
     }
 
-    console.log("inside imgaeController--->", req.file);
+    // console.log("inside imgaeController--->", req.file);
     cloudinary.uploader.upload(imagePath, function (result) { 
       guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function (err, image){
         if (err){

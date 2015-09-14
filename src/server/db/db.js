@@ -22,7 +22,7 @@ exports.Event = Event;
 exports.Map = Map;
 exports.Image = Image;
 
-User.create({name: "Jonathan"}, function(err, user){
+/*User.create({name: "Jonathan"}, function(err, user){
   new Event({
     _creator: user._id,
     name: "Jonathan party",
@@ -51,6 +51,6 @@ User.create({name: "Jonathan"}, function(err, user){
       });
     })
   });
-});
+});*/
 
 //is Image a keyword? Is it something we'd need to change?
