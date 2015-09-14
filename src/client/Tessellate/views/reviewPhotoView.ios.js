@@ -11,6 +11,7 @@ var {
   TextInput,
   Image,
   NativeModules,
+  AlertIOS
   
 } = React;
 
@@ -91,6 +92,15 @@ class ReviewPhotoView extends Component {
           // if the file path protocol is not supported the status will be 0
           // and the request won't be made at all
           console.log('did it work: ' + res.status)
+          if (res.status === 0 ){
+            AlertIOS.alert(
+              'Something went wrong!',
+              'We could not upload your picture',
+              [
+                {text: 'Ok', onPress: () => console.log('Ok Pressed!')},
+              ]
+            )
+          }
       });
 
 
