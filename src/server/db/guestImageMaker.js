@@ -6,17 +6,22 @@ var Event = db.Event,
     Image = db.Image,
     User  = db.User;
 
-var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, callback){
-  getPixels(cloudinaryResult.url, function(err, pixels){
+var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, done){
+  getPixels(cloudinaryResult.url, function (err, pixels){
     if (err){
-      console.log(err);
-      return;
+      done(err);
     };
 
     var rgb = getAverageColor(pixels.data);
 
-    Event.findOne({eventCode: eventCode}, function(err, foundEvent){
-      User.findOne({facebookId: facebookId}, function(err, foundUser){
+    Event.findOne({eventCode: eventCode}, function (err, foundEvent){
+      if (err){
+        done(err);
+      }
+      User.findOne({facebookId: facebookId}, function (err, foundUser){
+        if (err){
+          done(err);
+        }
         new Image({
           _parentEvent: foundEvent._id,
           _parentUser: foundUser._id,
@@ -24,12 +29,15 @@ var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, callba
           thumbnailPath: thumbnailMaker(cloudinaryResult.public_id, cloudinaryResult.format),
           imgPath: cloudinaryResult.url
           //TODO: include properties in here.
-        }).save(function(err, image){
+        }).save(function (err, image){
+          if (err){
+            done(err);
+          }
           foundEvent.images.push(image);
           foundUser.images.push(image);
           foundUser.save(function(){
             foundEvent.save(function(){
-              callback(image);  //invoked on the entire saved image.
+              done(null, image);  //invoked on the entire saved image.
             });
           });
         });
