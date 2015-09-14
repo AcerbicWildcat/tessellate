@@ -5,25 +5,34 @@ var User = db.User,
     Map = db.Map,
     Image = db.Image;
 
-module.exports = function(eventCode, callback){
-  var returnObj;
+module.exports = function(eventCode, done){
+  var targetEvent;
   Event.findOne({eventCode: eventCode})
-    .exec(function(err, event){
-      if (event){ //if an event is found...
+    .exec(function (err, event){
+      if (err){
+        done(err);
+      }
+      if (event){
         Image.findOne({_id: event.mainImage})
-          .exec(function(err, image){
+          .exec(function (err, image){
+            if (err){
+              done(err);
+            }
             Map.findOne({_parentImage: image._id})
-              .exec(function(err, map){
-                returnObj = {
+              .exec(function (err, map){
+                if (err){
+                  done(err);
+                }
+                targetEvent = {
                   event: event,
                   image: image,
                   map: map
                 };
-                callback(returnObj);
+                done(null, targetEvent);
               })
           });
       } else {
-        callback("error: no event found");
+        done(404);
       }
     });
 };

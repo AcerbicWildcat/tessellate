@@ -12,16 +12,19 @@ var sendResp = require('../../config/helpers').sendResponse,
 
 module.exports = {
 
-  getEvents: function (req, res) {
+  getEvents: function (req, res, next) {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
-    getEventsByUser(facebookId, function(user){
+    getEventsByUser(facebookId, function (err, user){
+      if (err){
+        next(err);
+      }
       if (!user){
-        res.json("error: user does not exist");
+        sendResp(res, {error: 'Error: User Does Not Exist'}, 404);
       } else {
         if (user.events){ 
           for (var i = 0; i < user.events.length; i++){
@@ -87,30 +90,28 @@ module.exports = {
     //   ]
     // });
 
-  getEvent: function (req, res){
+  getEvent: function (req, res, next){
     var eventCode = req.params.eventId;
-    getEventAndMap(eventCode, function(obj){
-      if (typeof obj === "string"){
-        sendResp(res, obj, 404);
-        // res.json(obj);
+    getEventAndMap(eventCode, function (err, event){
+      if (err){
+        next(err);
       } else {
-        sendResp(res, obj, 200);
-        // res.json(obj);
+        sendResp(res, event, 200);
       }
     });
   },
 
-  updateEvent: function (req, res){
-    updateEvent(req.body.eventCode, req.body.update, function(event){
-      sendResp(res, event, 200);
+  updateEvent: function (req, res, next){
+    updateEvent(req.body.eventCode, req.body.update, function (err, event){
+      if (err){
+        next(err);
+      } else {
+        sendResp(res, event, 200);
+      }
     });
   },
 
-  createEvent: function (req, res){
-
-    // for debugging
-    // console.log(req.file);
-    // console.log(req.file.path);
+  createEvent: function (req, res, next){
 
     var eventCode = req.body.eventCode,
         eventName = req.body.eventName,
@@ -122,28 +123,28 @@ module.exports = {
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
 
-    // console.log(eventCode + " is our event code...");
-    // console.log(eventName + " is our event name...");
-    // console.log(facebookId + " is our facebookId...");
-
-    db.Event.findOne({eventCode: eventCode}, function(err, event){
+    db.Event.findOne({eventCode: eventCode}, function (err, event){
       if (err){
-        sendResp(res, err);
+        next(err);
       }
       if (event){
-        sendResp(res, {event: "sorry, that event code already exists"});
+        sendResp(res, {error: "Event Code Already Taken"}, 409);
       } else {
-        cloudinary.uploader.upload(path, function(result) { 
+        cloudinary.uploader.upload(path, function (result) { 
           console.log(result.url + " is the result we got back!");
-          mapmaker.saveEventAndMap(facebookId, result.url, eventCode, eventName, function(returnObj){
-            sendResp(res, returnObj, 201);
+          mapmaker.saveEventAndMap(facebookId, result.url, eventCode, eventName, function (err, createdEvent){
+            if (err){
+              next(err);
+            } else {
+              sendResp(res, createdEvent, 201);
+            }
           });
         });
       }
     });
   },
 
-  joinEvent: function (req, res){
+  joinEvent: function (req, res, next){
     var eventCode = req.params.eventId;
     var facebookId;
     if (!!req.headers.facebookid){
@@ -151,14 +152,18 @@ module.exports = {
     } else if (!!req.cookies.facebookToken){
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
-    joinEvent(facebookId, eventCode, function(){
-      getEventAndMap(eventCode, function (obj){
-        if (typeof obj === "string"){
-          sendResp(res, obj, 404);
-        } else {
-          sendResp(res, obj, 200);
-        }
-      });
+    joinEvent(facebookId, eventCode, function (err, event){
+      if (err){
+        next(err);
+      } else {
+        getEventAndMap(eventCode, function (err, joinedEvent){
+          if (err){
+            next(err);
+          } else {
+            sendResp(res, joinedEvent, 200);
+          }
+        });
+      }
     });
 
   }  
