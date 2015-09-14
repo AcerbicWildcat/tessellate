@@ -10,15 +10,17 @@
 <section class="content">
     <h1>Created Events</h1>
     <ul>
-      <li class="event" ng-click="getEvent(event.eventCode)" ng-repeat="event in userEvents.events">
+      <!-- {_creator : userEvents._id} -->
+      <li class="event" ng-click="getEvent(event.eventCode)" ng-repeat="event in userEvents.events  | filter: eventCode as results">
         <div>
           <img src="{{ event.mainImage.imgPath }}">
         </div>
         <div>
-          #{{event.eventCode}}
+          #{{event.eventCode}} : {{event.name}}
         </div>
         <hr>
       </li>
     </ul>
     <h1>Joined Events</h1>
+    <h1 ng-if="results.length == 0" href="#/create">No Results found...create new event <a class="search-event" href="#/create">{{eventCode}}</a>?</h1>
 </section>

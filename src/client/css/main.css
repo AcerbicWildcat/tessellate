@@ -176,6 +176,12 @@ input {
   display: inline-block;
   float: left;
 }
+.search-event {
+  color: #A3ABAF;
+}
+.search-event:hover {
+  color: red;
+}
 
 .event:hover {
   background-color: #A3ABAF;
