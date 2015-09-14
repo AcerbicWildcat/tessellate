@@ -20,21 +20,27 @@ var {
 } = React;
  
  
- //Create Main Class (First View of App)
+//User's Created and Joined Events
 var Main =  React.createClass({
  
   getInitialState: function() {
+    this.props.navRef.setState({navBarHidden:true});
     return {
       eventCode: '',
-      loggedIn: false,
-      isLoading: false,
       facebookId: this.props.facebookId,
+      navRef: this.props.navRef
     };
   },
 
   mixins: [ProgressHUD.Mixin],
 
+  componentDidMount() {
+    console.log('MOUNTING Main')
+    this.state.navRef.setState({navBarHidden:true});
+  },
+
   render() {
+
     console.log('Facebook ID in Main: ' + this.state.facebookId)
     return (
        <View style={styles.container}>
@@ -72,13 +78,16 @@ var Main =  React.createClass({
     var self = this;
     eventCode = eventCode;
     self.props.navigator.push({
-                    title: eventCode, //refactor to contain event title
+                    title: '#' + eventCode, //refactor to contain event title
                     component: TabView,
                     passProps: {eventCode: eventCode,
-                      facebookId:this.state.facebookId,
-                    mainNavigator: self.props.navigator} //refactor to contain eventcode
+                    facebookId:this.state.facebookId,
+                    mainNavigator: self.props.navigator,
+                    navRef:self.state.navRef,
+                    } //refactor to contain eventcode
                     
            }); 
+
     
 
     self.showProgressHUD();

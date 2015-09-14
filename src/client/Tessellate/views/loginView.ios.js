@@ -60,32 +60,26 @@ class LoginView extends Component {
     }
   }
 
+  //allow user to proceed to main events
   isAuthorized(loginState){
+    var self = this;
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
         component:Main,
         passProps:{facebookId:this.state.facebookId,
-        profilePicture:'.img'}
+        profilePicture:'.img',
+        navRef: this.props.refs
+        }
       })
       this.props.refs.setState({navBarHidden:true}) 
     }
   }
 
+  
+
+  //login using facebookID
   login(facebookId) {
-
-    //TESTING
-    //
-    //
-    
- /*   NativeModules.ReadImageData.readImage(_this.props.photo, (image) => {
-      console.log('This is actually it: ', image)
-      imageToSave = image;
-     })
-*/
-    //
-
-
 
     var self = this;
     var loginObject = {  
@@ -94,7 +88,7 @@ class LoginView extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.6.1.173:8081'
+        'Host': 'http://localhost:8081'
       },
       body: JSON.stringify({
          facebookId:facebookId,
@@ -102,8 +96,8 @@ class LoginView extends Component {
        })
     }
 
-    //REFACTOR
-    fetch('http://10.6.1.173:8000/user', loginObject)  
+
+    fetch('http://localhost:8000/user', loginObject)  
       .then(function(res) {
         return res.json();
        })
@@ -124,8 +118,6 @@ class LoginView extends Component {
          );
 
       });
-
-
   }
 
   render() {
@@ -151,7 +143,9 @@ class LoginView extends Component {
         onLoginFound={function(data){
           console.log("Existing login found.");
           console.log(data);
-           _this.setState({ user : data.credentials }); 
+           _this.setState({ user : data.credentials },function(){
+            _this.login(data.credentials.userId);
+          });
 
         }}
         onLoginNotFound={function(){

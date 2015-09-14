@@ -69,13 +69,13 @@ class UserEventsView extends React.Component {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    'Host': 'http://10.6.1.173:8081',
+		    'Host': 'http://localhost:8081',
 		    'FacebookID':this.props.facebookId,
 		  }
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://10.6.1.173:8000/events', getEvents)  
+		fetch('http://localhost:8000/events', getEvents)  
 		  .then(function(res) {
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
