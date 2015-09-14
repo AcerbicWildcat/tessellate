@@ -47,7 +47,7 @@ var MosaicView = React.createClass({
   fetchMosaicData(){
     var _this = this;
     console.log('EVEEEEEENT: ' + this.state.eventCode)
-    var apiString = 'http://10.0.1.156:8000/event/' + this.state.eventCode;
+    var apiString = 'http://10.6.1.173:8000/event/' + this.state.eventCode;
     console.log(apiString.toString())
     var getMosaicObject = {  
       method: 'GET',
@@ -55,7 +55,7 @@ var MosaicView = React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.0.1.156:8081',
+        'Host': 'http://10.6.1.173:8081',
         'FacebookID':_this.props.facebookId,
       }
     }
