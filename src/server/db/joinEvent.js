@@ -3,19 +3,31 @@ var db = require('./db.js');
 var User = db.User;
 var Event = db.Event;
 
-module.exports = function(facebookId, eventCode, callback){
+module.exports = function(facebookId, eventCode, done){
   User.findOne({facebookId: facebookId}, function (err, user){
+    if (err){
+      done(err);
+    }
     Event.findOne({eventCode: eventCode}, function (err, event){
+      if (err){
+        done(err);
+      }
       if (event){
         user.events.push(event);
         event.contributors.push(user);
-        event.save(function(){
-          user.save(function(){
-            callback();
-          })
-        })
+        event.save(function (err){
+          if (err){
+            done(err);
+          }
+          user.save(function (err){
+            if (err){
+              done(err);
+            }
+            done(null, event);
+          });
+        });
       } else {
-        console.log("Event Not Found");
+        done(404);
       }
     });
   });

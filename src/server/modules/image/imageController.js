@@ -18,19 +18,33 @@ module.exports = {
     res.json({ image: {} });
   },
 
-  postImages : function (req, res) {
-
+  postImages : function (req, res, next) {
+    // Look for facebookId on headers (Mobile) or
+    // in cookies (Desktop)
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
+    // Look for image file on body (Mobile) or
+    // req.file.path (Desktop)
+    var imagePath;
+    if (!!req.file.path){
+      imagePath = req.file.path;
+    } else {
+      imagePath = JSON.parse(req.body).image;
+    }
+
     console.log("inside imgaeController--->", req.file);
-    cloudinary.uploader.upload(req.file.path, function(result) { 
-      guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function(image){
-        res.json(image);
-        res.end();
+    cloudinary.uploader.upload(imagePath, function (result) { 
+      guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function (err, image){
+        if (err){
+          next(err);
+        } else {
+          res.json(image);
+          res.end();
+        }
       }); 
     });
 

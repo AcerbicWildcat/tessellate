@@ -4,22 +4,34 @@ var Map = db.Map;
 var Event = db.Event;
 var Image = db.Image;
 
-// var getMap = function(mapId, callback){
-//   Map.findOne({_id: mapId}, function(err, map){
-//     if (!map){
-//       console.log("error: map not found");
-//     } else if (map){
-//       callback(map);
+// var getMap = function(mapId, done){
+//   Map.findOne({_id: mapId}, function (err, map){
+//     if (err){
+//       done(err);
+//     }
+//     if (map){
+//       done(null, map);
+//     } else {
+//       done(404);
 //     }
 //   });
 // }
 
-var reviseMap = function(eventCode, revision, callback){
+var reviseMap = function(eventCode, revision, done){
   console.log(revision.key, revision.value, " is our revision...")
   var data;
-  Event.findOne({eventCode: eventCode}, function(err, event){
-    Image.findOne({_id: event.mainImage}, function(err, image){
-      Map.findOne({_id: image.map}, function(err, map){
+  Event.findOne({eventCode: eventCode}, function (err, event){
+    if (err){
+      done(err);
+    }
+    Image.findOne({_id: event.mainImage}, function (err, image){
+      if (err){
+        done(err);
+      }
+      Map.findOne({_id: image.map}, function (err, map){
+        if (err){
+          done(err);
+        }
         data = map.data;
         console.log(data[revision.key], " was the old key");
         data[revision.key] = revision.value;
@@ -27,11 +39,13 @@ var reviseMap = function(eventCode, revision, callback){
 
         var conditions = {_id: map._id},
             update     = {data: data},
-            options    = {new: true}; //guarantees that the callback returns the saved map object--not the old one.
-        Map.findOneAndUpdate(conditions, update, options, function(err, foundMap){
-          callback(foundMap);
-          //currently, I don't need to send the map back--I just need to update it.
-          // res.json(foundMap);
+            options    = {new: true}; //guarantees that done returns the saved map object--not the old one.
+        Map.findOneAndUpdate(conditions, update, options, function (err, foundMap){
+          if (err){
+            done(err);
+          } else {
+            done(null, foundMap);
+          }
         });
       });
     })
