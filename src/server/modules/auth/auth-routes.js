@@ -3,18 +3,26 @@ module.exports = function (app, passport) {
   // is not logged in with facebook
 
   // Route to test if user is logged in or not
-  app.get('/loggedin', function (req, res){
-    if (req.isAuthenticated()){
-      res.send(req.user);
-    } else {
-      res.redirect('/');
-    }
+  // var auth = function (req, res, next){
+  //   if (!req.isAuthenticated()){
+  //     res.send(401);
+  //   } else {
+  //     next();
+  //   }
+  // };
+  app.get('/loggedin', function (req, res) {
+    var verdict = req.isAuthenticated();
+    console.log('VERDICT: ', verdict);
+    console.log('req.user: ', req.user);
+    res.send(req.isAuthenticated() ? req.user : '0');
   });
-
   // Logout of our app
   app.get('/logout', function (req, res){
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(function (err) {
+      req.logout();
+      console.log('User after Logout:', req.user);
+      res.redirect('/#/');
+    });
   });
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -22,8 +30,7 @@ module.exports = function (app, passport) {
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   app.get('/auth/facebook',
     passport.authenticate('facebook', {
-      scope: ['email', 'user_friends'], 
-      display: 'touch'
+      scope: ['email', 'user_friends'] 
     }),
     function (req, res){
       // Request redirected to facebook so this function does not get called
@@ -31,31 +38,21 @@ module.exports = function (app, passport) {
 
   // On user interaction with facebook login, redirected back to here
   app.get('/auth/facebook/callback', function (req,resp,next){
-    passport.authenticate('facebook',{ session: false, failureRedirect: "/" },
-    function (err, token){
-      console.log('session set' + JSON.stringify(token))
-      resp.cookie('facebookToken', JSON.stringify(token), { maxAge: 900000});
-      resp.redirect('/main.html');
+    passport.authenticate('facebook',{ failureRedirect: "/" },
+    function (err, user){
+      if (user){
+        req.logIn(user, function(err){
+          console.log('Err login', err);
+        });
+      }
+      console.log('USER??', req.user);
+      console.log('session set' + JSON.stringify(user))
+      // resp.cookie('facebookToken', JSON.stringify(user), { maxAge: 900000});
+      // resp.json({ state: req.isAuthenticated() });
+      resp.redirect('/#/events');
       // resp.end();
 
     })(req,resp,next);
   });
-
-  /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-
-  /**
-   * Intermediary to ensure user is logged in.
-   * @param  req
-   * @param  res
-   * @param  {Function} next
-   * @return {Boolean}       app flow continues if next returned (user logged in)
-   */
-  function isLoggedIn (req, res, next){
-    if (req.isAuthenticated()){
-      return next();
-    } else {
-      res.send(401);
-    }
-  };
+  
 };
