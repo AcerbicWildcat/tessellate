@@ -10,7 +10,7 @@ module.exports = {
       loggedIn: false
     });
   },
-  createUser: function(req, res) {
+  createUser: function(req, res, next) {
     console.log(req.body, "is our body...");
     var facebookId;
     var name = req.body.name,
@@ -23,11 +23,15 @@ module.exports = {
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
 
-    createUser(facebookId, name, email, profPhoto, facebookToken, function(user){
+    createUser(facebookId, name, email, profPhoto, facebookToken, function (err, user){
+      if (err){
+        next(err);
+      } else {
         res.json(user);
+      }
     });
   },
-  getUser: function(req, res) {
+  getUser: function(req, res, next) {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
@@ -35,8 +39,12 @@ module.exports = {
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
     console.log('facebook ID in getUSer: ', facebookId);
-    getUser(facebookId, function(user){
-      res.json(user);
+    getUser(facebookId, function (err, user){
+      if (err){
+        next(err);
+      } else {
+        res.json(user);
+      }
     });
   }
 }

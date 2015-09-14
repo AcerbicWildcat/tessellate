@@ -18,7 +18,7 @@ module.exports = {
     res.json({ image: {} });
   },
 
-  postImages : function (req, res) {
+  postImages : function (req, res, next) {
     // Look for facebookId on headers (Mobile) or
     // in cookies (Desktop)
     var facebookId;
@@ -38,9 +38,13 @@ module.exports = {
 
     console.log("inside imgaeController--->", req.file);
     cloudinary.uploader.upload(imagePath, function (result) { 
-      guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function (image){
-        res.json(image);
-        res.end();
+      guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, function (err, image){
+        if (err){
+          next(err);
+        } else {
+          res.json(image);
+          res.end();
+        }
       }); 
     });
 
