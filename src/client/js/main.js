@@ -54,6 +54,15 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       return response;
     });
   };
+  httpRequestFactory.joinEvent = function(eventCode){
+    return $http({
+      method: 'POST',
+      url: '/events/' + eventCode,
+    }).then(function(response){
+      console.log('finished post join event');
+      return response;
+    });
+  };
   return httpRequestFactory;
 }]);
 
@@ -115,6 +124,32 @@ tess.factory('mosaicFactory', ['$http', function ($http){
     var minimums = []; //an array of all distances between guestImg.rgb and mainRGB.
     var whatChunk;
 
+/*    var index = index || 0;
+    var placedNewImage = false;*/
+    /*
+    while we haven't placed the image AND we are still within bounds of the mosaic image
+    go through each sector.
+     */
+/*    while(placedNewImage === false && index < Object.keys(map.data).length){
+      //if there is no image currently there place the guestImg in that position
+      if(!map.data[index].hasOwnProperty('imgPath')){
+        map.data[index].original = false;
+        // map.data[index].minvalue = ???; // need to calculate the current min value
+        // need to store both the original image rgb AND the current image rgb
+        map.data[index].imgPath = guestImg.imgPath;
+        map.data[index].thumbnailPath = guestImg.thumbnailPath;
+        replacedSector = map.data[index];
+        replacedSector.ID = index;
+        placedNewImage = true;
+      }else{
+        var mainRGB = map.data[index].rgb; //map -> eventMap
+        var CurrentImageRGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
+        var PotentialImageRGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
+        
+        if()
+      }
+    }*/
+
     for(var key in map.data){ //map -> eventMap
 
       var mainRGB = map.data[key].rgb; //map -> eventMap
@@ -151,10 +186,11 @@ tess.factory('mosaicFactory', ['$http', function ($http){
       }
     }
 
-    //TODO: make a post request to the server updating the model with the latest data.
-    $http.post('/event/' + eventCode + '/map', { // TOASK: this route doesn't exisit!!!!!!!
-      key: whatChunk.ID, //map -> eventMap
-      value: whatChunk, //map -> eventMap
+    $http.post('/event/' + eventCode + '/map', { 
+      //QUESTION: Why do we need whatChunk.ID if we are already passing over whatChunk?
+      //TO DO: whatChunk is NOT a descriptive variable name....rename for documentation and clarity
+      key: whatChunk.ID,
+      value: whatChunk,
       eventCode: eventCode
     })
     .then(function(response){
@@ -201,12 +237,7 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
   $scope.photoLoaded = false;
-  // something to try and reload the new mosaic
-  $scope.$on('redraw', function (newMosaicData){
-    console.log('trying to redraw');
-    mosaicFactory.redrawImages(newMosaicData);
-  });
-  $scope.currentEvent = httpRequestFactory.currentEvent;
+
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -220,12 +251,18 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         $scope.userEvents = response.data;
       });
   };
-  $scope.getUserEvents();
-  $scope.joinEvent = function(){
-    if(!!$scope.eventCode){
-      $scope.noEventCode = false;
-    } else {
+  $scope.joinEvent = function(eventCode){
+    if(!eventCode){
+      console.log(eventCode);
       $scope.noEventCode = true;
+    } else {
+      console.log("trying to join ", eventCode);
+      $scope.noEventCode = false;
+      httpRequestFactory.joinEvent(eventCode)
+        .then(function(response){
+          console.log(response);
+          $scope.getEvent(eventCode);
+        });
     }
   };
   $scope.createEvent = function(){
@@ -236,7 +273,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     }
   };
   $scope.getEvent = function(eventCode){
-    console.log(eventCode);
+    // console.log(eventCode);
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
         // console.log(response.data);
@@ -264,11 +301,14 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
+        // console.log('sending file');
         formData.append("eventCode", $scope.eventCode);
         formData.append("eventName", $scope.eventName);
         // formData.append("eventDate", $scope.eventDate);
       },
       'success': function (file, response) {
+        // console.log('success call ', $scope.eventCode);
+        $scope.getEvent($scope.eventCode);
       },
       'maxfilesexceeded': function(file){
         this.removeAllFiles();
@@ -279,6 +319,15 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       }
     }
   };
+  $scope.getUserEvents();
+
+  $scope.$on('redraw', function (newMosaicData){
+    console.log('trying to redraw');
+    mosaicFactory.redrawImages(newMosaicData);
+  });
+
+  $scope.currentEvent = httpRequestFactory.currentEvent;
+
 }]);
 
 
