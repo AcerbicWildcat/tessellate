@@ -8,7 +8,9 @@ module.exports = function(facebookId, eventCode, done){
     if (err){
       done(err);
     }
-    Event.findOne({eventCode: eventCode}, function (err, event){
+    Event.findOne({eventCode: eventCode}, function (err, event)
+      {
+        console.log("the event exists", event);
       if (err){
         done(err);
       }
@@ -19,10 +21,12 @@ module.exports = function(facebookId, eventCode, done){
         for (var i = 0; i < event.contributors.length; i++){
           if (event.contributors[i].toString() === user._id.toString()){
             done(null, {error: "You've already joined this event"});
+            return;
           }
         }
         if (event._creator.toString() === user._id.toString()){
-          done(null, {error: "this is an event you have created!"});
+          done(null, {error: "Sorry, this is an event you have created"});
+          return;
         }
         user.events.push(event);
         event.contributors.push(user);

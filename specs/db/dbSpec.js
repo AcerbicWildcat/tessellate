@@ -353,24 +353,31 @@ describe("Tessellate database", function() {
   });
 
   it("Should allow a user to join an event and create a mutual relationship", function(done){
-    new Event({
-      eventCode: "dummyevent",
-      name: "Dummy Event"
-    }).save(function(err, event){
-      new User({
-        facebookId: "Mack Levine"
-      }).save(function(err, user){
-        joinEvent("Mack Levine", "dummyevent", function(){
-          expect(event.contributors.length).to.be.ok;
-          expect(user.events.length).to.be.ok;
-          Event.remove({eventCode: "dummyevent"}, function(err){
-            User.remove({facebookId: "Mack Levine"}, function(err){
-              done();
+    new User({
+      name: "rando user"
+    }).save(function(err, randoUser){
+      new Event({
+        _creator: randoUser._id,
+        eventCode: "dummyevent",
+        name: "Dummy Event"
+      }).save(function(err, event){
+        new User({
+          facebookId: "Mack Levine"
+        }).save(function(err, user){
+          joinEvent("Mack Levine", "dummyevent", function(){
+            expect(event.contributors.length).to.be.ok;
+            expect(user.events.length).to.be.ok;
+            Event.remove({eventCode: "dummyevent"}, function(err){
+              User.remove({name: "rando user"}, function(err){
+                User.remove({facebookId: "Mack Levine"}, function(err){
+                  done();
+                });
+              });
             });
           });
         });
       });
-    })
-  })
+    });
+  });
 
 });
