@@ -19,9 +19,9 @@
     "tests"
   ],
   "dependencies": {
-    "magnific-popup": "~1.0.0",
+    "bootstrap": "~4.0.0",
+    "dropzone": "~4.0.1",
     "jquery": "~2.1.4",
-    "bootstrap": "~3.3.5",
-    "dropzone": "~4.0.1"
+    "magnific-popup": "~1.0.0"
   }
 }
