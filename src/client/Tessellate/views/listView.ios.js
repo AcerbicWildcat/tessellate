@@ -50,7 +50,7 @@ class UserEventsView extends React.Component {
 	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2,
 	   sectionHeaderHasChanged: (s1, s2) => s1 !== s2})
 	   this.state = {
-	     dataSource: this.ds.cloneWithRows([{eventName:'You don\'t have any events yet...'}]),
+	     dataSource: this.ds.cloneWithRowsAndSections({'Events':[{name:'You don\'t have any events yet...'}]}),
 	     dataBlob:{}
 	   }
 	 }
