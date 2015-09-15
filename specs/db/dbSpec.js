@@ -380,4 +380,35 @@ describe("Tessellate database", function() {
     });
   });
 
+  it("Should not allow a user to join event that they have created or already joined", function(done){
+    var verdict;
+    new User({
+      facebookId: "Jimmy Williamson"
+    }).save(function(err, user){
+      new User({
+        facebookId: "Rob Hays"
+      }).save(function(err, user2){
+        new Event({
+          _creator: user2._id,
+          eventCode: "robevent"
+        }).save(function(err, event){
+          event.contributors.push(user);
+          event.save(function(err, event){
+            joinEvent("Rob Hays", "robevent", function(err, data){
+              verdict = data;
+              expect(verdict.error).to.equal("Sorry, this is an event you have created");
+              expect(event.contributors[0].toString()).to.not.equal(user2._id.toString());
+              joinEvent("Jimmy Williamson", "robevent", function(err, data){
+                verdict = data;
+                expect(verdict.error).to.equal("You've already joined this event");
+                expect(event.contributors.length).to.equal(1);
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
 });
