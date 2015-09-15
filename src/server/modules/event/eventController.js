@@ -130,9 +130,14 @@ module.exports = {
       if (event){
         sendResp(res, {error: "Event Code Already Taken"}, 409);
       } else {
-        cloudinary.uploader.upload(path, function (result) { 
-          console.log(result.url + " is the result we got back!");
-          mapmaker.saveEventAndMap(facebookId, result.url, eventCode, eventName, function (err, createdEvent){
+        cloudinary.uploader.upload(path, function (result) {
+          var uniformlySizedImageUrl = cloudinary.url(result.public_id, {
+              width: 500,
+              height: 500,
+              crop: 'fill'
+            }); 
+          console.log(uniformlySizedImageUrl + " is the url for the uniformly sized cloudinary image. HI JIMMY");
+          mapmaker.saveEventAndMap(facebookId, uniformlySizedImageUrl, eventCode, eventName, function (err, createdEvent){
             if (err){
               next(err);
             } else {
