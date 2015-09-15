@@ -298,26 +298,62 @@ describe('getEventsByUser.js', function(){
 
 describe('getAndReviseMap', function(){
 
-  xit("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
-    new Map({
-      data: {stuff: "A"}
-    }).save().then(function(map){
-      mapHelpers.reviseMap(map._id, {stuff: "B"}, function(map){
+  it("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
+    var event = new Event({
+      eventCode: "revisemapevent"
+    });
+    var image = new Image({
+      rgb: "something"
+    });
+    var map = new Map({
+      data: {"stuff": "A"}
+    });
+    Promise.all([
+      event.save(),
+      image.save(),
+      map.save()
+    ]).then(function(data){
+
+      data[0].mainImage = data[1]._id;
+      data[1]._parentEvent = data[0]._id;
+      data[1].map = data[2]._id;
+      data[2].parentImage = data[1]._id;
+
+      return Promise.all([
+        data[0].save(), 
+        data[1].save(),
+        data[2].save()
+      ]);
+
+    }).then(function(data){
+
+      var savedEvent = data[2];
+
+      expect(savedEvent.data.stuff).to.equal("A");
+
+      mapHelpers.reviseMap("revisemapevent", {key: "stuff", value: "B"}, function(err, map){
         expect(map.data.stuff).to.equal("B");
         expect(map.data.stuff).to.not.equal("A");
         //make sure the change is reflected in the database as well.
-        Map.findOne({_id: map._id}, function(err, map){
-          expect(map.data.stuff).to.equal("B");
+        Map.findOne({_id: map._id}, function(err, foundMap){
+          expect(foundMap.data.stuff).to.equal("B");
           Map.remove({
-            _id: map._id
+            _id: foundMap._id
           }, function(err){
-            done();
+            Image.remove({
+              rgb: "something"
+            }, function(err){
+              Event.remove({
+                eventCode: "revisemapevent"
+              }, function(err){
+                done();
+              });
+            });
           });
         });
       });
     });
   });
-
 });
 
 describe('updateEvent.js', function(){
@@ -412,24 +448,32 @@ describe('joinEvent.js', function(){
               verdict = data;
               expect(verdict.error).to.equal("Sorry, this is an event you have created");
               expect(event.contributors[0].toString()).to.not.equal(user2._id.toString());
-              joinEvent("Jimmy Williamson", "robevent", function(err, data){
-                verdict = data;
-                expect(verdict.error).to.equal("You've already joined this event");
-                expect(event.contributors.length).to.equal(1);
-                User.remove({
-                  facebookId: "Jimmy Williamson"
-                }, function(err){
-                  User.remove({
-                    facebookId: "Rob Hays"
-                  }, function(err){
-                    Event.remove({
-                      eventCode: "robevent"
-                    }, function(err){
-                      done();
-                    });
-                  });
-                });
-              });
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it("Should not allow a user to join event that they have already joined", function(done){
+    joinEvent("Jimmy Williamson", "robevent", function(err, data){
+      verdict = data;
+      expect(verdict.error).to.equal("You've already joined this event");
+      Event.findOne({
+        eventCode: "robevent"
+      }, function(err, event){
+        expect(event.contributors.length).to.equal(1);
+        User.remove({
+          facebookId: "Jimmy Williamson"
+        }, function(err){
+          User.remove({
+            facebookId: "Rob Hays"
+          }, function(err){
+            Event.remove({
+              eventCode: "robevent"
+            }, function(err){
+              done();
             });
           });
         });
