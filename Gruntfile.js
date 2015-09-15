@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         tasks: ['jshint', 'concat', 'copy']
       },
       html: {
-        files: ["src/client/**/*.html", "src/server/*.html"],
+        files: ["src/client/**/*.html"],
         tasks: ['front']
       },
       // sass: {
@@ -159,7 +159,7 @@ module.exports = function(grunt) {
           expand: true, 
           flatten: true,
           filter: 'isFile',
-          src: ['src/client/js/main.js', 'src/client/js/login.js', 'src/client/js/mosaicModule.js'],
+          src: ['src/client/js/main.js', 'src/client/js/mosaicModule.js'],
           dest: 'src/server/public/js'
         }, {
           expand: true, 

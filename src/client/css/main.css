@@ -381,3 +381,50 @@ input {
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*LANDING PAGE*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+#logo {
+    height: 14em;
+    width: auto;
+    color: #A3ABAF;
+}
+
+.text-vertical-center {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.text-vertical-center h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 4.5em;
+    font-weight: 700;
+}
+
+.header {
+    display: table;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    /*background: url(../assets/wedding.jpg) no-repeat center center scroll;*/
+    background-color: #1B2B32;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+#copy-name {
+  /*display: inline-block;*/
+  background-color: #1B2B32;
+  vertical-align: bottom;
+  font-size: 1em;
+  color: #FFFFFF;
+}
+.facebookLogin {
+  width: 6em;
+  height: auto;
+}
