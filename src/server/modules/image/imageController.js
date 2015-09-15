@@ -24,8 +24,8 @@ module.exports = {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
-    } else if (!!req.cookies.facebookToken){
-      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+    } else {
+      facebookId = req.user.facebookId;
     }
     // Look for image file on body (Mobile) or
     // req.file.path (Desktop)
