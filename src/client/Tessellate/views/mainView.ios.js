@@ -39,6 +39,10 @@ var Main =  React.createClass({
     this.state.navRef.setState({navBarHidden:true});
   },
 
+ toggleNavBar: function(){
+
+ },
+
   render() {
 
     console.log('Facebook ID in Main: ' + this.state.facebookId)

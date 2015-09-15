@@ -38,6 +38,10 @@ var MosaicView = React.createClass({
       mosaicMainImage:'./img'
     }
   },
+
+  goHome(){
+    this.props.nav.pop()
+  },
  
   componentDidMount() {
     
@@ -102,7 +106,10 @@ var MosaicView = React.createClass({
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
-      <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+      <TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome.bind(this)}>
+        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
+      </TouchableHighlight>
+      
         <Svg width={500} height={500} style={styles.container}>
           <Image source={{uri: this.state.mosaicMainImage}}
                  style={{width: 400, height: 400}} />
@@ -129,6 +136,23 @@ var styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
 
+    },
+    goHome: {
+      position:'relative',
+      top:5,
+      left:0,
+      height:50,
+      width:50,
+      backgroundColor:'transparent',
+    },
+    goHomeButton:{
+    
+      position:'relative',
+      top:5,
+      left:0,
+      height:50,
+      width:50,
+      backgroundColor:'transparent'
     }
 
 });

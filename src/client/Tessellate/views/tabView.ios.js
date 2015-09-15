@@ -35,15 +35,12 @@ class TabView extends Component {
     }
   }
 
+ 
   componentDidMount() {
     console.log('MOUNTING')
-    this.state.navRef.setState({navBarHidden:false});
+    this.state.navRef.setState({navBarHidden:true});
   }
 
-  componentWillUnmount(){
-    this.state.navRef.setState({navBarHidden:true});
-    console.log('UNMOUNTING!')
-  }
   /**
    * [setSelectedTabCallBack allows for user to be taken to Mosaic Tab after a picture has been saved]
    * @param {[string]} tab [Selected Tab]
@@ -53,7 +50,7 @@ class TabView extends Component {
   }
 
   render() {
-    console.log('App State' + AppStateIOS.currentState)
+    
   
     return (
   
