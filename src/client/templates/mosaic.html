@@ -1,17 +1,89 @@
-<style>
-  .content {
-    overflow: hidden;
-  }
-</style>
+<div class="navbar navbar-inverse navbar-static-top">
+  <header class="container-fluid logo">
+    <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
+  </header>
+</div>
+
+<main>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-9 main-content">
+
+        <div class="row">
+
+
+          <h1>{{eventCode}}</h1> 
+          <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>   
+          <div class="thumbnail">
+            <svg id="mosaic"></svg>
+          </div>
+
+        
+        </div><!-- row -->
+
+      </div><!-- end 9 column -->
+      <div class="col-sm-3 aside">
+        <ul>
+          <li><a href="#/events">Event</a></li>
+          <li><a href="#/" ng-click="logout()">Logout</a></li>
+        </ul>
+      </div><!-- end 3 column -->
+
+    </div><!-- end row -->
+
+  </div><!-- end container-fluid -->
+
+</main>
+
+<footer class="tessellate-footer">
+  <div class="inner">
+    <small>&copy; Tessellate 2015</small>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
 <section class="topbar">
   <div class="logo"></div>
-  <!-- <div id="username">Howdy, {{ userProfile.name }}</div> -->
-  <!-- <div id="profile-pic">hello</div> -->
 </section>
 <section class="content">
     <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
     <svg id="mosaic"></svg>
-  <!-- <img src="{{currentEvent.image.imgPath}}"> -->
 </section>
 <section class="sidebar">
     <div class="account">
@@ -22,5 +94,4 @@
       <a href="#/" ng-click="logout()">Logout</a>
       <hr>
     </div>
-    <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
-</section>
+</section> -->

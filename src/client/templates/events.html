@@ -1,8 +1,125 @@
-  <!-- <button ng-click="sayHello()">Hello</button> -->
-  <section class="topbar">
+  <div class="navbar navbar-inverse navbar-static-top">
+    <header class="container-fluid logo">
+      <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
+    </header>
+  </div>
+
+  <main>
+    <div class="container-fluid">
+  
+      <div class="row">
+
+        <div class="col-sm-9 main-content">
+
+          <!-- Join or create form -->
+          <div class="row event-form">
+            <h1>Create or join event</h1>
+            <form class="form-inline">
+              <div class="form-group">
+                <label class="sr-only"></label>
+                <div class="input-group">
+                  <div class="input-group-addon">#</div>
+                  <input type="text" class="form-control" placeholder="event-code">
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEvent">Create event</button>
+            </form>
+          </div>
+          <!-- end of join create form -->
+
+          <!-- create event Modal form -->
+          <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="createEventLabel">Create event</h4>
+                </div>
+                <div class="modal-body">
+                  <form action="" name="myForm">
+                    <div class="form-group has-error">
+                      <label for="event-code">Event code</label>
+                      <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
+                      <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
+                    </div>
+                    <div class="form-group has-error">
+                      <label for="event-name">Event name</label>
+                      <input type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
+                      <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
+                    </div>
+                    <div class="form-group has-error">
+                      <input type="date" name="eventDate" ng-model="eventDate" required />
+                      <div class="form-error" ng-show="myForm.eventDate.$error.required">*events need a start date</div>
+                    </div>
+                    <div class="form-group">
+                      <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="submit-all">Create Event</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end of create event Modal -->
+
+          <!-- created events -->
+          <div class="row">
+            <h1>Created events</h1>
+            <div class="col-sm-3" ng-repeat="event in userEvents.events" ng-click="getEvent(event.eventCode)">
+                <div class="thumbnail">
+                  <img src="{{ event.mainImage.imgPath }}" alt=" ">
+                  <div class="caption">
+                    <h3 class="pull-left">{{event.name}}</h3>
+                  </div>
+                </div>
+            </div>
+         
+          </div>
+          <!-- end of created events -->
+
+          <!-- joined event -->
+          <div class="row">
+            <h1>Joined events</h1>
+            <div class="col-sm-3" ng-repeat="event in userEvents.events" ng-click="getEvent(event.eventCode)">
+                <div class="thumbnail">
+                  <img src="{{ event.mainImage.imgPath }}" alt=" ">
+                  <div class="caption">
+                    <h3 class="pull-left">{{event.name}}</h3>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <!-- end joined event -->
+        </div><!-- end 9 column -->
+        <div class="col-sm-3 aside">
+          <ul>
+            <li><a href="#/events">Event</a></li>
+            <li><a href="#/" ng-click="logout()">Logout</a></li>
+        </div><!-- end 3 column -->
+
+      </div><!-- end row -->
+
+    </div><!-- end container-fluid -->
+
+  </main>
+
+  <footer class="tessellate-footer">
+    <div class="inner">
+      <small>&copy; Tessellate 2015</small>
+    </div>
+  </footer>  
+
+
+
+
+
+
+
+<!--   <section class="topbar">
     <div class="logo"></div>
-    <!-- <div id="username">Howdy, {{ userProfile.name }}</div> -->
-    <!-- <div id="profile-pic">hello</div> -->
   </section>
 <div>
   <section class="navbar">
@@ -10,14 +127,11 @@
       <input type="text" placeholder="Event Code..." ng-model="eventCode">
     </form>
       <div ng-click="joinEvent(eventCode)"><a>Join</a></div>
-      <!-- <div><a href="#/create">Create</a></div> -->
-      <!-- <a href="#/create">Events here</a> -->
       <div id="error-message" ng-show="noEventCode">Enter an event code.</div>
 </section>
 <section class="content">
     <h1>Created Events</h1>
     <ul>
-      <!-- {_creator : userEvents._id} -->
       <li class="event" ng-click="getEvent(event.eventCode)" ng-repeat="event in userEvents.events  | filter: eventCode as results">
         <div>
           <img src="{{ event.mainImage.imgPath }}">
@@ -41,5 +155,4 @@
       <a href="#/" ng-click="logout()">Logout</a>
       <hr>
     </div>
-    <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
-  </section>
+  </section> -->
