@@ -402,7 +402,19 @@ describe("Tessellate database", function() {
                 verdict = data;
                 expect(verdict.error).to.equal("You've already joined this event");
                 expect(event.contributors.length).to.equal(1);
-                done();
+                User.remove({
+                  facebookId: "Jimmy Williamson"
+                }, function(err){
+                  User.remove({
+                    facebookId: "Rob Hays"
+                  }, function(err){
+                    Event.remove({
+                      eventCode: "robevent"
+                    }, function(err){
+                      done();
+                    });
+                  });
+                });
               });
             });
           });
