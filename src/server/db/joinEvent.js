@@ -13,6 +13,17 @@ module.exports = function(facebookId, eventCode, done){
         done(err);
       }
       if (event){
+        //check to see if the person trying to join the event is
+        //the creator or a contributor.
+        //verify what 'done' is doing in this context. Might want to rename it "callback."
+        for (var i = 0; i < event.contributors.length; i++){
+          if (event.contributors[i].toString() === user._id.toString()){
+            done(null, {error: "You've already joined this event"});
+          }
+        }
+        if (event._creator.toString() === user._id.toString()){
+          done(null, {error: "this is an event you have created!"});
+        }
         user.events.push(event);
         event.contributors.push(user);
         event.save(function (err){
@@ -27,7 +38,7 @@ module.exports = function(facebookId, eventCode, done){
           });
         });
       } else {
-        done(404);
+        done(null, {error: "event does not exist"});
       }
     });
   });
