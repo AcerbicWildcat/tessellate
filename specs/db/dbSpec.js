@@ -430,7 +430,7 @@ describe('joinEvent.js', function(){
     });
   });
 
-  it("Should not allow a user to join event that they have created or already joined", function(done){
+  it("Should not allow a user to join event that they have created", function(done){
     var verdict;
     new User({
       facebookId: "Jimmy Williamson"
