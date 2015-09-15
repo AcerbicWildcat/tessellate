@@ -91,42 +91,36 @@ describe('mapmaker.js', function(){
       mapmaker.mapEventMaker("Mr Oizo", "path", {dummyData: "dummyData"}, {shape: [350, 150]}, "oizoparty", "Oizo Party", function(err, object){
           returnObj = object;
           setUser = user;
-        });
-      });
-
-    setTimeout(function(){ 
-      //ensure that all relationships are correctly established.
-      expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
-      expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
-      expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
-      expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
-      expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
-      //ensure that fields are correctly established.
-      expect(returnObj.event.name).to.equal("Oizo Party");
-      expect(returnObj.event.eventCode).to.equal("oizoparty");
-      expect(returnObj.map.height).to.equal(150);
-      expect(returnObj.map.data.dummyData).to.equal("dummyData");
-      expect(returnObj.image.imgPath).to.equal("path");
-      // delete everything.
-      //TODO: figure out how to chain removes. They only execute with a callback.
-      User.remove({
-        facebookId: "Mr Oizo"
-      }, function(err){
-        Event.remove({
-          name: "Oizo Party"
-        }, function(err){
-          Image.remove({
-            imgPath: "path"
+          expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
+          expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
+          expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
+          expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
+          expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
+          //ensure that fields are correctly established.
+          expect(returnObj.event.name).to.equal("Oizo Party");
+          expect(returnObj.event.eventCode).to.equal("oizoparty");
+          expect(returnObj.map.height).to.equal(150);
+          expect(returnObj.map.data.dummyData).to.equal("dummyData");
+          expect(returnObj.image.imgPath).to.equal("path");
+          User.remove({
+            facebookId: "Mr Oizo"
           }, function(err){
-            Map.remove({
-              height: 150
+            Event.remove({
+              name: "Oizo Party"
             }, function(err){
-              done();
+              Image.remove({
+                imgPath: "path"
+              }, function(err){
+                Map.remove({
+                  height: 150
+                }, function(err){
+                  done();
+                });
+              });    
             });
-          });    
+          });
         });
       });
-    }, 1000);
   });
 });
 
@@ -252,56 +246,53 @@ describe('getEventsByUser.js', function(){
       }).then(function(){
         getEventsByUser("Mack Levine", function(err, response){
           responseObj = response;
+          //verifies that image paths show up on the returned object.
+          expect(responseObj.events[0].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+          expect(responseObj.events[1].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+          expect(responseObj.events[2].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+          expect(responseObj.events[3].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+          //verifies that the child events have the correct creators.
+          expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
+          expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
+
+          for (var i = 0; i < responseObj.events.length; i++){
+            if (responseObj.events[i]._creator !== undefined){
+              responseObj.events[i]._creatorString = responseObj.events[i]._creator.toString();
+              //apparently, we cannot overwrite the value of _creator, even when it's a regular
+              //object on the server side! It  might be because the object type is ObjectID.
+              //For now, we'll put a new property on each event: _creatorString.
+              expect(typeof responseObj.events[i]._creatorString).to.equal("string");
+            }
+          }
+
+          responseObj._idString = responseObj._id.toString();
+
+          expect(typeof responseObj._idString).to.equal("string");
+          
+          Event.remove({
+            _creator: responseObj._id
+          }, function(err){
+            Event.remove({
+              eventCode: "dingus22"
+            }, function(err){
+              Event.remove({
+                eventCode: "lamegradstudentparty"
+              }, function(err){
+                Image.remove({
+                  imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
+                }, function(err){
+                  User.remove({
+                    facebookId: "Mack Levine"
+                  }, function(err){
+                    done();
+                  })
+                })
+              });
+            });
+          });
         }); //TODO: make sure this has time to run
       });
     });
-    
-    setTimeout(function(){
-      //verifies that image paths show up on the returned object.
-      expect(responseObj.events[0].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-      expect(responseObj.events[1].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-      expect(responseObj.events[2].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-      expect(responseObj.events[3].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-      //verifies that the child events have the correct creators.
-      expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
-      expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
-
-      for (var i = 0; i < responseObj.events.length; i++){
-        if (responseObj.events[i]._creator !== undefined){
-          responseObj.events[i]._creatorString = responseObj.events[i]._creator.toString();
-          //apparently, we cannot overwrite the value of _creator, even when it's a regular
-          //object on the server side! It  might be because the object type is ObjectID.
-          //For now, we'll put a new property on each event: _creatorString.
-          expect(typeof responseObj.events[i]._creatorString).to.equal("string");
-        }
-      }
-
-      responseObj._idString = responseObj._id.toString();
-
-      expect(typeof responseObj._idString).to.equal("string");
-      
-      Event.remove({
-        _creator: responseObj._id
-      }, function(err){
-        Event.remove({
-          eventCode: "dingus22"
-        }, function(err){
-          Event.remove({
-            eventCode: "lamegradstudentparty"
-          }, function(err){
-            Image.remove({
-              imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
-            }, function(err){
-              User.remove({
-                facebookId: "Mack Levine"
-              }, function(err){
-                done();
-              })
-            })
-          });
-        });
-      });
-    }, 1000);
   });
 });
 
