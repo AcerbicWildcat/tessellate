@@ -3,8 +3,24 @@
     overflow: hidden;
   }
 </style>
+<section class="topbar">
+  <div class="logo"></div>
+  <!-- <div id="username">Howdy, {{ userProfile.name }}</div> -->
+  <!-- <div id="profile-pic">hello</div> -->
+</section>
 <section class="content">
     <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
     <svg id="mosaic"></svg>
   <!-- <img src="{{currentEvent.image.imgPath}}"> -->
+</section>
+<section class="sidebar">
+    <div class="account">
+      <a href="#/events">Events</a><br>
+      <hr>
+      <a href="#/create">Create</a>
+      <hr>
+      <a href="#/" ng-click="logout()">Logout</a>
+      <hr>
+    </div>
+    <!-- <div id="copyright">&copy;2015 Tessellate</div> -->
 </section>

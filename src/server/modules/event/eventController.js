@@ -16,7 +16,7 @@ module.exports = {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
-    } else if (!!req.cookies.facebookToken){
+    } else {
       facebookId = req.user.facebookId;
     }
     getEventsByUser(facebookId, function (err, user){
@@ -119,7 +119,7 @@ module.exports = {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
-    } else if (!!req.cookies.facebookToken){
+    } else {
       facebookId = req.user.facebookId;
     }
 
@@ -154,7 +154,7 @@ module.exports = {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
-    } else if (!!req.cookies.facebookToken){
+    } else {
       facebookId = req.user.facebookId;
     }
     joinEvent(facebookId, eventCode, function (err, event){

@@ -2,9 +2,13 @@ var tess = angular.module("tessell", [
   "ngRoute"
 ]);
 
-tess.config(["$routeProvider", '$locationProvider', function ($routeProvider, $locationProvider){
+tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
       .when('/', {
+        templateUrl: '../login.html',
+        controller: 'landingController'
+      })
+      .when('/events', {
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
       })
@@ -15,17 +19,28 @@ tess.config(["$routeProvider", '$locationProvider', function ($routeProvider, $l
       .when('/event/:eventcode', {/*eventually /mosaic/:eventId*/
         templateUrl: '../mosaic.html',
         controller: 'mosaicCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
       });
-      /*
-      .otherwise route to /events
-       */
-      // $locationProvider.html5Mode(true);
+      $httpProvider.interceptors.push('InterceptResponse');
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
 }]);
 
-tess.factory('httpRequestFactory', [ '$http', function ($http){
+tess.factory('InterceptResponse', ['$q', '$location', function ($q, $location){
+  return {
+    responseError: function (response){
+      if (response.status === 401){
+        $location.url('/');
+        return $q.reject(response);
+      }
+    }
+  };
+}]);
+
+tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http, $location, $q){
   var httpRequestFactory = {};
   httpRequestFactory.getUserProfile = function(){
     return $http({
@@ -75,6 +90,15 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
     }).then(function(response){
       // console.log("response from post request ",response);
       return response;
+    });
+  };
+  httpRequestFactory.logout = function(){
+    return $http({
+      method: 'GET',
+      url: '/logout'
+    }).then(function (res){
+      console.log("LOGGED OUT!");
+      return res;
     });
   };
   return httpRequestFactory;
@@ -268,7 +292,11 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         console.log(response.data);
         $location.url('/event/' + eventCode);
       });
-    };
+  };
+
+  $scope.logout = function (){
+    httpRequestFactory.logout();
+  };
 
   $scope.dropzoneConfig = {
     'options': {
@@ -319,7 +347,9 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
 
 }]);
 
+tess.controller('landingController', ['$scope', function ($scope){
 
+}]);
 
 /**
 * An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
