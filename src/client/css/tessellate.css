@@ -18,6 +18,9 @@ a:hover {
   color: #fff;
 }
 
+a h3 {
+  color: #333;
+}
 
 /* Custom default button */
 .btn-secondary,
@@ -97,25 +100,6 @@ body {
  * nav 
  */
 
-
-.navbar {
-  margin-bottom: 0;
-  background-color: #1B2B32;
-}
-
-.navbar button {
-  color: #fff;
-}
-
-.navbar-collapse .container-fluid {
-  padding: 2rem 2.5rem;
-  border-bottom: 1px solid #55595c;
-}
-
-.navbar-collapse h4 {
-  color: #818a91;
-}
-
 @media (min-width: 48em) {
   .masthead-brand {
     float: left;
@@ -134,10 +118,48 @@ main {
   background-color: #fff;
 }
 
-.row {
-  padding: 2rem;
+.aside, .main-content {
+  display: table-cell;
+  float: none;
 }
 
+.aside {
+  background-color: #1B2B32;
+}
+
+.aside ul {
+  font-size: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.aside li a {
+  display: block;
+  border-bottom: 0.1rem solid #fff;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding: 0 0 0.5rem 0;
+}
+
+.row {
+  padding-top: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+}
+
+.container-fluid > .row {
+  padding: 0;
+}
+
+@media (min-width: 34em) {
+
+}
+
+@media (min-width: 48em) {
+
+}
+ 
 .event-form {
   background-color: #37646F;
 }
