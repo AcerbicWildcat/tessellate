@@ -104,7 +104,7 @@ module.exports = {
     } else if (!!req.cookies.facebookToken){
       facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
     }
-    joinEvent(facebookId, eventCode, function (err, eventOrErrorMessage, status){
+    joinEvent(facebookId, eventCode, function (err, eventOrErrorMessage){
       if (err){
         console.dir(err);
       } else {
@@ -112,16 +112,11 @@ module.exports = {
           if(eventOrErrorMessage.error === "event does not exist"){
             sendResp(res, eventOrErrorMessage, 404);
           } else {
-            sendResp(res, eventOrErrorMessage, 422)
+            sendResp(res, eventOrErrorMessage, 422);
           }
+        } else {
+          sendResp(res, eventOrErrorMessage, 200);
         }
-        getEventAndMap(eventCode, function (err, joinedEvent){
-          if (err){
-            console.dir(err);
-          } else {
-            sendResp(res, joinedEvent, 200);
-          }
-        });
       }
     });
 
