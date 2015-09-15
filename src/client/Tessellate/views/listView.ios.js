@@ -56,7 +56,7 @@ class UserEventsView extends React.Component {
 	 }
 
 	 componentDidMount() {
-	 	console.log('hey there: ' + this.props.facebookId)
+	 	console.log('Events View Mounted!')
 	       this.fetchUserEvents();
 	 }
 
@@ -69,13 +69,13 @@ class UserEventsView extends React.Component {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    'Host': 'http://10.6.1.173:8081',
+		    'Host': 'http://localhost:8081',
 		    'FacebookID':this.props.facebookId,
 		  }
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://10.6.1.173:8000/events', getEvents)  
+		fetch('http://localhost:8000/events', getEvents)  
 		  .then(function(res) {
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
@@ -83,17 +83,13 @@ class UserEventsView extends React.Component {
 		    return res.json();
 		   })
 		  .then(function(resJson) {
-		  	console.log('Main DATA: ' + resJson.toString())
-		  	
 		  	var userID = resJson._id;
 		  	var data = resJson.events;
-		  	console.log('DATA LENGTH: ' + data.length)
 		  	var createdEvents = [];
 		  	var joinedEvents = [];
 
 		  	for (var i = 0 ; i< data.length; i++){
-		  		console.log('EVENT DATA')
-		  		//console.dir(data[i]._creator.toString());
+
 		  		if (userID === data[i]._creator.toString()){
 		  			createdEvents.push(data[i]);
 		  		} else {

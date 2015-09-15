@@ -14,6 +14,7 @@ var {
   NavigatorIOS,
   Navigator,
   Image,
+  AppStateIOS,
   
 } = React;
 
@@ -24,13 +25,22 @@ var mosaicBase64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCA
 class TabView extends Component {
   constructor(props){
     super(props);
+
     this.state = {
       selectedTab: 'mosaic',
       eventCode: this.props.eventCode,
       mainNavigator: props.mainNavigator,
       facebookId:this.props.facebookId,
+      navRef:this.props.navRef,
     }
   }
+
+ 
+  componentDidMount() {
+    console.log('MOUNTING')
+    this.state.navRef.setState({navBarHidden:true});
+  }
+
   /**
    * [setSelectedTabCallBack allows for user to be taken to Mosaic Tab after a picture has been saved]
    * @param {[string]} tab [Selected Tab]
@@ -40,6 +50,7 @@ class TabView extends Component {
   }
 
   render() {
+    
   
     return (
   

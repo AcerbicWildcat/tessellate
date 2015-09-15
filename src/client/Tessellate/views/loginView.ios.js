@@ -15,6 +15,7 @@ var {
   TextInput,
   Image,
   AlertIOS,
+  NativeModules,
   
 } = React;
 
@@ -59,19 +60,27 @@ class LoginView extends Component {
     }
   }
 
+  //allow user to proceed to main events
   isAuthorized(loginState){
+    var self = this;
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
         component:Main,
         passProps:{facebookId:this.state.facebookId,
-        profilePicture:'.img'}
+        profilePicture:'.img',
+        navRef: this.props.refs
+        }
       })
       this.props.refs.setState({navBarHidden:true}) 
     }
   }
 
+  
+
+  //login using facebookID
   login(facebookId) {
+
     var self = this;
     var loginObject = {  
       method: 'POST',
@@ -79,7 +88,7 @@ class LoginView extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.6.1.173:8081'
+        'Host': 'http://localhost:8081'
       },
       body: JSON.stringify({
          facebookId:facebookId,
@@ -87,8 +96,8 @@ class LoginView extends Component {
        })
     }
 
-    //REFACTOR
-    fetch('http://10.6.1.173:8000/user', loginObject)  
+
+    fetch('http://localhost:8000/user', loginObject)  
       .then(function(res) {
         return res.json();
        })
@@ -109,8 +118,6 @@ class LoginView extends Component {
          );
 
       });
-
-
   }
 
   render() {
@@ -130,29 +137,31 @@ class LoginView extends Component {
           
         }}
         onLogout={function(){
-          console.log("Logged out.");
+          //console.log("Logged out.");
           _this.setState({ user : null });
         }}
         onLoginFound={function(data){
-          console.log("Existing login found.");
-          console.log(data);
-           _this.setState({ user : data.credentials }); 
+          //console.log("Existing login found.");
+          //console.log(data);
+           _this.setState({ user : data.credentials },function(){
+            _this.login(data.credentials.userId);
+          });
 
         }}
         onLoginNotFound={function(){
-          console.log("No user logged in.");
+          //console.log("No user logged in.");
           _this.setState({ user : null });
         }}
         onError={function(data){
-          console.log("ERROR");
-          console.log(data);
+          //console.log("ERROR");
+          //console.log(data);
         }}
         onCancel={function(){
-          console.log("User cancelled.");
+          //console.log("User cancelled.");
         }}
         onPermissionsMissing={function(data){
-          console.log("Check permissions!");
-          console.log(data);
+          //console.log("Check permissions!");
+          //console.log(data);
         }}
       />
 

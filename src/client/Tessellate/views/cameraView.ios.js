@@ -80,6 +80,7 @@ var CameraView = React.createClass({
     var self = this;
     this.refs.cam.capture(function(err, data) {
       if (data){
+        console.log('DATA: ', data)
         var photoURL = data.toString();
       } else {
         //alert- something went wrong,please retake that picture

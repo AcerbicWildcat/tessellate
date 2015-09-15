@@ -38,6 +38,10 @@ var MosaicView = React.createClass({
       mosaicMainImage:'./img'
     }
   },
+
+  goHome(){
+    this.props.nav.pop()
+  },
  
   componentDidMount() {
     
@@ -46,16 +50,15 @@ var MosaicView = React.createClass({
 
   fetchMosaicData(){
     var _this = this;
-    console.log('EVEEEEEENT: ' + this.state.eventCode)
-    var apiString = 'http://10.6.1.173:8000/event/' + this.state.eventCode;
-    console.log(apiString.toString())
+    var apiString = 'http://localhost:8000/event/' + this.state.eventCode;
+
     var getMosaicObject = {  
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.6.1.173:8081',
+        'Host': 'http://localhost:8081',
         'FacebookID':_this.props.facebookId,
       }
     }
@@ -68,11 +71,8 @@ var MosaicView = React.createClass({
         return res.json();
        })
       .then(function(resJson) {
-        console.log('Mosaic Response: ' + resJson)
-       
         var mosaicMainImage = resJson.image.imgPath;
         if (!resJson){
-          console.log('this event not found')
           throw new Error('This event does not exist!');
         }
 
@@ -102,7 +102,10 @@ var MosaicView = React.createClass({
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
-      <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+      <TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome.bind(this)}>
+        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
+      </TouchableHighlight>
+      
         <Svg width={500} height={500} style={styles.container}>
           <Image source={{uri: this.state.mosaicMainImage}}
                  style={{width: 400, height: 400}} />
@@ -129,6 +132,23 @@ var styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
 
+    },
+    goHome: {
+      position:'relative',
+      top:7,
+      left:0,
+      height:50,
+      width:50,
+      backgroundColor:'transparent',
+    },
+    goHomeButton:{
+    
+      position:'relative',
+      top:7,
+      left:0,
+      height:50,
+      width:50,
+      backgroundColor:'transparent'
     }
 
 });
