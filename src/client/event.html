@@ -17,28 +17,8 @@
   </head>
   <body>
 
-    <div class="navbar-collapse collapse inverse" id="navbar-header">
-      <div class="container-fluid">
-        <div class="about">
-          <h4>About</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-        </div>
-        <div class="social">
-          <h4>Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="#">Follow on Twitter</a></li>
-            <li><a href="#">Like on Facebook</a></li>
-            <li><a href="#">Email me</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
     <div class="navbar navbar-inverse navbar-static-top">
       <header class="container-fluid logo">
-        <button class="navbar-toggler pull-right" type="button" data-toggle="collapse" data-target="#navbar-header">
-          &#9776;
-        </button>
         <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
       </header>
     </div>
@@ -46,137 +26,181 @@
     <main>
       <div class="container-fluid">
   
-        <!-- Join or create form -->
-        <div class="row event-form">
-          <h1>Create or join event</h1>
-          <form class="form-inline">
-            <div class="form-group">
-              <label class="sr-only"></label>
-              <div class="input-group">
-                <div class="input-group-addon">#</div>
-                <input type="text" class="form-control" placeholder="event-code">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Create event</button>
-          </form>
-        </div>
-        <!-- end of join create form -->
-
-
         <div class="row">
 
-          <h1>Created events</h1>
+          <div class="col-sm-9 main-content">
 
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
+            <!-- Join or create form -->
+            <div class="row event-form">
+              <h1>Create or join event</h1>
+              <form class="form-inline">
+                <div class="form-group">
+                  <label class="sr-only"></label>
+                  <div class="input-group">
+                    <div class="input-group-addon">#</div>
+                    <input type="text" class="form-control" placeholder="event-code">
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEvent">Create event</button>
+              </form>
             </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
+            <!-- end of join create form -->
 
-        </div>
-        <div class="row">
+            <!-- create event Modal form -->
+            <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="createEventLabel">Create event</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form action="">
+                      <div class="form-group has-error">
+                        <label for="event-code">Event code</label>
+                        <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
+                        <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
+                      </div>
+                      <div class="form-group has-error">
+                        <label for="event-name">Event name</label>
+                        <input type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
+                        <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
+                      </div>
+                      <div class="form-group has-error">
+                        <input type="date" name="eventDate" ng-model="eventDate" required />
+                        <div class="form-error" ng-show="myForm.eventDate.$error.required">*events need a start date</div>
+                      </div>
+                      <div class="form-group">
+                        <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
+                      </div>
+                      <div class="form-group">
+                        <div class="navbutton" id="submit-all" ng-click="createEvent()">Create Event</div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of create event Modal -->
 
-          <h1>Joined events</h1>
+            <!-- created events -->
+            <div class="row">
+              <h1>Created events</h1>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <!-- end of created events -->
 
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
+            <!-- joined event -->
+            <div class="row">
+              <h1>Joined events</h1>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-3">
+                <a href="mosaic.html">
+                  <div class="thumbnail">
+                    <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                    <div class="caption">
+                      <h3 class="pull-left">My event</h3>
+                    </div>
+                  </div>
+                </a>
               </div>
             </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
+            <!-- end joined event -->
+          </div><!-- end 9 column -->
+          <div class="col-sm-3 aside">
+            <ul>
+              <li><a href="#">Link 1</a></li>
+              <li><a href="#">Link 1</a></li>
+              <li><a href="#">Link 1</a></li>
+            </ul>
+          </div><!-- end 3 column -->
 
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="thumbnail">
-              <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
-              <div class="caption">
-                <h3 class="pull-left">My event</h3>
-                <p class="pull-right">
-                <button type="button" class="btn btn-default btn-sm">Default</button>
-                <button type="button" class="btn btn-primary btn-sm">Primary</button></p>
-              </div>
-            </div>
-          </div>
+        </div><!-- end row -->
 
-        </div>
+      </div><!-- end container-fluid -->
 
-      </div>
     </main>
 
     <footer class="tessellate-footer">
