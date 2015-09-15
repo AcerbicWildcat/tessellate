@@ -35,18 +35,24 @@ module.exports = function (app, express) {
 
   // files in /client/public/ will be served as static assets
   app.use(express.static(__dirname + '/../public/'));
+
+  var isAuth = function (req, res, next){
+    if (!req.isAuthenticated()){
+      res.send(401);
+    } else {
+      next();
+    }
+  };
   /**
    * route paths
    *
    * Using plural and singular - semantics are debatable, putting both in
    * 
    */
-  // app.use('/event/:eventId/image', imageRouter);
-  app.use('/event/', eventRouter);
-  app.use('/event/:eventId/map', mapRouter);
-  // app.use('/events/:eventId/images', imageRouter);
-  app.use('/events/', eventRouter);
-  app.use('/events/:eventId/map', mapRouter);
+  app.use('/event/', isAuth, eventRouter);
+  app.use('/event/:eventId/map', isAuth, mapRouter);
+  app.use('/events/', isAuth, eventRouter);
+  app.use('/events/:eventId/map', isAuth, mapRouter);
   app.use('/user', userRouter);
 
   //use error handling methods from helpers
@@ -54,7 +60,6 @@ module.exports = function (app, express) {
   app.use(helpers.errorHandler);
 
   //attach routes to routers
-  // require('../modules/image/imageRoutes')(imageRouter);
   require('../modules/event/eventRoutes')(eventRouter);
   require('../modules/map/mapRoutes')(mapRouter);
   require('../modules/user/userRoutes')(userRouter);

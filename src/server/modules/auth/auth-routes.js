@@ -13,7 +13,6 @@ module.exports = function (app, passport) {
   app.get('/loggedin', function (req, res) {
     var verdict = req.isAuthenticated();
     console.log('VERDICT: ', verdict);
-    console.log('req.user: ', req.user);
     res.send(req.isAuthenticated() ? req.user : '0');
   });
   // Logout of our app
@@ -21,7 +20,7 @@ module.exports = function (app, passport) {
     req.session.destroy(function (err) {
       req.logout();
       console.log('User after Logout:', req.user);
-      res.redirect('/#/');
+      // res.redirect('#/');
     });
   });
 
