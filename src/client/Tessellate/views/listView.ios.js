@@ -56,6 +56,7 @@ class UserEventsView extends React.Component {
 	 }
 
 	 componentDidMount() {
+	 	console.log('Events View Mounted!')
 	       this.fetchUserEvents();
 	 }
 

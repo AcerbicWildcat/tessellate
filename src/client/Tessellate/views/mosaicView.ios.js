@@ -50,9 +50,8 @@ var MosaicView = React.createClass({
 
   fetchMosaicData(){
     var _this = this;
-    console.log('EVEEEEEENT: ' + this.state.eventCode)
     var apiString = 'http://localhost:8000/event/' + this.state.eventCode;
-    console.log(apiString.toString())
+
     var getMosaicObject = {  
       method: 'GET',
       headers: {
@@ -72,11 +71,8 @@ var MosaicView = React.createClass({
         return res.json();
        })
       .then(function(resJson) {
-        console.log('Mosaic Response: ' + resJson)
-       
         var mosaicMainImage = resJson.image.imgPath;
         if (!resJson){
-          console.log('this event not found')
           throw new Error('This event does not exist!');
         }
 
@@ -139,7 +135,7 @@ var styles = StyleSheet.create({
     },
     goHome: {
       position:'relative',
-      top:5,
+      top:7,
       left:0,
       height:50,
       width:50,
@@ -148,7 +144,7 @@ var styles = StyleSheet.create({
     goHomeButton:{
     
       position:'relative',
-      top:5,
+      top:7,
       left:0,
       height:50,
       width:50,

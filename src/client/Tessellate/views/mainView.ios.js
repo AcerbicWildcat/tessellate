@@ -35,13 +35,13 @@ var Main =  React.createClass({
   mixins: [ProgressHUD.Mixin],
 
   componentDidMount() {
+
     this.state.navRef.setState({navBarHidden:true});
   },
 
-
   render() {
 
-    console.log('Facebook ID in Main: ' + this.state.facebookId)
+    //TODO - Use Event Emitter to update events in listview on main page load
     return (
        <View style={styles.container}>
         
@@ -65,18 +65,14 @@ var Main =  React.createClass({
   },
 
   startSpinner(){
-    console.log('starting to spin')
     this.showProgressHUD();
   },
 
   stopSpinner(){
-    console.log('stopping to spin')
     this.dismissProgressHUD();
   },
 
   showEventDetails(eventCode){
-    console.log('Passed Back Event Code: ' + eventCode)
-    //console.log('State Event Code: ' + this.state.eventCode)
     var self = this;
     eventCode = eventCode;
     self.props.navigator.push({
@@ -89,11 +85,6 @@ var Main =  React.createClass({
                     } //refactor to contain eventcode
                     
            }); 
-
-    
-
-    //self.showProgressHUD();
-  
   },
 });
 

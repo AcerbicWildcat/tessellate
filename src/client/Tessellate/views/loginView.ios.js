@@ -137,31 +137,31 @@ class LoginView extends Component {
           
         }}
         onLogout={function(){
-          console.log("Logged out.");
+          //console.log("Logged out.");
           _this.setState({ user : null });
         }}
         onLoginFound={function(data){
-          console.log("Existing login found.");
-          console.log(data);
+          //console.log("Existing login found.");
+          //console.log(data);
            _this.setState({ user : data.credentials },function(){
             _this.login(data.credentials.userId);
           });
 
         }}
         onLoginNotFound={function(){
-          console.log("No user logged in.");
+          //console.log("No user logged in.");
           _this.setState({ user : null });
         }}
         onError={function(data){
-          console.log("ERROR");
-          console.log(data);
+          //console.log("ERROR");
+          //console.log(data);
         }}
         onCancel={function(){
-          console.log("User cancelled.");
+          //console.log("User cancelled.");
         }}
         onPermissionsMissing={function(data){
-          console.log("Check permissions!");
-          console.log(data);
+          //console.log("Check permissions!");
+          //console.log(data);
         }}
       />
 
