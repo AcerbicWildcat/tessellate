@@ -35,13 +35,9 @@ var Main =  React.createClass({
   mixins: [ProgressHUD.Mixin],
 
   componentDidMount() {
-    console.log('MOUNTING Main')
     this.state.navRef.setState({navBarHidden:true});
   },
 
- toggleNavBar: function(){
-
- },
 
   render() {
 
@@ -69,10 +65,12 @@ var Main =  React.createClass({
   },
 
   startSpinner(){
+    console.log('starting to spin')
     this.showProgressHUD();
   },
 
   stopSpinner(){
+    console.log('stopping to spin')
     this.dismissProgressHUD();
   },
 
@@ -94,7 +92,7 @@ var Main =  React.createClass({
 
     
 
-    self.showProgressHUD();
+    //self.showProgressHUD();
   
   },
 });

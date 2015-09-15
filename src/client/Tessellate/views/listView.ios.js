@@ -56,7 +56,6 @@ class UserEventsView extends React.Component {
 	 }
 
 	 componentDidMount() {
-	 	console.log('hey there: ' + this.props.facebookId)
 	       this.fetchUserEvents();
 	 }
 
@@ -83,17 +82,13 @@ class UserEventsView extends React.Component {
 		    return res.json();
 		   })
 		  .then(function(resJson) {
-		  	console.log('Main DATA: ' + resJson.toString())
-		  	
 		  	var userID = resJson._id;
 		  	var data = resJson.events;
-		  	console.log('DATA LENGTH: ' + data.length)
 		  	var createdEvents = [];
 		  	var joinedEvents = [];
 
 		  	for (var i = 0 ; i< data.length; i++){
-		  		console.log('EVENT DATA')
-		  		//console.dir(data[i]._creator.toString());
+
 		  		if (userID === data[i]._creator.toString()){
 		  			createdEvents.push(data[i]);
 		  		} else {
