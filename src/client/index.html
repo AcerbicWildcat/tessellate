@@ -2,21 +2,14 @@
 <html lang="en">
 <head>
   <title>Tessellate</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <script src = "./js/dropzone.min.js"></script>
+  <script src = "./js/app.min.js"></script>
+  <script src = './js/main.js'></script>
+  <script src = './js/mosaicModule.js'></script>
+  <script src = "https://use.typekit.net/col8pcn.js"></script>
 </head>
-<body>
-  <header id="top" class="header">
-    <div class="text-vertical-center">
-      <img id="logo" src="./assets/tessellate_logo.png">
-      <div>
-          <div ng-controller="AuthController">
-            <a href="/auth/facebook">
-            <img class="facebookLogin" src="./assets/fb_login_button_v2.png" />
-            </a>
-          </div>
-      </div>
-    </div>
-  </header>
-  <div id="copy-name">&copy;2015 Tessellate</div>
+<body ng-app="tessell" ng-view>
+
 </body>
 </html>
