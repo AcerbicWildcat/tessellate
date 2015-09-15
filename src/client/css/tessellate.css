@@ -115,16 +115,12 @@ body {
  */
 
 main {
-  background-color: #fff;
-}
-
-.aside, .main-content {
-  display: table-cell;
-  float: none;
-}
-
-.aside {
   background-color: #1B2B32;
+}
+
+.main-content {
+  background-color: #fff;
+  min-height: 30rem;
 }
 
 .aside ul {
@@ -277,19 +273,6 @@ main {
   margin-bottom: 0.2rem;
 }
 
-.about {
-  float: left;
-  max-width: 30rem;
-  margin-right: 3rem;
-}
-
-.social a {
-  font-weight: 500;
-  color: #eceeef;
-}
-.social a:hover {
-  color: #fff;
-}
 
 /*
  * Footer
