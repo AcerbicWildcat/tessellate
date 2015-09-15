@@ -19,11 +19,10 @@ tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($
       .when('/event/:eventcode', {/*eventually /mosaic/:eventId*/
         templateUrl: '../mosaic.html',
         controller: 'mosaicCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
       });
-      /*
-      .otherwise route to /events
-       */
-      // $locationProvider.html5Mode(true);
       $httpProvider.interceptors.push('InterceptResponse');
   }]);
 
@@ -88,20 +87,6 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       return res;
     });
   };
-  // httpRequestFactory.checkLoggedIn = function(){
-  //   var deferred = $q.defer();
-
-  //   $http.get('/loggedin').success(function (user){
-  //     if (user !== '0'){
-  //       deferred.resolve();
-  //     } else {
-  //       deferred.reject();
-  //       $location.url('/');
-  //     }
-  //   });
-
-  //   return deferred.promise;
-  // };
   return httpRequestFactory;
 }]);
 
