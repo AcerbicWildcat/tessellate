@@ -93,12 +93,13 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
     });
   };
   httpRequestFactory.logout = function(){
+    console.log('inside logout factory');
     return $http({
       method: 'GET',
       url: '/logout'
-    }).then(function (res){
-      console.log("LOGGED OUT!");
-      return res;
+    }).then(function (response){
+      console.log("LOGGED OUT! ", response);
+      return response;
     });
   };
   return httpRequestFactory;
@@ -295,7 +296,11 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   };
 
   $scope.logout = function (){
-    httpRequestFactory.logout();
+    console.log('clicked logout');
+    httpRequestFactory.logout()
+      .then(function(response){
+        $location.url('/');
+      });
   };
 
   $scope.dropzoneConfig = {

@@ -36,7 +36,7 @@
                   <h4 class="modal-title" id="createEventLabel">Create event</h4>
                 </div>
                 <div class="modal-body">
-                  <form action="">
+                  <form action="" name="myForm">
                     <div class="form-group has-error">
                       <label for="event-code">Event code</label>
                       <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
@@ -54,14 +54,11 @@
                     <div class="form-group">
                       <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
                     </div>
-                    <div class="form-group">
-                      <div class="navbutton" id="submit-all" ng-click="createEvent()">Create Event</div>
-                    </div>
                   </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" id="submit-all">Create Event</button>
                 </div>
               </div>
             </div>
@@ -71,15 +68,13 @@
           <!-- created events -->
           <div class="row">
             <h1>Created events</h1>
-            <div class="col-sm-3">
-              <a href="mosaic.html">
+            <div class="col-sm-3" ng-repeat="event in userEvents.events" ng-click="getEvent(event.eventCode)">
                 <div class="thumbnail">
-                  <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                  <img src="{{ event.mainImage.imgPath }}" alt=" ">
                   <div class="caption">
-                    <h3 class="pull-left">My event</h3>
+                    <h3 class="pull-left">{{event.name}}</h3>
                   </div>
                 </div>
-              </a>
             </div>
          
           </div>
@@ -88,25 +83,21 @@
           <!-- joined event -->
           <div class="row">
             <h1>Joined events</h1>
-            <div class="col-sm-3">
-              <a href="mosaic.html">
+            <div class="col-sm-3" ng-repeat="event in userEvents.events" ng-click="getEvent(event.eventCode)">
                 <div class="thumbnail">
-                  <img src="http://res.cloudinary.com/tesselate/image/upload/c_scale,w_250/v1442199156/jju1x7tixa0b5tyhgeta.jpg" alt="...">
+                  <img src="{{ event.mainImage.imgPath }}" alt=" ">
                   <div class="caption">
-                    <h3 class="pull-left">My event</h3>
+                    <h3 class="pull-left">{{event.name}}</h3>
                   </div>
                 </div>
-              </a>
             </div>
           </div>
           <!-- end joined event -->
         </div><!-- end 9 column -->
         <div class="col-sm-3 aside">
           <ul>
-            <li><a href="">Link 1</a></li>
-            <li><a href="">Link 1</a></li>
-            <li><a href="">Link 1</a></li>
-          </ul>
+            <li><a href="#/events">Event</a></li>
+            <li><a href="#/" ng-click="logout()">Logout</a></li>
         </div><!-- end 3 column -->
 
       </div><!-- end row -->
