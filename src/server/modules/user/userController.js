@@ -19,7 +19,7 @@ module.exports = {
         facebookToken = req.body.facebookToken;
     if (!!req.body.facebookId){
       facebookId = req.body.facebookId;
-    } else if (!!req.cookies.facebookToken){
+    } else {
       facebookId = req.user.facebookId;
     }
 
@@ -35,7 +35,7 @@ module.exports = {
     var facebookId;
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
-    } else if (!!req.cookies.facebookToken){
+    } else {
       facebookId = req.user.facebookId;
     }
     console.log('facebook ID in getUSer: ', facebookId);
