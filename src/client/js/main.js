@@ -348,7 +348,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
 }]);
 
 tess.controller('landingController', ['$scope', function ($scope){
-
+  $scope.loaded = true;
 }]);
 
 /**

@@ -167,6 +167,18 @@ module.exports = function(grunt) {
           filter: 'isFile',
           src: ['src/client/bower_components/dropzone/dist/min/dropzone.min.js'],
           dest: 'src/server/public/js'
+        },{
+          expand: true,
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/bower_components/angular-bootstrap/ui-bootstrap-csp.css'],
+          dest: 'src/server/public/css'
+        },{
+          expand: true,
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/img/**'],
+          dest: 'src/server/public/img'
         }/*, { 
           expand: true,
           flatten: true, 
