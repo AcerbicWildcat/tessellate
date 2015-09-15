@@ -78,7 +78,7 @@ describe("Tessellate database", function() {
 
   //TODO: add tests for map and image here.
 
-  xit('should create an event, image and map', function (done) {
+  it('should create an event, image and map', function (done) {
 
     var returnObj;
     var setUser;
@@ -127,7 +127,7 @@ describe("Tessellate database", function() {
     }, 1000);
   });
 
-  xit("Should return an event, an event's main image, and that main image's map", function(done){
+  it("Should return an event, an event's main image, and that main image's map", function(done){
     new User({
       facebookId: "Mr Oizo"
     })
