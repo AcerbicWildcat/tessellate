@@ -2,7 +2,7 @@ var tess = angular.module("tessell", [
   "ngRoute"
 ]);
 
-tess.config(["$routeProvider", '$locationProvider', function ($routeProvider, $locationProvider){
+tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../login.html',
@@ -24,12 +24,24 @@ tess.config(["$routeProvider", '$locationProvider', function ($routeProvider, $l
       .otherwise route to /events
        */
       // $locationProvider.html5Mode(true);
+      $httpProvider.interceptors.push('InterceptResponse');
   }]);
 
 tess.run([ '$rootScope', '$location', function ($rootScope, $location){
 }]);
 
-tess.factory('httpRequestFactory', [ '$http', function ($http){
+tess.factory('InterceptResponse', ['$q', '$location', function ($q, $location){
+  return {
+    responseError: function (response){
+      if (response.status === 401){
+        $location.url('/');
+        return $q.reject(response);
+      }
+    }
+  };
+}]);
+
+tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http, $location, $q){
   var httpRequestFactory = {};
   httpRequestFactory.getUserProfile = function(){
     return $http({
@@ -90,6 +102,20 @@ tess.factory('httpRequestFactory', [ '$http', function ($http){
       return res;
     });
   };
+  // httpRequestFactory.checkLoggedIn = function(){
+  //   var deferred = $q.defer();
+
+  //   $http.get('/loggedin').success(function (user){
+  //     if (user !== '0'){
+  //       deferred.resolve();
+  //     } else {
+  //       deferred.reject();
+  //       $location.url('/');
+  //     }
+  //   });
+
+  //   return deferred.promise;
+  // };
   return httpRequestFactory;
 }]);
 
