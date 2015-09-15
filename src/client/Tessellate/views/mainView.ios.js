@@ -35,7 +35,7 @@ var Main =  React.createClass({
   mixins: [ProgressHUD.Mixin],
 
   componentDidMount() {
-
+    this.stopSpinner()
     this.state.navRef.setState({navBarHidden:true});
   },
 
@@ -88,8 +88,8 @@ var Main =  React.createClass({
              }); 
     } else {
       AlertIOS.alert(
-         'Sorry, you have no events to join.',
-         'No event!',
+         'You are unable to join this event',
+         ':(',
          [
            {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
          ]
@@ -130,12 +130,13 @@ var styles = StyleSheet.create({
 
   },
   button: {
+        position:'absolute',
         height: 40,
-        width:100,
+        width:80,
         backgroundColor: 'grey',
         borderRadius: 8,
         justifyContent: 'center',
-        margin: 10,
+        margin:10,
         marginLeft:10,
     },
    buttonText: {
