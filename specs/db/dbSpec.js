@@ -75,7 +75,9 @@ describe("Tessellate database", function() {
       done();
     });
   });
+});
 
+describe('mapmaker.js', function(){
   //TODO: add tests for map and image here.
 
   it('should create an event, image and map', function (done) {
@@ -126,6 +128,9 @@ describe("Tessellate database", function() {
       });
     }, 1000);
   });
+});
+
+describe('getEventAndMap.js', function(){
 
   it("Should return an event, an event's main image, and that main image's map", function(done){
     new User({
@@ -166,6 +171,9 @@ describe("Tessellate database", function() {
       });
     });
   });
+});
+
+describe('getEventsByUser.js', function(){
 
   it("Should return a user populated with events, which in turn are populated with paths for main images", function(done){
 
@@ -295,6 +303,9 @@ describe("Tessellate database", function() {
       });
     }, 1000);
   });
+});
+
+describe('getAndReviseMap', function(){
 
   xit("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
     new Map({
@@ -316,6 +327,10 @@ describe("Tessellate database", function() {
     });
   });
 
+});
+
+describe('updateEvent.js', function(){
+
   it("Should be able to revise an event using data in a JSON object", function(done){
     new Event({
       eventCode: "anevent",
@@ -335,6 +350,10 @@ describe("Tessellate database", function() {
     })
   });
 
+});
+
+describe('guestImageMaker.js', function(){
+
   it("Should generate a valid Cloudinary thumbnail URL", function(done){
     //http://res.cloudinary.com/tesselate/image/upload/v1442015055/khd0vihzt7vdfy63k1ap.png
     var thumbURL = guestImageMaker.thumbnailMaker("v1442015055/khd0vihzt7vdfy63k1ap", "png");
@@ -352,7 +371,11 @@ describe("Tessellate database", function() {
     });
   });
 
-  it("Should allow a user to join an event and create a mutual relationship", function(done){
+});
+
+describe('joinEvent.js', function(){
+
+  it("Should allow a user to join an event, creating a mutual relationship between the user and the event", function(done){
     new User({
       name: "rando user"
     }).save(function(err, randoUser){
