@@ -20,7 +20,7 @@ module.exports = {
     if (!!req.body.facebookId){
       facebookId = req.body.facebookId;
     } else if (!!req.cookies.facebookToken){
-      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+      facebookId = req.user.facebookId;
     }
 
     createUser(facebookId, name, email, profPhoto, facebookToken, function (err, user){
@@ -36,7 +36,7 @@ module.exports = {
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
-      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+      facebookId = req.user.facebookId;
     }
     console.log('facebook ID in getUSer: ', facebookId);
     getUser(facebookId, function (err, user){

@@ -17,7 +17,7 @@ module.exports = {
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
-      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+      facebookId = req.user.facebookId;
     }
     getEventsByUser(facebookId, function (err, user){
       if (err){
@@ -120,7 +120,7 @@ module.exports = {
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
-      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+      facebookId = req.user.facebookId;
     }
 
     db.Event.findOne({eventCode: eventCode}, function (err, event){
@@ -155,7 +155,7 @@ module.exports = {
     if (!!req.headers.facebookid){
       facebookId = req.headers.facebookid;
     } else if (!!req.cookies.facebookToken){
-      facebookId = JSON.parse(req.cookies.facebookToken).facebookId;
+      facebookId = req.user.facebookId;
     }
     joinEvent(facebookId, eventCode, function (err, event){
       if (err){
