@@ -40,6 +40,8 @@ var MosaicView = React.createClass({
   },
 
   goHome(){
+    //trigger reload of listview
+    this.props.loadEvents();
     this.props.nav.pop()
   },
  

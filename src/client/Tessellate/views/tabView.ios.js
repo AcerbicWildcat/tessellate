@@ -32,12 +32,14 @@ class TabView extends Component {
       mainNavigator: props.mainNavigator,
       facebookId:this.props.facebookId,
       navRef:this.props.navRef,
+      loadEvents:this.props.loadEvents,
     }
   }
 
  
   componentDidMount() {
     console.log('MOUNTING')
+    this.state.loadEvents();
     this.state.navRef.setState({navBarHidden:true});
   }
 
@@ -78,7 +80,7 @@ class TabView extends Component {
                 });
           }}>
 
-          <Mosaic facebookId={this.state.facebookId} eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
+          <Mosaic loadEvents={this.state.loadEvents} facebookId={this.state.facebookId} eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
         </TabBarIOS.Item>
       </TabBarIOS>
       

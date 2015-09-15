@@ -36,6 +36,7 @@ var Main =  React.createClass({
 
   componentDidMount() {
     this.stopSpinner()
+    this.refs.events.fetchUserEvents();
     this.state.navRef.setState({navBarHidden:true});
   },
 
@@ -48,7 +49,7 @@ var Main =  React.createClass({
     
          <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         
-         <EventsView passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner} facebookId={this.state.facebookId}/>  
+         <EventsView ref={'events'} passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner} facebookId={this.state.facebookId}/>  
 
        
          <View style={styles.footer}>  
@@ -62,6 +63,10 @@ var Main =  React.createClass({
        </View>
       
     );
+  },
+
+  reloadEvents(callback){
+    callback();
   },
 
   startSpinner(){
@@ -83,6 +88,7 @@ var Main =  React.createClass({
                       facebookId:this.state.facebookId,
                       mainNavigator: self.props.navigator,
                       navRef:self.state.navRef,
+                      loadEvents:self.refs.events.fetchUserEvents.bind(self.refs.events)
                       } //refactor to contain eventcode
                       
              }); 
