@@ -74,18 +74,29 @@ var Main =  React.createClass({
 
   showEventDetails(eventCode){
     var self = this;
-    eventCode = eventCode;
-    self.props.navigator.push({
-                    title: '#' + eventCode, //refactor to contain event title
-                    component: TabView,
-                    passProps: {eventCode: eventCode,
-                    facebookId:this.state.facebookId,
-                    mainNavigator: self.props.navigator,
-                    navRef:self.state.navRef,
-                    } //refactor to contain eventcode
-                    
-           }); 
+    if (eventCode){
+      eventCode = eventCode.trim();
+      self.props.navigator.push({
+                      title: '#' + eventCode, //refactor to contain event title
+                      component: TabView,
+                      passProps: {eventCode: eventCode,
+                      facebookId:this.state.facebookId,
+                      mainNavigator: self.props.navigator,
+                      navRef:self.state.navRef,
+                      } //refactor to contain eventcode
+                      
+             }); 
+    } else {
+      AlertIOS.alert(
+         'Sorry, you have no events to join.',
+         'No event!',
+         [
+           {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
+         ]
+       );
+    }
   },
+
 });
 
 var styles = StyleSheet.create({
