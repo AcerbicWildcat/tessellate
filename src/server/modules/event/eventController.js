@@ -37,59 +37,6 @@ module.exports = {
     });
   },
 
-    // res.json({
-    //   _id: {
-    //     toString: function(){return "2as2agskadlawoin"}
-    //   },
-    //   facebookId: "234203kdlsjdf39fjd",
-    //   name: "Borp Junkums III",
-    //   email: "borp@junkums.io",
-    //   profPhoto: "some path",
-    //   facebookToken: {},
-    //   events: [
-    //     {
-    //       _creator: "2as2agskadlawoin",
-    //       contributors: [],
-    //       name: "Borpo's blowout",
-    //       eventCode: "blowout2015",
-    //       mainImage: {
-    //         imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
-    //       },
-    //       images: []
-    //     },
-    //     {
-    //       _creator: "sdflkajsdfj303423",
-    //       contributors: [],
-    //       eventCode: "dingus22",
-    //       name: "Not a Borpo party",
-    //       mainImage: {
-    //         imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
-    //       },
-    //       images: []
-    //     },
-    //     {
-    //       _creator: "9234jsldkjdsfjd",
-    //       contributors: [],
-    //       eventCode: "lamegradstudentparty",
-    //       name: "Totally Awesome Rager",
-    //       mainImage: {
-    //         imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
-    //       },
-    //       images: []
-    //     },
-    //     {
-    //       _creator: "2as2agskadlawoin",
-    //       contributors: [],
-    //       name: "Borpo 2: Electric Borpaloo",
-    //       eventCode: "borp2",
-    //       mainImage: {
-    //         imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
-    //       },
-    //       images: []
-    //     }
-    //   ]
-    // });
-
   getEvent: function (req, res, next){
     var eventCode = req.params.eventId;
     getEventAndMap(eventCode, function (err, event){
@@ -149,7 +96,7 @@ module.exports = {
     });
   },
 
-  joinEvent: function (req, res, next){
+  joinEvent: function (req, res){
     var eventCode = req.params.eventId;
     var facebookId;
     if (!!req.headers.facebookid){
@@ -157,17 +104,19 @@ module.exports = {
     } else {
       facebookId = req.user.facebookId;
     }
-    joinEvent(facebookId, eventCode, function (err, event){
+    joinEvent(facebookId, eventCode, function (err, eventOrErrorMessage){
       if (err){
-        next(err);
+        console.dir(err);
       } else {
-        getEventAndMap(eventCode, function (err, joinedEvent){
-          if (err){
-            next(err);
+        if (eventOrErrorMessage.error){
+          if(eventOrErrorMessage.error === "event does not exist"){
+            sendResp(res, eventOrErrorMessage, 404);
           } else {
-            sendResp(res, joinedEvent, 200);
+            sendResp(res, eventOrErrorMessage, 422);
           }
-        });
+        } else {
+          sendResp(res, eventOrErrorMessage, 200);
+        }
       }
     });
 

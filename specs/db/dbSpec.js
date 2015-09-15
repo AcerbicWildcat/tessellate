@@ -78,7 +78,7 @@ describe("Tessellate database", function() {
 
   //TODO: add tests for map and image here.
 
-  xit('should create an event, image and map', function (done) {
+  it('should create an event, image and map', function (done) {
 
     var returnObj;
     var setUser;
@@ -127,7 +127,7 @@ describe("Tessellate database", function() {
     }, 1000);
   });
 
-  xit("Should return an event, an event's main image, and that main image's map", function(done){
+  it("Should return an event, an event's main image, and that main image's map", function(done){
     new User({
       facebookId: "Mr Oizo"
     })
@@ -353,24 +353,74 @@ describe("Tessellate database", function() {
   });
 
   it("Should allow a user to join an event and create a mutual relationship", function(done){
-    new Event({
-      eventCode: "dummyevent",
-      name: "Dummy Event"
-    }).save(function(err, event){
-      new User({
-        facebookId: "Mack Levine"
-      }).save(function(err, user){
-        joinEvent("Mack Levine", "dummyevent", function(){
-          expect(event.contributors.length).to.be.ok;
-          expect(user.events.length).to.be.ok;
-          Event.remove({eventCode: "dummyevent"}, function(err){
-            User.remove({facebookId: "Mack Levine"}, function(err){
-              done();
+    new User({
+      name: "rando user"
+    }).save(function(err, randoUser){
+      new Event({
+        _creator: randoUser._id,
+        eventCode: "dummyevent",
+        name: "Dummy Event"
+      }).save(function(err, event){
+        new User({
+          facebookId: "Mack Levine"
+        }).save(function(err, user){
+          joinEvent("Mack Levine", "dummyevent", function(){
+            expect(event.contributors.length).to.be.ok;
+            expect(user.events.length).to.be.ok;
+            Event.remove({eventCode: "dummyevent"}, function(err){
+              User.remove({name: "rando user"}, function(err){
+                User.remove({facebookId: "Mack Levine"}, function(err){
+                  done();
+                });
+              });
             });
           });
         });
       });
-    })
-  })
+    });
+  });
+
+  it("Should not allow a user to join event that they have created or already joined", function(done){
+    var verdict;
+    new User({
+      facebookId: "Jimmy Williamson"
+    }).save(function(err, user){
+      new User({
+        facebookId: "Rob Hays"
+      }).save(function(err, user2){
+        new Event({
+          _creator: user2._id,
+          eventCode: "robevent"
+        }).save(function(err, event){
+          event.contributors.push(user);
+          event.save(function(err, event){
+            joinEvent("Rob Hays", "robevent", function(err, data){
+              verdict = data;
+              expect(verdict.error).to.equal("Sorry, this is an event you have created");
+              expect(event.contributors[0].toString()).to.not.equal(user2._id.toString());
+              joinEvent("Jimmy Williamson", "robevent", function(err, data){
+                verdict = data;
+                expect(verdict.error).to.equal("You've already joined this event");
+                expect(event.contributors.length).to.equal(1);
+                User.remove({
+                  facebookId: "Jimmy Williamson"
+                }, function(err){
+                  User.remove({
+                    facebookId: "Rob Hays"
+                  }, function(err){
+                    Event.remove({
+                      eventCode: "robevent"
+                    }, function(err){
+                      done();
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 
 });
