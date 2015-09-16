@@ -78,14 +78,15 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       return response;
     });
   };
-  httpRequestFactory.updateMap = function(replacedSector, eventCode){
+  httpRequestFactory.updateMap = function(replacedSector, eventCode, destinationRGB){
     return $http({
       method: 'POST',
       url: '/events/' + eventCode + '/map',
       data: {
         key: replacedSector.ID,
         value: replacedSector,
-        eventCode: eventCode
+        eventCode: eventCode,
+        destinationRGB: destinationRGB
       }
     }).then(function(response){
       // console.log("response from post request ",response);
@@ -109,9 +110,9 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
 tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactory){
   var mosaicFactory = {};
 
-  mosaicFactory.updateMap = function(replacedSector, eventCode){
+  mosaicFactory.updateMap = function(segmentToUpdate, eventCode, destinationRGB){
     // console.log('sending over to factory for POST');
-    httpRequestFactory.updateMap(replacedSector, eventCode)
+    httpRequestFactory.updateMap(segmentToUpdate, eventCode, destinationRGB)
       .then(function(response){
         // console.log("inside mosaicFactory ", response);
       });
@@ -167,56 +168,29 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
   };
 
   mosaicFactory.findImageHome = function(guestImg, map, eventCode, index){
-    var placedNewImage = false;
-    var replacedSector;
-    /*
-    while we haven't placed the image AND we are still within bounds of the mosaic image
-    go through each sector.
-     */
-    while(placedNewImage === false && index < Object.keys(map.data).length){
-      //if there is no image currently there place the guestImg in that position
-      if(!map.data[index].hasOwnProperty('imgPath')){
-        console.log('no image found at ', index, ' place uplaoded here');
-        map.data[index].imgPath = guestImg.imgPath;
-        map.data[index].thumbnailPath = guestImg.thumbnailPath;
-        replacedSector = map.data[index];
-        replacedSector.ID = index;
-        replacedSector.currentRGB = guestImg.rgb;
-        placedNewImage = true;
-        mosaicFactory.updateMap(replacedSector, eventCode);
-      }else{
-        // console.log('collision at ', index, 'trying to repalce');
-        //there was an image placed there already
-        //put in guestImg and find home for the current image you jsut replaced
-        var mainRGB = map.data[index].originalRGB; //map -> eventMap
-        var CurrentImageRGBDistance = Math.sqrt(Math.pow(mainRGB.r - map.data[index].currentRGB.r, 2) + Math.pow(mainRGB.g - map.data[index].currentRGB.g, 2) + Math.pow(mainRGB.b - map.data[index].currentRGB.b, 2));
-        var PotentialImageRGBDistance = Math.sqrt(Math.pow(mainRGB.r - guestImg.rgb.r, 2) + Math.pow(mainRGB.g - guestImg.rgb.g, 2) + Math.pow(mainRGB.b - guestImg.rgb.b, 2));
-        if(PotentialImageRGBDistance < CurrentImageRGBDistance){
-          // console.log('found better match');
-          //replace the current image with the guest image
-          //
-          //temp variable to hold the current image about to be replaced
-          var tempImage = {
-            'imgPath': map.data[index].imgPath, 
-            'rgb': map.data[index].currentRGB,
-            'thumbnailPath': map.data[index].thumbnailPath
-          };
 
-          //replace the current image with the guest image
-          map.data[index].imgPath = guestImg.imgPath;
-          map.data[index].thumbnailPath = guestImg.thumbnailPath;
-          replacedSector = map.data[index];
-          replacedSector.ID = index;
-          replacedSector.currentRGB = guestImg.rgb;
-          placedNewImage = true;
-          mosaicFactory.findImageHome(tempImage, map, eventCode, index);
-          mosaicFactory.deleteImage(replacedSector.ID);
-          mosaicFactory.updateMap(replacedSector, eventCode);
-        }
-        index++;
-      }
-    }
-    mosaicFactory.renderImage(replacedSector.coords[0], replacedSector.coords[1], replacedSector.ID, guestImg.imgPath, guestImg.thumbnailPath);
+    var nextImage = map.unfilledKeys.pop();
+
+    //put the image on map.data[nextImage].
+    //
+    
+    
+    // map.data[nextImage.key].imgPath = guestImg.imgPath;
+
+    // map.data[nextImage.key].thumbnailPath = guestImg.thumbnailPath;
+
+    // var destinationRGB = map.data[nextImage].originalRGB; //{r: r, g: g, b: b}
+
+    // var segmentToUpdate = map.data[nextImage];
+
+    // segmentToUpdate.ID = nextImage;
+    // 
+    var segmentToUpdate = nextImage.value;
+    segmentToUpdate.ID = nextImage.key;
+
+    // mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
+
+    mosaicFactory.renderImage(segmentToUpdate.coords[0], segmentToUpdate.coords[1], segmentToUpdate.ID, guestImg.imgPath, guestImg.thumbnailPath);
 
   };
 
@@ -242,11 +216,16 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        console.log('file sent');
+
+        var RGBObject = ($scope.currentEvent.map.unfilledKeys);
+        console.log(RGBObject[RGBObject.length - 1]);
+        console.log(JSON.stringify(RGBObject[RGBObject.length - 1].value.originalRGB));
+        formData.append("destinationRGB", JSON.stringify(RGBObject[RGBObject.length - 1].value.originalRGB));
         //TODO: modify the below based on the instructions you gave Jon.
         // formData.append("eventCode", $scope.event._id);
       },
       'success': function (file, response) {
+        console.log($scope.currentEvent.map.data);
         // console.log('file returned success');
         $('div.dz-success').remove();
         mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, 0);
