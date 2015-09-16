@@ -78,50 +78,107 @@ describe("Tessellate database", function() {
 });
 
 describe('mapmaker.js', function(){
-  //TODO: add tests for map and image here.
+  //TODO: add a before hook here.
+  var returnObj;
+  var setUser;
 
-  it('should create an event, image and map', function (done) {
-
-    var returnObj;
-    var setUser;
-
+  before(function(done){
     new User({
       facebookId: "Mr Oizo"
     }).save(function(err, user){
       mapmaker.mapEventMaker("Mr Oizo", "path", {dummyData: "dummyData"}, {shape: [350, 150]}, "oizoparty", "Oizo Party", function(err, object){
           returnObj = object;
           setUser = user;
-          expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
-          expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
-          expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
-          expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
-          expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
-          //ensure that fields are correctly established.
-          expect(returnObj.event.name).to.equal("Oizo Party");
-          expect(returnObj.event.eventCode).to.equal("oizoparty");
-          expect(returnObj.map.height).to.equal(150);
-          expect(returnObj.map.data.dummyData).to.equal("dummyData");
-          expect(returnObj.image.imgPath).to.equal("path");
-          User.remove({
-            facebookId: "Mr Oizo"
-          }, function(err){
-            Event.remove({
-              name: "Oizo Party"
-            }, function(err){
-              Image.remove({
-                imgPath: "path"
-              }, function(err){
-                Map.remove({
-                  height: 150
-                }, function(err){
-                  done();
-                });
-              });    
-            });
-          });
+          done();
         });
-      });
+    });
   });
+
+  it('should create an event when invoked', function (done) {
+    expect(returnObj.event).to.be.ok;
+    done();
+  });
+
+  it('should create an image when invoked', function (done) {
+    expect(returnObj.image).to.be.ok;
+    done();
+  });
+
+  it('should create a map when invoked', function (done) {
+    expect(returnObj.map).to.be.ok;
+    done();
+  });
+
+  it('should create an event with a _creator property correctly associated with the parent user', function (done) {
+    expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
+    done();
+  });
+
+  it('should create an event with a mainImage property containing the _id of the image that was created', function (done) {
+    expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
+    done();
+  });
+
+  it('should create an image with a _parentUser property containing the _id of the user who created the event', function (done) {
+    expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
+    done();
+  });
+
+  it('should create an image with a _parentEvent property containing the _id of the event that was created', function(done){
+    expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
+    done();
+  });
+
+  it('should create a map with a _parentEvent property containing the image the map was generated from', function (done) {
+    expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
+    done();
+  });
+
+  it('should create an event with the correct name', function (done) {
+    expect(returnObj.event.name).to.equal("Oizo Party");
+    done();
+  });
+
+  it('should create an event with the correct event cone', function (done) {
+    expect(returnObj.event.eventCode).to.equal("oizoparty");
+    done();
+  });
+
+  it('should create a map with the correct height property', function (done) {
+    expect(returnObj.map.height).to.equal(150);
+    done();
+  });
+
+  it('should create a map with whatever data value that was passed in', function (done) {
+    expect(returnObj.map.data.dummyData).to.equal("dummyData");
+    done();
+  });
+
+  it('should create an image with a url path', function (done) {
+    expect(returnObj.image.imgPath).to.equal("path");
+    done();
+  });
+
+  after(function(done){
+    User.remove({
+      facebookId: "Mr Oizo"
+    }, function(err){
+      Event.remove({
+        name: "Oizo Party"
+      }, function(err){
+        Image.remove({
+          imgPath: "path"
+        }, function(err){
+          Map.remove({
+            height: 150
+          }, function(err){
+            done();
+          });
+        });    
+      });
+    });
+  });
+
 });
 
 describe('getEventAndMap.js', function(){
