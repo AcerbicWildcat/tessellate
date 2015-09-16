@@ -88,11 +88,20 @@ module.exports = function(grunt) {
         'node_modules/angular-route/angular-route.js',
         'src/client/bower_components/jquery/dist/jquery.js', 
         'src/client/bower_components/bootstrap/dist/js/bootstrap.js', 
-        // 'src/client/bower_components/dropzone/dist/dropzone.min.js',
         'src/client/js/main.js'
         ],
         dest: 'src/server/public/js/app.min.js'
       },
+    },
+    /**
+     * Task for minifying the js file created
+     */
+    uglify: {
+      dist: {
+        files: {
+          'src/server/public/js/app.min.js': ['src/server/public/js/app.min.js']
+        }
+      }
     },
     /**
      * Task for concatenating scss files into css
@@ -190,6 +199,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   /**
    * Test: this is the same as default. Just runs jshint, mochacli, jasmine
@@ -198,8 +208,8 @@ module.exports = function(grunt) {
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
-  grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'copy', 'watch']);
+  grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'uglify', 'copy', 'watch']);
 
-  grunt.registerTask("build", ['bower:install', 'concat', 'copy']);
+  grunt.registerTask("build", ['bower:install', 'concat', 'uglify', 'copy']);
 
 };
