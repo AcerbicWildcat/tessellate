@@ -80,7 +80,7 @@ var Main =  React.createClass({
 
 
   showEventDetails(eventCode){
-    var joinEventURL = 'http://10.0.1.156:8000/events/' + eventCode
+    var joinEventURL = 'http://10.6.1.173:8000/events/' + eventCode
     //Join the event
     var joinEventObj = {  
       method: 'POST',
@@ -88,7 +88,7 @@ var Main =  React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.0.1.156:8081',
+        'Host': 'http://10.6.1.173:8081',
         'FacebookID':this.props.facebookId,
       }
     }
@@ -98,7 +98,6 @@ var Main =  React.createClass({
         return res.json();
        })
       .then(function(resJson) {
-        console.log('JOINED EVENT: ', resJson)
         return resJson;
        })
 

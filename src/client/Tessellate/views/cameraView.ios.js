@@ -11,8 +11,12 @@ var {
 } = React;
 var Camera = require('react-native-camera');
 var ReviewPhoto = require('./reviewPhotoView.ios')
+var ProgressHUD = require('react-native-progress-hud');
 
 var CameraView = React.createClass({
+
+  mixins: [ProgressHUD.Mixin],
+
   getInitialState() {
     return {
       cameraType: Camera.constants.Type.back,
@@ -20,31 +24,6 @@ var CameraView = React.createClass({
       eventCode: this.props.eventCode,
       facebookId: this.props.facebookId,
     }
-  },
-
-  renderCamera(){
-    return (
-      <Camera
-        ref="cam"
-        style={styles.container}
-        type={this.state.cameraType}
-      >
-        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
-        <TouchableHighlight style={styles.button}
-        onPress={this._takePicture}>
-          <Image resizeMode='contain' style={styles.takePic} source={require('image!takePictureIcon')}/>
-        </TouchableHighlight>
-
-      </Camera>
-    );
-  },
-
-  renderText(){
-    return (
-      <View style={styles.container}>
-        <Text> You are unable to take photos on this device </Text>
-      </View>
-    )
   },
 
   render() {
@@ -61,7 +40,7 @@ var CameraView = React.createClass({
         onPress={this._takePicture} underlayColor={'transparent'}>
           <Image resizeMode='contain' style={styles.takePic} source={require('image!takePictureIcon')}/>
         </TouchableHighlight>
-
+        <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" /> 
       </Camera>)
     
   },
@@ -82,7 +61,9 @@ var CameraView = React.createClass({
    * @return {[null]} [none]
    */
   _takePicture() {
+
     var self = this;
+    self.showProgressHUD();
     this.refs.cam.capture(function(err, data) {
       if (data){
         console.log('DATA: ', data)
@@ -101,6 +82,9 @@ var CameraView = React.createClass({
           selectedTab:self.props.selectedTab,
           facebookId:self.state.facebookId }
         })
+        self.dismissProgressHUD();
+      } else {
+        //alert ios
       }
     });
   }
@@ -155,6 +139,9 @@ var styles = StyleSheet.create({
       height:50,
       width:50,
       backgroundColor:'#1B2B32',
+    },
+    progress: {
+      position:'relative'
     }
 
 });

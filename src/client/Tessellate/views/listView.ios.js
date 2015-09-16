@@ -83,13 +83,13 @@ class UserEventsView extends React.Component {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    'Host': 'http://10.0.1.156:8081',
+		    'Host': 'http://10.6.1.173:8081',
 		    'FacebookID':this.props.facebookId,
 		  }
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://10.0.1.156:8000/events', getEvents)  
+		fetch('http://10.6.1.173:8000/events', getEvents)  
 		  .then(function(res) {
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
@@ -130,7 +130,6 @@ class UserEventsView extends React.Component {
   	        },function(){
   	        	
   	        })
-  			console.log('done fetching events for event: ' + self.props.facebookId)
 		    return resJson;
 		   })
 		  .catch((error) => {
@@ -155,7 +154,6 @@ class UserEventsView extends React.Component {
 		var imageThumbnail = '';
 		if (rowData.mainImage){
 			imageThumbnail = encodeURI(rowData.mainImage.imgPath);
-			console.log(imageThumbnail)
 		}
 	   return (
 	     <View>
