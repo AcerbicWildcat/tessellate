@@ -7,6 +7,7 @@ var {
   View,
   TouchableHighlight,
   Image,
+  AlertIOS,
 
 } = React;
 var Camera = require('react-native-camera');
@@ -20,7 +21,7 @@ var CameraView = React.createClass({
   getInitialState() {
     return {
       cameraType: Camera.constants.Type.back,
-      captureTarget:Camera.constants.CaptureTarget.disk, 
+      //captureTarget:Camera.constants.CaptureTarget.disk, //save to disk not camera roll
       eventCode: this.props.eventCode,
       facebookId: this.props.facebookId,
     }
@@ -31,6 +32,7 @@ var CameraView = React.createClass({
         ref="cam"
         style={styles.container}
         type={this.state.cameraType}
+        captureTarget={Camera.constants.CaptureTarget.cameraRol}
       >
 
         <TouchableHighlight style={styles.goHome}>
@@ -65,6 +67,21 @@ var CameraView = React.createClass({
     var self = this;
     self.showProgressHUD();
     this.refs.cam.capture(function(err, data) {
+      if (err){
+        //alertios
+        self.dismissProgressHUD();
+        AlertIOS.alert(
+           'Whoa! Something Went Wrong.',
+           err.message,
+           [
+             {text: 'Try Again', onPress: () => {
+              return;
+             }}
+           ]
+         );
+        console.log(err.message)
+        return;
+      }
       if (data){
         console.log('DATA: ', data)
         var photoURL = data.toString();

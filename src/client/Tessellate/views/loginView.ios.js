@@ -63,6 +63,7 @@ class LoginView extends Component {
   //allow user to proceed to main events
   isAuthorized(loginState){
     var self = this;
+    console.log('moving on!')
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",

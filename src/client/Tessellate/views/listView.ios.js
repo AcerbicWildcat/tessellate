@@ -65,7 +65,7 @@ class UserEventsView extends React.Component {
 	 }
 
 	 componentDidMount() {
-	 	console.log('Events View Mounted!')
+	 	//console.log('Events View Mounted!')
 	       //this.fetchUserEvents();
 	 }
 
@@ -74,7 +74,7 @@ class UserEventsView extends React.Component {
 
 
 	fetchUserEvents(){
-		console.log('fetching events')
+		//console.log('fetching events')
 		//construct GET request
 		var self = this;
 		var getEvents = {  
@@ -146,7 +146,7 @@ class UserEventsView extends React.Component {
 	}
 
 	goToMosaic(eventCode){
-		console.log('clicked event code: ' + eventCode)
+		//console.log('clicked event code: ' + eventCode)
 		this.props.passEventCode(eventCode);
 	}
 

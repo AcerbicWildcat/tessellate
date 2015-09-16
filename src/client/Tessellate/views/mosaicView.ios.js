@@ -10,12 +10,12 @@ var {
   AlertIOS,
 } = React;
  
-var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
-var TimerMixin = require('react-timer-mixin');
+//var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
+//var TimerMixin = require('react-timer-mixin');
 var ProgressHUD = require('react-native-progress-hud'); 
 
 var MosaicView = React.createClass({
-  mixins: [TimerMixin,ProgressHUD.Mixin],
+  mixins: [ProgressHUD.Mixin],
   
  
   getInitialState() {
@@ -98,10 +98,9 @@ var MosaicView = React.createClass({
         <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
       </TouchableHighlight>
       
-        <Svg width={800} height={800} style={styles.container}>
-          <Image source={{uri: this.state.mosaicMainImage}}
-                 style={{width: 400, height: 400}} />
-        </Svg>
+       
+          <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
+    
         <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
       </View>
     );
@@ -127,21 +126,31 @@ var styles = StyleSheet.create({
 
     },
     goHome: {
-      position:'relative',
+      position:'absolute',
       top:7,
-      left:0,
+      left:80,
       height:50,
       width:50,
       backgroundColor:'transparent',
     },
     goHomeButton:{
     
-      position:'relative',
+      position:'absolute',
       top:7,
-      left:0,
+      left:80,
       height:50,
       width:50,
       backgroundColor:'transparent'
+    },
+
+    mosaic: {
+      position:'relative',
+      marginLeft:10,
+      marginRight:10,
+      left:10,
+      right:10,
+      width:400,
+      height: 400
     }
 
 });

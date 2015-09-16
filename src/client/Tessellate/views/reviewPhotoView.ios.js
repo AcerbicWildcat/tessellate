@@ -22,11 +22,11 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap:'wrap',
-    backgroundColor: 'grey',
+    backgroundColor: '#1B2B32',
   },
   save: {
     alignSelf:'flex-end',
-    backgroundColor:'grey',
+    backgroundColor:'#1B2B32',
     width:150,
     height:50,
     marginRight:20,
@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
   },
   discard: {
     alignSelf:'flex-end',
-    backgroundColor:'grey',
+    backgroundColor:'#1B2B32',
     width:150,
     height:50,
     marginLeft:20,
@@ -67,21 +67,23 @@ class ReviewPhotoView extends Component {
      var _this = this;
 
      //convet image path to image file
-     var imageToSave = '';
-     NativeModules.ReadImageData.readImage(_this.props.photo, (image) => {
+     var imageToSave = _this.props.photo;
+     console.log('trying to save this guy: ', _this.props.photo)
+     NativeModules.ReadImageData.readImage(imageToSave, (image) => {
       console.log('This is actually it: ', image)
       imageToSave = image;
 
       var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
-          uploadUrl:'http://10.6.1.173:8000/events/'+_this.state.eventCode.trim() + '/' + 'image',
+          uploadUrl:'http://10.6.1.173:8000/events/'+_this.state.eventCode + '/' + 'image',
           fileName:'image',
           //mimeType,
           headers:{
-            'Host': 'http://10.6.1.173:8081',
+            //'Host': 'http://10.6.1.173:8081',
             'FacebookID':_this.props.facebookId.toString(),
           },
           data: {
+            facebookid:_this.props.facebookId.toString(),
               // whatever properties you wish to send in the request
               // along with the uploaded file
           }
