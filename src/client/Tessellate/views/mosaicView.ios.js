@@ -1,19 +1,5 @@
   'use strict';
  
-function drawSine(t) {
-  var path = `M ${0} ${Math.sin(t) * 100 + 120}`;
-  var x, y;
- 
-  for (var i = 0; i <= 10; i += 0.5) {
-    x = i * 50;
-    y = Math.sin(t + x) * 100 + 120;
-    path = path + ` L ${x} ${y}`
-  }
- 
-  return path;
-}
- 
- 
 var React = require('react-native');
 var {
   StyleSheet,
@@ -26,9 +12,11 @@ var {
  
 var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
 var TimerMixin = require('react-timer-mixin');
+var ProgressHUD = require('react-native-progress-hud'); 
 
 var MosaicView = React.createClass({
-  mixins: [TimerMixin],
+  mixins: [TimerMixin,ProgressHUD.Mixin],
+  
  
   getInitialState() {
     return {t: 0,
@@ -52,7 +40,7 @@ var MosaicView = React.createClass({
 
   fetchMosaicData(){
     var _this = this;
-    var apiString = 'http://localhost:8000/event/' + this.state.eventCode;
+    var apiString = 'http://10.6.1.173:8000/event/' + this.state.eventCode;
 
     var getMosaicObject = {  
       method: 'GET',
@@ -60,11 +48,11 @@ var MosaicView = React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081',
+        'Host': 'http://10.6.1.173:8081',
         'FacebookID':_this.props.facebookId,
       }
     }
-
+    _this.showProgressHUD();
     fetch(apiString, getMosaicObject)  
       .then(function(res) {
         if (!res){
@@ -78,8 +66,10 @@ var MosaicView = React.createClass({
           throw new Error('This event does not exist!');
         }
 
-        _this.setState({mosaicMainImage:mosaicMainImage}); 
-
+        _this.setState({mosaicMainImage:mosaicMainImage},function(){
+          _this.dismissProgressHUD();
+        }); 
+        
         return resJson;
        })
       .catch((error) => {
@@ -108,10 +98,11 @@ var MosaicView = React.createClass({
         <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
       </TouchableHighlight>
       
-        <Svg width={500} height={500} style={styles.container}>
+        <Svg width={800} height={800} style={styles.container}>
           <Image source={{uri: this.state.mosaicMainImage}}
                  style={{width: 400, height: 400}} />
         </Svg>
+        <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
       </View>
     );
   }

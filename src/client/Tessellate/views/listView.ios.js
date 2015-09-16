@@ -38,15 +38,15 @@ var styles = StyleSheet.create({
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
-  	fontSize:10,
+  	fontSize:16,
   	fontWeight:'500',
   },
 
   eventThumbnail: {
   	position:'relative',
-  	height:25,
-  	width:25,
-  	left:120,
+  	height:35,
+  	width:35,
+  	marginLeft:100,
   }
 });
 
@@ -83,13 +83,13 @@ class UserEventsView extends React.Component {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    'Host': 'http://localhost:8081',
+		    'Host': 'http://10.6.1.173:8081',
 		    'FacebookID':this.props.facebookId,
 		  }
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://localhost:8000/events', getEvents)  
+		fetch('http://10.6.1.173:8000/events', getEvents)  
 		  .then(function(res) {
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
@@ -152,8 +152,6 @@ class UserEventsView extends React.Component {
 	}
 
 	renderRow(rowData){
-		console.log('ROW DATA')
-		//console.log(rowData)
 		var imageThumbnail = '';
 		if (rowData.mainImage){
 			imageThumbnail = encodeURI(rowData.mainImage.imgPath);
