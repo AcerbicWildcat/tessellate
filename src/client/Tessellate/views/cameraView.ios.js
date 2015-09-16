@@ -1,5 +1,5 @@
 var React = require('react-native');
-var Device = require('react-native-device');
+
 var {
   AppRegistry,
   StyleSheet,

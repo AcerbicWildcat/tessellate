@@ -74,12 +74,12 @@ class ReviewPhotoView extends Component {
 
       var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
-          uploadUrl:'http://10.6.1.173:8000/events/'+_this.state.eventCode.trim() + '/' + 'image',
+          uploadUrl:'http://10.0.1.156:8000/events/'+_this.state.eventCode.trim() + '/' + 'image',
           fileName:'image',
           //mimeType,
           headers:{
-            'Host': 'http://10.6.1.173:8081',
-            'FacebookID':_this.props.facebookId,
+            'Host': 'http://10.0.1.156:8081',
+            'FacebookID':_this.props.facebookId.toString(),
           },
           data: {
               // whatever properties you wish to send in the request
