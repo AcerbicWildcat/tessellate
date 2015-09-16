@@ -94,7 +94,7 @@ var MosaicView = React.createClass({
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome.bind(this)}>
+      <TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome}>
         <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
       </TouchableHighlight>
       

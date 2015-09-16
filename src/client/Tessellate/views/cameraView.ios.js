@@ -27,7 +27,12 @@ var CameraView = React.createClass({
     }
   },
 
+  componentWillUnmount(){
+    console.log('unmouting camera')
+  },
+
   render() {
+    console.log('rendering camera')
      return (<Camera
         ref="cam"
         style={styles.container}

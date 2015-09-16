@@ -35,6 +35,7 @@ var TabView =  React.createClass( {
       facebookId:this.props.facebookId,
       navRef:this.props.navRef,
       loadEvents:this.props.loadEvents,
+      showCamera:false,
     }
   },
   /*constructor(props){
@@ -66,11 +67,10 @@ var TabView =  React.createClass( {
 
 
   render() {
-    
-  
+    console.log('rendering tab bar')
+    var camera = this.state.showCamera ? <Camera facebookId={this.state.facebookId} mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack}/> : null;
     return (
   
-  	  
       <TabBarIOS selectedTab={this.state.selectedTab}>
 
         <TabBarIOS.Item
@@ -79,11 +79,13 @@ var TabView =  React.createClass( {
             title= 'Camera'
             onPress={() => {
                 this.setState({
-                    selectedTab: 'camera'
+                    selectedTab: 'camera',
+                    showCamera:true,
                 });
             }}>
         
-        <Camera facebookId={this.state.facebookId} mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack}/>      
+          {camera}  
+
         
         </TabBarIOS.Item>
         <TabBarIOS.Item
@@ -92,7 +94,8 @@ var TabView =  React.createClass( {
             title= 'Mosaic'
             onPress={() => {
                 this.setState({
-                    selectedTab: 'mosaic'
+                    selectedTab: 'mosaic',
+                    showCamera:false,
                 });
           }}>
 
