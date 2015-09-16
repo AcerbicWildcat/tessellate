@@ -183,53 +183,101 @@ describe('mapmaker.js', function(){
 
 describe('getEventAndMap.js', function(){
 
-  it("Should return an event, an event's main image, and that main image's map", function(done){
+  var returnObj;
+  var setUser;
+
+  before(function(done){
     new User({
       facebookId: "Mr Oizo"
     })
     .save(function(err, user){
       mapmaker.mapEventMaker("Mr Oizo", "path", {dummyData: "dummyData"}, {shape: [350, 150]}, "oizoparty", "Oizo Party", function(err, object){
         getEventAndMap(object.event.eventCode, function(err, object2){
-          expect(object2.event._creator.toString()).to.equal(user._id.toString());
-          expect(object2.image._id.toString()).to.equal(object2.event.mainImage.toString());
-          expect(object2.image._parentUser.toString()).to.equal(user._id.toString());
-          expect(object2.image._parentEvent.toString()).to.equal(object2.event._id.toString());
-          expect(object2.map._parentImage.toString()).to.equal(object2.image._id.toString());
-          //ensure that fields are correctly established.
-          expect(object2.event.name).to.equal("Oizo Party");
-          expect(object2.event.eventCode).to.equal("oizoparty");
-          expect(object2.map.height).to.equal(150);
-          expect(object2.map.data.dummyData).to.equal("dummyData");
-          expect(object2.image.imgPath).to.equal("path");
-          User.remove({
-            facebookId: "Mr Oizo"
-          }, function(err){
-            Event.remove({
-              name: "Oizo Party"
-            }, function(err){
-              Image.remove({
-                imgPath: "path"
-              }, function(err){
-                Map.remove({
-                  height: 150
-                }, function(err){
-                  done();
-                });
-              });    
-            });
-          });           
+          returnObj = object2;
+          setUser = user;
+          done();
         });
       });
-    });
+    });  
   });
+
+  it('should send back an event with a _creator property correctly associated with the parent user', function (done) {
+    expect(returnObj.event._creator.toString()).to.equal(setUser._id.toString());
+    done();
+  });
+
+  it('should send back an event with a mainImage property containing the _id of the image that was created', function (done) {
+    expect(returnObj.image._id.toString()).to.equal(returnObj.event.mainImage.toString());
+    done();
+  });
+
+  it('should send back an image with a _parentUser property containing the _id of the user who created the event', function (done) {
+    expect(returnObj.image._parentUser.toString()).to.equal(setUser._id.toString());
+    done();
+  });
+
+  it('should send back an image with a _parentEvent property containing the _id of the event that was created', function(done){
+    expect(returnObj.image._parentEvent.toString()).to.equal(returnObj.event._id.toString());
+    done();
+  });
+
+  it('should send back a map with a _parentEvent property containing the image the map was generated from', function (done) {
+    expect(returnObj.map._parentImage.toString()).to.equal(returnObj.image._id.toString());
+    done();
+  });
+
+  it('should send back an event with the correct name', function (done) {
+    expect(returnObj.event.name).to.equal("Oizo Party");
+    done();
+  });
+
+  it('should send back an event with the correct event cone', function (done) {
+    expect(returnObj.event.eventCode).to.equal("oizoparty");
+    done();
+  });
+
+  it('should send back a map with the correct height property', function (done) {
+    expect(returnObj.map.height).to.equal(150);
+    done();
+  });
+
+  it('should send back a map with whatever data value that was passed in', function (done) {
+    expect(returnObj.map.data.dummyData).to.equal("dummyData");
+    done();
+  });
+
+  it('should send back an image with a url path', function (done) {
+    expect(returnObj.image.imgPath).to.equal("path");
+    done();
+  });
+
+  after(function(done){
+    User.remove({
+      facebookId: "Mr Oizo"
+    }, function(err){
+      Event.remove({
+        name: "Oizo Party"
+      }, function(err){
+        Image.remove({
+          imgPath: "path"
+        }, function(err){
+          Map.remove({
+            height: 150
+          }, function(err){
+            done();
+          });
+        });    
+      });
+    });           
+  });
+
 });
 
 describe('getEventsByUser.js', function(){
 
-  it("Should return a user populated with events, which in turn are populated with paths for main images", function(done){
+  var responseObj;
 
-    var responseObj;
-
+  before(function(done){
     new User({
       facebookId: "Mack Levine"
     }).save(function(err, user){
@@ -303,54 +351,57 @@ describe('getEventsByUser.js', function(){
       }).then(function(){
         getEventsByUser("Mack Levine", function(err, response){
           responseObj = response;
-          //verifies that image paths show up on the returned object.
-          expect(responseObj.events[0].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-          expect(responseObj.events[1].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-          expect(responseObj.events[2].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-          expect(responseObj.events[3].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
-          //verifies that the child events have the correct creators.
-          expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
-          expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
-
-          for (var i = 0; i < responseObj.events.length; i++){
-            if (responseObj.events[i]._creator !== undefined){
-              responseObj.events[i]._creatorString = responseObj.events[i]._creator.toString();
-              //apparently, we cannot overwrite the value of _creator, even when it's a regular
-              //object on the server side! It  might be because the object type is ObjectID.
-              //For now, we'll put a new property on each event: _creatorString.
-              expect(typeof responseObj.events[i]._creatorString).to.equal("string");
-            }
-          }
-
-          responseObj._idString = responseObj._id.toString();
-
-          expect(typeof responseObj._idString).to.equal("string");
-          
-          Event.remove({
-            _creator: responseObj._id
-          }, function(err){
-            Event.remove({
-              eventCode: "dingus22"
-            }, function(err){
-              Event.remove({
-                eventCode: "lamegradstudentparty"
-              }, function(err){
-                Image.remove({
-                  imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
-                }, function(err){
-                  User.remove({
-                    facebookId: "Mack Levine"
-                  }, function(err){
-                    done();
-                  })
-                })
-              });
-            });
-          });
-        }); //TODO: make sure this has time to run
+          done();
+        });
       });
     });
   });
+
+  it("should return a user populated with events", function(done){
+    expect(typeof responseObj.events[0]).to.equal("object");
+    done();
+  });
+
+  it("'s returned user's events should be populated with paths for main images", function(done){
+    expect(responseObj.events[0].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+    expect(responseObj.events[1].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+    expect(responseObj.events[2].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+    expect(responseObj.events[3].mainImage.imgPath).to.equal("https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg");
+    done();
+  });
+
+  it("should return an object where each event lists the correct creator", function(done){
+    expect(responseObj.events[0]._creator.toString()).to.equal(responseObj._id.toString());
+    expect(responseObj.events[3]._creator.toString()).to.equal(responseObj._id.toString());
+    done();
+  });
+  //verifies that image paths show up on the returned object.
+  //verifies that the child events have the correct creators.
+
+  after(function(done){
+    Event.remove({
+      _creator: responseObj._id
+    }, function(err){
+      Event.remove({
+        eventCode: "dingus22"
+      }, function(err){
+        Event.remove({
+          eventCode: "lamegradstudentparty"
+        }, function(err){
+          Image.remove({
+            imgPath: "https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg"
+          }, function(err){
+            User.remove({
+              facebookId: "Mack Levine"
+            }, function(err){
+              done();
+            })
+          })
+        });
+      });
+    });
+  });
+
 });
 
 describe('getAndReviseMap', function(){
@@ -439,7 +490,6 @@ describe('updateEvent.js', function(){
 describe('guestImageMaker.js', function(){
 
   it("Should generate a valid Cloudinary thumbnail URL", function(done){
-    //http://res.cloudinary.com/tesselate/image/upload/v1442015055/khd0vihzt7vdfy63k1ap.png
     var thumbURL = guestImageMaker.thumbnailMaker("v1442015055/khd0vihzt7vdfy63k1ap", "png");
     expect(thumbURL).to.equal("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap");
     done();
