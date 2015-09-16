@@ -32,12 +32,21 @@ var styles = StyleSheet.create({
   	color:'#FFFFFF',
   },
   rowContainer: {
+  	flex:1,
+  	flexDirection:'row',
     padding: 20,
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
   	fontSize:10,
   	fontWeight:'500',
+  },
+
+  eventThumbnail: {
+  	position:'relative',
+  	height:25,
+  	width:25,
+  	left:120,
   }
 });
 
@@ -121,7 +130,7 @@ class UserEventsView extends React.Component {
   	        },function(){
   	        	
   	        })
-  			
+  			console.log('done fetching events for event: ' + self.props.facebookId)
 		    return resJson;
 		   })
 		  .catch((error) => {
@@ -143,13 +152,20 @@ class UserEventsView extends React.Component {
 	}
 
 	renderRow(rowData){
-				
+		console.log('ROW DATA')
+		//console.log(rowData)
+		var imageThumbnail = '';
+		if (rowData.mainImage){
+			imageThumbnail = encodeURI(rowData.mainImage.imgPath);
+			console.log(imageThumbnail)
+		}
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
+	 		
 	         <Text style={styles.rowText} onPress={this.goToMosaic.bind(this,rowData.eventCode)}> {rowData.name} |  {'#'}{rowData.eventCode} 
 	         </Text>
-	         
+	         <Image style={styles.eventThumbnail} source={{uri:imageThumbnail||null}}/>
 	       </View>
 	     </View>
 	   )

@@ -38,7 +38,6 @@ class TabView extends Component {
 
  
   componentDidMount() {
-    console.log('MOUNTING')
     this.state.loadEvents();
     this.state.navRef.setState({navBarHidden:true});
   }

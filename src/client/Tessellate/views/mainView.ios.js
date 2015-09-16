@@ -77,7 +77,31 @@ var Main =  React.createClass({
     this.dismissProgressHUD();
   },
 
+
+
   showEventDetails(eventCode){
+    var joinEventURL = 'http://localhost:8000/events/' + eventCode
+    //Join the event
+    var joinEventObj = {  
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Origin': '',
+        'Host': 'http://localhost:8081',
+        'FacebookID':this.props.facebookId,
+      }
+    }
+
+    fetch(joinEventURL, joinEventObj)  
+      .then(function(res) {
+        return res.json();
+       })
+      .then(function(resJson) {
+        console.log('JOINED EVENT: ', resJson)
+        return resJson;
+       })
+
     var self = this;
     if (eventCode){
       eventCode = eventCode.trim();
