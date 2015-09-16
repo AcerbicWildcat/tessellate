@@ -77,7 +77,7 @@ describe("Tessellate database", function() {
   });
 });
 
-describe('mapmaker.js', function(){
+xdescribe('mapmaker.js', function(){
   //TODO: add a before hook here.
   var returnObj;
   var setUser;
@@ -181,7 +181,7 @@ describe('mapmaker.js', function(){
 
 });
 
-describe('getEventAndMap.js', function(){
+xdescribe('getEventAndMap.js', function(){
 
   var returnObj;
   var setUser;
@@ -489,13 +489,13 @@ describe('updateEvent.js', function(){
 
 describe('guestImageMaker.js', function(){
 
-  it("Should generate a valid Cloudinary thumbnail URL", function(done){
+  xit("Should generate a valid Cloudinary thumbnail URL", function(done){
     var thumbURL = guestImageMaker.thumbnailMaker("v1442015055/khd0vihzt7vdfy63k1ap", "png");
     expect(thumbURL).to.equal("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap");
     done();
   });
 
-  it("Should get the average color for an image uploaded to cloudinary", function(done){
+  xit("Should get the average color for an image uploaded to cloudinary", function(done){
     var pixels = getPixels("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap", function(err, pixels){
       aveRGB = guestImageMaker.getAverageColor(pixels.data);
       expect(aveRGB.r).to.equal(68);
