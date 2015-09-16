@@ -495,7 +495,7 @@ describe('guestImageMaker.js', function(){
     done();
   });
 
-  it("Should get the average color for an image uploaded to cloudinary", function(done){
+  xit("Should get the average color for an image uploaded to cloudinary", function(done){
     var pixels = getPixels("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap", function(err, pixels){
       aveRGB = guestImageMaker.getAverageColor(pixels.data);
       expect(aveRGB.r).to.equal(68);
