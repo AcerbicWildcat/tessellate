@@ -4,7 +4,7 @@ var React = require('react-native');
 var Main = require('./mainView.ios.js');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
-var CookieManager = require('react-native-cookies');
+
 
 var {
   StyleSheet,
@@ -16,6 +16,7 @@ var {
   Image,
   AlertIOS,
   NativeModules,
+  NetInfo,
   
 } = React;
 
@@ -57,12 +58,35 @@ class LoginView extends Component {
       loggedIn:false,
       userId: '',
       facebookId: '',
+      isConnected:null,
     }
+  }
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'change',
+      this._handleConnectivityChange
+    );
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { this.setState({isConnected}); }
+    );
+  }
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'change',
+      this._handleConnectivityChange
+    );
+  }
+  _handleConnectivityChange(isConnected) {
+    this.setState({
+      isConnected,
+    });
   }
 
   //allow user to proceed to main events
   isAuthorized(loginState){
     var self = this;
+    console.log('moving on!')
     if (loginState){
       this.props.navigator.push({
         title: "Tessellate",
@@ -88,7 +112,7 @@ class LoginView extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081'
+        //'Host': 'http://10.6.1.173:8081'
       },
       body: JSON.stringify({
          facebookId:facebookId,
@@ -97,7 +121,7 @@ class LoginView extends Component {
     }
 
 
-    fetch('http://localhost:8000/user', loginObject)  
+    fetch('http://tessellate-penguin.herokuapp.com/user', loginObject)  
       .then(function(res) {
         return res.json();
        })
@@ -130,10 +154,23 @@ class LoginView extends Component {
          <FBLogin style={{ marginBottom: 10, }}
         permissions={["email","user_friends","public_profile"]}
         onLogin={function(data){
-
-          _this.setState({ user : data.credentials },function(){
-            _this.login(data.credentials.userId);
-          });
+          try{
+            if (_this.state.isConnected){
+               _this.setState({ user : data.credentials },function(){
+                _this.login(data.credentials.userId);
+              });
+            } else {
+              throw new Error('Did you pay your internet bill?!')
+            }
+          } catch(err){
+            AlertIOS.alert(
+               'Whoa! Something Went Wrong.',
+               err.message,
+               [
+                 {text: 'Try Again', onPress: () => {}}
+               ]
+             );
+          }
           
         }}
         onLogout={function(){
@@ -143,9 +180,23 @@ class LoginView extends Component {
         onLoginFound={function(data){
           //console.log("Existing login found.");
           //console.log(data);
-           _this.setState({ user : data.credentials },function(){
-            _this.login(data.credentials.userId);
-          });
+          try{
+            if (_this.state.isConnected){
+               _this.setState({ user : data.credentials },function(){
+                _this.login(data.credentials.userId);
+              });
+            } else {
+              throw new Error('Did you pay your internet bill?!')
+            }
+          } catch(err){
+            AlertIOS.alert(
+               'Whoa! Something Went Wrong.',
+               err.message,
+               [
+                 {text: 'Try Again', onPress: () => {}}
+               ]
+             );
+          }
 
         }}
         onLoginNotFound={function(){

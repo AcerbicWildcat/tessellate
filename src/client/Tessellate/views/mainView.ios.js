@@ -35,7 +35,8 @@ var Main =  React.createClass({
   mixins: [ProgressHUD.Mixin],
 
   componentDidMount() {
-
+    this.stopSpinner()
+    this.refs.events.fetchUserEvents();
     this.state.navRef.setState({navBarHidden:true});
   },
 
@@ -48,7 +49,7 @@ var Main =  React.createClass({
     
          <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         
-         <EventsView passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner} facebookId={this.state.facebookId}/>  
+         <EventsView ref={'events'} passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner} facebookId={this.state.facebookId}/>  
 
        
          <View style={styles.footer}>  
@@ -64,6 +65,10 @@ var Main =  React.createClass({
     );
   },
 
+  reloadEvents(callback){
+    callback();
+  },
+
   startSpinner(){
     this.showProgressHUD();
   },
@@ -72,20 +77,57 @@ var Main =  React.createClass({
     this.dismissProgressHUD();
   },
 
+
+
   showEventDetails(eventCode){
+    var joinEventURL = 'http://tessellate-penguin.herokuapp.com/events/' + eventCode
+    //Join the event
+    if (eventCode){
+      var joinEventObj = {  
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Origin': '',
+          //'Host': 'http://10.6.1.173:8081',
+          'FacebookID':this.props.facebookId,
+        }
+      }
+
+      fetch(joinEventURL, joinEventObj)  
+        .then(function(res) {
+          return res.json();
+         })
+        .then(function(resJson) {
+          return resJson;
+         })
+    }
+
     var self = this;
-    eventCode = eventCode;
-    self.props.navigator.push({
-                    title: '#' + eventCode, //refactor to contain event title
-                    component: TabView,
-                    passProps: {eventCode: eventCode,
-                    facebookId:this.state.facebookId,
-                    mainNavigator: self.props.navigator,
-                    navRef:self.state.navRef,
-                    } //refactor to contain eventcode
-                    
-           }); 
+    if (eventCode){
+      eventCode = eventCode.trim();
+      self.props.navigator.push({
+                      title: '#' + eventCode, //refactor to contain event title
+                      component: TabView,
+                      passProps: {eventCode: eventCode,
+                      facebookId:this.state.facebookId,
+                      mainNavigator: self.props.navigator,
+                      navRef:self.state.navRef,
+                      loadEvents:self.refs.events.fetchUserEvents.bind(self.refs.events)
+                      } //refactor to contain eventcode
+                      
+             }); 
+    } else {
+      AlertIOS.alert(
+         'You are unable to join this event',
+         ':(',
+         [
+           {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
+         ]
+       );
+    }
   },
+
 });
 
 var styles = StyleSheet.create({
@@ -119,12 +161,13 @@ var styles = StyleSheet.create({
 
   },
   button: {
+        position:'absolute',
         height: 40,
-        width:100,
+        width:80,
         backgroundColor: 'grey',
         borderRadius: 8,
         justifyContent: 'center',
-        margin: 10,
+        margin:10,
         marginLeft:10,
     },
    buttonText: {

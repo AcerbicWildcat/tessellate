@@ -1,19 +1,5 @@
   'use strict';
  
-function drawSine(t) {
-  var path = `M ${0} ${Math.sin(t) * 100 + 120}`;
-  var x, y;
- 
-  for (var i = 0; i <= 10; i += 0.5) {
-    x = i * 50;
-    y = Math.sin(t + x) * 100 + 120;
-    path = path + ` L ${x} ${y}`
-  }
- 
-  return path;
-}
- 
- 
 var React = require('react-native');
 var {
   StyleSheet,
@@ -24,22 +10,28 @@ var {
   AlertIOS,
 } = React;
  
-var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
-var TimerMixin = require('react-timer-mixin');
+//var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
+//var TimerMixin = require('react-timer-mixin');
+var ProgressHUD = require('react-native-progress-hud'); 
 
 var MosaicView = React.createClass({
-  mixins: [TimerMixin],
+  mixins: [ProgressHUD.Mixin],
+  
  
   getInitialState() {
-    return {t: 0,
+    return {
       nav:this.props.mainNavigator,
       eventCode:this.props.eventCode,
       facebookId:this.props.facebookId,
-      mosaicMainImage:'./img'
+      mosaicMainImage:'./img',
+      mosaicTitle:'Could not find title of Mosaic',
+      mosaicMembers:0,
     }
   },
 
   goHome(){
+    //trigger reload of listview
+    this.props.loadEvents();
     this.props.nav.pop()
   },
  
@@ -50,7 +42,7 @@ var MosaicView = React.createClass({
 
   fetchMosaicData(){
     var _this = this;
-    var apiString = 'http://localhost:8000/event/' + this.state.eventCode;
+    var apiString = 'http://tessellate-penguin.herokuapp.com/event/' + this.state.eventCode;
 
     var getMosaicObject = {  
       method: 'GET',
@@ -58,11 +50,11 @@ var MosaicView = React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://localhost:8081',
+        //'Host': 'http://10.6.1.173:8081',
         'FacebookID':_this.props.facebookId,
       }
     }
-
+    _this.showProgressHUD();
     fetch(apiString, getMosaicObject)  
       .then(function(res) {
         if (!res){
@@ -72,12 +64,17 @@ var MosaicView = React.createClass({
        })
       .then(function(resJson) {
         var mosaicMainImage = resJson.image.imgPath;
+        var eventName = resJson.event.name || 'No Event Title';
+        var eventMembers = resJson.event.contributors.length || 0;
+        console.log('response: ', resJson)
         if (!resJson){
           throw new Error('This event does not exist!');
         }
-
-        _this.setState({mosaicMainImage:mosaicMainImage}); 
-
+        console.log('Mosaic Data',resJson)
+        _this.setState({mosaicMainImage:mosaicMainImage,mosaicTitle:eventName,mosaicMembers:eventMembers},function(){
+          _this.dismissProgressHUD();
+        }); 
+        
         return resJson;
        })
       .catch((error) => {
@@ -102,14 +99,15 @@ var MosaicView = React.createClass({
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome.bind(this)}>
-        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
-      </TouchableHighlight>
-      
-        <Svg width={500} height={500} style={styles.container}>
-          <Image source={{uri: this.state.mosaicMainImage}}
-                 style={{width: 400, height: 400}} />
-        </Svg>
+      <TouchableHighlight style = {styles.header} onPress={this.goHome}>
+      <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+       </TouchableHighlight>
+       <View style={styles.mosaicContainer}>
+          <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle} |  #{this.state.eventCode}</Text> 
+          <Text style={styles.mosaicMembersText}>Members: {this.state.mosaicMembers} </Text>
+          <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
+        </View>
+        <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" />  
       </View>
     );
   }
@@ -134,23 +132,61 @@ var styles = StyleSheet.create({
 
     },
     goHome: {
-      position:'relative',
+      position:'absolute',
       top:7,
-      left:0,
+      left:80,
       height:50,
       width:50,
       backgroundColor:'transparent',
     },
     goHomeButton:{
     
-      position:'relative',
+      position:'absolute',
       top:7,
-      left:0,
+      left:80,
       height:50,
       width:50,
       backgroundColor:'transparent'
+    },
+    mosaicContainer:{
+      position:'relative',
+      backgroundColor:'white',
+      padding:35,
+      top:0,
+      bottom:0,
+    },
+    mosaic: {
+      position:'relative',
+      marginLeft:10,
+      marginRight:10,
+      left:10,
+      right:10,
+      width:400,
+      height: 400
+    },
+    mosaicTitleText: {
+      position:'relative',
+      fontSize:18,
+      left:25,
+      padding:5,
+      fontStyle:'italic',
+      fontWeight:'700',
+      top:0,
+    },
+    mosaicMembersText: {
+      position:'relative',
+      fontSize:12,
+      left:25,
+      padding:5,
     }
+
 
 });
 
+/*
+
+<TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome}>
+        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
+      </TouchableHighlight>
+ */
 module.exports = MosaicView;

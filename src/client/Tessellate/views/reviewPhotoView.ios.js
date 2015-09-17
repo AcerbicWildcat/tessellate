@@ -19,30 +19,37 @@ var styles = StyleSheet.create({
   photo: {
     flex:1,
     flexDirection:'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
     flexWrap:'wrap',
-    backgroundColor: 'grey',
+    backgroundColor: '#1B2B32',
   },
   save: {
-    alignSelf:'flex-end',
-    backgroundColor:'grey',
-    width:150,
+    position:'relative',
+    //alignSelf:'flex-end',
+    backgroundColor:'#1B2B32',
+    width:70,
     height:50,
     marginRight:20,
+    marginLeft:10,
     left:20,
     borderRadius:25,
     
   },
   discard: {
-    alignSelf:'flex-end',
-    backgroundColor:'grey',
-    width:150,
+    position:'relative',
+    //alignSelf:'flex-end',
+    backgroundColor:'#1B2B32',
+    width:100,
     height:50,
+    right:20,
     marginLeft:20,
+    marginRight:10,
     borderRadius:25,
+  },
+	image: {
+    alignSelf:'center',
   }
-	
 
 });
 
@@ -67,21 +74,23 @@ class ReviewPhotoView extends Component {
      var _this = this;
 
      //convet image path to image file
-     var imageToSave = '';
-     NativeModules.ReadImageData.readImage(_this.props.photo, (image) => {
+     var imageToSave = _this.props.photo;
+     console.log('trying to save this guy: ', _this.props.photo)
+     NativeModules.ReadImageData.readImage(imageToSave, (image) => {
       console.log('This is actually it: ', image)
       imageToSave = image;
 
       var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
-          uploadUrl:'http://localhost:8000/events/'+_this.state.eventCode + '/' + 'image',
+          uploadUrl:'http://tessellate-penguin.herokuapp.com/events/'+_this.state.eventCode + '/' + 'image',
           fileName:'image',
           //mimeType,
           headers:{
-            'Host': 'http://localhost:8081',
-            'FacebookID':_this.props.facebookId,
+            //'Host': 'http://10.6.1.173:8081',
+            'FacebookID':_this.props.facebookId.toString(),
           },
           data: {
+            facebookid:_this.props.facebookId.toString(),
               // whatever properties you wish to send in the request
               // along with the uploaded file
           }

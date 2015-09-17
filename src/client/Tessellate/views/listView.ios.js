@@ -32,12 +32,21 @@ var styles = StyleSheet.create({
   	color:'#FFFFFF',
   },
   rowContainer: {
+  	flex:1,
+  	flexDirection:'row',
     padding: 20,
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
-  	fontSize:10,
+  	fontSize:16,
   	fontWeight:'500',
+  },
+
+  eventThumbnail: {
+  	position:'relative',
+  	height:35,
+  	width:35,
+  	marginLeft:100,
   }
 });
 
@@ -50,17 +59,22 @@ class UserEventsView extends React.Component {
 	   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2,
 	   sectionHeaderHasChanged: (s1, s2) => s1 !== s2})
 	   this.state = {
-	     dataSource: this.ds.cloneWithRows([{eventName:'You don\'t have any events yet...'}]),
+	     dataSource: this.ds.cloneWithRowsAndSections({'Events':[{name:'You don\'t have any events yet...'}]}),
 	     dataBlob:{}
 	   }
 	 }
 
 	 componentDidMount() {
-	 	console.log('Events View Mounted!')
-	       this.fetchUserEvents();
+	 	//console.log('Events View Mounted!')
+	       //this.fetchUserEvents();
 	 }
 
+	
+
+
+
 	fetchUserEvents(){
+		//console.log('fetching events')
 		//construct GET request
 		var self = this;
 		var getEvents = {  
@@ -69,14 +83,15 @@ class UserEventsView extends React.Component {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    'Host': 'http://localhost:8081',
-		    'FacebookID':this.props.facebookId,
+		    //'Host': 'http://10.6.1.173:8081',
+		    'facebookid':this.props.facebookId,
 		  }
 		}
 		this.props.spin();
 		//make Fetch Call
-		fetch('http://localhost:8000/events', getEvents)  
+		fetch('http://tessellate-penguin.herokuapp.com/events', getEvents)  
 		  .then(function(res) {
+		  	console.log('listviewres:  ', res)
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
 		  	}
@@ -116,7 +131,6 @@ class UserEventsView extends React.Component {
   	        },function(){
   	        	
   	        })
-  			
 		    return resJson;
 		   })
 		  .catch((error) => {
@@ -133,18 +147,22 @@ class UserEventsView extends React.Component {
 	}
 
 	goToMosaic(eventCode){
-		console.log('clicked event code: ' + eventCode)
+		//console.log('clicked event code: ' + eventCode)
 		this.props.passEventCode(eventCode);
 	}
 
 	renderRow(rowData){
-				
+		var imageThumbnail = '';
+		if (rowData.mainImage){
+			imageThumbnail = encodeURI(rowData.mainImage.imgPath);
+		}
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
+	 		
 	         <Text style={styles.rowText} onPress={this.goToMosaic.bind(this,rowData.eventCode)}> {rowData.name} |  {'#'}{rowData.eventCode} 
 	         </Text>
-	         
+	         <Image style={styles.eventThumbnail} source={{uri:imageThumbnail||null}}/>
 	       </View>
 	     </View>
 	   )
