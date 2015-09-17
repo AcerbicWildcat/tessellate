@@ -30,7 +30,7 @@ module.exports = function(facebookId, eventCode, callback){
         }
         user.events.push(event);
         event.contributors.push(user);
-        event.save(function (err){
+        event.save(function (err, savedEvent){
           if (err){
             callback(err);
           }
@@ -38,7 +38,7 @@ module.exports = function(facebookId, eventCode, callback){
             if (err){
               callback(err);
             }
-            callback(null, event);
+            callback(null, savedEvent);
           });
         });
       } else {
