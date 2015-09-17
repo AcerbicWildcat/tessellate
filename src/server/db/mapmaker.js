@@ -42,6 +42,34 @@ var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, 
   
   var createdEvent;
 
+  var shuffleArray = function(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+
+    while (0 !== currentIndex) {
+
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  };
+
+  var shuffleKeys = function(){
+    var returnArr = [];
+    for (key in _storage){
+      returnArr.push({
+        key: key,
+        value: _storage[key]
+      });
+    }
+    returnArr = shuffleArray(returnArr);
+    return returnArr;
+  };
+
   User.findOne({facebookId: facebookId}, function (err, user){
     if (err){
       done(err);
@@ -67,6 +95,7 @@ var mapEventMaker = function(facebookId, filePath, _storage, pixels, eventCode, 
         new Map({
           _parentImage: image._id,
           data: _storage,
+          unfilledKeys: shuffleKeys(),
           height: pixels.shape[1],
           width: pixels.shape[0]
         }).save(function (err, map){
@@ -108,8 +137,7 @@ var chunker = function(pixels){
       chunk = chunkMaker(j, i, pixels); /*format: x, y, data*/
       _storage[index++] = {
         coords: [j, i], 
-        originalRGB: getAverageColor(chunk),
-        original: true
+        originalRGB: getAverageColor(chunk)
       };
     }
   }
