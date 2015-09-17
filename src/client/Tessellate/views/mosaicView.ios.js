@@ -64,12 +64,14 @@ var MosaicView = React.createClass({
        })
       .then(function(resJson) {
         var mosaicMainImage = resJson.image.imgPath;
-        
+        var eventName = resJson.event.name || 'No Event Title';
+        var eventMembers = resJson.event.contributors.length || 0;
+        console.log('response: ', resJson)
         if (!resJson){
           throw new Error('This event does not exist!');
         }
         console.log('Mosaic Data',resJson)
-        _this.setState({mosaicMainImage:mosaicMainImage},function(){
+        _this.setState({mosaicMainImage:mosaicMainImage,mosaicTitle:eventName,mosaicMembers:eventMembers},function(){
           _this.dismissProgressHUD();
         }); 
         
@@ -101,11 +103,11 @@ var MosaicView = React.createClass({
       <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
        </TouchableHighlight>
        <View style={styles.mosaicContainer}>
-          <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle}</Text> 
+          <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle} |  #{this.state.eventCode}</Text> 
           <Text style={styles.mosaicMembersText}>Members: {this.state.mosaicMembers} </Text>
           <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
         </View>
-        <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
+        <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" />  
       </View>
     );
   }
@@ -165,7 +167,7 @@ var styles = StyleSheet.create({
     mosaicTitleText: {
       position:'relative',
       fontSize:18,
-      left:20,
+      left:25,
       padding:5,
       fontStyle:'italic',
       fontWeight:'700',
@@ -174,7 +176,7 @@ var styles = StyleSheet.create({
     mosaicMembersText: {
       position:'relative',
       fontSize:12,
-      left:20,
+      left:25,
       padding:5,
     }
 

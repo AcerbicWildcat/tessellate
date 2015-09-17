@@ -19,30 +19,37 @@ var styles = StyleSheet.create({
   photo: {
     flex:1,
     flexDirection:'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
     flexWrap:'wrap',
     backgroundColor: '#1B2B32',
   },
   save: {
-    alignSelf:'flex-end',
+    position:'relative',
+    //alignSelf:'flex-end',
     backgroundColor:'#1B2B32',
-    width:150,
+    width:70,
     height:50,
     marginRight:20,
+    marginLeft:10,
     left:20,
     borderRadius:25,
     
   },
   discard: {
-    alignSelf:'flex-end',
+    position:'relative',
+    //alignSelf:'flex-end',
     backgroundColor:'#1B2B32',
-    width:150,
+    width:100,
     height:50,
+    right:20,
     marginLeft:20,
+    marginRight:10,
     borderRadius:25,
+  },
+	image: {
+    alignSelf:'center',
   }
-	
 
 });
 

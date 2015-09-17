@@ -40,7 +40,7 @@ var CameraView = React.createClass({
         captureTarget={Camera.constants.CaptureTarget.cameraRol}
       >
 
-        <TouchableHighlight style={styles.goHome}>
+        <TouchableHighlight style={styles.goHome} underlayColor={'transparent'}>
            <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
         </TouchableHighlight>
         <TouchableHighlight style={styles.button}

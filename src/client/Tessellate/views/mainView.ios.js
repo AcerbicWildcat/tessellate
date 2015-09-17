@@ -82,24 +82,26 @@ var Main =  React.createClass({
   showEventDetails(eventCode){
     var joinEventURL = 'http://10.6.1.173:8000/events/' + eventCode
     //Join the event
-    var joinEventObj = {  
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Origin': '',
-        'Host': 'http://10.6.1.173:8081',
-        'FacebookID':this.props.facebookId,
+    if (eventCode){
+      var joinEventObj = {  
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Origin': '',
+          'Host': 'http://10.6.1.173:8081',
+          'FacebookID':this.props.facebookId,
+        }
       }
-    }
 
-    fetch(joinEventURL, joinEventObj)  
-      .then(function(res) {
-        return res.json();
-       })
-      .then(function(resJson) {
-        return resJson;
-       })
+      fetch(joinEventURL, joinEventObj)  
+        .then(function(res) {
+          return res.json();
+         })
+        .then(function(resJson) {
+          return resJson;
+         })
+    }
 
     var self = this;
     if (eventCode){
