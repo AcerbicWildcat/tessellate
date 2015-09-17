@@ -167,32 +167,23 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
     document.getElementById('mosaic').removeChild(removeLink);
   };
 
-  mosaicFactory.findImageHome = function(guestImg, map, eventCode, nextPosition){
+  mosaicFactory.findImageHome = function(guestImages, map, eventCode, nextPosition){
 
-    // var nextImage = map.unfilledKeys.pop();
+    for (var i = 0; i < guestImages.length; i++){
+      var destinationRGB = nextPosition[i].value.originalRGB;
 
-    //put the image on map.data[nextImage].
-    //
-    
-    
-    // map.data[nextImage.key].imgPath = guestImg.imgPath;
+      var segmentToUpdate = nextPosition[i].value;
+      segmentToUpdate.imgPath = guestImages[i].imgPath;
+      segmentToUpdate.thumbnailPath = guestImages[i].thumbnailPath;
+      segmentToUpdate.ID = nextPosition[i].key;
+      console.log("Segment To Update: ", segmentToUpdate);
+      mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
 
-    // map.data[nextImage.key].thumbnailPath = guestImg.thumbnailPath;
+      // console.log(segmentToUpdate.coords);
 
-    var destinationRGB = nextPosition.value.originalRGB; //{r: r, g: g, b: b}
-
-    // var segmentToUpdate = map.data[nextImage];
-
-    var segmentToUpdate = nextPosition.value;
-    segmentToUpdate.imgPath = guestImg.imgPath;
-    segmentToUpdate.thumbnailPath = guestImg.thumbnailPath;
-    segmentToUpdate.ID = nextPosition.key;
-
-    mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
-
-    console.log(segmentToUpdate.coords);
-
-    mosaicFactory.renderImage(segmentToUpdate.coords[0], segmentToUpdate.coords[1], segmentToUpdate.ID, guestImg.imgPath, guestImg.thumbnailPath);
+      mosaicFactory.renderImage(segmentToUpdate.coords[0], segmentToUpdate.coords[1], segmentToUpdate.ID, guestImages[i].imgPath, guestImages[i].thumbnailPath);
+      
+    }
 
   };
 
@@ -201,8 +192,9 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 }]);
 
 tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', '$location', function ($scope, mosaicFactory, httpRequestFactory, $location){
-  $scope.nextPosition = {};
+  $scope.nextPosition = [];
   $scope.currentEvent = httpRequestFactory.currentEvent;
+  $scope.waitingForUpload = true;
   $scope.startMosaic = function(mosaicData){
     mosaicFactory.startMosaic(mosaicData);
   };
@@ -210,7 +202,7 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
 
   $scope.dropzoneConfig = {
     'options': {
-      'url': '/event/' + $scope.currentEvent.event.eventCode + '/image', //ultimately, we need to set this route up on the server.
+      'url': '/event/' + $scope.currentEvent.event.eventCode + '/image',
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true,
@@ -219,16 +211,19 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-
         var RGBObject = ($scope.currentEvent.map.unfilledKeys);
-        $scope.nextPosition = RGBObject.pop();
-        formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
-
+        // $scope.nextPosition = RGBObject.pop();
+        $scope.nextPosition = RGBObject.splice(RGBObject.length-26, 25);
+        // will now be passing an array of RGB objects (group of 25 from end of queue)
+        // will need to iterate through and pass to cloudinary to tint and return
+        // formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
+        console.log('Sending Array: ', $scope.nextPosition);
+        formData.append("destinationRGB", JSON.stringify($scope.nextPosition));
+        $scope.$apply();
       },
       'success': function (file, response) {
-        console.log($scope.currentEvent.map.data);
-        // console.log('file returned success');
         $('div.dz-success').remove();
+        console.log('Success Response: ', response);
         mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, $scope.nextPosition);
       },
       'maxfilesexceeded': function(file){
@@ -236,12 +231,12 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
         this.addFile(file);
       },
       'addedfile': function(file){
-        console.log('added file to dropzone');
+        // $scope.waitingForUpload = false;
+        // $scope.$apply();
       }
     }
   };
   $scope.logout = function (){
-    console.log('clicked logout');
     httpRequestFactory.logout()
       .then(function(response){
         $location.url('/');
