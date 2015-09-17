@@ -406,7 +406,9 @@ describe('getEventsByUser.js', function(){
 
 describe('getAndReviseMap', function(){
 
-  it("Should revise an existing map in the db and return the REVISED map in the callback", function(done){
+  var savedData;
+
+  before(function(done){
     var event = new Event({
       eventCode: "revisemapevent"
     });
@@ -434,34 +436,52 @@ describe('getAndReviseMap', function(){
       ]);
 
     }).then(function(data){
+      savedData = data;
+      done();
+    });
+  });
 
-      var savedEvent = data[2];
+  it("should return the revised map in the callback", function(done){
+    mapHelpers.reviseMap("revisemapevent", {key: "stuff", value: "B"}, function(err, map){
+      expect(map.data.stuff).to.equal("B");
+      expect(map.data.stuff).to.not.equal("A");
+      expect(map.unfilledKeys.length).to.equal(0);
+      done();
+    });
+  });
 
-      expect(savedEvent.data.stuff).to.equal("A");
 
-      mapHelpers.reviseMap("revisemapevent", {key: "stuff", value: "B"}, function(err, map){
-        expect(map.data.stuff).to.equal("B");
-        expect(map.data.stuff).to.not.equal("A");
-        //make sure the change is reflected in the database as well.
-        Map.findOne({_id: map._id}, function(err, foundMap){
-          expect(foundMap.data.stuff).to.equal("B");
-          Map.remove({
-            _id: foundMap._id
-          }, function(err){
-            Image.remove({
-              rgb: "something"
-            }, function(err){
-              Event.remove({
-                eventCode: "revisemapevent"
-              }, function(err){
-                done();
-              });
-            });
-          });
+
+  it("should revise an existing map in the db by changing its data property", function(done){
+    Map.findOne({_id: savedData[2]._id}, function(err, foundMap){
+      expect(foundMap.data.stuff).to.equal("B");
+      done();
+    });
+  });
+
+  it("should revise an existing map in the db by changing the length of its unfilledKeys property", function(done){
+    Map.findOne({_id: savedData[2]._id}, function(err, foundMap){
+      expect(foundMap.unfilledKeys.length).to.equal(0);
+      done();
+    });
+  });
+
+  after(function(done){
+    Map.remove({
+      _id: savedData[2]._id
+    }, function(err){
+      Image.remove({
+        rgb: "something"
+      }, function(err){
+        Event.remove({
+          eventCode: "revisemapevent"
+        }, function(err){
+          done();
         });
       });
     });
   });
+
 });
 
 describe('updateEvent.js', function(){
