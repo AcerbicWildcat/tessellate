@@ -167,9 +167,9 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
     document.getElementById('mosaic').removeChild(removeLink);
   };
 
-  mosaicFactory.findImageHome = function(guestImg, map, eventCode, index){
+  mosaicFactory.findImageHome = function(guestImg, map, eventCode, nextPosition){
 
-    var nextImage = map.unfilledKeys.pop();
+    // var nextImage = map.unfilledKeys.pop();
 
     //put the image on map.data[nextImage].
     //
@@ -185,8 +185,8 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 
     // segmentToUpdate.ID = nextImage;
     // 
-    var segmentToUpdate = nextImage.value;
-    segmentToUpdate.ID = nextImage.key;
+    var segmentToUpdate = nextPosition.value;
+    segmentToUpdate.ID = nextPosition.key;
 
     // mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
 
@@ -199,6 +199,7 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 }]);
 
 tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', function ($scope, mosaicFactory, httpRequestFactory){
+  $scope.nextPosition = {};
   $scope.currentEvent = httpRequestFactory.currentEvent;
   $scope.startMosaic = function(mosaicData){
     mosaicFactory.startMosaic(mosaicData);
@@ -217,16 +218,12 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
       'sending': function (file, xhr, formData) {
 
         var RGBObject = ($scope.currentEvent.map.unfilledKeys);
-        console.log(RGBObject[RGBObject.length - 1]);
-        console.log(JSON.stringify(RGBObject[RGBObject.length - 1].value.originalRGB));
-        formData.append("destinationRGB", JSON.stringify(RGBObject[RGBObject.length - 1].value.originalRGB));
-        //TODO: modify the below based on the instructions you gave Jon.
-        // formData.append("eventCode", $scope.event._id);
+        $scope.nextPosition = RGBObject.pop();
+        formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
+
       },
       'success': function (file, response) {
-        console.log($scope.currentEvent.map.data);
-        // console.log('file returned success');
-        mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, 0);
+        mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, $scope.nextPosition);
       }
     }
   };
