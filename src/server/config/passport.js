@@ -34,7 +34,7 @@ module.exports = function(passport) {
 
             newUser.save(function(err){
               if (err){
-                console.log('USER DB SAVE ERROR: ', err);
+                // console.log('USER DB SAVE ERROR: ', err);
               }
               return done(null, newUser);
             })
@@ -44,12 +44,12 @@ module.exports = function(passport) {
     }));
   // serialize userId to store during session setup
   passport.serializeUser(function (user, done) {
-    console.log("USER IN SERIALIZE: ", user);
+    // console.log("USER IN SERIALIZE: ", user);
     done(null, user);
   });
   // find user by id when deserializing
   passport.deserializeUser(function (user, done) {
-    console.log("USER IN DESERIALIZE: ", user);
+    // console.log("USER IN DESERIALIZE: ", user);
     User.findOne({facebookId: user.facebookId}, function (err, user) {
       done(null, user);
     });

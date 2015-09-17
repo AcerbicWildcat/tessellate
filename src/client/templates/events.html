@@ -19,10 +19,11 @@
                 <label class="sr-only"></label>
                 <div class="input-group">
                   <div class="input-group-addon">#</div>
-                  <input type="text" class="form-control" placeholder="Search your events" ng-model="eventCode">
+                  <input type="text" class="form-control" placeholder="Find Events" ng-model="searchedEvent">
                 </div>
               </div>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEvent">Create event</button>
+              <button type="button" class="btn btn-primary" ng-click="joinEvent(searchedEvent)">Join event</button>
             </form>
           </div>
           <!-- end of join create form -->
@@ -39,7 +40,7 @@
                   <form action="" name="myForm">
                     <div class="form-group has-error">
                       <label for="event-code">Event code</label>
-                      <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
+                      <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="searchedEvent" required>
                       <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
                     </div>
                     <div class="form-group has-error">
@@ -66,13 +67,17 @@
           <!-- end of create event Modal -->
           <!-- created events -->
           <div class="row">
+            <h1 ng-if="errorMessage">{{errorMessage}}</h1>
+            <input type="text" placeholder="Search..." ng-model="eventCode">
             <h1>Created events</h1>
             <h3 ng-if="!hasCreated">Create your own event!</h3>
-            <div class="col-sm-3" ng-repeat="event in createdEvents | filter: {name: eventCode}" ng-click="getEvent(event.eventCode)">
+<!--             <div class="col-sm-3" ng-repeat="event in createdEvents | filter: {name: eventCode}" ng-click="getEvent(event.eventCode)">-->
+                <div class="col-sm-3" ng-repeat="event in createdEvents | filter: eventCode" ng-click="getEvent(event.eventCode)">
+
                 <div class="thumbnail">
                   <img src="{{ event.mainImage.imgPath }}" alt=" ">
                   <div class="caption">
-                    <h3 class="pull-left">{{event.name}}</h3>
+                    <h3 class="pull-left">{{event.name}} | #{{event.eventCode}}</h3>
                   </div>
                 </div>
             </div>
@@ -88,7 +93,7 @@
                 <div class="thumbnail">
                   <img src="{{ event.mainImage.imgPath }}" alt=" ">
                   <div class="caption">
-                    <h3 class="pull-left">{{event.name}}</h3>
+                    <h3 class="pull-left">{{event.name}} | #{{event.eventCode}}</h3>
                   </div>
                 </div>
             </div>

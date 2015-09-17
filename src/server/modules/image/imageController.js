@@ -20,10 +20,6 @@ module.exports = {
   },
 
   postImages : function (req, res, next) {
-    // console.log(JSON.parse(req.body).destinationRGB.r, " is the r value");
-    // console.log(JSON.parse(req.body).destinationRGB.g, " is the g value");
-    // console.log(JSON.parse(req.body.destinationRGB.b, " is the b value");
-
     // Look for facebookId on headers (Mobile) or
     // in cookies (Desktop)
     var facebookId;
@@ -43,14 +39,11 @@ module.exports = {
 
     var destinationRGB = JSON.parse(req.body.destinationRGB);
 
-    // console.log("inside imgaeController--->", req.file);
     cloudinary.uploader.upload(imagePath, function (result) {
       var tintedImages = [];
       for (var i = 0; i < destinationRGB.length; i++){ 
         guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, destinationRGB[i].value.originalRGB, function (err, image){
           tintedImages.push(image);
-          console.log('tintedImages progress: ', tintedImages);
-          console.log('tintedImages length: ', tintedImages.length);
           if (tintedImages.length === 25){
             res.json(tintedImages);
             res.end();

@@ -18,7 +18,7 @@ var Image = db.Image;
 // }
 
 var reviseMap = function(eventCode, revision, done){
-  console.log(revision.key, revision.value, " is our revision...")
+  // console.log(revision.key, revision.value, " is our revision...")
   var data;
   Event.findOne({eventCode: eventCode}, function (err, event){
     if (err){
@@ -35,9 +35,9 @@ var reviseMap = function(eventCode, revision, done){
         data = map.data;
         unfilledKeys = map.unfilledKeys;
         unfilledKeys.pop();
-        console.log(data[revision.key], " was the old key");
+        // console.log(data[revision.key], " was the old key");
         data[revision.key] = revision.value;
-        console.log(data[revision.key], " is the new key");
+        // console.log(data[revision.key], " is the new key");
 
         var conditions = {_id: map._id},
             update     = {
