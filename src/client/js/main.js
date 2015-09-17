@@ -179,16 +179,14 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 
     // map.data[nextImage.key].thumbnailPath = guestImg.thumbnailPath;
 
-    // var destinationRGB = map.data[nextImage].originalRGB; //{r: r, g: g, b: b}
+    var destinationRGB = nextPosition.value.originalRGB; //{r: r, g: g, b: b}
 
     // var segmentToUpdate = map.data[nextImage];
 
-    // segmentToUpdate.ID = nextImage;
-    // 
     var segmentToUpdate = nextPosition.value;
     segmentToUpdate.ID = nextPosition.key;
 
-    // mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
+    mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
 
     mosaicFactory.renderImage(segmentToUpdate.coords[0], segmentToUpdate.coords[1], segmentToUpdate.ID, guestImg.imgPath, guestImg.thumbnailPath);
 
