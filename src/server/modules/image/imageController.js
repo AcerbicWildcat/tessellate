@@ -44,15 +44,22 @@ module.exports = {
     var destinationRGB = JSON.parse(req.body.destinationRGB);
 
     // console.log("inside imgaeController--->", req.file);
-    cloudinary.uploader.upload(imagePath, function (result) { 
-      guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, destinationRGB, function (err, image){
-        if (err){
-          next(err);
-        } else {
-          res.json(image);
-          res.end();
-        }
-      }); 
+    cloudinary.uploader.upload(imagePath, function (result) {
+      var tintedImages = [];
+      for (var i = 0; i < destinationRGB.length; i++){ 
+        guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, destinationRGB[i].value.originalRGB, function (err, image){
+          tintedImages.push(image);
+          console.log('tintedImages progress: ', tintedImages);
+          console.log('tintedImages length: ', tintedImages.length);
+          if (tintedImages.length === 25){
+            res.json(tintedImages);
+            res.end();
+          }
+          if (err){
+            next(err);
+          } 
+        });
+      }; 
     });
 
     // var busboy = new Busboy({ headers: req.headers });

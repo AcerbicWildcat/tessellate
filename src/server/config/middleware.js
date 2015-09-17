@@ -37,7 +37,7 @@ module.exports = function (app, express) {
   app.use(express.static(__dirname + '/../public/'));
 
   var isAuth = function (req, res, next){
-    if (!req.isAuthenticated()){
+    if (!req.isAuthenticated() && !req.headers.facebookid){
       res.send(401);
     } else {
       next();

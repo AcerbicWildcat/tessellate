@@ -9,7 +9,6 @@ var Event = db.Event,
 
 //TODO: get necesssary RGB value.
 var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, RGB, done){
-  console.dir(RGB, " is our RGB object");
   // getPixels(cloudinaryResult.url, function (err, pixels){
   //   if (err){
   //     done(err);

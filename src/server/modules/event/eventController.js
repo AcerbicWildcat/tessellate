@@ -83,7 +83,6 @@ module.exports = {
               height: 500,
               crop: 'fill'
             }); 
-          console.log(uniformlySizedImageUrl + " is the url for the uniformly sized cloudinary image. HI JIMMY");
           mapmaker.saveEventAndMap(facebookId, uniformlySizedImageUrl, eventCode, eventName, function (err, createdEvent){
             if (err){
               next(err);

@@ -11,7 +11,6 @@ module.exports = {
     });
   },
   createUser: function(req, res, next) {
-    console.log(req.body, "is our body...");
     var facebookId;
     var name = req.body.name,
         profPhoto = req.body.profPhoto,
@@ -38,7 +37,6 @@ module.exports = {
     } else {
       facebookId = req.user.facebookId;
     }
-    console.log('facebook ID in getUSer: ', facebookId);
     getUser(facebookId, function (err, user){
       if (err){
         next(err);
