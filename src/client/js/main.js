@@ -12,10 +12,10 @@ tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
       })
-      .when('/create', {
-        templateUrl: '../create.html', 
-        controller: 'eventsProfileController'
-      })
+      // .when('/create', {
+      //   templateUrl: '../create.html', 
+      //   controller: 'eventsProfileController'
+      // })
       .when('/event/:eventcode', {/*eventually /mosaic/:eventId*/
         templateUrl: '../mosaic.html',
         controller: 'mosaicCtrl'
@@ -224,7 +224,7 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 
 }]);
 
-tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', function ($scope, mosaicFactory, httpRequestFactory){
+tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', '$location', function ($scope, mosaicFactory, httpRequestFactory, $location){
   $scope.currentEvent = httpRequestFactory.currentEvent;
   $scope.startMosaic = function(mosaicData){
     mosaicFactory.startMosaic(mosaicData);
@@ -235,8 +235,9 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
     'options': {
       'url': '/event/' + $scope.currentEvent.event.eventCode + '/image', //ultimately, we need to set this route up on the server.
       'method': 'POST',
-      // 'maxFiles': 1,
+      'maxFiles': 1,
       'clickable': true,
+      // 'autoProcessQueue': false,
       'acceptedFiles': 'image/jpeg, image/png',
     },
     'eventHandlers': {
@@ -247,15 +248,32 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
       },
       'success': function (file, response) {
         // console.log('file returned success');
+        $('div.dz-success').remove();
         mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, 0);
+      },
+      'maxfilesexceeded': function(file){
+        this.removeAllFiles();
+        this.addFile(file);
+      },
+      'addedfile': function(file){
+        console.log('added file to dropzone');
       }
     }
+  };
+  $scope.logout = function (){
+    console.log('clicked logout');
+    httpRequestFactory.logout()
+      .then(function(response){
+        $location.url('/');
+      });
   };
 }]);
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
-  $scope.photoLoaded = false;
-
+  $scope.createdEvents = [];
+  $scope.joinedEvents = [];
+  $scope.hasCreated = false;
+  $scope.hasJoined = false;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -263,11 +281,20 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       });
   };
   $scope.getUserEvents = function(){
-    // console.log('getting events');
+    console.log('getting events');
     httpRequestFactory.getUserEvents()
       .then(function(response){
         $scope.userEvents = response.data;
-        // console.log(response.data.events);
+        for(var i=0; i<response.data.events.length; i++){
+          if(response.data._id === response.data.events[i]._creator){
+            $scope.hasCreated = true;
+            $scope.createdEvents.push(response.data.events[i]);
+          }else{
+            $scope.hasJoined = true;
+            $scope.joinedEvents.push(response.data.events[i]);
+          }
+        }
+        console.log($scope.userEvents._id);
       });
   };
   $scope.joinEvent = function(eventCode){
@@ -287,10 +314,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   $scope.createEvent = function(eventCode){
   };
   $scope.getEvent = function(eventCode){
-    // console.log(eventCode);
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
-        console.log(response.data);
         $location.url('/event/' + eventCode);
       });
   };
@@ -323,13 +348,12 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        // console.log('sending file');
         formData.append("eventCode", $scope.eventCode);
         formData.append("eventName", $scope.eventName);
-        // formData.append("eventDate", $scope.eventDate);
       },
       'success': function (file, response) {
         // console.log('success call ', $scope.eventCode);
+        $scope.loaded = true;
         $scope.getEvent($scope.eventCode);
       },
       'maxfilesexceeded': function(file){
