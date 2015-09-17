@@ -74,8 +74,6 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       method: 'POST',
       url: '/events/' + eventCode,
     }).then(function(response){
-      console.log('posting now: ', response);
-      // console.log('finished post join event');
       return response;
     });
   };
@@ -281,14 +279,26 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       console.log("trying to join ", eventCode);
       httpRequestFactory.joinEvent(eventCode)
         .then(function(response){
-          console.log(response.data);
-          $scope.errorMessage = response.data.error;
-          // $scope.getEvent(eventCode);
+          console.log(response.data.error);
+          if(response.data.error){
+            $scope.errorMessage = response.data.error;
+            if(response.data.error === "event does not exist"){
+              $scope.join = false;
+              $scope.create = true;
+            }else if(response.data.error === "Sorry, this is an event you have created"){
+              $scope.create = false;
+              $scope.join = true;
+              $scope.getEvent(eventCode);
+            }
+          }else{ 
+            console.log('joining new event');
+            $scope.errorMessage = "";
+            $scope.getEvent(eventCode);
+          }
         });
     }
   };
-  $scope.createEvent = function(eventCode){
-  };
+
   $scope.getEvent = function(eventCode){
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
@@ -314,8 +324,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       'acceptedFiles': 'image/jpeg, image/png',
       init: function(){
         dz = this;
-        $('#submit-all').click(function(){
-          if(!!$scope.eventCode && !!$scope.eventName && !!$scope.eventDate && dz.files.length === 1){
+        $('.submit-all').click(function(){
+          if(!!$scope.eventCode && !!$scope.eventName && dz.files.length === 1){
             dz.processQueue();
             dz.removeAllFiles();
           }
@@ -328,7 +338,6 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         formData.append("eventName", $scope.eventName);
       },
       'success': function (file, response) {
-        // console.log('success call ', $scope.eventCode);
         $scope.loaded = true;
         $scope.getEvent($scope.eventCode);
       },
@@ -342,6 +351,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
     }
   };
   $scope.getUserEvents();
+  $scope.getUserProfile();
 
   $scope.$on('redraw', function (newMosaicData){
     console.log('trying to redraw');
