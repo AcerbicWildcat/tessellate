@@ -19,11 +19,13 @@ var MosaicView = React.createClass({
   
  
   getInitialState() {
-    return {t: 0,
+    return {
       nav:this.props.mainNavigator,
       eventCode:this.props.eventCode,
       facebookId:this.props.facebookId,
-      mosaicMainImage:'./img'
+      mosaicMainImage:'./img',
+      mosaicTitle:'Could not find title of Mosaic',
+      mosaicMembers:0,
     }
   },
 
@@ -62,10 +64,11 @@ var MosaicView = React.createClass({
        })
       .then(function(resJson) {
         var mosaicMainImage = resJson.image.imgPath;
+        
         if (!resJson){
           throw new Error('This event does not exist!');
         }
-
+        console.log('Mosaic Data',resJson)
         _this.setState({mosaicMainImage:mosaicMainImage},function(){
           _this.dismissProgressHUD();
         }); 
@@ -94,13 +97,14 @@ var MosaicView = React.createClass({
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome}>
-        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
-      </TouchableHighlight>
-      
-       
+      <TouchableHighlight style = {styles.header} onPress={this.goHome}>
+      <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+       </TouchableHighlight>
+       <View style={styles.mosaicContainer}>
+          <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle}</Text> 
+          <Text style={styles.mosaicMembersText}>Members: {this.state.mosaicMembers} </Text>
           <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
-    
+        </View>
         <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
       </View>
     );
@@ -142,7 +146,13 @@ var styles = StyleSheet.create({
       width:50,
       backgroundColor:'transparent'
     },
-
+    mosaicContainer:{
+      position:'relative',
+      backgroundColor:'white',
+      padding:35,
+      top:0,
+      bottom:0,
+    },
     mosaic: {
       position:'relative',
       marginLeft:10,
@@ -151,8 +161,30 @@ var styles = StyleSheet.create({
       right:10,
       width:400,
       height: 400
+    },
+    mosaicTitleText: {
+      position:'relative',
+      fontSize:18,
+      left:20,
+      padding:5,
+      fontStyle:'italic',
+      fontWeight:'700',
+      top:0,
+    },
+    mosaicMembersText: {
+      position:'relative',
+      fontSize:12,
+      left:20,
+      padding:5,
     }
+
 
 });
 
+/*
+
+<TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome}>
+        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
+      </TouchableHighlight>
+ */
 module.exports = MosaicView;

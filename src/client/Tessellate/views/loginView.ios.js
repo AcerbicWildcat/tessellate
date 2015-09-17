@@ -16,6 +16,7 @@ var {
   Image,
   AlertIOS,
   NativeModules,
+  NetInfo,
   
 } = React;
 
@@ -57,7 +58,29 @@ class LoginView extends Component {
       loggedIn:false,
       userId: '',
       facebookId: '',
+      isConnected:null,
     }
+  }
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'change',
+      this._handleConnectivityChange
+    );
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { this.setState({isConnected}); }
+    );
+  }
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'change',
+      this._handleConnectivityChange
+    );
+  }
+  _handleConnectivityChange(isConnected) {
+    this.setState({
+      isConnected,
+    });
   }
 
   //allow user to proceed to main events
@@ -131,10 +154,23 @@ class LoginView extends Component {
          <FBLogin style={{ marginBottom: 10, }}
         permissions={["email","user_friends","public_profile"]}
         onLogin={function(data){
-
-          _this.setState({ user : data.credentials },function(){
-            _this.login(data.credentials.userId);
-          });
+          try{
+            if (_this.state.isConnected){
+               _this.setState({ user : data.credentials },function(){
+                _this.login(data.credentials.userId);
+              });
+            } else {
+              throw new Error('Did you pay your internet bill?!')
+            }
+          } catch(err){
+            AlertIOS.alert(
+               'Whoa! Something Went Wrong.',
+               err.message,
+               [
+                 {text: 'Try Again', onPress: () => {}}
+               ]
+             );
+          }
           
         }}
         onLogout={function(){
@@ -144,9 +180,23 @@ class LoginView extends Component {
         onLoginFound={function(data){
           //console.log("Existing login found.");
           //console.log(data);
-           _this.setState({ user : data.credentials },function(){
-            _this.login(data.credentials.userId);
-          });
+          try{
+            if (_this.state.isConnected){
+               _this.setState({ user : data.credentials },function(){
+                _this.login(data.credentials.userId);
+              });
+            } else {
+              throw new Error('Did you pay your internet bill?!')
+            }
+          } catch(err){
+            AlertIOS.alert(
+               'Whoa! Something Went Wrong.',
+               err.message,
+               [
+                 {text: 'Try Again', onPress: () => {}}
+               ]
+             );
+          }
 
         }}
         onLoginNotFound={function(){
