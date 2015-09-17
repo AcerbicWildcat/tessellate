@@ -77,7 +77,7 @@ describe("Tessellate database", function() {
   });
 });
 
-xdescribe('mapmaker.js', function(){
+describe('mapmaker.js', function(){
   //TODO: add a before hook here.
   var returnObj;
   var setUser;
@@ -181,7 +181,7 @@ xdescribe('mapmaker.js', function(){
 
 });
 
-xdescribe('getEventAndMap.js', function(){
+describe('getEventAndMap.js', function(){
 
   var returnObj;
   var setUser;
