@@ -199,6 +199,7 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', '$location', function ($scope, mosaicFactory, httpRequestFactory, $location){
   $scope.nextPosition = {};
   $scope.currentEvent = httpRequestFactory.currentEvent;
+  $scope.waitingForUpload = true;
   $scope.startMosaic = function(mosaicData){
     mosaicFactory.startMosaic(mosaicData);
   };
@@ -210,16 +211,14 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true,
-      // 'autoProcessQueue': false,
+      'autoProcessQueue': false,
       'acceptedFiles': 'image/jpeg, image/png',
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-
         var RGBObject = ($scope.currentEvent.map.unfilledKeys);
         $scope.nextPosition = RGBObject.pop();
         formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
-
       },
       'success': function (file, response) {
         console.log($scope.currentEvent.map.data);
@@ -232,7 +231,8 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
         this.addFile(file);
       },
       'addedfile': function(file){
-        console.log('added file to dropzone');
+        $scope.waitingForUpload = false;
+        $scope.$apply();
       }
     }
   };
