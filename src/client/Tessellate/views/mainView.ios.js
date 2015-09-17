@@ -80,7 +80,7 @@ var Main =  React.createClass({
 
 
   showEventDetails(eventCode){
-    var joinEventURL = 'http://10.6.1.173:8000/events/' + eventCode
+    var joinEventURL = 'http://tessellate-penguin.herokuapp.com/events/' + eventCode
     //Join the event
     if (eventCode){
       var joinEventObj = {  
@@ -89,7 +89,7 @@ var Main =  React.createClass({
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Origin': '',
-          'Host': 'http://10.6.1.173:8081',
+          //'Host': 'http://10.6.1.173:8081',
           'FacebookID':this.props.facebookId,
         }
       }

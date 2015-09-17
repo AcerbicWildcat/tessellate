@@ -112,7 +112,7 @@ class LoginView extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Origin': '',
-        'Host': 'http://10.6.1.173:8081'
+        //'Host': 'http://10.6.1.173:8081'
       },
       body: JSON.stringify({
          facebookId:facebookId,
@@ -121,7 +121,7 @@ class LoginView extends Component {
     }
 
 
-    fetch('http://10.6.1.173:8000/user', loginObject)  
+    fetch('http://tessellate-penguin.herokuapp.com/user', loginObject)  
       .then(function(res) {
         return res.json();
        })

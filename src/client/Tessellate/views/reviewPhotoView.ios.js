@@ -82,7 +82,7 @@ class ReviewPhotoView extends Component {
 
       var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
-          uploadUrl:'http://10.6.1.173:8000/events/'+_this.state.eventCode + '/' + 'image',
+          uploadUrl:'http://tessellate-penguin.herokuapp.com/events/'+_this.state.eventCode + '/' + 'image',
           fileName:'image',
           //mimeType,
           headers:{
