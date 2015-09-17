@@ -6,7 +6,7 @@ var User = db.User,
     Map = db.Map,
     Image = db.Image;
 
-console.log(db.User + " should be a user constructor");
+// console.log(db.User + " should be a user constructor");
 
 var chunkSize = 10;
 
@@ -24,7 +24,7 @@ var saveEventAndMap = function(facebookId, filePath, eventCode, eventName, done)
     if (err){
       done(err);
     }
-    console.log(pixels + "are our pixels");
+    // console.log(pixels + "are our pixels");
     var _storage = chunker(pixels);
     mapEventMaker(facebookId, filePath, _storage, pixels, eventCode, eventName, done);
   });

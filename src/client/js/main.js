@@ -74,6 +74,7 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       method: 'POST',
       url: '/events/' + eventCode,
     }).then(function(response){
+      console.log('posting now: ', response);
       // console.log('finished post join event');
       return response;
     });
@@ -99,7 +100,7 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       method: 'GET',
       url: '/logout'
     }).then(function (response){
-      console.log("LOGGED OUT! ", response);
+      // console.log("LOGGED OUT! ", response);
       return response;
     });
   };
@@ -176,7 +177,7 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
       segmentToUpdate.imgPath = guestImages[i].imgPath;
       segmentToUpdate.thumbnailPath = guestImages[i].thumbnailPath;
       segmentToUpdate.ID = nextPosition[i].key;
-      console.log("Segment To Update: ", segmentToUpdate);
+      // console.log("Segment To Update: ", segmentToUpdate);
       mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
 
       // console.log(segmentToUpdate.coords);
@@ -217,13 +218,13 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
         // will now be passing an array of RGB objects (group of 25 from end of queue)
         // will need to iterate through and pass to cloudinary to tint and return
         // formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
-        console.log('Sending Array: ', $scope.nextPosition);
+        // console.log('Sending Array: ', $scope.nextPosition);
         formData.append("destinationRGB", JSON.stringify($scope.nextPosition));
         $scope.$apply();
       },
       'success': function (file, response) {
         $('div.dz-success').remove();
-        console.log('Success Response: ', response);
+        // console.log('Success Response: ', response);
         mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, $scope.nextPosition);
       },
       'maxfilesexceeded': function(file){
@@ -275,14 +276,14 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   $scope.joinEvent = function(eventCode){
     if(!eventCode){
       console.log(eventCode);
-      $scope.noEventCode = true;
+      // $scope.noEventCode = true;
     } else {
       console.log("trying to join ", eventCode);
-      $scope.noEventCode = false;
       httpRequestFactory.joinEvent(eventCode)
         .then(function(response){
-          // console.log(response);
-          $scope.getEvent(eventCode);
+          console.log(response.data);
+          $scope.errorMessage = response.data.error;
+          // $scope.getEvent(eventCode);
         });
     }
   };
