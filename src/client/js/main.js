@@ -136,7 +136,7 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
 
   mosaicFactory.redrawImages = function(map){
     for (var key in map.data){
-      if (map.data[key].imgPath){
+      if (map.data[key].thumbnailPath){
         mosaicFactory.renderImage(map.data[key].coords[0], map.data[key].coords[1], key, map.data[key].imgPath, map.data[key].thumbnailPath);
       }
     }
@@ -184,9 +184,13 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
     // var segmentToUpdate = map.data[nextImage];
 
     var segmentToUpdate = nextPosition.value;
+    segmentToUpdate.imgPath = guestImg.imgPath;
+    segmentToUpdate.thumbnailPath = guestImg.thumbnailPath;
     segmentToUpdate.ID = nextPosition.key;
 
     mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
+
+    console.log(segmentToUpdate.coords);
 
     mosaicFactory.renderImage(segmentToUpdate.coords[0], segmentToUpdate.coords[1], segmentToUpdate.ID, guestImg.imgPath, guestImg.thumbnailPath);
 

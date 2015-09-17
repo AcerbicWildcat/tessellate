@@ -33,12 +33,17 @@ var reviseMap = function(eventCode, revision, done){
           done(err);
         }
         data = map.data;
+        unfilledKeys = map.unfilledKeys;
+        unfilledKeys.pop();
         console.log(data[revision.key], " was the old key");
         data[revision.key] = revision.value;
         console.log(data[revision.key], " is the new key");
 
         var conditions = {_id: map._id},
-            update     = {data: data},
+            update     = {
+              data: data,
+              unfilledKeys: unfilledKeys
+            },
             options    = {new: true}; //guarantees that done returns the saved map object--not the old one.
         Map.findOneAndUpdate(conditions, update, options, function (err, foundMap){
           if (err){
