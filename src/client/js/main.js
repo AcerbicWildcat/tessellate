@@ -206,7 +206,7 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
       'method': 'POST',
       'maxFiles': 1,
       'clickable': true,
-      // 'autoProcessQueue': false,
+      'autoProcessQueue': false,
       'acceptedFiles': 'image/jpeg, image/png',
     },
     'eventHandlers': {
