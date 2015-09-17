@@ -134,6 +134,11 @@ describe('mapmaker.js', function(){
     done();
   });
 
+  it('should create a map with an unfilledKeys property with length equal to the number of keys on the data property', function (done) {
+    expect(returnObj.map.unfilledKeys.length).to.equal(1);
+    done();
+  });
+
   it('should create an event with the correct name', function (done) {
     expect(returnObj.event.name).to.equal("Oizo Party");
     done();
