@@ -248,7 +248,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   $scope.joinedEvents = [];
   $scope.hasCreated = false;
   $scope.hasJoined = false;
-  $scope.loaded = false;
+  $scope.loaded = true;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -278,8 +278,10 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       // $scope.noEventCode = true;
     } else {
       console.log("trying to join ", eventCode);
+      $scope.loaded = false;
       httpRequestFactory.joinEvent(eventCode)
         .then(function(response){
+          $scope.loaded = true;
           console.log(response.data.error);
           if(response.data.error){
             $scope.errorMessage = response.data.error;
@@ -308,9 +310,11 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   };
 
   $scope.logout = function (){
+    $scope.loaded = false;
     console.log('clicked logout');
     httpRequestFactory.logout()
       .then(function(response){
+        $scope.loaded = true;
         $location.url('/');
       });
   };
@@ -327,6 +331,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         dz = this;
         $('.submit-all').click(function(){
           if(!!$scope.eventCode && !!$scope.eventName && dz.files.length === 1){
+            $scope.loaded = false;
+            $scope.$apply();
             dz.processQueue();
             dz.removeAllFiles();
           }
@@ -340,6 +346,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       },
       'success': function (file, response) {
         $scope.loaded = true;
+        $scope.$apply();
         $scope.getEvent($scope.eventCode);
       },
       'maxfilesexceeded': function(file){
