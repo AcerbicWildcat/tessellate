@@ -7,7 +7,15 @@ var Event = db.Event,
     User  = db.User;
 
 
-//TODO: get necesssary RGB value.
+/**
+ * Creates a guest image for an event, using an eventCode to look up the event by, facebookId to know what user to associate the image with, the cloudinaryResult object to create URL fields for the image, an RGB object to generate a tinted thumbnail URL with, and a callback (done).
+ * @param  {String}   eventCode        - the property we look up an event by.
+ * @param  {String}   facebookId       - the property we look up a user by.
+ * @param  {Object}   cloudinaryResult - the object returned from cloudinary, used to populate image fields with the correct URLs.
+ * @param  {Object}   RGB              - an object that looks like {r: Number, g: Number, b: Number}, used to generate a tinted thumbnail URL.
+ * @param  {Function} done             - callback invoked on the created image; sends it back the client after saving image to the database.
+ * @return {Object}                    - image object saved to the database.
+ */
 var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, RGB, done){
   // getPixels(cloudinaryResult.url, function (err, pixels){
   //   if (err){
@@ -47,14 +55,30 @@ var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, RGB, d
     });
   // });
 };
-
+/**
+ * Provided a cloudinary filename and an RGB object, creates a thumbnail URL that produces a tinted version of an image on cloudinary.
+ * @param  {String} name - name of the file on cloudinary; extracted from the response object cloudinary produces.
+ * @param  {Object} RGB  - object that looks like {r: Number, g: Number, b: Number}.
+ * @return {String}      - the cloudinary URL for the tinted thumbnail image.
+ */
 var thumbnailMaker = function(name, RGB){
-  //{r: r, g: g, b: b}
   
+  /**
+   * Concatenates three strings to create a hex RGB value.
+   * @param  {Number} R - red value.
+   * @param  {Number} G - green value.
+   * @param  {Number} B - blue value.
+   * @return {String}   - hex string representing an RGB value.
+   */
   var rgbToHex = function (R,G,B) {
     return toHex(R)+toHex(G)+toHex(B);
   };
 
+  /**
+   * Given a number n between 0 and 255 inclusive, returns a hex value representing the number.
+   * @param  {Number} n - the number.
+   * @return {String}   - the returned string.
+   */
   var toHex = function (n) {
     n = parseInt(n,10);
     if (isNaN(n)) return "00";
@@ -64,7 +88,6 @@ var thumbnailMaker = function(name, RGB){
 
   var hex = rgbToHex(RGB.r, RGB.g, RGB.b);
 
-  // var fileName =  name + "." + format;
   return cloudinary.url(name, { 
     width: 10, 
     height: 10, 
@@ -72,7 +95,6 @@ var thumbnailMaker = function(name, RGB){
     color: '#' + hex,
     effect: 'colorize:60' 
   });
-  //essentially the same as adding w_100,h_100,c_fill to the url path.
 };
 
 // var getAverageColor = function(pixels) {

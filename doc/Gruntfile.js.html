@@ -44,18 +44,17 @@
      */
     watch: {
       javascript: {
-        files: ["src/client/**/*.js", "src/server/*.js", "specs/**/*Spec.js", "Gruntfile.js"],
+        files: ["src/client/**/*.js", "Gruntfile.js"],
         tasks: ['jshint', 'concat', 'copy']
       },
       html: {
-        files: ["src/client/**/*.html", "src/server/*.html"],
+        files: ["src/client/templates/**/*.html"],
         tasks: ['front']
       },
-      sass: {
-        files: 'src/client/sass/{,*/}*.{scss,sass}',
-        tasks: ['sass:dist'],
+      css: {
+        files: 'src/client/css/tessellate.css',
+        tasks: 'copy'
       }
-
     },
     /**
      * nodemon server runner
@@ -82,7 +81,7 @@
         reporter: "nyan",
         ui: "tdd"
       },
-      all: ["specs/server/*Spec.js"]
+      all: ["specs/server/*Spec.js", "specs/db/*Spec.js"]
     },
     /**
      * javascript syntax checking task
@@ -115,14 +114,22 @@
         src: [
         'node_modules/angular/angular.js',
         'node_modules/angular-route/angular-route.js',
-        'src/client/bower_components/ng-file-upload/ng-file-upload-all.min.js',
-        // 'src/client/bower_components/dropzone/dist/dropzone.min.js',
         'src/client/bower_components/jquery/dist/jquery.js', 
         'src/client/bower_components/bootstrap/dist/js/bootstrap.js', 
-        'src/client/bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-        'src/client/js/tessellate.js'],
+        'src/client/js/main.js'
+        ],
         dest: 'src/server/public/js/app.min.js'
       },
+    },
+    /**
+     * Task for minifying the js file created
+     */
+    uglify: {
+      dist: {
+        files: {
+          'src/server/public/js/app.min.js': ['src/server/public/js/app.min.js']
+        }
+      }
     },
     /**
      * Task for concatenating scss files into css
@@ -155,13 +162,13 @@
           filter: 'isFile',
           src: ['src/client/bower_components/bootstrap/dist/css/**'],
           dest: 'src/server/public/css/'
-        }, {
+        }, /*{
           expand: true, 
           flatten: true,
           filter: 'isFile',
           src: ['src/client/bower_components/dropzone/dist/*.css'],
           dest: 'src/server/public/css/'
-        }, { 
+        },*/ { 
           expand: true,
           flatten: true, 
           filter: 'isFile',
@@ -171,7 +178,7 @@
           expand: true,
           flatten: true, 
           filter: 'isFile',
-          src: ['src/client/css/**'],
+          src: ['src/client/css/tessellate.css'],
           dest: 'src/server/public/css'
         }, { 
           expand: true,
@@ -179,25 +186,31 @@
           filter: 'isFile',
           src: ['src/client/assets/**'],
           dest: 'src/server/public/assets'
-        }, {
+        }, /*{
           expand: true, 
           flatten: true,
           filter: 'isFile',
-          src: ['src/client/js/main.js', 'src/client/js/authServices.js', 'src/client/js/mosaicModule.js'],
+          src: ['src/client/js/main.js', 'src/client/js/mosaicModule.js'],
           dest: 'src/server/public/js'
-        }, {
+        },*/ {
           expand: true, 
           flatten: true,
           filter: 'isFile',
           src: ['src/client/bower_components/dropzone/dist/min/dropzone.min.js'],
           dest: 'src/server/public/js'
-        }/*, { 
+        },{
           expand: true,
-          flatten: true, 
+          flatten: true,
           filter: 'isFile',
-          src: ['src/client/bower_components/ng-flow/dist/ng-flow-standalone.min.js'],
-          dest: 'src/server/public/js'
-        }*/],
+          src: ['src/client/bower_components/angular-bootstrap/ui-bootstrap-csp.css'],
+          dest: 'src/server/public/css'
+        },{
+          expand: true,
+          flatten: true,
+          filter: 'isFile',
+          src: ['src/client/img/**'],
+          dest: 'src/server/public/img'
+        }],
       },
     },
 
@@ -214,6 +227,7 @@
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   /**
    * Test: this is the same as default. Just runs jshint, mochacli, jasmine
@@ -222,9 +236,9 @@
   grunt.registerTask("default", ["test"]);
   grunt.registerTask("document", ["jsdoc"]);
   grunt.registerTask("server", ["mochacli", "nodemon", "watch"]);
-  grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'copy', 'watch']);
+  grunt.registerTask("front", ['bower:install', 'sass', 'concat', 'uglify', 'copy', 'watch']);
 
-  grunt.registerTask("build", ['bower:install', 'concat', 'copy']);
+  grunt.registerTask("build", ['bower:install', 'concat', 'uglify', 'copy']);
 
 };
 </code></pre>
@@ -237,13 +251,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="-_event%2520GET.html">/event GET</a></li><li><a href="-_event%2520POST.html">/event POST</a></li><li><a href="-_event__eventId%2520GET.html">/event/:eventId GET</a></li><li><a href="-_event_image%2520GET.html">/event/image GET</a></li><li><a href="-_event_image__imageId%2520DELETE.html">/event/image/:imageId DELETE</a></li><li><a href="-_event_image__imageId%2520GET.html">/event/image/:imageId GET</a></li><li><a href="-_event_image_image%2520POST.html">/event/image/image POST</a></li><li><a href="-_event_eventId.html">/event:eventId</a></li><li><a href="-_user%252520GET.html">/user GET</a></li></ul><h3>Global</h3><ul><li><a href="global.html#bower">bower</a></li><li><a href="global.html#concat">concat</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#jasmine">jasmine</a></li><li><a href="global.html#jsdoc">jsdoc</a></li><li><a href="global.html#jshint">jshint</a></li><li><a href="global.html#mochacli">mochacli</a></li><li><a href="global.html#nodemon">nodemon</a></li><li><a href="global.html#sass">sass</a></li><li><a href="global.html#watch">watch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="-_event%2520GET.html">/event GET</a></li><li><a href="-_event%2520POST.html">/event POST</a></li><li><a href="-_event__eventId%2520GET.html">/event/:eventId GET</a></li><li><a href="-_event_image%252520GET.html">/event/image GET</a></li><li><a href="-_event_image__imageId%252520DELETE.html">/event/image/:imageId DELETE</a></li><li><a href="-_event_image__imageId%252520GET.html">/event/image/:imageId GET</a></li><li><a href="-_event_image_image%252520POST.html">/event/image/image POST</a></li><li><a href="-_event_eventId.html">/event:eventId</a></li><li><a href="-_user%252520GET.html">/user GET</a></li></ul><h3>Global</h3><ul><li><a href="global.html#bower">bower</a></li><li><a href="global.html#concat">concat</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#jasmine">jasmine</a></li><li><a href="global.html#jsdoc">jsdoc</a></li><li><a href="global.html#jshint">jshint</a></li><li><a href="global.html#mochacli">mochacli</a></li><li><a href="global.html#nodemon">nodemon</a></li><li><a href="global.html#sass">sass</a></li><li><a href="global.html#uglify">uglify</a></li><li><a href="global.html#watch">watch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Tue Sep 08 2015 22:43:26 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Fri Sep 18 2015 12:23:49 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

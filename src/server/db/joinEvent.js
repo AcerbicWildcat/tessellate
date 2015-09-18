@@ -3,6 +3,14 @@ var db = require('./db.js');
 var User = db.User;
 var Event = db.Event;
 
+
+/**
+ * Creates a mutual relationship between a user and an event, causing the event to appear on the 'events' and enabling the user to navigate to the event, view the mosaic, and add photos to it.
+ * @param  {String}   facebookId - string that identifies the user.
+ * @param  {String}   eventCode  - string that identifies the event.
+ * @param  {Function} callback   - callback function, invoked when finished.
+ * @return {Object}              - object representing the event that was saved. (not currently utilized)
+ */
 module.exports = function(facebookId, eventCode, callback){
   User.findOne({facebookId: facebookId}, function (err, user){
     if (err){
