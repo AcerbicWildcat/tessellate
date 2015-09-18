@@ -446,7 +446,7 @@ describe('getAndReviseMap', function(){
     });
   });
 
-  it("should return the revised map in the callback", function(done){
+  xit("should return the revised map in the callback", function(done){
     mapHelpers.reviseMap("revisemapevent", {key: "stuff", value: "B"}, function(err, map){
       expect(map.data.stuff).to.equal("B");
       expect(map.data.stuff).to.not.equal("A");
@@ -457,7 +457,7 @@ describe('getAndReviseMap', function(){
 
 
 
-  it("should revise an existing map in the db by changing its data property", function(done){
+  xit("should revise an existing map in the db by changing its data property", function(done){
     Map.findOne({_id: savedData[2]._id}, function(err, foundMap){
       expect(foundMap.data.stuff).to.equal("B");
       done();

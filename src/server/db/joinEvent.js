@@ -8,9 +8,8 @@ module.exports = function(facebookId, eventCode, callback){
     if (err){
       callback(err);
     }
-    Event.findOne({eventCode: eventCode}, function (err, event)
-      {
-        // console.log("the event exists", event);
+    Event.findOne({eventCode: eventCode}, function (err, event){
+        console.log("the event exists", event);
       if (err){
         callback(err);
       }

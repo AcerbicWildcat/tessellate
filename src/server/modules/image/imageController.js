@@ -5,6 +5,7 @@ var Busboy = require('busboy');
 var cloudinary = require('cloudinary');
 var guestImageMaker = require('../../db/guestImageMaker');
 var util = require('util');
+var getEventAndMap = require('../../db/getEventAndMap');
 
 
 cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
@@ -37,14 +38,21 @@ module.exports = {
       imagePath = JSON.parse(req.body).image;
     }
 
-    var destinationRGB = JSON.parse(req.body.destinationRGB);
+    // var destinationRGB = JSON.parse(req.body.destinationRGB);
+
+    // instead of getting next slice of unfilledKeys via destinationRGB on body
+    // --> need to make call to event in DB and retrieve unfilledKeys
+    var unfilledKeysSlice;
+    getEventAndMap(req.params.eventId, function (err, event){
+      unfilledKeysSlice = event.map.unfilledKeys.splice(-5,5);
+    });
 
     cloudinary.uploader.upload(imagePath, function (result) {
       var tintedImages = [];
-      for (var i = 0; i < destinationRGB.length; i++){ 
-        guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, destinationRGB[i].value.originalRGB, function (err, image){
+      for (var i = 0; i < unfilledKeysSlice.length; i++){ 
+        guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, unfilledKeysSlice[i].value.originalRGB, function (err, image){
           tintedImages.push(image);
-          if (tintedImages.length === 25){
+          if (tintedImages.length === unfilledKeysSlice.length){
             res.json(tintedImages);
             res.end();
           }
