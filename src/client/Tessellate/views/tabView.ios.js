@@ -20,14 +20,7 @@ var {
   
 } = React;
 
-
-
-
-//Tab Bar Instance contains a Camera Tab and a Mosaic Tab
-//You can toggle between the two
 var TabView =  React.createClass( {
-
-
 
   getInitialState(){
     return {
@@ -40,10 +33,6 @@ var TabView =  React.createClass( {
       showCamera:false,
       
     }
-  },
-
-  componentWillMount() {
-    Icon.getImageSource('../assets/mainLogo.png', 25).then((source) => this.setState({ mosaicIcon: source }));
   },
 
   componentDidMount() {
@@ -61,12 +50,10 @@ var TabView =  React.createClass( {
 
 
   render() {
-    
+    //camera only present when necessary!
     var camera = this.state.showCamera ? <Camera facebookId={this.state.facebookId} mainNavigator={this.state.mainNavigator} eventCode={this.state.eventCode} selectedTab={this.setSelectedTabCallBack}/> : null;
     return (
-  
       <TabBarIOS selectedTab={this.state.selectedTab}>
-
         <Icon.TabBarItem
             iconName="camera"
             selected={this.state.selectedTab === 'camera'}
@@ -81,6 +68,7 @@ var TabView =  React.createClass( {
           {camera}  
 
         </Icon.TabBarItem>
+
         <Icon.TabBarItem
             sytle={styles.icon}
             iconName="picture-o"
@@ -94,14 +82,11 @@ var TabView =  React.createClass( {
           }}>
 
           <Mosaic loadEvents={this.state.loadEvents} facebookId={this.state.facebookId} eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
+        
         </Icon.TabBarItem>
       </TabBarIOS>
-      
-      
     );
   },
-
-  
 });
 
 var styles = StyleSheet.create({

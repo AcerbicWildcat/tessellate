@@ -20,9 +20,7 @@ var {
 } = React;
  
  
-//User's Created and Joined Events
 var Main =  React.createClass({
- 
   getInitialState: function() {
     this.props.navRef.setState({navBarHidden:true});
     return {
@@ -43,16 +41,13 @@ var Main =  React.createClass({
 
   render() {
 
-    //TODO - Use Event Emitter to update events in listview on main page load
     return (
        <View style={styles.container}>
         
-    
          <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         
          <EventsView ref={'events'} passEventCode={this.showEventDetails} spin={this.startSpinner} stopSpin={this.stopSpinner} facebookId={this.state.facebookId}/>  
 
-       
          <View style={styles.footer}>  
            <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text,isText:true})} placeholder="# Join an Event"/>
              <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails.bind(this,this.state.eventCode)}>
@@ -61,6 +56,7 @@ var Main =  React.createClass({
          </View>
 
          <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />  
+       
        </View>
       
     );
@@ -70,90 +66,104 @@ var Main =  React.createClass({
     callback();
   },
 
+  /**
+   * [startSpinner start progressHUD in MainView]
+   * 
+   */
   startSpinner(){
     this.showProgressHUD();
   },
 
+  /**
+   * [stopSpinner stop progressHUD in MainView]
+   * 
+   */
   stopSpinner(){
     this.dismissProgressHUD();
   },
 
 
+  /**
+   * [showEventDetails display eventdetails in MosaicView]
+   * @param  {[type]} eventCode [event code of event to join]
+   * 
+   */
+  showEventDetails(eventCode) {
+   var joinEventURL = 'http://tessellate-penguin.herokuapp.com/events/' + eventCode
+   var self = this;
 
-  showEventDetails(eventCode){
-    var joinEventURL = 'http://tessellate-penguin.herokuapp.com/events/' + eventCode
-    //Join the event
-      var self = this;
-    if (eventCode){
-      var joinEventObj = {  
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Origin': '',
-          //'Host': 'http://10.6.1.173:8081',
-          'FacebookID':this.props.facebookId,
-        }
-      }
+   if (eventCode) {
+     var joinEventObj = {
+       method: 'POST',
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Origin': '',
+         //'Host': 'http://10.6.1.173:8081',
+         'FacebookID': this.props.facebookId,
+       }
+     }
 
-      //if not the creater join event
-      fetch(joinEventURL, joinEventObj)  
-        .then(function(res) {
-          return res.json();
-         })
-        .then(function(resJson) {
-          //console.log('tyring to join event: ', resJson)
-          if(resJson.error && self.state.isText){
-            console.log('its alive')
-            throw new Error(resJson.error);
-          }
-          return resJson;
-         })
-        .catch((error) => {
-          
-          AlertIOS.alert(
-             'Whoa! Something Went Wrong.',
-             error.message,
-             [
-               {text: 'Try Again', onPress: () => {
-                //redirect back to main page
-                //_this.props.nav.pop()
+     fetch(joinEventURL, joinEventObj)
+       .then(function(res) {
+         return res.json();
+       })
+       .then(function(resJson) {
+         if (resJson.error && self.state.isText) {
+           console.log('its alive')
+           throw new Error(resJson.error);
+         }
+         return resJson;
+       })
+       .catch((error) => {
 
-               }}
-             ]
-           );
+         AlertIOS.alert(
+           'Whoa! Something Went Wrong.',
+           error.message, [{
+             text: 'Try Again',
+             onPress: () => {
+               //redirect back to main page
+               //_this.props.nav.pop()
 
-        });
+             }
+           }]
+         );
 
+       });
 
-        //go to its mosaic view
-        if (eventCode){
-          console.log('pushing to next screen')
-          eventCode = eventCode.trim();
-          self.setState({isText:false});
-          self.props.navigator.push({
-                          title: '#' + eventCode, //refactor to contain event title
-                          component: TabView,
-                          passProps: {eventCode: eventCode,
-                          facebookId:this.state.facebookId,
-                          mainNavigator: self.props.navigator,
-                          navRef:self.state.navRef,
-                          loadEvents:self.refs.events.fetchUserEvents.bind(self.refs.events)
-                          } //refactor to contain eventcode
-                          
-                 }); 
-        } else {
-          AlertIOS.alert(
-             'You are unable to join this event',
-             ':(',
-             [
-               {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
-             ]
-           );
-        }
-    }
+     //go to its mosaic view
+     if (eventCode) {
+       console.log('pushing to next screen')
+       eventCode = eventCode.trim();
+       self.setState({
+         isText: false
+       });
+       self.props.navigator.push({
+         title: '#' + eventCode, //refactor to contain event title
+         component: TabView,
+         passProps: {
+           eventCode: eventCode,
+           facebookId: this.state.facebookId,
+           mainNavigator: self.props.navigator,
+           navRef: self.state.navRef,
+           loadEvents: self.refs.events.fetchUserEvents.bind(self.refs.events)
+         } //refactor to contain eventcode
 
-  },
+       });
+     } else {
+       AlertIOS.alert(
+         'You are unable to join this event',
+         ':(', [{
+           text: 'Try Again',
+           onPress: () => {
+             self.fetchUserEvents
+           }
+         }]
+       );
+     }
+   }
+
+ },
 
 });
 

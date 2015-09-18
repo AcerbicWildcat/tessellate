@@ -16,50 +16,7 @@ var {
   
 } = React;
 
-var styles = StyleSheet.create({
-  container: {
-    flex:1,
-  },
-  photo: {
-    flex:1,
-    flexDirection:'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    flexWrap:'wrap',
-    backgroundColor: '#1B2B32',
-  },
-  save: {
-    position:'absolute',
-    backgroundColor:'transparent',
-    bottom:10,
-    right:20,
-    
-  },
-  discard: {
-    position:'absolute',
-    backgroundColor:'transparent',
-    width:100,
-    height:50,
-    left:10,
-    top:10,
-  },
-	image: {
-    alignSelf:'center',
-  },
-   goHome: {
-      position:'absolute',
-      top:7,
-      left:80,
-      opacity:.8, 
-      height:50,
-      width:50,
-      backgroundColor:'transparent',
-    },
 
-});
-
-
-//Display Current Version of Event's Mosaic
 class ReviewPhotoView extends Component {
   constructor(props){
     super(props);
@@ -81,7 +38,7 @@ class ReviewPhotoView extends Component {
      var imageToSave = _this.props.photo;
      var uploadURL = 'http://tessellate-penguin.herokuapp.com/events/'+_this.state.eventCode + '/image';
      NativeModules.ReadImageData.readImage(imageToSave, (image) => {
-      imageToSave = image;
+    imageToSave = image;
       
       var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
@@ -89,7 +46,6 @@ class ReviewPhotoView extends Component {
           fileName:'image',
           //mimeType,
           headers:{
-            //'Host': 'http://10.6.1.173:8081',
             'FacebookID':_this.props.facebookId,
           },
           data: {
@@ -127,8 +83,6 @@ class ReviewPhotoView extends Component {
    
   }
 
-
-
   render() {
    var discard = (<Icon name="arrow-left" size={40} color="white" style={styles.icon} />)
    var save = (<Icon name="save" size={40} color="white" style={styles.icon} />)
@@ -153,6 +107,48 @@ class ReviewPhotoView extends Component {
 
   
 }
+
+var styles = StyleSheet.create({
+  container: {
+    flex:1,
+  },
+  photo: {
+    flex:1,
+    flexDirection:'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flexWrap:'wrap',
+    backgroundColor: '#1B2B32',
+  },
+  save: {
+    position:'absolute',
+    backgroundColor:'transparent',
+    bottom:10,
+    right:20,
+    
+  },
+  discard: {
+    position:'absolute',
+    backgroundColor:'transparent',
+    width:100,
+    height:50,
+    left:10,
+    top:10,
+  },
+  image: {
+    alignSelf:'center',
+  },
+   goHome: {
+      position:'absolute',
+      top:7,
+      left:80,
+      opacity:.8, 
+      height:50,
+      width:50,
+      backgroundColor:'transparent',
+    },
+
+});
 
 
 module.exports = ReviewPhotoView;

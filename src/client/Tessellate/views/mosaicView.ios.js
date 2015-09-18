@@ -10,45 +10,47 @@ var {
   TouchableHighlight,
   AlertIOS,
 } = React;
- 
-//var {Use, Path, Defs, Mask, LinearGradient,G,SvgDocument,Svg} = require('react-native-svg-elements');
-//var TimerMixin = require('react-timer-mixin');
+
 var ProgressHUD = require('react-native-progress-hud'); 
 
 var MosaicView = React.createClass({
   mixins: [ProgressHUD.Mixin],
   
- 
   getInitialState() {
     return {
       nav:this.props.mainNavigator,
       eventCode:this.props.eventCode,
       facebookId:this.props.facebookId,
-      mosaicMainImage:'./img',
+      mosaicMainImage:'.img',
       mosaicTitle:'',
       mosaicMembers:'',
+      mosaicImages:0,
       loaded:'false',
       eventUrl: ''
     }
   },
 
+/**
+ * [goHome reload eventsand return to mainView]
+ * 
+ */
   goHome(){
-    //trigger reload of listview
     this.props.loadEvents();
     this.props.nav.pop()
   },
  
   componentDidMount() {
-    
     this.fetchMosaicData();
   },
 
+  /**
+   * [fetchMosaicData GET /event/:eventCode]
+   * 
+   */
   fetchMosaicData(){
-
     var _this = this;
     var apiString = 'http://tessellate-penguin.herokuapp.com/event/' + this.state.eventCode;
     _this.setState({eventUrl:apiString});
-//console.log('fetching data',apiString)
     var getMosaicObject = {  
       method: 'GET',
       headers: {
@@ -72,12 +74,11 @@ var MosaicView = React.createClass({
         var mosaicMainImage = resJson.image.imgPath;
         var eventName = resJson.event.name || 'No Event Title';
         var eventMembers = resJson.event.contributors.length || 0;
-        //console.log('response: ', resJson)
+        var eventImages = resJson.event.images.length || 0;
         if (!resJson){
           throw new Error('This event does not exist!');
         }
-        //console.log('Mosaic Data',resJson)
-        _this.setState({mosaicMainImage:mosaicMainImage,mosaicTitle:eventName,mosaicMembers:eventMembers},function(){
+        _this.setState({mosaicMainImage:mosaicMainImage,mosaicTitle:eventName,mosaicMembers:eventMembers,mosaicImages:eventImages},function(){
           _this.dismissProgressHUD();
         }); 
         _this.setState({loaded:true});
@@ -105,6 +106,7 @@ var MosaicView = React.createClass({
   render() {
      var membersIcon = (<Icon name="child" size={20} color="black" style={styles.icon} />)
      var photoIcon = (<Icon name="photo" size={20} color="black" style={styles.icon} />)
+     var mosaic = this.state.mosaicMainImage === '.img' ? require('image!mainLogo') : {uri: this.state.mosaicMainImage};
     return (
       <View style={styles.outerContainer}>
         <TouchableHighlight style = {styles.header} onPress={this.goHome}>
@@ -118,18 +120,16 @@ var MosaicView = React.createClass({
             <Text style={styles.searchText}> Search: </Text>
             #{this.state.eventCode} 
           </Text>
-          <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
+          <Image resizeMode='contain' style={styles.mosaic} source={mosaic} />
           <View style={styles.statsContainer}>
           {membersIcon}
             <Text style={styles.mosaicMembersText}>
               {this.state.mosaicMembers} 
               <Text style={styles.filler}> Member(s)</Text>
             </Text>
-
-
           {photoIcon}
             <Text style={styles.mosaicMembersText}>
-              {this.state.mosaicMembers} 
+              {this.state.mosaicImages} 
               <Text style={styles.filler}> Photo(s) Added to Mosaic</Text>
             </Text>
           </View>
@@ -179,6 +179,7 @@ var styles = StyleSheet.create({
       marginLeft:0,
       marginRight:0,
       left:0,
+      backgroundColor:'#1B2B32'
     },
     statsContainer: {
       flex:1,
@@ -247,10 +248,4 @@ var styles = StyleSheet.create({
 
 });
 
-/*
-
-<TouchableHighlight style={styles.goHome} activeOpacity={1} underlayColor={'transparent'} onPress={this.goHome}>
-        <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
-      </TouchableHighlight>
- */
 module.exports = MosaicView;
