@@ -6,6 +6,7 @@ var cloudinary = require('cloudinary');
 var guestImageMaker = require('../../db/guestImageMaker');
 var util = require('util');
 var getEventAndMap = require('../../db/getEventAndMap');
+var getAndReviseMap = require('../../db/getAndReviseMap');
 
 
 cloudinary.config(require(__dirname + '/../../config/config').cloudinary);
@@ -38,23 +39,22 @@ module.exports = {
       imagePath = JSON.parse(req.body).image;
     }
 
-    // var destinationRGB = JSON.parse(req.body.destinationRGB);
+    var eventCode = req.params.eventId;
 
-    // instead of getting next slice of unfilledKeys via destinationRGB on body
-    // --> need to make call to event in DB and retrieve unfilledKeys
+    // Take slice off end of remaining unfilledKeys
+    var sliceLength = 5;
     var unfilledKeysSlice;
-    getEventAndMap(req.params.eventId, function (err, event){
-      unfilledKeysSlice = event.map.unfilledKeys.splice(-5,5);
+    getEventAndMap(eventCode, function (err, event){
+      unfilledKeysSlice = event.map.unfilledKeys.splice(-sliceLength,sliceLength);
     });
 
     cloudinary.uploader.upload(imagePath, function (result) {
       var tintedImages = [];
-      for (var i = 0; i < unfilledKeysSlice.length; i++){ 
-        guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, unfilledKeysSlice[i].value.originalRGB, function (err, image){
+      for (var i = 0; i < sliceLength; i++){ 
+        guestImageMaker.analyzeGuestImage(eventCode, facebookId, result, unfilledKeysSlice[i].value.originalRGB, function (err, image){
           tintedImages.push(image);
-          if (tintedImages.length === unfilledKeysSlice.length){
-            res.json(tintedImages);
-            res.end();
+          if (tintedImages.length === sliceLength){
+            findImageHome(tintedImages);
           }
           if (err){
             next(err);
@@ -62,6 +62,26 @@ module.exports = {
         });
       }; 
     });
+
+    // use array of tintedImage url's and current slice of unfilledKeys
+    // 
+    var findImageHome = function(tintedImages){
+      var segmentsToUpdate = [];
+      for (var i = 0; i < tintedImages.length; i++){
+        var segmentToUpdate = unfilledKeysSlice[i].value;
+        segmentToUpdate.ID = unfilledKeysSlice[i].key;
+        segmentToUpdate.imgPath = tintedImages[i].imgPath;
+        segmentToUpdate.thumbnailPath = tintedImages[i].thumbnailPath;
+
+        segmentsToUpdate.push(segmentToUpdate);
+      }
+      // Revise map in DB and send revised map back with response
+      getAndReviseMap.reviseMap(eventCode, segmentsToUpdate, function (err, map){
+        res.json(map);
+        res.end();
+      });
+
+    };
 
     // var busboy = new Busboy({ headers: req.headers });
     // var stream = cloudinary.uploader.upload_stream(function(result) {
