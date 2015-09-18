@@ -514,56 +514,22 @@ describe('updateEvent.js', function(){
 
 describe('guestImageMaker.js', function(){
 
-  xit("Should generate a valid Cloudinary thumbnail URL", function(done){
-    var thumbURL = guestImageMaker.thumbnailMaker("v1442015055/khd0vihzt7vdfy63k1ap", "png");
-    expect(thumbURL).to.equal("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap");
+  it("Should generate a valid Cloudinary thumbnail URL", function(done){
+    var RGB = {r: 150, g: 120, b: 42};
+    var thumbURL = guestImageMaker.thumbnailMaker("yellow_tulip", RGB);
+    expect(thumbURL).to.equal("http://res.cloudinary.com/tesselate/image/upload/c_fill,co_rgb:96782A,e_colorize:60,h_10,w_10/yellow_tulip");
     done();
-  });
-
-  xit("Should get the average color for an image uploaded to cloudinary", function(done){
-    var pixels = getPixels("http://res.cloudinary.com/tesselate/image/upload/c_fill,h_100,w_100/v1442015055/khd0vihzt7vdfy63k1ap", function(err, pixels){
-      aveRGB = guestImageMaker.getAverageColor(pixels.data);
-      expect(aveRGB.r).to.equal(68);
-      expect(aveRGB.g).to.equal(68);
-      expect(aveRGB.b).to.equal(59);
-      done();
-    });
   });
 
 });
 
 describe('joinEvent.js', function(){
 
-  it("Should allow a user to join an event, creating a mutual relationship between the user and the event", function(done){
-    new User({
-      name: "rando user"
-    }).save(function(err, randoUser){
-      new Event({
-        _creator: randoUser._id,
-        eventCode: "dummyevent",
-        name: "Dummy Event"
-      }).save(function(err, event){
-        new User({
-          facebookId: "Mack Levine"
-        }).save(function(err, user){
-          joinEvent("Mack Levine", "dummyevent", function(){
-            expect(event.contributors.length).to.be.ok;
-            expect(user.events.length).to.be.ok;
-            Event.remove({eventCode: "dummyevent"}, function(err){
-              User.remove({name: "rando user"}, function(err){
-                User.remove({facebookId: "Mack Levine"}, function(err){
-                  done();
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
+  var testEvent,
+      jimmyUser,
+      robUser;
 
-  it("Should not allow a user to join event that they have created", function(done){
-    var verdict;
+  before(function(done){
     new User({
       facebookId: "Jimmy Williamson"
     }).save(function(err, user){
@@ -574,16 +540,33 @@ describe('joinEvent.js', function(){
           _creator: user2._id,
           eventCode: "robevent"
         }).save(function(err, event){
-          event.contributors.push(user);
-          event.save(function(err, event){
-            joinEvent("Rob Hays", "robevent", function(err, data){
-              verdict = data;
-              expect(verdict.error).to.equal("Sorry, this is an event you have created");
-              expect(event.contributors[0].toString()).to.not.equal(user2._id.toString());
-              done();
-            });
+          user2.events.push(event);
+          user2.save(function(){
+            testEvent = event;
+            jimmyUser = user;
+            robUser = user2;
+            done();
           });
         });
+      });
+    });
+  });
+
+  it("Should allow a user to join an event, creating a mutual relationship between the user and the event", function(done){
+    joinEvent("Jimmy Williamson", "robevent", function(err, data){
+      expect(data.contributors.length).to.equal(1);
+      done();
+    });
+  });
+
+  it("Should not allow a user to join event that they have created", function(done){
+    var verdict;
+    joinEvent("Rob Hays", "robevent", function(err, data){
+      verdict = data;
+      expect(verdict.error).to.equal("Sorry, this is an event you have created");
+      Event.findOne({eventCode: "robevent"}, function(err, event){
+        expect(event.contributors[0].toString()).to.not.equal(robUser._id.toString());
+        done();
       });
     });
   });
@@ -596,18 +579,22 @@ describe('joinEvent.js', function(){
         eventCode: "robevent"
       }, function(err, event){
         expect(event.contributors.length).to.equal(1);
-        User.remove({
-          facebookId: "Jimmy Williamson"
+        done();
+      });
+    });
+  });
+
+  after(function(done){
+    User.remove({
+      facebookId: "Jimmy Williamson"
+    }, function(err){
+      User.remove({
+        facebookId: "Rob Hays"
+      }, function(err){
+        Event.remove({
+          eventCode: "robevent"
         }, function(err){
-          User.remove({
-            facebookId: "Rob Hays"
-          }, function(err){
-            Event.remove({
-              eventCode: "robevent"
-            }, function(err){
-              done();
-            });
-          });
+          done();
         });
       });
     });
