@@ -22,39 +22,39 @@ var styles = StyleSheet.create({
   },
   photo: {
     flex:1,
-    flexDirection:'row',
+    flexDirection:'column',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     flexWrap:'wrap',
     backgroundColor: '#1B2B32',
   },
   save: {
-    position:'relative',
-    //alignSelf:'flex-end',
-    backgroundColor:'#1B2B32',
-    width:80,
-    height:50,
-    marginRight:20,
-    marginLeft:10,
-    left:20,
-    borderRadius:25,
+    position:'absolute',
+    backgroundColor:'transparent',
+    bottom:10,
+    right:20,
     
   },
   discard: {
-    position:'relative',
-    //alignSelf:'flex-end',
-    backgroundColor:'#1B2B32',
+    position:'absolute',
+    backgroundColor:'transparent',
     width:100,
     height:50,
-    
-    marginLeft:20,
-    marginRight:10,
-    right:20,
-    borderRadius:25,
+    left:10,
+    top:10,
   },
 	image: {
     alignSelf:'center',
-  }
+  },
+   goHome: {
+      position:'absolute',
+      top:7,
+      left:80,
+      opacity:.8, 
+      height:50,
+      width:50,
+      backgroundColor:'transparent',
+    },
 
 });
 
@@ -120,40 +120,32 @@ class ReviewPhotoView extends Component {
       });
 
      })
-    
 
-         tab('mosaic')
-         nav.pop();
-   
-    //END PROGRESS HUD
+    tab('mosaic')
+    nav.pop();
+
    
   }
 
 
 
   render() {
-   var myIcon = (<Icon name="rocket" size={30} color="#900" style={styles.icon} />)
+   var discard = (<Icon name="arrow-left" size={40} color="white" style={styles.icon} />)
+   var save = (<Icon name="save" size={40} color="white" style={styles.icon} />)
     return (
       <View style={styles.container}>
-      
-        <Image style={styles.photo}
-        source={{uri: this.props.photo}}>
-
-        
-          <TouchableHighlight style={styles.save} onPress={() => this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
-  } >
-
-           <Image resizeMode='contain' style={styles.save} source={require('image!saveImage')}/>
-          </TouchableHighlight>
-
-        <TouchableHighlight style={styles.discard} onPress={() => this.props.mainNavigator.pop()}>
-          <Image resizeMode='contain' style={styles.discard} source={require('image!rejectImage')}/>
+        <Image style={styles.photo}source={{uri: this.props.photo}}>
+        <TouchableHighlight style={styles.goHome}>
+        <Image resizeMode='contain' style={styles.goHome} source={require( 'image!tHeader')}/>
         </TouchableHighlight>
-        
-
-
+          <TouchableHighlight style={styles.save} underlayColor='transparent' onPress={() => this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)}>
+           {save}
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.discard} underlayColor='transparent' onPress={() => this.props.mainNavigator.pop()}>
+            {discard}
+          </TouchableHighlight>
         </Image>
-       </View>
+      </View>
       
       
     );
@@ -162,11 +154,5 @@ class ReviewPhotoView extends Component {
   
 }
 
-/*
-   <Text style={styles.save} onPress={() => 
-              this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
-            }>
-            Save
-            </Text>
-*/
+
 module.exports = ReviewPhotoView;
