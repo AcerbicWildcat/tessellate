@@ -237,6 +237,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   $scope.hasCreated = false;
   $scope.hasJoined = false;
   $scope.loaded = true;
+  console.log($scope.loaded);
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -269,9 +270,9 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       $scope.loaded = false;
       httpRequestFactory.joinEvent(eventCode)
         .then(function(response){
-          $scope.loaded = true;
           console.log(response.data.error);
           if(response.data.error){
+            $scope.loaded = true;
             $scope.errorMessage = response.data.error;
             if(response.data.error === "event does not exist"){
               $scope.join = false;
@@ -283,6 +284,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
             }
           }else{ 
             console.log('joining new event');
+            $scope.loaded = true;
             $scope.errorMessage = "";
             $scope.getEvent(eventCode);
           }
@@ -298,11 +300,9 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   };
 
   $scope.logout = function (){
-    $scope.loaded = false;
     console.log('clicked logout');
     httpRequestFactory.logout()
       .then(function(response){
-        $scope.loaded = true;
         $location.url('/');
       });
   };
@@ -346,6 +346,11 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       }
     }
   };
+
+  $scope.close = function(){
+    $scope.create = false;
+  };
+  
   $scope.getUserEvents();
   $scope.getUserProfile();
 
