@@ -36,35 +36,11 @@ module.exports = function (app) {
    * @desc Returns JSON object of event
    */
   app.post('/:eventId', eventController.joinEvent);
-  
+
   /**
    * @namespace /event POST
    * @desc Returns JSON object of created event
    */
   app.post('/', upload.single("file"), eventController.createEvent);
-
-   /**
-   * @namespace /event/image GET
-   * @desc Returns JSON object of all events images
-   */
-  app.get('/:eventId/images', imageController.getImages);
-
-  /**
-   * @namespace /event/image/:imageId GET
-   * @desc Returns JSON object of specific image
-   */
-  app.get('/:eventId/image/:imageId', imageController.getImage);
-
-  /**
-   * @namespace /event/image/image POST
-   * @desc Returns JSON object of all events images
-   */
-  app.post('/:eventId/image', upload.single("file"), imageController.postImages);
-
-  /**
-   * @namespace /event/image/:imageId DELETE
-   * @desc Returns JSON object of result
-   */
-  app.delete('/:imageId', imageController.deleteImage);
 
 };
