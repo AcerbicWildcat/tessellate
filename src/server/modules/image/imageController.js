@@ -51,7 +51,7 @@ module.exports = {
           tintedImages.push(image);
           console.log('tintedImages progress: ', tintedImages);
           console.log('tintedImages length: ', tintedImages.length);
-          if (tintedImages.length === 25){
+          if (tintedImages.length === destinationRGB.length){
             res.json(tintedImages);
             res.end();
           }

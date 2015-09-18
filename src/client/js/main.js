@@ -66,6 +66,7 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       url:'/events/'+ eventCode
     }).then(function(response){
       httpRequestFactory.currentEvent = response.data;
+      console.log('currentEvent: ', response.data);
       return response;
     });
   };
@@ -78,15 +79,13 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
       return response;
     });
   };
-  httpRequestFactory.updateMap = function(replacedSector, eventCode, destinationRGB){
+  httpRequestFactory.updateMap = function(segmentsToUpdate, eventCode){
     return $http({
       method: 'POST',
       url: '/events/' + eventCode + '/map',
       data: {
-        key: replacedSector.ID,
-        value: replacedSector,
-        eventCode: eventCode,
-        destinationRGB: destinationRGB
+        segmentsToUpdate: segmentsToUpdate,
+        eventCode: eventCode
       }
     }).then(function(response){
       // console.log("response from post request ",response);
@@ -109,14 +108,6 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
 
 tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactory){
   var mosaicFactory = {};
-
-  mosaicFactory.updateMap = function(segmentToUpdate, eventCode, destinationRGB){
-    // console.log('sending over to factory for POST');
-    httpRequestFactory.updateMap(segmentToUpdate, eventCode, destinationRGB)
-      .then(function(response){
-        // console.log("inside mosaicFactory ", response);
-      });
-  };
 
   mosaicFactory.startMosaic = function(mosaicData){
     var mosaic = document.getElementById('mosaic');
@@ -168,21 +159,20 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
   };
 
   mosaicFactory.findImageHome = function(guestImages, map, eventCode, nextPosition){
-
-    for (var i = 0; i < guestImages.length; i++){
-      var destinationRGB = nextPosition[i].value.originalRGB;
+    var segmentsToUpdate = [];
+    for (var i = guestImages.length-1; i >= 0; i--){
 
       var segmentToUpdate = nextPosition[i].value;
       segmentToUpdate.imgPath = guestImages[i].imgPath;
       segmentToUpdate.thumbnailPath = guestImages[i].thumbnailPath;
       segmentToUpdate.ID = nextPosition[i].key;
-      console.log("Segment To Update: ", segmentToUpdate);
-      mosaicFactory.updateMap(segmentToUpdate, eventCode, destinationRGB);
 
-      // console.log(segmentToUpdate.coords);
-
-      mosaicFactory.renderImage(segmentToUpdate.coords[0], segmentToUpdate.coords[1], segmentToUpdate.ID, guestImages[i].imgPath, guestImages[i].thumbnailPath);
-      
+      segmentsToUpdate.push(segmentToUpdate);
+    }
+    httpRequestFactory.updateMap(segmentsToUpdate, eventCode);
+    
+    for (var j = guestImages.length-1; j >= 0; j--){
+      mosaicFactory.renderImage(segmentsToUpdate[j].coords[0], segmentsToUpdate[j].coords[1], segmentsToUpdate[j].ID, segmentsToUpdate[j].imgPath, segmentsToUpdate[j].thumbnailPath);
     }
 
   };
@@ -213,17 +203,15 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
       'sending': function (file, xhr, formData) {
         var RGBObject = ($scope.currentEvent.map.unfilledKeys);
         // $scope.nextPosition = RGBObject.pop();
-        $scope.nextPosition = RGBObject.splice(RGBObject.length-26, 25);
+        $scope.nextPosition = RGBObject.splice(-5, 5);
         // will now be passing an array of RGB objects (group of 25 from end of queue)
         // will need to iterate through and pass to cloudinary to tint and return
         // formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
-        console.log('Sending Array: ', $scope.nextPosition);
         formData.append("destinationRGB", JSON.stringify($scope.nextPosition));
         $scope.$apply();
       },
       'success': function (file, response) {
         $('div.dz-success').remove();
-        console.log('Success Response: ', response);
         mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, $scope.nextPosition);
       },
       'maxfilesexceeded': function(file){
