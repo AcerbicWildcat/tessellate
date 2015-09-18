@@ -1,6 +1,7 @@
 'use strict';
  
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   StyleSheet,
@@ -16,6 +17,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    flex:1,
+  },
   photo: {
     flex:1,
     flexDirection:'row',
@@ -28,7 +32,7 @@ var styles = StyleSheet.create({
     position:'relative',
     //alignSelf:'flex-end',
     backgroundColor:'#1B2B32',
-    width:70,
+    width:80,
     height:50,
     marginRight:20,
     marginLeft:10,
@@ -42,9 +46,10 @@ var styles = StyleSheet.create({
     backgroundColor:'#1B2B32',
     width:100,
     height:50,
-    right:20,
+    
     marginLeft:20,
     marginRight:10,
+    right:20,
     borderRadius:25,
   },
 	image: {
@@ -72,25 +77,22 @@ class ReviewPhotoView extends Component {
    */
   _savePictureToDB(nav,tab){
      var _this = this;
-
      //convet image path to image file
      var imageToSave = _this.props.photo;
-     console.log('trying to save this guy: ', _this.props.photo)
+     var uploadURL = 'http://tessellate-penguin.herokuapp.com/events/'+_this.state.eventCode + '/image';
      NativeModules.ReadImageData.readImage(imageToSave, (image) => {
-      console.log('This is actually it: ', image)
       imageToSave = image;
-
+      
       var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
-          uploadUrl:'http://tessellate-penguin.herokuapp.com/events/'+_this.state.eventCode + '/' + 'image',
+          uploadUrl:uploadURL.trim(),
           fileName:'image',
           //mimeType,
           headers:{
             //'Host': 'http://10.6.1.173:8081',
-            'FacebookID':_this.props.facebookId.toString(),
+            'FacebookID':_this.props.facebookId,
           },
           data: {
-            facebookid:_this.props.facebookId.toString(),
               // whatever properties you wish to send in the request
               // along with the uploaded file
           }
@@ -100,7 +102,12 @@ class ReviewPhotoView extends Component {
           // it is an object with 'status' and 'data' properties
           // if the file path protocol is not supported the status will be 0
           // and the request won't be made at all
-          console.log('did it work: ' + res.status)
+          console.log('POSTING photo: ', res)
+          console.log('photo: ', res.status)
+
+          if (err){
+            console.log(err.message)
+          }
           if (res.status === 0 ){
             AlertIOS.alert(
               'Something went wrong!',
@@ -112,27 +119,6 @@ class ReviewPhotoView extends Component {
           }
       });
 
-
-      /*
-      var savePhotoURL = 'http://10.6.1.173:8000/events/'+this.state.eventCode + '/' + 'image';
-      var savePictureObject = {  
-        method: 'POST',
-        headers: {
-          'Host': 'http://10.6.1.173:8081',
-          'FacebookID':_this.props.facebookId,
-        },
-        body:form
-      }
-      
-      fetch(savePhotoURL,savePictureObject)  
-        .then(function(res) {
-          console.log(res);
-          console.log('Attempting to save: ' + _this.props.photo.toString())
-          return res.json();
-         })
-        .then(function(resJson) {
-          return resJson;
-         })*/
      })
     
 
@@ -146,14 +132,17 @@ class ReviewPhotoView extends Component {
 
 
   render() {
-    console.log('EVENT CODE: ' + this.state.eventCode)
+   var myIcon = (<Icon name="rocket" size={30} color="#900" style={styles.icon} />)
     return (
-
+      <View style={styles.container}>
+      
         <Image style={styles.photo}
         source={{uri: this.props.photo}}>
-          <TouchableHighlight style={styles.save} onPress={() => 
-              this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
-            } >
+
+        
+          <TouchableHighlight style={styles.save} onPress={() => this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
+  } >
+
            <Image resizeMode='contain' style={styles.save} source={require('image!saveImage')}/>
           </TouchableHighlight>
 
@@ -164,7 +153,7 @@ class ReviewPhotoView extends Component {
 
 
         </Image>
-       
+       </View>
       
       
     );

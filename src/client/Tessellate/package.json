@@ -12,6 +12,7 @@
     "react-native-facebook-login": "^0.5.6",
     "react-native-fbsdklogin": "0.0.5",
     "react-native-file-transfer": "0.0.3",
+    "react-native-vector-icons": "^0.6.11",
     "react-timer-mixin": "^0.13.2"
   },
   "devDependencies": {
