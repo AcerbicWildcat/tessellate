@@ -20,8 +20,6 @@ var {
   
 } = React;
 
-var cameraBase64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABbElEQVRIS8WV6zGDQRSGn1SADqgAFaACdKADUgEqIB1EBahAVIAK0IFUwDyZPWYn+fbiR8b+yiRnz3s5756MWPMZrbk/LYALYKNB4hOYlmpqAHvAS6fCHeBjqLYGcAucdwKMAetXTglgM7Hf7gSQ/T7wtVwvgFbcAIedzXrLZsBYAD8cNG49p0GGzyo767g3E+C70nwOmKRSSgTR+zxpk+TGrn1bAKfAQyIg68Ul4C1LzQlwn5HcAq4iIDWAu2SDd2XqnBy+x2GanFAmieNSikoWBXuZ+x6iefQRxOQ4l2UVv1g1BRFh5V4W5nSd7PDnQaL/ChDPvygfOEox18b3v84glz80xDwERRtrFjlEVcTzN0mq8QgYCXL4sl8OwaKw9Q5ekw0rOyYB2fQprZvBHLQAvGQMteAxU2Njc+/31YUogOxafyrBTkUeF2TPmQvwl73f0zSvmcRjcoC9u78XRGunrf/k3mbFurUD/ADn0059y6g/CQAAAABJRU5ErkJggg==';
-var mosaicBase64Icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAAAAAA7VNdtAAABlElEQVR4nO2Uz0oDQQzGJ5lYarcqtUK9+AA+gIjgUUTw/XwAH0JvFT1460E8FLwJgn8LSut22+5mvHSS7EGwngptTrOd/JLOfN/EuWUsboA3HxzMh90IYNb/6XJciyUC3L6B1MAj2XDF4xbHJPqA3qbypxe+mFYKlZeGbpwd5FOEk2v62ojFGCe2/+c643SZpV8cT5Kn5H1EAMEi3kNEPHoX63pEN3MsOELMokvZPswsy8BRfeZAdemDjiyypgLUqvViihRJlW62Vf2e6ROuWqL+uBsiEqpdevgU+6wObJeViiB5c1/r5rS7MxbH1Q0Bh0091uuebowoSycRATaI6zekSz/TO8KUACDasuRKhygKIKC8HVzacuYgRHny5bevd+wQnOQ4oO+BSBlyi2QjkXI4HqmUY3pKoxUDZYbgyy2Rb9hJBPH37jlonMggBld50t/Tc5PUppGxT8ljeZA/NimCdbK1T+li1HwOQM4PAHMr5dwifx19msSU/Db6En3k9apJqlG7pcK+29HX1tGX3pn52PkBX1XL/QlloOoAAAAASUVORK5CYII=";
 
 
 
@@ -82,7 +80,6 @@ var TabView =  React.createClass( {
         
           {camera}  
 
-        
         </Icon.TabBarItem>
         <Icon.TabBarItem
             sytle={styles.icon}

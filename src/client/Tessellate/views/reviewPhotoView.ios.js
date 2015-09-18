@@ -1,6 +1,7 @@
 'use strict';
  
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   StyleSheet,
@@ -16,6 +17,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    flex:1,
+  },
   photo: {
     flex:1,
     flexDirection:'row',
@@ -128,13 +132,17 @@ class ReviewPhotoView extends Component {
 
 
   render() {
-    console.log('EVENT CODE: ' + this.state.eventCode)
+   var myIcon = (<Icon name="rocket" size={30} color="#900" style={styles.icon} />)
     return (
-
+      <View style={styles.container}>
+      
         <Image style={styles.photo}
         source={{uri: this.props.photo}}>
+
+        
           <TouchableHighlight style={styles.save} onPress={() => this._savePictureToDB(this.props.mainNavigator,this.props.selectedTab)
   } >
+
            <Image resizeMode='contain' style={styles.save} source={require('image!saveImage')}/>
           </TouchableHighlight>
 
@@ -145,7 +153,7 @@ class ReviewPhotoView extends Component {
 
 
         </Image>
-       
+       </View>
       
       
     );
