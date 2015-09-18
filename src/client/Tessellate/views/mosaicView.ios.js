@@ -26,7 +26,7 @@ var MosaicView = React.createClass({
       mosaicMembers:'',
       mosaicImages:0,
       loaded:'false',
-      eventUrl: ''
+      eventUrl: '',
     }
   },
 

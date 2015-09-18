@@ -2,7 +2,6 @@
  
 var React = require('react-native');
 var TabView = require('./tabView.ios.js');
-var NewEventView = require('./newEvent.ios')
 var ProgressHUD = require('react-native-progress-hud');
 var EventsView = require('./listView.ios')
 
