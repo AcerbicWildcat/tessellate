@@ -17,8 +17,8 @@ var Image = db.Image;
 //   });
 // }
 
-var reviseMap = function(eventCode, revisions, done){
-  var sliceLength = revisions.segmentsToUpdate.length;
+var reviseMap = function(eventCode, segmentsToUpdate, done){
+  var sliceLength = segmentsToUpdate.length;
   var data;
   Event.findOne({eventCode: eventCode}, function (err, event){
     if (err){
@@ -36,7 +36,7 @@ var reviseMap = function(eventCode, revisions, done){
         unfilledKeys = map.unfilledKeys;
         unfilledKeys.splice(-sliceLength,sliceLength);
         for (var i = 0; i < sliceLength; i++){
-          data[revisions.segmentsToUpdate[i].ID] = revisions.segmentsToUpdate[i];
+          data[segmentsToUpdate[i].ID] = segmentsToUpdate[i];
         }
         var conditions = {_id: map._id},
             update     = {

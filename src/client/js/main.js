@@ -157,25 +157,6 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
     document.getElementById('mosaic').removeChild(removeLink);
   };
 
-  mosaicFactory.findImageHome = function(guestImages, map, eventCode, nextPosition){
-    var segmentsToUpdate = [];
-    for (var i = guestImages.length-1; i >= 0; i--){
-
-      var segmentToUpdate = nextPosition[i].value;
-      segmentToUpdate.imgPath = guestImages[i].imgPath;
-      segmentToUpdate.thumbnailPath = guestImages[i].thumbnailPath;
-      segmentToUpdate.ID = nextPosition[i].key;
-
-      segmentsToUpdate.push(segmentToUpdate);
-    }
-    httpRequestFactory.updateMap(segmentsToUpdate, eventCode);
-    
-    for (var j = guestImages.length-1; j >= 0; j--){
-      mosaicFactory.renderImage(segmentsToUpdate[j].coords[0], segmentsToUpdate[j].coords[1], segmentsToUpdate[j].ID, segmentsToUpdate[j].imgPath, segmentsToUpdate[j].thumbnailPath);
-    }
-
-  };
-
   return mosaicFactory;
 
 }]);
@@ -200,18 +181,11 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
     },
     'eventHandlers': {
       'sending': function (file, xhr, formData) {
-        var RGBObject = ($scope.currentEvent.map.unfilledKeys);
-        // $scope.nextPosition = RGBObject.pop();
-        $scope.nextPosition = RGBObject.splice(-5, 5);
-        // will now be passing an array of RGB objects (group of 25 from end of queue)
-        // will need to iterate through and pass to cloudinary to tint and return
-        // formData.append("destinationRGB", JSON.stringify($scope.nextPosition.value.originalRGB));
-        formData.append("destinationRGB", JSON.stringify($scope.nextPosition));
-        $scope.$apply();
+        console.log('Sending Image...');
       },
       'success': function (file, response) {
         $('div.dz-success').remove();
-        mosaicFactory.findImageHome(response, $scope.currentEvent.map, $scope.currentEvent.event.eventCode, $scope.nextPosition);
+        mosaicFactory.redrawImages(response);
       },
       'maxfilesexceeded': function(file){
         this.removeAllFiles();
