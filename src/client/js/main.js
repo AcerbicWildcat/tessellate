@@ -248,6 +248,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   $scope.joinedEvents = [];
   $scope.hasCreated = false;
   $scope.hasJoined = false;
+  $scope.loaded = false;
   $scope.getUserProfile = function(){
     httpRequestFactory.getUserProfile()
       .then(function(response){
@@ -364,6 +365,10 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
 
 tess.controller('landingController', ['$scope', function ($scope){
   $scope.loaded = true;
+  $scope.startSpinner = function(){
+    console.log('starting spinner');
+    $scope.loaded =false;
+  };
 }]);
 
 /**
