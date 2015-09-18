@@ -45,6 +45,7 @@
                   <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
                 </div>
                 <button type="button" class="btn btn-primary submit-all">Create event</button>
+                <button type="button" class="btn btn-default" ng-click="close()">Close</button>
               </form>
             </div>
           </div>
@@ -88,8 +89,8 @@
             <h1 ng-if="errorMessage">{{errorMessage}}</h1>
             <input type="text" placeholder="Search..." ng-model="searchedEvent">
             <h1>Created events</h1>
+            <h1 ng-show="!loaded">show me hide me</h1>
             <h3 ng-if="!hasCreated">Create your own event!</h3>
-<!--             <div class="col-sm-3" ng-repeat="event in createdEvents | filter: {name: eventCode}" ng-click="getEvent(event.eventCode)">-->
                 <div class="col-sm-3" ng-repeat="event in createdEvents | filter: searchedEvent" ng-click="getEvent(event.eventCode)">
 
                 <div class="thumbnail">
