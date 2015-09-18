@@ -1,8 +1,8 @@
-var tess = angular.module("tessell", [
+/*var tess = angular.module("tessell", [
   "ngRoute"
-]);
+]);*/
 
-tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider){
+/*tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
       .when('/', {
         templateUrl: '../login.html',
@@ -12,11 +12,7 @@ tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($
         templateUrl: '../events.html', 
         controller: 'eventsProfileController'
       })
-      // .when('/create', {
-      //   templateUrl: '../create.html', 
-      //   controller: 'eventsProfileController'
-      // })
-      .when('/event/:eventcode', {/*eventually /mosaic/:eventId*/
+      .when('/event/:eventcode', {
         templateUrl: '../mosaic.html',
         controller: 'mosaicCtrl'
       })
@@ -24,12 +20,12 @@ tess.config(["$routeProvider", '$locationProvider', '$httpProvider', function ($
         redirectTo: '/'
       });
       $httpProvider.interceptors.push('InterceptResponse');
-  }]);
+  }]);*/
 
-tess.run([ '$rootScope', '$location', function ($rootScope, $location){
-}]);
+/*tess.run([ '$rootScope', '$location', function ($rootScope, $location){
+}]);*/
 
-tess.factory('InterceptResponse', ['$q', '$location', function ($q, $location){
+/*tess.factory('InterceptResponse', ['$q', '$location', function ($q, $location){
   return {
     responseError: function (response){
       if (response.status === 401){
@@ -38,9 +34,9 @@ tess.factory('InterceptResponse', ['$q', '$location', function ($q, $location){
       }
     }
   };
-}]);
+}]);*/
 
-tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http, $location, $q){
+/*tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http, $location, $q){
   var httpRequestFactory = {};
   httpRequestFactory.getUserProfile = function(){
     return $http({
@@ -102,10 +98,10 @@ tess.factory('httpRequestFactory', [ '$http', '$location', '$q', function ($http
     });
   };
   return httpRequestFactory;
-}]);
+}]);*/
 
 
-tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactory){
+/*tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactory){
   var mosaicFactory = {};
 
   mosaicFactory.startMosaic = function(mosaicData){
@@ -203,7 +199,7 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
         $location.url('/');
       });
   };
-}]);
+}]);*/
 
 tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$location', function ($scope, httpRequestFactory, $location){
   $scope.createdEvents = [];
@@ -337,13 +333,13 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
 
 }]);
 
-tess.controller('landingController', ['$scope', function ($scope){
+/*tess.controller('landingController', ['$scope', function ($scope){
   $scope.loaded = true;
   $scope.startSpinner = function(){
     console.log('starting spinner');
     $scope.loaded =false;
   };
-}]);
+}]);*/
 
 /**
 * An AngularJS directive for Dropzone.js, http://www.dropzonejs.com/
@@ -357,7 +353,7 @@ tess.controller('landingController', ['$scope', function ($scope){
 * </div>
 */
 
-tess.directive('dropzone', function () {
+/*tess.directive('dropzone', function () {
  return function (scope, element, attrs) {
    var config, dropzone;
 
@@ -368,4 +364,4 @@ tess.directive('dropzone', function () {
      dropzone.on(event, handler);
    });
  };
-});
+});*/
