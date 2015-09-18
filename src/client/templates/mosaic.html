@@ -1,3 +1,6 @@
+<div class="loading" aria-hidden="true" ng-show="!loaded">
+  <div class="spinner"></div>
+</div>
 <div class="navbar navbar-inverse navbar-static-top">
   <header class="container-fluid logo">
     <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
@@ -13,7 +16,6 @@
 
           <h1>{{eventCode}}</h1> 
           <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>   
-            <!-- <div class="spinner" ng-show="waitingForUpload"></div> -->
           <div class="thumbnail">
             <svg id="mosaic"></svg>
           </div>
