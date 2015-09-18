@@ -27,6 +27,7 @@ var MosaicView = React.createClass({
       mosaicTitle:'',
       mosaicMembers:'',
       loaded:'false',
+      eventUrl: ''
     }
   },
 
@@ -45,6 +46,7 @@ var MosaicView = React.createClass({
 
     var _this = this;
     var apiString = 'http://tessellate-penguin.herokuapp.com/event/' + this.state.eventCode;
+    _this.setState({eventUrl:apiString});
 //console.log('fetching data',apiString)
     var getMosaicObject = {  
       method: 'GET',

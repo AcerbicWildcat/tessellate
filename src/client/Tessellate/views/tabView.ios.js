@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Mosaic = require('./mosaicView.ios');
 var Camera = require('./cameraView.ios')
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   StyleSheet,
@@ -39,22 +40,14 @@ var TabView =  React.createClass( {
       navRef:this.props.navRef,
       loadEvents:this.props.loadEvents,
       showCamera:false,
+      
     }
   },
-  /*constructor(props){
-    super(props);
 
-    this.state = {
-      selectedTab: 'mosaic',
-      eventCode: this.props.eventCode,
-      mainNavigator: props.mainNavigator,
-      facebookId:this.props.facebookId,
-      navRef:this.props.navRef,
-      loadEvents:this.props.loadEvents,
-    }
-  }*/
+  componentWillMount() {
+    Icon.getImageSource('../assets/mainLogo.png', 25).then((source) => this.setState({ mosaicIcon: source }));
+  },
 
- 
   componentDidMount() {
     this.state.loadEvents();
     this.state.navRef.setState({navBarHidden:true});
@@ -76,8 +69,8 @@ var TabView =  React.createClass( {
   
       <TabBarIOS selectedTab={this.state.selectedTab}>
 
-        <TabBarIOS.Item
-            icon={{uri: cameraBase64Icon, scale: 2}}
+        <Icon.TabBarItem
+            iconName="camera"
             selected={this.state.selectedTab === 'camera'}
             title= 'Camera'
             onPress={() => {
@@ -90,10 +83,10 @@ var TabView =  React.createClass( {
           {camera}  
 
         
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
+        </Icon.TabBarItem>
+        <Icon.TabBarItem
             sytle={styles.icon}
-           
+            iconName="picture-o"
             selected={this.state.selectedTab === 'mosaic'}
             title= 'Mosaic'
             onPress={() => {
@@ -104,7 +97,7 @@ var TabView =  React.createClass( {
           }}>
 
           <Mosaic loadEvents={this.state.loadEvents} facebookId={this.state.facebookId} eventCode={this.state.eventCode} nav={this.state.mainNavigator}/>
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
       </TabBarIOS>
       
       
