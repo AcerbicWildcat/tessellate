@@ -1,6 +1,7 @@
   'use strict';
  
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var {
   StyleSheet,
   Text,
@@ -102,31 +103,38 @@ var MosaicView = React.createClass({
 
  
   render() {
-
+     var membersIcon = (<Icon name="child" size={20} color="black" style={styles.icon} />)
+     var photoIcon = (<Icon name="photo" size={20} color="black" style={styles.icon} />)
     return (
       <View style={styles.outerContainer}>
         <TouchableHighlight style = {styles.header} onPress={this.goHome}>
           <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         </TouchableHighlight>
-
         <View style={styles.mosaicContainer}>
-          
           <View style={styles.titleRow}>
-
-            
             <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle}</Text>
-            
           </View>
-            
-            <Text style={styles.mosaicEventCodeText}><Text style={styles.searchText}> Search: </Text>  #{this.state.eventCode} </Text>
-            
-
+          <Text style={styles.mosaicEventCodeText}>
+            <Text style={styles.searchText}> Search: </Text>
+            #{this.state.eventCode} 
+          </Text>
           <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
-          <Text style={styles.mosaicMembersText}>{this.state.mosaicMembers} <Text style={styles.filler}> Member(s)</Text></Text>
-          <Text style={styles.mosaicMembersText}>{this.state.mosaicMembers} <Text style={styles.filler}> Photo(s) Added to Mosaic</Text></Text>
-          
+          <View style={styles.statsContainer}>
+          {membersIcon}
+            <Text style={styles.mosaicMembersText}>
+              {this.state.mosaicMembers} 
+              <Text style={styles.filler}> Member(s)</Text>
+            </Text>
+
+
+          {photoIcon}
+            <Text style={styles.mosaicMembersText}>
+              {this.state.mosaicMembers} 
+              <Text style={styles.filler}> Photo(s) Added to Mosaic</Text>
+            </Text>
+          </View>
         </View>
-          <ProgressHUD  isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" />
+        <ProgressHUD  isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" />
       </View>
     );
   }
@@ -172,6 +180,12 @@ var styles = StyleSheet.create({
       marginRight:0,
       left:0,
     },
+    statsContainer: {
+      flex:1,
+      flexDirection:'row',
+
+
+    },
     mosaicTitleText: {
       fontStyle:'italic',
       fontSize:34,
@@ -189,6 +203,7 @@ var styles = StyleSheet.create({
       fontSize:20,
       fontWeight:'700',
       alignSelf:'flex-start',
+      marginRight:15,
       marginLeft:10,
       marginBottom:20,
     },

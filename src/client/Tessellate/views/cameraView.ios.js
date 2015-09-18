@@ -41,7 +41,7 @@ var CameraView = React.createClass({
       >
 
         <TouchableHighlight style={styles.goHome} underlayColor={'transparent'}>
-           <Image resizeMode='contain' style={styles.goHomeButton} source={require( 'image!mainLogo')}/>
+           <Image resizeMode='contain' style={styles.goHomeButton} source={require('image!tHeader')}/>
         </TouchableHighlight>
         <TouchableHighlight style={styles.button}
         onPress={this._takePicture} underlayColor={'transparent'}>
@@ -160,7 +160,7 @@ var styles = StyleSheet.create({
       opacity:.8, 
       height:50,
       width:50,
-      backgroundColor:'#1B2B32',
+      backgroundColor:'transparent',
     },
     progress: {
       position:'relative'
