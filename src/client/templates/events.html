@@ -1,3 +1,6 @@
+  <div class="loading" aria-hidden="true" ng-show="!loaded">
+    <div class="spinner"></div>
+  </div>
   <div class="navbar navbar-inverse navbar-static-top">
     <header class="container-fluid logo">
       <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
@@ -23,22 +26,40 @@
                 </div>
               </div>
               <button type="button" class="btn btn-primary" ng-click="joinEvent(eventCode)">Go...</button>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEvent" ng-show="create">Create event</button>
+              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEvent" ng-show="create">Create event</button> -->
               <!-- <button type="button" class="btn btn-primary" ng-click="joinEvent(eventCode)" ng-show="join">Join event</button> -->
             </form>
+            <div class="row" ng-show="create">
+              <form action="" name="myForm">
+                <div class="form-group has-error">
+                  <label for="event-code">Event code</label>
+                  <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
+                  <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
+                </div>
+                <div class="form-group has-error">
+                  <label for="event-name">Event name</label>
+                  <input type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
+                  <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
+                </div>
+                <div class="form-group">
+                  <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
+                </div>
+                <button type="button" class="btn btn-primary submit-all">Create event</button>
+              </form>
+            </div>
           </div>
           <!-- end of join create form -->
 
           <!-- create event Modal form -->
-          <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel">
+        <!--   <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title" id="createEventLabel">Create event</h4>
                 </div>
-                <div class="modal-body">
-                  <form action="" name="myForm">
+                <div class="modal-body"> -->
+                 <!--  <form action="" name="myForm">
                     <div class="form-group has-error">
                       <label for="event-code">Event code</label>
                       <input type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
@@ -49,22 +70,18 @@
                       <input type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
                       <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
                     </div>
-                   <!--  <div class="form-group has-error">
-                      <input type="date" name="eventDate" ng-model="eventDate" required />
-                      <div class="form-error" ng-show="myForm.eventDate.$error.required">*events need a start date</div>
-                    </div> -->
                     <div class="form-group">
                       <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
                     </div>
-                  </form>
-                </div>
+                  </form> -->
+               <!--  </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   <button type="button" class="btn btn-primary submit-all">Create Event</button>
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- end of create event Modal -->
           <!-- created events -->
           <div class="row">
