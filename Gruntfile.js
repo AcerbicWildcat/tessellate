@@ -88,7 +88,11 @@ module.exports = function(grunt) {
         'node_modules/angular-route/angular-route.js',
         'src/client/bower_components/jquery/dist/jquery.js', 
         'src/client/bower_components/bootstrap/dist/js/bootstrap.js', 
-        'src/client/js/main.js'
+        'src/client/js/app-config.js',
+        'src/client/js/login-page.js',
+        'src/client/js/events.js',
+        'src/client/js/mosaic.js',
+        'src/client/js/http-request-handler.js'
         ],
         dest: 'src/server/public/js/app.min.js'
       },

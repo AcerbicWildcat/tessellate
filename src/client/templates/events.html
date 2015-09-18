@@ -18,20 +18,15 @@
           <div class="row event-form">
 
             <h1>Create or join event</h1>
-            
-            <form>
-
-              <div class="form-inline">
-                <div class="form-group">
-                  <label class="sr-only"></label>
-                  <div class="input-group">
-                    <div class="input-group-addon">#</div>
-                    <input type="text" class="form-control" placeholder="Find Events" ng-model="eventCode">
-                  </div>
+            <form class="form-inline" ng-show="!create">
+              <div class="form-group">
+                <label class="sr-only"></label>
+                <div class="input-group">
+                  <div class="input-group-addon">#</div>
+                  <input type="text" class="form-control" placeholder="Find Events" ng-model="eventCode">
                 </div>
                 <button type="button" class="btn btn-primary" ng-click="joinEvent(eventCode)">Go...</button>
               </div>
-
               <div class="row" ng-show="create">
 
                 <div class="col-xs-19 col-md-6">
@@ -54,12 +49,9 @@
                 <div class="form-group col-xs-9 col-md-6">
                   <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
                 </div>
-
               </div>
 
             </form>
-
-
           </div>
           <!-- end of join create form -->
 
@@ -96,7 +88,7 @@
                 </div>
             </div>
           </div>
-          <!-- <h1 ng-if="createdResults.length == 0" href="#/create">No Results found...create new event <a class="search-event" href="#/create">{{eventCode}}</a>?</h1> -->
+
           <!-- end joined event -->
         </div><!-- end 9 column -->
         <div class="col-sm-3 aside">
