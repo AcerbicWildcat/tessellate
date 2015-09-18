@@ -22,12 +22,12 @@ exports.Event = Event;
 exports.Map = Map;
 exports.Image = Image;
 
-new User({
-  facebookId: "some dude"
-}).save(function(err, user){
-  new Event({
-    _creator: user._id,
-    eventCode: "dummyevent",
-    name: "Dummy Event"
-  }).save();
-});
+// new User({
+//   facebookId: "some dude"
+// }).save(function(err, user){
+//   new Event({
+//     _creator: user._id,
+//     eventCode: "dummyevent",
+//     name: "Dummy Event"
+//   }).save();
+// });
