@@ -204,15 +204,19 @@ var styles = StyleSheet.create({
       fontSize:20,
       fontWeight:'700',
       alignSelf:'flex-start',
+      left:5,
       marginRight:15,
-      marginLeft:10,
+      marginLeft:35,
       marginBottom:20,
+
     },
     mosaicEventCodeText: {
+      position:'relative',
       fontSize:16,
       fontStyle:'normal',
       fontWeight:'200',
-      color:'grey'
+      color:'grey',
+      right:5,
 
     },
     searchText: {

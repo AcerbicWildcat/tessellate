@@ -146,6 +146,7 @@ class UserEventsView extends React.Component {
 	      </View>
 	    )
 	  }
+
 };
 
 var styles = StyleSheet.create({
@@ -172,11 +173,16 @@ var styles = StyleSheet.create({
   rowContainer: {
   	flex:1,
   	flexDirection:'row',
-    padding: 20,
+  	flexWrap: 'wrap',
+   	padding:15,
+   	
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
-  	fontSize:17,
+  	position:'absolute',
+  	left:20,
+  	marginHorizontal:40,
+  	fontSize:12,
   	fontWeight:'500',
   },
 
