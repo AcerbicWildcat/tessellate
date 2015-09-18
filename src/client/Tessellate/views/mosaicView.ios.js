@@ -24,8 +24,9 @@ var MosaicView = React.createClass({
       eventCode:this.props.eventCode,
       facebookId:this.props.facebookId,
       mosaicMainImage:'./img',
-      mosaicTitle:'Could not find title of Mosaic',
-      mosaicMembers:0,
+      mosaicTitle:'',
+      mosaicMembers:'',
+      loaded:'false',
     }
   },
 
@@ -41,9 +42,10 @@ var MosaicView = React.createClass({
   },
 
   fetchMosaicData(){
+
     var _this = this;
     var apiString = 'http://tessellate-penguin.herokuapp.com/event/' + this.state.eventCode;
-
+//console.log('fetching data',apiString)
     var getMosaicObject = {  
       method: 'GET',
       headers: {
@@ -57,6 +59,7 @@ var MosaicView = React.createClass({
     _this.showProgressHUD();
     fetch(apiString, getMosaicObject)  
       .then(function(res) {
+        //console.log(res);
         if (!res){
           throw new Error('We were unable to find this event.')
         }
@@ -66,15 +69,15 @@ var MosaicView = React.createClass({
         var mosaicMainImage = resJson.image.imgPath;
         var eventName = resJson.event.name || 'No Event Title';
         var eventMembers = resJson.event.contributors.length || 0;
-        console.log('response: ', resJson)
+        //console.log('response: ', resJson)
         if (!resJson){
           throw new Error('This event does not exist!');
         }
-        console.log('Mosaic Data',resJson)
+        //console.log('Mosaic Data',resJson)
         _this.setState({mosaicMainImage:mosaicMainImage,mosaicTitle:eventName,mosaicMembers:eventMembers},function(){
           _this.dismissProgressHUD();
         }); 
-        
+        _this.setState({loaded:true});
         return resJson;
        })
       .catch((error) => {
@@ -97,17 +100,31 @@ var MosaicView = React.createClass({
 
  
   render() {
+
     return (
-      <View style={{flex: 1, backgroundColor: '#1B2B32', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableHighlight style = {styles.header} onPress={this.goHome}>
-      <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
-       </TouchableHighlight>
-       <View style={styles.mosaicContainer}>
-          <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle} |  #{this.state.eventCode}</Text> 
-          <Text style={styles.mosaicMembersText}>Members: {this.state.mosaicMembers} </Text>
+      <View style={styles.outerContainer}>
+        <TouchableHighlight style = {styles.header} onPress={this.goHome}>
+          <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
+        </TouchableHighlight>
+
+        <View style={styles.mosaicContainer}>
+          
+          <View style={styles.titleRow}>
+
+            
+            <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle}</Text>
+            
+          </View>
+            
+            <Text style={styles.mosaicEventCodeText}><Text style={styles.searchText}> Search: </Text>  #{this.state.eventCode} </Text>
+            
+
           <Image style={styles.mosaic} source={{uri: this.state.mosaicMainImage}} />
+          <Text style={styles.mosaicMembersText}>{this.state.mosaicMembers} <Text style={styles.filler}> Member(s)</Text></Text>
+          <Text style={styles.mosaicMembersText}>{this.state.mosaicMembers} <Text style={styles.filler}> Photo(s) Added to Mosaic</Text></Text>
+          
         </View>
-        <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" />  
+          <ProgressHUD  isVisible={this.state.is_hud_visible} isDismissible={false} overlayColor="rgba(0, 0, 0, 0.11)" />
       </View>
     );
   }
@@ -115,8 +132,7 @@ var MosaicView = React.createClass({
 
 var styles = StyleSheet.create({
    header: {
-      flex:1,
-      position:'absolute',
+      position:'relative',
       alignSelf:'stretch',
       backgroundColor:'#1B2B32',
       top:0,
@@ -127,58 +143,89 @@ var styles = StyleSheet.create({
     container: {
       flex:1,
       position:'relative',
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent:'center',
 
     },
-    goHome: {
-      position:'absolute',
-      top:7,
-      left:80,
-      height:50,
-      width:50,
-      backgroundColor:'transparent',
+    outerContainer: {
+      flex:1,
     },
-    goHomeButton:{
-    
-      position:'absolute',
-      top:7,
-      left:80,
-      height:50,
-      width:50,
-      backgroundColor:'transparent'
-    },
+  
     mosaicContainer:{
       position:'relative',
       backgroundColor:'white',
-      padding:35,
-      top:0,
+      top:10,
       bottom:0,
+      left:0,
+      justifyContent:'center',
+      alignItems:'center',
+     
     },
     mosaic: {
       position:'relative',
-      marginLeft:10,
-      marginRight:10,
-      left:10,
-      right:10,
-      width:400,
-      height: 400
+      width:300,
+      height:300,
+      marginTop:20,
+      marginBottom:20,
+      marginLeft:0,
+      marginRight:0,
+      left:0,
     },
     mosaicTitleText: {
-      position:'relative',
-      fontSize:18,
-      left:25,
-      padding:5,
       fontStyle:'italic',
-      fontWeight:'700',
-      top:0,
+      fontSize:34,
+      fontWeight:'500',
+    },
+    titleRow:{
+      flex:1,
+      flexDirection:'row',
+      alignItems:'center',
+      marginTop:20,
     },
     mosaicMembersText: {
       position:'relative',
-      fontSize:12,
-      left:25,
-      padding:5,
-    }
+      flex:1,
+      fontSize:20,
+      fontWeight:'700',
+      alignSelf:'flex-start',
+      marginLeft:10,
+      marginBottom:20,
+    },
+    mosaicEventCodeText: {
+      fontSize:16,
+      fontStyle:'normal',
+      fontWeight:'200',
+      color:'grey'
+
+    },
+    searchText: {
+      fontSize:18,
+      fontStyle:'normal',
+      fontWeight:'400',
+      color:'#1B2B32',
+    },
+    eventThumbnail: {
+      width: 20,
+      height: 20,
+      marginRight:10,
+      marginLeft:10,    
+    },
+   takePictures:{
+    position:'relative',
+    backgroundColor:'#1B2B32',
+    width:200,
+    height:30,
+    alignItems:'center',
+    bottom:0,
+   },
+   takePicturesText: {
+    color:'white',
+    fontSize:16,
+    fontWeight:'200',
+   },
+   filler: {
+    fontSize:14,
+    fontWeight:'300',
+   }
 
 
 });

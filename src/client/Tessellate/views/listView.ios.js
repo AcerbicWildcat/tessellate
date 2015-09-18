@@ -26,7 +26,7 @@ var styles = StyleSheet.create({
   	backgroundColor:'#37646F',
   },
   sectionText: {
-  	fontSize:18,
+  	fontSize:22,
   	fontWeight:'700',
   	padding:12,
   	color:'#FFFFFF',
@@ -38,7 +38,7 @@ var styles = StyleSheet.create({
     backgroundColor:'#FFFFFF',
   }, 
   rowText: {
-  	fontSize:16,
+  	fontSize:17,
   	fontWeight:'500',
   },
 
@@ -46,7 +46,8 @@ var styles = StyleSheet.create({
   	position:'relative',
   	height:35,
   	width:35,
-  	marginLeft:100,
+  
+  	
   }
 });
 
@@ -91,7 +92,7 @@ class UserEventsView extends React.Component {
 		//make Fetch Call
 		fetch('http://tessellate-penguin.herokuapp.com/events', getEvents)  
 		  .then(function(res) {
-		  	console.log('listviewres:  ', res)
+		  	//console.log('listviewres:  ', res)
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
 		  	}
@@ -159,10 +160,10 @@ class UserEventsView extends React.Component {
 	   return (
 	     <View>
 	       <View style={styles.rowContainer}>
-	 		
+	 		 <Image style={styles.eventThumbnail} source={{uri:imageThumbnail||null}}/>
 	         <Text style={styles.rowText} onPress={this.goToMosaic.bind(this,rowData.eventCode)}> {rowData.name} |  {'#'}{rowData.eventCode} 
 	         </Text>
-	         <Image style={styles.eventThumbnail} source={{uri:imageThumbnail||null}}/>
+	         
 	       </View>
 	     </View>
 	   )

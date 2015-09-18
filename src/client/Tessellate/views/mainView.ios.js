@@ -28,7 +28,8 @@ var Main =  React.createClass({
     return {
       eventCode: '',
       facebookId: this.props.facebookId,
-      navRef: this.props.navRef
+      navRef: this.props.navRef,
+      isText:false,
     };
   },
 
@@ -53,7 +54,7 @@ var Main =  React.createClass({
 
        
          <View style={styles.footer}>  
-           <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text})} placeholder="# Join an Event"/>
+           <TextInput style={styles.textInput} onChangeText={(text)=> this.setState({eventCode:text,isText:true})} placeholder="# Join an Event"/>
              <TouchableHighlight style={styles.button} underlayColor='#f1c40f' onPress={ this.showEventDetails.bind(this,this.state.eventCode)}>
                <Text style={styles.buttonText}>Join</Text>
              </TouchableHighlight>
@@ -82,6 +83,7 @@ var Main =  React.createClass({
   showEventDetails(eventCode){
     var joinEventURL = 'http://tessellate-penguin.herokuapp.com/events/' + eventCode
     //Join the event
+      var self = this;
     if (eventCode){
       var joinEventObj = {  
         method: 'POST',
@@ -94,38 +96,63 @@ var Main =  React.createClass({
         }
       }
 
+      //if not the creater join event
       fetch(joinEventURL, joinEventObj)  
         .then(function(res) {
           return res.json();
          })
         .then(function(resJson) {
+          //console.log('tyring to join event: ', resJson)
+          if(resJson.error && self.state.isText){
+            console.log('its alive')
+            throw new Error(resJson.error);
+          }
           return resJson;
          })
+        .catch((error) => {
+          
+          AlertIOS.alert(
+             'Whoa! Something Went Wrong.',
+             error.message,
+             [
+               {text: 'Try Again', onPress: () => {
+                //redirect back to main page
+                //_this.props.nav.pop()
+
+               }}
+             ]
+           );
+
+        });
+
+
+        //go to its mosaic view
+        if (eventCode){
+          console.log('pushing to next screen')
+          eventCode = eventCode.trim();
+          self.setState({isText:false});
+          self.props.navigator.push({
+                          title: '#' + eventCode, //refactor to contain event title
+                          component: TabView,
+                          passProps: {eventCode: eventCode,
+                          facebookId:this.state.facebookId,
+                          mainNavigator: self.props.navigator,
+                          navRef:self.state.navRef,
+                          loadEvents:self.refs.events.fetchUserEvents.bind(self.refs.events)
+                          } //refactor to contain eventcode
+                          
+                 }); 
+        } else {
+          AlertIOS.alert(
+             'You are unable to join this event',
+             ':(',
+             [
+               {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
+             ]
+           );
+        }
     }
 
-    var self = this;
-    if (eventCode){
-      eventCode = eventCode.trim();
-      self.props.navigator.push({
-                      title: '#' + eventCode, //refactor to contain event title
-                      component: TabView,
-                      passProps: {eventCode: eventCode,
-                      facebookId:this.state.facebookId,
-                      mainNavigator: self.props.navigator,
-                      navRef:self.state.navRef,
-                      loadEvents:self.refs.events.fetchUserEvents.bind(self.refs.events)
-                      } //refactor to contain eventcode
-                      
-             }); 
-    } else {
-      AlertIOS.alert(
-         'You are unable to join this event',
-         ':(',
-         [
-           {text: 'Try Again', onPress: () => {self.fetchUserEvents}}
-         ]
-       );
-    }
   },
 
 });
