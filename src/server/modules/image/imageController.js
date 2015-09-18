@@ -44,7 +44,9 @@ module.exports = {
       for (var i = 0; i < destinationRGB.length; i++){ 
         guestImageMaker.analyzeGuestImage(req.params.eventId, facebookId, result, destinationRGB[i].value.originalRGB, function (err, image){
           tintedImages.push(image);
-          if (tintedImages.length === 25){
+          console.log('tintedImages progress: ', tintedImages);
+          console.log('tintedImages length: ', tintedImages.length);
+          if (tintedImages.length === destinationRGB.length){
             res.json(tintedImages);
             res.end();
           }
