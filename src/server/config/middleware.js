@@ -68,6 +68,7 @@ module.exports = function (app, express) {
   //attach routes to routers
   require('../modules/event/eventRoutes')(eventRouter);
   require('../modules/map/mapRoutes')(mapRouter);
+  require('../modules/image/imageRoutes')(imageRouter);
   require('../modules/user/userRoutes')(userRouter);
   require('../modules/auth/auth-routes')(app, passport);
 
