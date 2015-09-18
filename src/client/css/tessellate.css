@@ -32,6 +32,10 @@ a h3 {
   border: .05rem solid #fff;
 }
 
+.dz-progress, .dz-error-message, .dz-success-mark,
+.dz-details, .dz-size, .dz-error-mark {
+  display: none;
+}
 
 /*
  * Base structure

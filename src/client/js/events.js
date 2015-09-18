@@ -43,6 +43,9 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
           }
         });
     }
+    else if(!eventCode){
+      $scope.create = true;
+    }
   };
 
   $scope.getEvent = function(eventCode){

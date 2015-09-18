@@ -1,110 +1,118 @@
   <div class="loading" aria-hidden="true" ng-show="!loaded">
-    <div class="spinner"></div>
-  </div>
-  <div class="navbar navbar-inverse navbar-static-top">
-    <header class="container-fluid logo">
-      <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
-    </header>
-  </div>
-
-  <main>
-    <div class="container-fluid">
-  
-      <div class="row">
-
-        <div class="col-sm-9 main-content">
-
-          <!-- Join or create form -->
-          <div class="row event-form">
-
-            <h1>Create or join event</h1>
-            <form class="form-inline" ng-show="!create">
-              <div class="form-group">
-                <label class="sr-only"></label>
-                <div class="input-group">
-                  <div class="input-group-addon">#</div>
-                  <input type="text" class="form-control" placeholder="Find Events" ng-model="eventCode">
-                </div>
-                <button type="button" class="btn btn-primary" ng-click="joinEvent(eventCode)">Go...</button>
-              </div>
-              <div class="row" ng-show="create">
-
-                <div class="col-xs-19 col-md-6">
-                  <div class="form-group">
-                    <label for="event-code">Event code</label>
-                    <input class="form-control" type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
-                    <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
-                  </div>
-                  <div class="form-group">
-                    <label for="event-name">Event name</label>
-                    <input class="form-control" type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
-                    <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
-                  </div>
-                  <div class="form-group">
-                    <button type="button" class="btn btn-primary submit-all">Create event</button>
-                    <button type="button" class="btn btn-default" ng-click="close()">Close</button>
-                  </div>
-                </div>
-
-                <div class="form-group col-xs-9 col-md-6">
-                  <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
-                </div>
-              </div>
-
-            </form>
-          </div>
-          <!-- end of join create form -->
-
-          <!-- created events -->
-          <div class="row">
-            <h1 ng-if="errorMessage">{{errorMessage}}</h1>
-            <input type="text" placeholder="Search..." ng-model="searchedEvent">
-            <h1>Created events</h1>
-            <h1 ng-show="!loaded">show me hide me</h1>
-            <h3 ng-if="!hasCreated">Create your own event!</h3>
-                <div class="col-sm-3" ng-repeat="event in createdEvents | filter: searchedEvent" ng-click="getEvent(event.eventCode)">
-
-                <div class="thumbnail">
-                  <img src="{{ event.mainImage.imgPath }}" alt=" ">
-                  <div class="caption">
-                    <h3 class="pull-left">{{event.name}} | #{{event.eventCode}}</h3>
-                  </div>
-                </div>
-            </div>
-         
-          </div>
-          <!-- end of created events -->
-
-          <!-- joined event -->
-          <div class="row">
-            <h1>Joined events</h1>
-            <h3 ng-if="!hasJoined">Join your friends</h3>
-            <div class="col-sm-3" ng-repeat="event in joinedEvents | filter: searchedEvent" ng-click="getEvent(event.eventCode)">
-                <div class="thumbnail">
-                  <img src="{{ event.mainImage.imgPath }}" alt=" ">
-                  <div class="caption">
-                    <h3 class="pull-left">{{event.name}} | #{{event.eventCode}}</h3>
-                  </div>
-                </div>
-            </div>
-          </div>
-
-          <!-- end joined event -->
-        </div><!-- end 9 column -->
-        <div class="col-sm-3 aside">
-          <ul>
-            <li><a href="#/events">Event</a></li>
-            <li><a ng-click="logout()">Logout</a></li>
-        </div><!-- end 3 column -->
-
-      </div><!-- end row -->
-
-    </div><!-- end container-fluid -->
-
-  </main>
-
-  <footer class="tessellate-footer">
-    <div class="inner">
-      <small>&copy; Tessellate 2015</small>
+      <div class="spinner"></div>
     </div>
-  </footer>  
+    <div class="navbar navbar-inverse navbar-static-top">
+      <header class="container-fluid logo">
+        <a href="/" class="navbar-brand"><h1>Tessellate</h1></a>
+      </header>
+    </div>
+
+    <main>
+      <div class="container-fluid">
+    
+        <div class="row">
+
+          <div class="col-sm-9 main-content">
+
+            <!-- Join or create form -->
+            <div class="row event-form">
+
+              <h1>Create or join event</h1>
+              
+              <form>
+
+                <div class="form-inline" ng-show="!create">
+                  <div class="form-group">
+                    <label class="sr-only"></label>
+                    <div class="input-group">
+                      <div class="input-group-addon">#</div>
+                      <input type="text" class="form-control" placeholder="Find Events" ng-model="eventCode">
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary" ng-click="joinEvent(eventCode)">Go...</button>
+                </div>
+
+                <div class="row" ng-show="create">
+
+                  <div class="col-xs-19 col-md-6">
+                    <div class="form-group">
+                      <label for="event-code">Event code</label>
+                      <input class="form-control" type="text" name="eventCode" id="event-code" placeholder="#" ng-model="eventCode" required>
+                      <div class="form-error" ng-show="myForm.eventCode.$error.required">*event code required</div>
+                    </div>
+                    <div class="form-group">
+                      <label for="event-name">Event name</label>
+                      <input class="form-control" type="text" name="eventName" id="event-name" placeholder="Enter event name..." ng-model="eventName" required>
+                      <div class="form-error" ng-show="myForm.eventName.$error.required">*please name your event</div> 
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary submit-all">Create event</button>
+                      <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-xs-9 col-md-6">
+                    <div class="photoUpload" dropzone="dropzoneConfig">Click to add image</div>
+                  </div>
+
+                </div>
+
+              </form>
+
+
+            </div>
+            <!-- end of join create form -->
+
+            <!-- created events -->
+            <div class="row">
+              <h1 ng-if="errorMessage">{{errorMessage}}</h1>
+              <input type="text" placeholder="Search..." ng-model="searchedEvent">
+              <h1>Created events</h1>
+              <h1 ng-show="!loaded">show me hide me</h1>
+              <h3 ng-if="!hasCreated">Create your own event!</h3>
+                  <div class="col-sm-3" ng-repeat="event in createdEvents | filter: searchedEvent" ng-click="getEvent(event.eventCode)">
+
+                  <div class="thumbnail">
+                    <img src="{{ event.mainImage.imgPath }}" alt=" ">
+                    <div class="caption">
+                      <h3 class="pull-left">{{event.name}} | #{{event.eventCode}}</h3>
+                    </div>
+                  </div>
+              </div>
+           
+            </div>
+            <!-- end of created events -->
+
+            <!-- joined event -->
+            <div class="row">
+              <h1>Joined events</h1>
+              <h3 ng-if="!hasJoined">Join your friends</h3>
+              <div class="col-sm-3" ng-repeat="event in joinedEvents | filter: searchedEvent" ng-click="getEvent(event.eventCode)">
+                  <div class="thumbnail">
+                    <img src="{{ event.mainImage.imgPath }}" alt=" ">
+                    <div class="caption">
+                      <h3 class="pull-left">{{event.name}} | #{{event.eventCode}}</h3>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- <h1 ng-if="createdResults.length == 0" href="#/create">No Results found...create new event <a class="search-event" href="#/create">{{eventCode}}</a>?</h1> -->
+            <!-- end joined event -->
+          </div><!-- end 9 column -->
+          <div class="col-sm-3 aside">
+            <ul>
+              <li><a href="#/events">Event</a></li>
+              <li><a ng-click="logout()">Logout</a></li>
+          </div><!-- end 3 column -->
+
+        </div><!-- end row -->
+
+      </div><!-- end container-fluid -->
+
+    </main>
+
+    <footer class="tessellate-footer">
+      <div class="inner">
+        <small>&copy; Tessellate 2015</small>
+      </div>
+    </footer>  
