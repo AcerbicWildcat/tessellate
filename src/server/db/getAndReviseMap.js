@@ -17,6 +17,14 @@ var Image = db.Image;
 //   });
 // }
 
+
+/**
+ * uses an eventCode to query the database for an existing map. It revises the data on the map such that it reflects the image that was added, and removes the last item of unfilledKeys. It returns the new, revised map to the client.
+ * @param  {String}   eventCode - the eventCode used to look up a given event's map.
+ * @param  {String}   revisions - an object indicating what key in data will be revised.
+ * @param  {Function} done      - callback function.
+ * @return {Object}             - map object sent back to the client.
+ */
 var reviseMap = function(eventCode, segmentsToUpdate, done){
   var sliceLength = segmentsToUpdate.length;
 /**
