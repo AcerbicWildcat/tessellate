@@ -8,7 +8,10 @@ var sendResp = require('../../config/helpers').sendResponse,
     joinEvent = require('../../db/joinEvent');
    
 module.exports = {
-
+  /**
+   * @namespace getEvents
+   * @desc Returns JSON user object populated with events.         
+   */
   getEvents: function (req, res, next) {
     var facebookId;
     if (!!req.headers.facebookid){
@@ -34,6 +37,10 @@ module.exports = {
     });
   },
 
+  /**
+   * @namespace getEvent
+   * @desc Returns JSON object of a particular event.
+   */
   getEvent: function (req, res, next){
     var eventCode = req.params.eventId;
     getEventAndMap(eventCode, function (err, event){
@@ -45,6 +52,10 @@ module.exports = {
     });
   },
 
+  /**
+   * @namespace updateEvent
+   * @desc Updates event in database and returns updated JSON event object.
+   */
   updateEvent: function (req, res, next){
     updateEvent(req.body.eventCode, req.body.update, function (err, event){
       if (err){
@@ -55,6 +66,10 @@ module.exports = {
     });
   },
 
+  /**
+   * @namespace createEvent
+   * @desc Creates new event and returns JSON event object.
+   */
   createEvent: function (req, res, next){
 
     var eventCode = req.body.eventCode,
@@ -92,6 +107,10 @@ module.exports = {
     });
   },
 
+  /**
+   * @namespace joinEvent
+   * @desc Adds user to list of event contributors and returns updated JSON event object.
+   */
   joinEvent: function (req, res){
     var eventCode = req.params.eventId;
     var facebookId;
