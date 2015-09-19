@@ -1,6 +1,5 @@
 var assert = require('assert');
 var request = require('supertest');
-var nock = require('nock');
 
 var app = require('../../src/server/server.js');
 
@@ -28,17 +27,71 @@ describe('app', function() {
 });
 
 /**
+ * Auth Routes
+ * Protected Routes:
+ *  - /events
+ *  - /events/:eventId/images
+ *  - /events/:eventId/map
+ */
+describe('Protected Routes', function () {
+
+  describe('/events', function () {
+
+    it('should return a 401 status code when any unauthorized request is made', function (done) {
+      request(app)
+        .get('/events')
+        .expect(401)
+        .end(function(err, res){
+          if (err) return done(err);
+          done();
+        });
+    });
+
+  });
+
+  describe('/events/:eventId/images', function () {
+
+    it('should return a 401 status code when any unauthorized request is made', function (done) {
+      request(app)
+        .get('/events/testevent/images')
+        .expect(401)
+        .end(function(err, res){
+          if (err) return done(err);
+          done();
+        });
+    });
+
+  });
+
+  describe('/events/:eventId/map', function () {
+
+    it('should return a 401 status code when any unauthorized request is made', function (done) {
+      request(app)
+        .get('/events/testevent/map')
+        .expect(401)
+        .end(function(err, res){
+          if (err) return done(err);
+          done();
+        });
+    });
+
+  });
+
+});
+/**
  * User  paths
  * Paths should be:
  *  - /user GET
- *  - /user/logout
+ *  - /user POST
+ *  - /user/logout GET
  */
 describe('user', function () {
 
-  xit('should have a /user route', function (done) {
+  it('GET /user should return a 200 response', function (done) {
 
     request(app)
-      .head('/user')
+      .get('/user')
+      .set('facebookid', '1111111111111111')
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
@@ -47,10 +100,23 @@ describe('user', function () {
 
   });
 
-  it('should have a /user/logout route', function (done) {
+  it('POST /user should return a 201 response', function (done) {
 
     request(app)
-      .head('/user/logout')
+      .post('/user', {name: 'Sample User'})
+      .set('facebookid', '1111111111111111')
+      .expect(201)
+      .end(function(err, res){
+        if (err) return done(err);
+        done();
+      });
+
+  });
+
+  it('GET /user/logout should return a 200 response', function (done) {
+
+    request(app)
+      .get('/user/logout')
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
@@ -70,38 +136,27 @@ describe('user', function () {
  *  - /event/:id DELETE
  */
 describe('event', function() {
+  
+  beforeEach(function(){
 
-  describe('GET /events', function(){
+  });
 
-    beforeEach(function(){
-      var scope = nock('http://localhost:8000', {
-        reqheaders: {
-          // 'facebookid': '1111111111111111'
-        }
-      })
-      .get('/events')
-      .reply({
-        _id: '1234567890123456',
-        facebookid: '1111111111111111',
-        name: 'Billy Bob',
-        events: {
-          _creator: '12345',
-          eventCode: 'newevent',
-          mainImage: 'thisisjustatest.jpg'
-        }
-      });
-    });
+  afterEach(function(){
 
-    it('should return a 200', function(done){
+  });
 
-      request('http://localhost:8000')
+  describe('GET /events', function () {
+    before
+    it('should return a 200', function (done){
+      request(app)
         .get('/events')
+        .set('facebookid', '1111111111111111')
         .expect(200, done);
     });
 
     xit('should return a user object containing the users events', function(done){
 
-      request('http://localhost:8000')
+      request(app)
         .get('/events')
         .expect(200, done);
     });
@@ -149,10 +204,10 @@ describe('event', function() {
   /**
    * Event image paths
    * Paths should be:
-   *  - /event/eventId/images/ POST
-   *  - /event/eventId/images/ GET
-   *  - /event/eventId/images/:id GET
-   *  - /event/eventId/images/:id DELETE
+   *  - /event/:eventId/image/ POST
+   *  - /event/:eventId/image/ GET
+   *  - /event/:eventId/image/:id GET
+   *  - /event/:eventId/image/:id DELETE
    */
   describe('event images', function () {
 
@@ -160,9 +215,10 @@ describe('event', function() {
 
       describe('GET /event/:eventId/images', function() {
 
-        xit('should return 404 response', function(done){
+        it('should return 404 response', function(done){
           request(app)
             .get('/event/25/images')
+            .set('facebookid', '1111111111111111')
             .expect(404, done);
         });
 
