@@ -130,7 +130,7 @@ var MosaicView = React.createClass({
           {photoIcon}
             <Text style={styles.mosaicMembersText}>
               {this.state.mosaicImages} 
-              <Text style={styles.filler}> Photo(s) Added to Mosaic</Text>
+              <Text style={styles.filler}> Photo(s) </Text>
             </Text>
           </View>
         </View>
@@ -163,7 +163,7 @@ var styles = StyleSheet.create({
     mosaicContainer:{
       position:'relative',
       backgroundColor:'white',
-      top:10,
+      top:5,
       bottom:0,
       left:0,
       justifyContent:'center',
@@ -174,7 +174,7 @@ var styles = StyleSheet.create({
       position:'relative',
       width:300,
       height:300,
-      marginTop:20,
+      marginTop:10,
       marginBottom:20,
       marginLeft:0,
       marginRight:0,
@@ -184,8 +184,6 @@ var styles = StyleSheet.create({
     statsContainer: {
       flex:1,
       flexDirection:'row',
-
-
     },
     mosaicTitleText: {
       fontStyle:'italic',
@@ -204,9 +202,9 @@ var styles = StyleSheet.create({
       fontSize:20,
       fontWeight:'700',
       alignSelf:'flex-start',
-      left:5,
+      left:0,
       marginRight:15,
-      marginLeft:35,
+      marginLeft:5,
       marginBottom:20,
 
     },
@@ -245,7 +243,7 @@ var styles = StyleSheet.create({
     fontWeight:'200',
    },
    filler: {
-    fontSize:14,
+    fontSize:12,
     fontWeight:'300',
    }
 

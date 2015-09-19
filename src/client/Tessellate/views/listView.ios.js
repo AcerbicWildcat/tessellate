@@ -182,7 +182,7 @@ var styles = StyleSheet.create({
   	position:'absolute',
   	left:20,
   	marginHorizontal:40,
-  	fontSize:12,
+  	fontSize:14,
   	fontWeight:'500',
   },
 
