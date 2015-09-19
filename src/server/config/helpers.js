@@ -19,8 +19,7 @@ module.exports = {
     // res.writeHead(statusCode, headers);
 
 
-    res.json(data);
-    res.status(statusCode).end();
+    res.status(statusCode).json(data);
   },
 
   /**
