@@ -1,5 +1,6 @@
 var assert = require('assert');
 var request = require('supertest');
+var nock = require('nock');
 
 var app = require('../../src/server/server.js');
 
@@ -70,14 +71,41 @@ describe('user', function () {
  */
 describe('event', function() {
 
-  xit('GET /event should return a 200', function(done){
-    request(app)
-      .get('/event')
-      .expect(200)
-      .end(function(err, res){
-        if (err) return done(err);
-        done();
+  describe('GET /events', function(){
+
+    beforeEach(function(){
+      var scope = nock('http://localhost:8000', {
+        reqheaders: {
+          // 'facebookid': '1111111111111111'
+        }
+      })
+      .get('/events')
+      .reply({
+        _id: '1234567890123456',
+        facebookid: '1111111111111111',
+        name: 'Billy Bob',
+        events: {
+          _creator: '12345',
+          eventCode: 'newevent',
+          mainImage: 'thisisjustatest.jpg'
+        }
       });
+    });
+
+    it('should return a 200', function(done){
+
+      request('http://localhost:8000')
+        .get('/events')
+        .expect(200, done);
+    });
+
+    xit('should return a user object containing the users events', function(done){
+
+      request('http://localhost:8000')
+        .get('/events')
+        .expect(200, done);
+    });
+
   });
 
   xit('POST /event should return a 200', function(done){
