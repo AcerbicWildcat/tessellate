@@ -185,6 +185,7 @@ tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', 
       },
       'success': function (file, response) {
         $('div.dz-success').remove();
+        console.log('Images Left: ', response.unfilledKeys.length);
         mosaicFactory.redrawImages(response);
       },
       'maxfilesexceeded': function(file){
