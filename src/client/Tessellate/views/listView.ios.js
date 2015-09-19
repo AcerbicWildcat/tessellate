@@ -10,46 +10,6 @@ var {
     Image,
 } = React;
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor:'#FFFFFF',
-    position:'relative',
-    top:0,
-    marginTop:60,
-    alignSelf:'stretch',
-  },
-  section: {
-
-  	marginTop:0,
-  	backgroundColor:'#37646F',
-  },
-  sectionText: {
-  	fontSize:22,
-  	fontWeight:'700',
-  	padding:12,
-  	color:'#FFFFFF',
-  },
-  rowContainer: {
-  	flex:1,
-  	flexDirection:'row',
-    padding: 20,
-    backgroundColor:'#FFFFFF',
-  }, 
-  rowText: {
-  	fontSize:17,
-  	fontWeight:'500',
-  },
-
-  eventThumbnail: {
-  	position:'relative',
-  	height:35,
-  	width:35,
-  
-  	
-  }
-});
 
 
 class UserEventsView extends React.Component {
@@ -64,35 +24,29 @@ class UserEventsView extends React.Component {
 	     dataBlob:{}
 	   }
 	 }
-
-	 componentDidMount() {
-	 	//console.log('Events View Mounted!')
-	       //this.fetchUserEvents();
-	 }
-
-	
-
-
-
+/**
+ * [fetchUserEvents GET request to /events - populates listview dataBlob]
+ * 
+ */
 	fetchUserEvents(){
-		//console.log('fetching events')
-		//construct GET request
 		var self = this;
+
+		//Object with GET params and Headers
 		var getEvents = {  
 		  method: 'GET',
 		  headers: {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
 		    'Origin': '',
-		    //'Host': 'http://10.6.1.173:8081',
 		    'facebookid':this.props.facebookId,
 		  }
 		}
+
 		this.props.spin();
-		//make Fetch Call
+		
+		//GET request
 		fetch('http://tessellate-penguin.herokuapp.com/events', getEvents)  
 		  .then(function(res) {
-		  	//console.log('listviewres:  ', res)
 		  	if (!res){
 		  		throw new Error('We could not find that event!')
 		  	}
@@ -104,6 +58,7 @@ class UserEventsView extends React.Component {
 		  	var createdEvents = [];
 		  	var joinedEvents = [];
 
+		  	//assign events to joined and created arrays
 		  	for (var i = 0 ; i< data.length; i++){
 
 		  		if (userID === data[i]._creator.toString()){
@@ -129,8 +84,6 @@ class UserEventsView extends React.Component {
 
   			self.setState({
   	              dataSource: self.ds.cloneWithRowsAndSections(tempDataBlob)
-  	        },function(){
-  	        	
   	        })
 		    return resJson;
 		   })
@@ -147,8 +100,12 @@ class UserEventsView extends React.Component {
 		  });
 	}
 
+	/**
+	 * [goToMosaic   push to specified mosaic view]
+	 * @param  {[String]} eventCode [event code of mosaic to go to]
+	 * 
+	 */
 	goToMosaic(eventCode){
-		//console.log('clicked event code: ' + eventCode)
 		this.props.passEventCode(eventCode);
 	}
 
@@ -163,7 +120,6 @@ class UserEventsView extends React.Component {
 	 		 <Image style={styles.eventThumbnail} source={{uri:imageThumbnail||null}}/>
 	         <Text style={styles.rowText} onPress={this.goToMosaic.bind(this,rowData.eventCode)}> {rowData.name} |  {'#'}{rowData.eventCode} 
 	         </Text>
-	         
 	       </View>
 	     </View>
 	   )
@@ -192,5 +148,50 @@ class UserEventsView extends React.Component {
 	  }
 
 };
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor:'#FFFFFF',
+    position:'relative',
+    top:0,
+    marginTop:60,
+    alignSelf:'stretch',
+  },
+  section: {
+
+  	marginTop:0,
+  	backgroundColor:'#37646F',
+  },
+  sectionText: {
+  	fontSize:22,
+  	fontWeight:'700',
+  	padding:12,
+  	color:'#FFFFFF',
+  },
+  rowContainer: {
+  	flex:1,
+  	flexDirection:'row',
+  	flexWrap: 'wrap',
+   	padding:15,
+   	
+    backgroundColor:'#FFFFFF',
+  }, 
+  rowText: {
+  	position:'absolute',
+  	left:20,
+  	marginHorizontal:40,
+  	fontSize:14,
+  	fontWeight:'500',
+  },
+
+  eventThumbnail: {
+  	position:'relative',
+  	height:35,
+  	width:35,
+  	
+  }
+});
 
 module.exports = UserEventsView;

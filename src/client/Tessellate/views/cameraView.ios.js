@@ -10,6 +10,8 @@ var {
   AlertIOS,
 
 } = React;
+
+//External Components
 var Camera = require('react-native-camera');
 var ReviewPhoto = require('./reviewPhotoView.ios')
 var ProgressHUD = require('react-native-progress-hud');
@@ -21,18 +23,13 @@ var CameraView = React.createClass({
   getInitialState() {
     return {
       cameraType: Camera.constants.Type.back,
-      //captureTarget:Camera.constants.CaptureTarget.disk, //save to disk not camera roll
       eventCode: this.props.eventCode,
       facebookId: this.props.facebookId,
     }
   },
 
-  componentWillUnmount(){
-    console.log('unmouting camera')
-  },
-
   render() {
-    console.log('rendering camera')
+
      return (<Camera
         ref="cam"
         style={styles.container}
@@ -71,10 +68,11 @@ var CameraView = React.createClass({
 
     var self = this;
     self.showProgressHUD();
+
     this.refs.cam.capture(function(err, data) {
       if (err){
-        //alertios
         self.dismissProgressHUD();
+        
         AlertIOS.alert(
            'Whoa! Something Went Wrong.',
            err.message,
@@ -84,17 +82,28 @@ var CameraView = React.createClass({
              }}
            ]
          );
-        console.log(err.message)
+
         return;
       }
       if (data){
-        console.log('DATA: ', data)
         var photoURL = data.toString();
+
       } else {
         //alert- something went wrong,please retake that picture
+        AlertIOS.alert(
+           'Whoa! Something Went Wrong.',
+           'We are working to fix it!',
+           [
+             {text: 'Try Again', onPress: () => {
+              return;
+             }}
+           ]
+         );
+       
       }
-      
+      //navigate to review photo page
       if (photoURL){
+        
         self.props.mainNavigator.push({
           title: 'Review Photo',
           component:ReviewPhoto,
@@ -105,16 +114,10 @@ var CameraView = React.createClass({
           facebookId:self.state.facebookId }
         })
         self.dismissProgressHUD();
-      } else {
-        //alert ios
-      }
+      } 
     });
   }
 
-
-  /*<TouchableHighlight onPress={this._switchCamera}>
-          <Text>The old switcheroo</Text>
-        </TouchableHighlight>*/
 });
 
 

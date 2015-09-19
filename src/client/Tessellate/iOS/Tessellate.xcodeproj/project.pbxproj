@@ -26,6 +26,7 @@
 		54439E861BA33FF70042A756 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54439E831BA33FF70042A756 /* FBSDKLoginKit.framework */; };
 		54439E871BA33FF70042A756 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54439E841BA33FF70042A756 /* FBSDKShareKit.framework */; };
 		54439E891BA340390042A756 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54439E881BA340390042A756 /* Bolts.framework */; };
+		54481B301BACCCAF0091027A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 54481B2F1BACCCAF0091027A /* main.jsbundle */; };
 		5460192A1BABA95F00F5DB5B /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 546019291BABA94600F5DB5B /* libRNVectorIcons.a */; };
 		546019341BABAD2900F5DB5B /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5460192C1BABAD2900F5DB5B /* Entypo.ttf */; };
 		546019351BABAD2900F5DB5B /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5460192D1BABAD2900F5DB5B /* EvilIcons.ttf */; };
@@ -166,6 +167,7 @@
 		54439E831BA33FF70042A756 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		54439E841BA33FF70042A756 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		54439E881BA340390042A756 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../../../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		54481B2F1BACCCAF0091027A /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		546019241BABA94500F5DB5B /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		5460192C1BABAD2900F5DB5B /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		5460192D1BABAD2900F5DB5B /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				54481B2F1BACCCAF0091027A /* main.jsbundle */,
 				5460192B1BABAD2900F5DB5B /* Fonts */,
 				5464AFF21BA11E11004F8C19 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* Tessellate */,
@@ -662,6 +665,7 @@
 				546019361BABAD2900F5DB5B /* FontAwesome.ttf in Resources */,
 				5460193B1BABAD2900F5DB5B /* Zocial.ttf in Resources */,
 				546019341BABAD2900F5DB5B /* Entypo.ttf in Resources */,
+				54481B301BACCCAF0091027A /* main.jsbundle in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				546019371BABAD2900F5DB5B /* Foundation.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
