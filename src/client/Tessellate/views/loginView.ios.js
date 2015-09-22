@@ -4,6 +4,7 @@ var React = require('react-native');
 var Main = require('./mainView.ios.js');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
+var ProgressHUD = require('react-native-progress-hud');
 
 
 var {
@@ -21,8 +22,20 @@ var {
 } = React;
 
 
-class LoginView extends Component {
-  constructor(props){
+var LoginView = React.createClass({
+
+  getInitialState: function() {
+    
+    return {
+      loggedIn:false,
+      userId: '',
+      facebookId:'',
+    };
+  },
+
+  mixins: [ProgressHUD.Mixin],
+
+  /*constructor(props){
     super(props);
     this.state = {
       loggedIn:false,
@@ -30,7 +43,7 @@ class LoginView extends Component {
       facebookId: '',
       
     }
-  }
+  }*/
 
   /**
    * [isAuthorized allow user to proceed to mainView]
@@ -51,7 +64,7 @@ class LoginView extends Component {
       })
       this.props.refs.setState({navBarHidden:true}) 
     }
-  }
+  },
 
   /**
    * [login POST request to /user]
@@ -61,6 +74,7 @@ class LoginView extends Component {
   login(facebookId) {
 
     var self = this;
+    self.showProgressHUD();
     //object to specify POST params and headers
     var loginObject = {  
       method: 'POST',
@@ -83,9 +97,11 @@ class LoginView extends Component {
         self.setState({facebookId:facebookId},function(){
           self.isAuthorized(self.state.user);
         })
+        self.dismissProgressHUD();
         return resJson;
        })
       .catch((error) => {
+        self.dismissProgressHUD();
         AlertIOS.alert(
            'Whoa! Something Went Wrong.',
            error.message,
@@ -95,7 +111,7 @@ class LoginView extends Component {
          );
 
       });
-  }
+  },
 
   render() {
     var _this = this;
@@ -127,10 +143,11 @@ class LoginView extends Component {
             onPermissionsMissing={function(data){
             }}
           />
+          <ProgressHUD isVisible={this.state.is_hud_visible} isDismissible={true} overlayColor="rgba(0, 0, 0, 0.11)" />
       </View>
     );
-  }
-}
+  },
+});
 
 var styles = StyleSheet.create({
   container: {
