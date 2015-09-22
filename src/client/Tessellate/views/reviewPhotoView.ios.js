@@ -104,7 +104,7 @@ class ReviewPhotoView extends Component {
   }
 
   render() {
-   var discard = (<Icon name="arrow-left" size={40} color="white" style={styles.icon} />)
+   var discard = (<Icon name="arrow-left" size={30} color="white" style={styles.icon} />)
    var save = (<Icon name="save" size={40} color="white" style={styles.icon} />)
     return (
       <View style={styles.container}>
