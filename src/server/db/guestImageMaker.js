@@ -37,7 +37,7 @@ var analyzeGuestImage = function(eventCode, facebookId, cloudinaryResult, RGB, d
           _parentUser: foundUser._id,
           // rgb: rgb,
           thumbnailPath: thumbnailMaker(cloudinaryResult.public_id, RGB),
-          // imgPath: cloudinaryResult.url
+          imgPath: cloudinaryResult.url
           //TODO: include properties in here.
         }).save(function (err, image){
           if (err){

@@ -1,4 +1,4 @@
-tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactory){
+tess.factory('mosaicFactory', ['httpRequestFactory', '$q', function (httpRequestFactory, $q){
   var mosaicFactory = {};
 
   mosaicFactory.startMosaic = function(mosaicData){
@@ -26,20 +26,21 @@ tess.factory('mosaicFactory', ['httpRequestFactory', function (httpRequestFactor
   };
 
   mosaicFactory.renderImage = function(xCoord, yCoord, ID, imgPath, thumbnailPath){
-    var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
-    svgImg.setAttributeNS(null,'height','10');
-    svgImg.setAttributeNS(null,'width','10');
-    svgImg.setAttributeNS('http://www.w3.org/1999/xlink','href', thumbnailPath);
-    svgImg.setAttributeNS(null,'x', xCoord);
-    svgImg.setAttributeNS(null,'y', yCoord);
-    svgImg.setAttributeNS(null, 'visibility', 'visible');
+    
+      var svgImg = document.createElementNS('http://www.w3.org/2000/svg','image');
+      svgImg.setAttributeNS(null,'height','10');
+      svgImg.setAttributeNS(null,'width','10');
+      svgImg.setAttributeNS('http://www.w3.org/1999/xlink','href', thumbnailPath);
+      svgImg.setAttributeNS(null,'x', xCoord);
+      svgImg.setAttributeNS(null,'y', yCoord);
+      svgImg.setAttributeNS(null, 'visibility', 'visible');
 
-    var svgLink = document.createElementNS('http://www.w3.org/2000/svg', 'a');
-    svgLink.setAttributeNS('http://www.w3.org/1999/xlink','href', imgPath);
-    svgLink.setAttributeNS(null,'id','image'+ID);
-    svgLink.appendChild(svgImg);
+      var svgLink = document.createElementNS('http://www.w3.org/2000/svg', 'a');
+      svgLink.setAttributeNS('http://www.w3.org/1999/xlink','href', imgPath);
+      svgLink.setAttributeNS(null,'id','image'+ID);
+      svgLink.appendChild(svgImg);
 
-    document.getElementById('mosaic').appendChild(svgLink);
+      document.getElementById('mosaic').appendChild(svgLink);
   };
 
   mosaicFactory.deleteImage = function(ID){

@@ -49,7 +49,7 @@ var reviseMap = function(eventCode, segmentsToUpdate, done){
         }
         data = map.data;
         unfilledKeys = map.unfilledKeys;
-        unfilledKeys.splice(-sliceLength,sliceLength);
+        unfilledKeys.splice(0,sliceLength);
         for (var i = 0; i < sliceLength; i++){
           data[segmentsToUpdate[i].ID] = segmentsToUpdate[i];
         }
