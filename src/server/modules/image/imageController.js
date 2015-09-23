@@ -41,7 +41,7 @@ module.exports = {
     var eventCode = req.params.eventId;
 
     // Take slice off end of remaining unfilledKeys
-    var sliceLength = 5;
+    var sliceLength = 1;
     var unfilledKeysSlice;
     getEventAndMap(eventCode, function (err, event){
       unfilledKeysSlice = event.map.unfilledKeys.splice(-sliceLength,sliceLength);
