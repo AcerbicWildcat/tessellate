@@ -43,10 +43,10 @@ module.exports = {
 
     // Take slice off end of remaining unfilledKeys; adjust sliceLength to control
     // # of times each image is used in mosaic
-    var sliceLength = 2;
+    var sliceLength = 1;
     var unfilledKeysSlice;
     getEventAndMap(eventCode, function (err, event){
-      unfilledKeysSlice = event.map.unfilledKeys.splice(0,sliceLength);
+      unfilledKeysSlice = event.map.unfilledKeys.splice(-sliceLength,sliceLength);
     });
 
     cloudinary.uploader.upload(imagePath, function (result) {
