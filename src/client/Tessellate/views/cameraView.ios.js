@@ -34,7 +34,7 @@ var CameraView = React.createClass({
         ref="cam"
         style={styles.container}
         type={this.state.cameraType}
-        captureTarget={Camera.constants.CaptureTarget.cameraRol}
+        captureTarget={Camera.constants.CaptureTarget.CameraRoll}
       >
 
         <TouchableHighlight style={styles.goHome} underlayColor={'transparent'}>

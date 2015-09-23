@@ -43,6 +43,18 @@ var MosaicView = React.createClass({
     this.fetchMosaicData();
   },
 
+  goToWebsiteAlert(){
+    console.log('pressed!')
+    AlertIOS.alert(
+       'Visit our website to view your mosaic!',
+       'http://tessellate-penguin.herokuapp.com/',
+       [
+         {text: 'Awesome!', onPress: () => {
+         }}
+       ]
+     );
+  },
+
   /**
    * [fetchMosaicData GET /event/:eventCode]
    * 
@@ -104,6 +116,7 @@ var MosaicView = React.createClass({
 
  
   render() {
+    var _this = this;
      var membersIcon = (<Icon name="child" size={20} color="black" style={styles.icon} />)
      var photoIcon = (<Icon name="photo" size={20} color="black" style={styles.icon} />)
      var mosaic = this.state.mosaicMainImage === '.img' ? require('image!mainLogo') : {uri: this.state.mosaicMainImage};
@@ -112,7 +125,7 @@ var MosaicView = React.createClass({
         <TouchableHighlight style = {styles.header} onPress={this.goHome}>
           <Image resizeMode='contain' style={styles.header} source={require( 'image!tHeader')}/>
         </TouchableHighlight>
-        <View style={styles.mosaicContainer}>
+        <View style={styles.mosaicContainer} onPress={this.goToWebsiteAlert}>
           <View style={styles.titleRow}>
             <Text style={styles.mosaicTitleText}>{this.state.mosaicTitle}</Text>
           </View>
@@ -120,7 +133,7 @@ var MosaicView = React.createClass({
             <Text style={styles.searchText}> Search: </Text>
             #{this.state.eventCode} 
           </Text>
-          <Image resizeMode='contain' style={styles.mosaic} source={mosaic} />
+          <Image resizeMode='contain' onPress={_this.goToWebsiteAlert} style={styles.mosaic} source={mosaic}  />
           <View style={styles.statsContainer}>
           {membersIcon}
             <Text style={styles.mosaicMembersText}>
@@ -139,6 +152,8 @@ var MosaicView = React.createClass({
     );
   }
 });
+
+  
 
 var styles = StyleSheet.create({
    header: {

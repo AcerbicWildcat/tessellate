@@ -108,6 +108,7 @@ var Main =  React.createClass({
          return res.json();
        })
        .then(function(resJson) {
+        console.log('Event JOINED: ', resJson);
          if (resJson.error && self.state.isText) {
            console.log('its alive')
            throw new Error(resJson.error);

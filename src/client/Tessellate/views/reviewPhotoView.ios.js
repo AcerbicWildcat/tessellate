@@ -36,28 +36,14 @@ class ReviewPhotoView extends Component {
      var _this = this;
      //convet image path to image file
      var imageToSave = _this.props.photo;
-     var uploadURL = 'http://tessellate-penguin.herokuapp.com/events/'+_this.state.eventCode.trim();
-     uploadURL = uploadURL.replace(/(\r\n|\n|\r)/gm,"");
-     NativeModules.ReadImageData.readImage(imageToSave, (image) => {
-    imageToSave = image;
+     var uploadURL = 'http://tessellate-penguin.herokuapp.com/events/'.concat(_this.state.eventCode).concat('/images');  
+      uploadURL = uploadURL.replace(/(\r\n|\n|\r)/gm,"");
       
-      fetch(uploadURL+'/image',{
-        method:'POST',
-        headers: {
-          'Accept':'application/json',
-          'Content-Type':'application/json',
-          'FacebookID':_this.props.facebookId,
-        },
-        body:JSON.stringify({imageData:imageToSave})
-      })
-      .then(function(res){
-        console.log(res);
-      })
 
 
-      /*var obj = {
+      var obj = {
           uri:_this.props.photo, // either an 'assets-library' url (for files from photo library) or an image dataURL
-          uploadUrl:uploadURL.trim(),
+          uploadUrl:uploadURL,
           fileName:'image',
           //mimeType,
           headers:{
@@ -67,18 +53,15 @@ class ReviewPhotoView extends Component {
               // whatever properties you wish to send in the request
               // along with the uploaded file
           }
-      };*/
+      };
 
 
-      
-
-      /*NativeModules.FileTransfer.upload(obj, (err, res) => {
+      NativeModules.FileTransfer.upload(obj, (err, res) => {
           // handle response
           // it is an object with 'status' and 'data' properties
           // if the file path protocol is not supported the status will be 0
           // and the request won't be made at all
-          console.log('POSTING photo: ', res)
-          console.log('photo: ', res.status)
+         console.log("Response Status: ", res.status)
 
           if (err){
             console.log(err.message)
@@ -91,14 +74,16 @@ class ReviewPhotoView extends Component {
                 {text: 'Ok', onPress: () => console.log('Ok Pressed!')},
               ]
             )
+
           }
+
       });
-      */
+      
 
-     })
-
-    tab('mosaic')
-    nav.pop();
+    
+      tab('mosaic')
+      nav.pop();
+    
 
    
   }
