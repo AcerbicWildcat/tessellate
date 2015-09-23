@@ -292,9 +292,10 @@ main {
  */
 
 .photoUpload {
+  float: right;
   border: 2px dotted #666;
-  min-width: 100%;
-  min-height: 200px;
+  min-width: 40%;
+  min-height: 80px;
   vertical-align: middle;
   text-align: center;
   padding-top: 25%;

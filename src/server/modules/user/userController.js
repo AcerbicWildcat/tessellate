@@ -2,6 +2,7 @@
 
 var createUser = require('../../db/createUser.js');
 var getUser = require('../../db/getUser.js');
+var sendResponse = require('../../config/helpers').sendResponse;
 
 module.exports = {
 
@@ -16,8 +17,8 @@ module.exports = {
         profPhoto = req.body.profPhoto,
         email = req.body.email,
         facebookToken = req.body.facebookToken;
-    if (!!req.body.facebookId){
-      facebookId = req.body.facebookId;
+    if (!!req.headers.facebookid){
+      facebookId = req.headers.facebookid;
     } else {
       facebookId = req.user.facebookId;
     }
@@ -26,7 +27,7 @@ module.exports = {
       if (err){
         next(err);
       } else {
-        res.json(user);
+        sendResponse(res, user, 201);
       }
     });
   },
