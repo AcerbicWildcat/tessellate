@@ -26,18 +26,18 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
       httpRequestFactory.joinEvent(eventCode)
         .then(function(response){
           if(response.data.error){
-            $scope.loaded = true;
             $scope.errorMessage = response.data.error;
             if(response.data.error === "event does not exist"){
               $scope.join = false;
               $scope.create = true;
+              $scope.loaded = true;
             }else if(response.data.error === "Sorry, this is an event you have created"){
               $scope.create = false;
               $scope.join = true;
               $scope.getEvent(eventCode);
+              // $scope.loaded = true;
             }
           }else{ 
-            $scope.loaded = true;
             $scope.errorMessage = "";
             $scope.getEvent(eventCode);
           }
@@ -49,6 +49,7 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
   };
 
   $scope.getEvent = function(eventCode){
+    $scope.loaded = false;
     httpRequestFactory.getEvent(eventCode)
       .then(function(response){
         $location.url('/event/' + eventCode);
@@ -88,8 +89,8 @@ tess.controller('eventsProfileController', [ '$scope', 'httpRequestFactory', '$l
         formData.append("eventName", $scope.eventName);
       },
       'success': function (file, response) {
-        $scope.loaded = true;
-        $scope.$apply();
+        // $scope.loaded = true;
+        // $scope.$apply();
         $scope.getEvent($scope.eventCode);
       },
       'maxfilesexceeded': function(file){
