@@ -35,15 +35,6 @@ var LoginView = React.createClass({
 
   mixins: [ProgressHUD.Mixin],
 
-  /*constructor(props){
-    super(props);
-    this.state = {
-      loggedIn:false,
-      userId: '',
-      facebookId: '',
-      
-    }
-  }*/
 
   /**
    * [isAuthorized allow user to proceed to mainView]
