@@ -517,7 +517,7 @@ describe('guestImageMaker.js', function(){
   it("Should generate a valid Cloudinary thumbnail URL", function(done){
     var RGB = {r: 150, g: 120, b: 42};
     var thumbURL = guestImageMaker.thumbnailMaker("yellow_tulip", RGB);
-    expect(thumbURL).to.equal("http://res.cloudinary.com/robbyhays/image/upload/c_fill,co_rgb:96782A,e_colorize:60,h_10,w_10/yellow_tulip");
+    expect(thumbURL).to.equal("http://res.cloudinary.com/tesselate/image/upload/c_fill,co_rgb:96782A,e_colorize:60,h_10,w_10/yellow_tulip");
     done();
   });
 
