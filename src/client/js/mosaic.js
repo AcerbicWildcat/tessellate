@@ -53,10 +53,10 @@ tess.factory('mosaicFactory', ['httpRequestFactory', '$q', function (httpRequest
 }]);
 
 tess.controller('mosaicCtrl', ['$scope', 'mosaicFactory', 'httpRequestFactory', '$location', function ($scope, mosaicFactory, httpRequestFactory, $location){
-/*  $scope.currentEvent = httpRequestFactory.currentEvent;
+  $scope.currentEvent = httpRequestFactory.currentEvent;
   if($scope.currentEvent === undefined){
     $location.url('/events');
-  }*/
+  }
   $scope.nextPosition = [];
   $scope.loaded = true;
   $scope.startMosaic = function(mosaicData){
